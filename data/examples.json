@@ -1,0 +1,1534 @@
+{
+    "question": {
+        "image_id": 262682,
+        "question": "Has the wall been painted recently?",
+        "question_id": 262682019
+    },
+    "question_id": 262682019,
+    "image_id": 262682,
+    "annotation_set": [
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2452130179801823e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 131611,
+        "question": "Do the elephants like getting wet?",
+        "question_id": 131611018
+    },
+    "question_id": 131611018,
+    "image_id": 131611,
+    "annotation_set": [
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.1079905094425917e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 525247,
+        "question": "Is the cat checking its social networking profile on the netbook?",
+        "question_id": 525247001
+    },
+    "question_id": 525247001,
+    "image_id": 525247,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 1146,
+        "question": "How many men are standing next to each other?",
+        "question_id": 1146002
+    },
+    "question_id": 1146002,
+    "image_id": 1146,
+    "annotation_set": [
+        "0",
+        "1 man",
+        "1",
+        "0",
+        "1",
+        "0",
+        "0",
+        "1",
+        "1",
+        "0"
+    ],
+    "kmeans_score": 32.51493371855216,
+    "inertia": 21.403822607441047,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 394449,
+        "question": "Is the road paved?",
+        "question_id": 394449002
+    },
+    "question_id": 394449002,
+    "image_id": 394449,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.444546767224261e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 394510,
+        "question": "Is the skateboarder moving?",
+        "question_id": 394510006
+    },
+    "question_id": 394510006,
+    "image_id": 394510,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 132622,
+        "question": "Is the bear upset?",
+        "question_id": 132622003
+    },
+    "question_id": 132622003,
+    "image_id": 132622,
+    "annotation_set": [
+        "maybe",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 28.65758131422522,
+    "inertia": 8.657581314225217,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 264110,
+        "question": "Is something sleeping?",
+        "question_id": 264110000
+    },
+    "question_id": 264110000,
+    "image_id": 264110,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2482824688290495e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 175102,
+        "question": "Is the container recyclable?",
+        "question_id": 175102002
+    },
+    "question_id": 175102002,
+    "image_id": 175102,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 264594,
+        "question": "Is the little girl afraid of the baby calf?",
+        "question_id": 264594000
+    },
+    "question_id": 264594000,
+    "image_id": 264594,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.18183788574769e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 264976,
+        "question": "Will the cat be able to flush the toilet?",
+        "question_id": 264976002
+    },
+    "question_id": 264976002,
+    "image_id": 264976,
+    "annotation_set": [
+        "no",
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.18183788574769e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 265069,
+        "question": "Is this man a wannabe biker?",
+        "question_id": 265069000
+    },
+    "question_id": 265069000,
+    "image_id": 265069,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2917964485100486e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 134328,
+        "question": "Is this a big airplane?",
+        "question_id": 134328001
+    },
+    "question_id": 134328001,
+    "image_id": 134328,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 4.233886148836909e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 396608,
+        "question": "What is the yellow substance called?",
+        "question_id": 396608001
+    },
+    "question_id": 396608001,
+    "image_id": 396608,
+    "annotation_set": [
+        "banana",
+        "banana",
+        "orange juice",
+        "orange juice",
+        "banana",
+        "orange juice",
+        "orange juice",
+        "banana"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 265916,
+        "question": "Does the dog enjoy being in a backpack?",
+        "question_id": 265916003
+    },
+    "question_id": 265916003,
+    "image_id": 265916,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.444546767224261e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 528136,
+        "question": "Can you identify this job?",
+        "question_id": 528136021
+    },
+    "question_id": 528136021,
+    "image_id": 528136,
+    "annotation_set": [
+        "reporter",
+        "yes",
+        "reporter",
+        "yes",
+        "no",
+        "news reporter"
+    ],
+    "kmeans_score": 51.53937603298995,
+    "inertia": 31.539376032989946,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 3865,
+        "question": "Is the man flying a kite?",
+        "question_id": 3865002
+    },
+    "question_id": 3865002,
+    "image_id": 3865,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 4.07725387757854e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 397309,
+        "question": "Can these cows roam freely?",
+        "question_id": 397309004
+    },
+    "question_id": 397309004,
+    "image_id": 397309,
+    "annotation_set": [
+        "no",
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.18183788574769e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 266363,
+        "question": "On which side of the photo would a flagman be?",
+        "question_id": 266363001
+    },
+    "question_id": 266363001,
+    "image_id": 266363,
+    "annotation_set": [
+        "left",
+        "right",
+        "right",
+        "left",
+        "left",
+        "right"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 1.9732055059908663e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 266409,
+        "question": "Is it day time?",
+        "question_id": 266409003
+    },
+    "question_id": 266409003,
+    "image_id": 266409,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.222462970512108e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 397636,
+        "question": "Are these normal guests eating the food?",
+        "question_id": 397636000
+    },
+    "question_id": 397636000,
+    "image_id": 397636,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.252796367136207e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 397636,
+        "question": "Is there lots of cheese on this pizza?",
+        "question_id": 397636004
+    },
+    "question_id": 397636004,
+    "image_id": 397636,
+    "annotation_set": [
+        "no",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.093184922995115e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 397693,
+        "question": "Do all the bananas have stickers on them?",
+        "question_id": 397693003
+    },
+    "question_id": 397693003,
+    "image_id": 397693,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 3.9149040017977726e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 135613,
+        "question": "Is this a hotel room?",
+        "question_id": 135613001
+    },
+    "question_id": 135613001,
+    "image_id": 135613,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.444546767224261e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 397863,
+        "question": "Do these creatures have enough food to eat?",
+        "question_id": 397863004
+    },
+    "question_id": 397863004,
+    "image_id": 397863,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2482824688290495e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 266831,
+        "question": "Does the woman look like a professional photographer?",
+        "question_id": 266831002
+    },
+    "question_id": 266831002,
+    "image_id": 266831,
+    "annotation_set": [
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.336574319717052e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 266866,
+        "question": "Is the man walking towards the car?",
+        "question_id": 266866003
+    },
+    "question_id": 266866003,
+    "image_id": 266866,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.222462970512108e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 398007,
+        "question": "Is it possible to walk on the roof of the building in the lower left?",
+        "question_id": 398007003
+    },
+    "question_id": 398007003,
+    "image_id": 398007,
+    "annotation_set": [
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2452130179801823e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 135902,
+        "question": "Is the train moving?",
+        "question_id": 135902003
+    },
+    "question_id": 135902003,
+    "image_id": 135902,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.336574319717052e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 266981,
+        "question": "Does the woman have her luggage yet?",
+        "question_id": 266981000
+    },
+    "question_id": 266981000,
+    "image_id": 266981,
+    "annotation_set": [
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.1079905094425917e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 5064,
+        "question": "Is the ball going to go far?",
+        "question_id": 5064004
+    },
+    "question_id": 5064004,
+    "image_id": 5064,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2917964485100486e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 529515,
+        "question": "Is he going to hit the ball?",
+        "question_id": 529515000
+    },
+    "question_id": 529515000,
+    "image_id": 529515,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.212171282371789e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 267411,
+        "question": "Do the men look like they are related?",
+        "question_id": 267411004
+    },
+    "question_id": 267411004,
+    "image_id": 267411,
+    "annotation_set": [
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 5418,
+        "question": "Does this look like the giraffes natural habitat?",
+        "question_id": 5418001
+    },
+    "question_id": 5418001,
+    "image_id": 5418,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 267628,
+        "question": "Is this a modern train?",
+        "question_id": 267628004
+    },
+    "question_id": 267628004,
+    "image_id": 267628,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2482824688290495e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 267643,
+        "question": "Is that a bookshelf near them?",
+        "question_id": 267643002
+    },
+    "question_id": 267643002,
+    "image_id": 267643,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 529907,
+        "question": "Does the dusky sky make you feel a sense of awe to be alive?",
+        "question_id": 529907000
+    },
+    "question_id": 529907000,
+    "image_id": 529907,
+    "annotation_set": [
+        "not really",
+        "no",
+        "yes",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 32.924924518530304,
+    "inertia": 12.9249245185303,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 5754,
+        "question": "Does the food look fresh?",
+        "question_id": 5754014
+    },
+    "question_id": 5754014,
+    "image_id": 5754,
+    "annotation_set": [
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2452130179801823e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 267940,
+        "question": "Is it possible to determine the origin of the boat?",
+        "question_id": 267940004
+    },
+    "question_id": 267940004,
+    "image_id": 267940,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 136929,
+        "question": "How many are not glazed?",
+        "question_id": 136929004
+    },
+    "question_id": 136929004,
+    "image_id": 136929,
+    "annotation_set": [
+        "8",
+        "3",
+        "1",
+        "2",
+        "8",
+        "8",
+        "1",
+        "6"
+    ],
+    "kmeans_score": 24.27703386910413,
+    "inertia": 9.991319583389844,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 137260,
+        "question": "How many corks are on the table?",
+        "question_id": 137260000
+    },
+    "question_id": 137260000,
+    "image_id": 137260,
+    "annotation_set": [
+        "3",
+        "3",
+        "0",
+        "3",
+        "0",
+        "0",
+        "1",
+        "0"
+    ],
+    "kmeans_score": 20.491975403119262,
+    "inertia": 6.206261117404976,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 525322,
+        "question": "Are the two planes identical?",
+        "question_id": 525322001
+    },
+    "question_id": 525322001,
+    "image_id": 525322,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 4.380738307096435e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 530731,
+        "question": "Are  there clouds?",
+        "question_id": 530731001
+    },
+    "question_id": 530731001,
+    "image_id": 530731,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 4.5498590303379395e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 438017,
+        "question": "Is it daytime?",
+        "question_id": 438017002
+    },
+    "question_id": 438017002,
+    "image_id": 438017,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 4.150228566877588e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 6861,
+        "question": "Is the grout clean?",
+        "question_id": 6861000
+    },
+    "question_id": 6861000,
+    "image_id": 6861,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 3.836663097807041e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 400202,
+        "question": "Is this a train?",
+        "question_id": 400202000
+    },
+    "question_id": 400202000,
+    "image_id": 400202,
+    "annotation_set": [
+        "no",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 138246,
+        "question": "Is that a castle?",
+        "question_id": 138246003
+    },
+    "question_id": 138246003,
+    "image_id": 138246,
+    "annotation_set": [
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 7253,
+        "question": "Is this likely a show bike?",
+        "question_id": 7253002
+    },
+    "question_id": 7253002,
+    "image_id": 7253,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2452130179801823e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 138601,
+        "question": "Is the sky clear?",
+        "question_id": 138601002
+    },
+    "question_id": 138601002,
+    "image_id": 138601,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 11.11111111111111,
+    "inertia": 3.6798803632717678e-31,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 269678,
+        "question": "Is the bed made?",
+        "question_id": 269678029
+    },
+    "question_id": 269678029,
+    "image_id": 269678,
+    "annotation_set": [
+        "no bed",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 31.844743485660686,
+    "inertia": 20.733632374549575,
+    "num_clusters": 2.0,
+    "penalty": 11.11111111111111,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 139072,
+        "question": "Are any of the players standing straight up?",
+        "question_id": 139072001
+    },
+    "question_id": 139072001,
+    "image_id": 139072,
+    "annotation_set": [
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 270189,
+        "question": "Does it look like a bus on steroids?",
+        "question_id": 270189009
+    },
+    "question_id": 270189009,
+    "image_id": 270189,
+    "annotation_set": [
+        "no",
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.18183788574769e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 139428,
+        "question": "Is this likely a competition?",
+        "question_id": 139428001
+    },
+    "question_id": 139428001,
+    "image_id": 139428,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.336574319717052e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 353807,
+        "question": "Is the lady smiling?",
+        "question_id": 353807002
+    },
+    "question_id": 353807002,
+    "image_id": 353807,
+    "annotation_set": [
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 401776,
+        "question": "Is the bus stopped?",
+        "question_id": 401776002
+    },
+    "question_id": 401776002,
+    "image_id": 401776,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2482824688290495e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 271032,
+        "question": "Could this bird safely sleep on the hill?",
+        "question_id": 271032004
+    },
+    "question_id": 271032004,
+    "image_id": 271032,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.2452130179801823e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 139992,
+        "question": "Is this woman carrying an umbrella to avoid too much sunlight?",
+        "question_id": 139992000
+    },
+    "question_id": 139992000,
+    "image_id": 139992,
+    "annotation_set": [
+        "no",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.093184922995115e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 533239,
+        "question": "Is this the Cat in the Hat?",
+        "question_id": 533239002
+    },
+    "question_id": 533239002,
+    "image_id": 533239,
+    "annotation_set": [
+        "no",
+        "yes",
+        "yes",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 9105,
+        "question": "Is this man happy?",
+        "question_id": 9105001
+    },
+    "question_id": 9105001,
+    "image_id": 9105,
+    "annotation_set": [
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.149879485733014e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 9275,
+        "question": "Is 11:34 am too early to be drinking margaritas?",
+        "question_id": 9275000
+    },
+    "question_id": 9275000,
+    "image_id": 9275,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 271565,
+        "question": "Are they in a biker gang?",
+        "question_id": 271565004
+    },
+    "question_id": 271565004,
+    "image_id": 271565,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 20.0,
+    "inertia": 2.212171282371789e-31,
+    "num_clusters": 2.0,
+    "penalty": 20.0,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 533743,
+        "question": "Is the man smiling?",
+        "question_id": 533743002
+    },
+    "question_id": 533743002,
+    "image_id": 533743,
+    "annotation_set": [
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 10023,
+        "question": "Does the man have sleeves?",
+        "question_id": 10023008
+    },
+    "question_id": 10023008,
+    "image_id": 10023,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 141416,
+        "question": "Does he go fast or slow?",
+        "question_id": 141416004
+    },
+    "question_id": 141416004,
+    "image_id": 141416,
+    "annotation_set": [
+        "slow",
+        "fast",
+        "slow",
+        "slow",
+        "slow",
+        "fast",
+        "fast",
+        "fast"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 141879,
+        "question": "Is the terrain flat?",
+        "question_id": 141879002
+    },
+    "question_id": 141879002,
+    "image_id": 141879,
+    "annotation_set": [
+        "no",
+        "no",
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
+{
+    "question": {
+        "image_id": 272958,
+        "question": "Is the man flying?",
+        "question_id": 272958001
+    },
+    "question_id": 272958001,
+    "image_id": 272958,
+    "annotation_set": [
+        "no",
+        "yes",
+        "no",
+        "yes",
+        "yes",
+        "no",
+        "no",
+        "yes"
+    ],
+    "kmeans_score": 14.285714285714286,
+    "inertia": 0.0,
+    "num_clusters": 2.0,
+    "penalty": 14.285714285714286,
+    "difference_penalty": 0.0
+}
