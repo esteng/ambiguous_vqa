@@ -6,6 +6,7 @@ import csv
 import argparse 
 
 def main(args):
+    base_image_url = "https://cs.jhu.edu/~esteng/images_for_hit/" 
     image_root = pathlib.Path("/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/val2014")
     with open('/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/val_kmeans_penalty_100.0_max.json') as f1:
         data = json.load(f1)
@@ -17,11 +18,17 @@ def main(args):
         small_data = sorted_data[i]
         question = small_data['question']['question']
         answers = ', '.join(small_data['annotation_set'])
-        image_path = image_root.joinpath(get_image_fname(small_data['image_id']))
-        line_to_write = {"image_url": image_path, "question": question, "answers": answers}
+        fname = get_image_fname(small_data['image_id'])
+        image_path = image_root.joinpath(fname) 
+        
+        # copy image 
+        subprocess.Popen(["cp", str(image_path), "to_copy"]) 
+
+        line_to_write = {"image_url": base_image_url + fname, "question": question, "answers": answers}
         to_write.append(line_to_write)
     with open(args.out_path, "w") as f1:
         writer = csv.DictWriter(f1, fieldnames = ["image_url", "question", "answers"])
+        writer.writeheader() 
         for row in to_write:
             writer.writerow(row)
 
