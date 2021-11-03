@@ -1,3 +1,4 @@
+image_url,question,answers
 /brtx/603-nvme2/estengel/annotator_uncertainty/vqa/val2014/COCO_val2014_000000393226.jpg,What is the man doing in the street?,"crossing it, walking, walking, crossing, crossing road, walking, crossing, walking, crossing, walking"
 /brtx/603-nvme2/estengel/annotator_uncertainty/vqa/val2014/COCO_val2014_000000393271.jpg,Is it still snowing in the picture?,"yes, yes, no, yes, no, yes, no, no"
 /brtx/603-nvme2/estengel/annotator_uncertainty/vqa/val2014/COCO_val2014_000000393284.jpg,Does the man have goggles on?,"yes, no, no, yes, no, no, yes, yes"
