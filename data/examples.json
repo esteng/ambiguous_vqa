@@ -1,4 +1,4 @@
-{
+[{
     "question": {
         "image_id": 262682,
         "question": "Has the wall been painted recently?",
@@ -19,7 +19,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 131611,
@@ -41,7 +41,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 525247,
@@ -65,7 +65,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 1146,
@@ -91,7 +91,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 394449,
@@ -113,7 +113,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 394510,
@@ -137,7 +137,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 132622,
@@ -159,7 +159,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 264110,
@@ -181,7 +181,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 175102,
@@ -205,7 +205,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 264594,
@@ -227,7 +227,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 264976,
@@ -249,7 +249,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 265069,
@@ -271,7 +271,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 134328,
@@ -297,7 +297,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 396608,
@@ -321,7 +321,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 265916,
@@ -343,7 +343,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 528136,
@@ -365,7 +365,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 3865,
@@ -391,7 +391,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 397309,
@@ -413,7 +413,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 266363,
@@ -435,7 +435,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 266409,
@@ -457,7 +457,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 397636,
@@ -479,7 +479,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 397636,
@@ -501,7 +501,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 397693,
@@ -527,7 +527,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 135613,
@@ -549,7 +549,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 397863,
@@ -571,7 +571,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 266831,
@@ -593,7 +593,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 266866,
@@ -615,7 +615,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 398007,
@@ -637,7 +637,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 135902,
@@ -659,7 +659,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 266981,
@@ -681,7 +681,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 5064,
@@ -703,7 +703,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 529515,
@@ -725,7 +725,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 267411,
@@ -749,7 +749,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 5418,
@@ -773,7 +773,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 267628,
@@ -795,7 +795,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 267643,
@@ -819,7 +819,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 529907,
@@ -841,7 +841,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 5754,
@@ -863,7 +863,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 267940,
@@ -887,7 +887,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 136929,
@@ -911,7 +911,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 137260,
@@ -935,7 +935,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 525322,
@@ -961,7 +961,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 530731,
@@ -987,7 +987,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 438017,
@@ -1013,7 +1013,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 6861,
@@ -1039,7 +1039,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 400202,
@@ -1063,7 +1063,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 138246,
@@ -1087,7 +1087,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 7253,
@@ -1109,7 +1109,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 138601,
@@ -1135,7 +1135,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 269678,
@@ -1161,7 +1161,7 @@
     "num_clusters": 2.0,
     "penalty": 11.11111111111111,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 139072,
@@ -1185,7 +1185,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 270189,
@@ -1207,7 +1207,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 139428,
@@ -1229,7 +1229,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 353807,
@@ -1253,7 +1253,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 401776,
@@ -1275,7 +1275,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 271032,
@@ -1297,7 +1297,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 139992,
@@ -1319,7 +1319,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 533239,
@@ -1343,7 +1343,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 9105,
@@ -1365,7 +1365,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 9275,
@@ -1389,7 +1389,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 271565,
@@ -1411,7 +1411,7 @@
     "num_clusters": 2.0,
     "penalty": 20.0,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 533743,
@@ -1435,7 +1435,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 10023,
@@ -1459,7 +1459,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 141416,
@@ -1483,7 +1483,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 141879,
@@ -1507,7 +1507,7 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+},
 {
     "question": {
         "image_id": 272958,
@@ -1531,4 +1531,4 @@
     "num_clusters": 2.0,
     "penalty": 14.285714285714286,
     "difference_penalty": 0.0
-}
+}]
