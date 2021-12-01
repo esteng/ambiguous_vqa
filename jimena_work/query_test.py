@@ -6,7 +6,8 @@ uds = UDSCorpus()
 
 with open('test_4.txt', 'w') as f:
 
-    print(uds["ewt-train-12"].semantics_edges())
+    print(uds["ewt-train-11161"].semantics_edges('ewt-train-11161-semantics-pred-3%%ewt-train-11161-semantics-arg-2'))
+    print(uds["ewt-train-12"].head('ewt-train-12-semantics-pred-7', ['form','lemma']))
 
 #    #print(uds["ewt-train-12"].nodes)
 #    for node in uds["ewt-train-11161"].nodes:
