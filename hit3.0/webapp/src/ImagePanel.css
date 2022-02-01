@@ -1,0 +1,17 @@
+.img {
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+
+.outer {
+   width: 25%;
+}
+
+.inner {
+    width: 25%;
+}
+
+.text {
+    width: 100%;
+}

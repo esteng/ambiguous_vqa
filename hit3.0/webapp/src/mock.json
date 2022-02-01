@@ -1,0 +1,9 @@
+{"imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit//COCO_val2014_000000393271.jpg",  
+ "questionStr": "Is it still snowing in the picture?", 
+ "answerGroups": [[{"id": "g1.1", "content": "yes"},
+                   {"id": "g1.2", "content": "yes"},
+                   {"id": "g1.3", "content": "yes"}], 
+                  [{"id": "g2.1", "content": "no"},
+                   {"id": "g2.2", "content": "No"},
+                   {"id": "g2.3", "content": "no"}]],
+"answerQuestions": ["", ""]}
