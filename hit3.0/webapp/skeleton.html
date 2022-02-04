@@ -1,0 +1,36 @@
+
+<!-- using Turkle's template variable to inject an object
+     to the window object. They are later accessed by the
+     React code. -->
+<script type="text/javascript">
+  window.imgUrl = ${imgUrl};
+  window.questionStr = ${questionStr};
+  window.answerGroups = ${answerGroups};
+  window.answerQuestions = ${answerQuestions};
+</script>
+
+<!-- This is the div element in which React code will
+     dynamically render UI components. -->
+<div id="root"></div>
+
+<!-- These input fields are required for Turkle to collect
+     annotation results. React code would hide them from
+     when the UI first loads, and programmatically fill
+     them when the user clicks the submit button in React
+     code. Remember, it's not the submit button below. -->
+<input name="answerGroups" id="answerGroupsStr" type="text" />
+<input name="answerQuestions" id="answerQuestionsStr" type="text" />
+<input name="isSkip" id="isSkip" type="text" />
+<input name="skipReason" id="skipReason" type="text" />
+
+<!-- This hack prevents Turkle from appending another submit button.
+     Since I need to programatically fill values to <input>, I'll write
+     my own submit button and do serialization in the button's click
+     event listener. Nonetheless, my own submit button is done in React
+     (dynamically produced by Javascript), so Turkle won't see that submit
+     button when it injects this code in an iframe.  -->
+<input type="submit" id="hiddenSubmit" value="should be hidden" />
+
+<script type="text/javascript">
+        !function(l){function e(e){for(var r,t,n=e[0],o=e[1],u=e[2],f=0,i=[];f<n.length;f++)t=n[f],p[t]&&i.push(p[t][0]),p[t]=0;for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(l[r]=o[r]);for(s&&s(e);i.length;)i.shift()();return c.push.apply(c,u||[]),a()}function a(){for(var e,r=0;r<c.length;r++){for(var t=c[r],n=!0,o=1;o<t.length;o++){var u=t[o];0!==p[u]&&(n=!1)}n&&(c.splice(r--,1),e=f(f.s=t[0]))}return e}var t={},p={2:0},c=[];function f(e){if(t[e])return t[e].exports;var r=t[e]={i:e,l:!1,exports:{}};return l[e].call(r.exports,r,r.exports,f),r.l=!0,r.exports}f.m=l,f.c=t,f.d=function(e,r,t){f.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},f.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},f.t=function(r,e){if(1&e&&(r=f(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var t=Object.create(null);if(f.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var n in r)f.d(t,n,function(e){return r[e]}.bind(null,n));return t},f.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return f.d(r,"a",r),r},f.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},f.p="/";var r=window.webpackJsonp=window.webpackJsonp||[],n=r.push.bind(r);r.push=e,r=r.slice();for(var o=0;o<r.length;o++)e(r[o]);var s=n;a()}([])
+</script>

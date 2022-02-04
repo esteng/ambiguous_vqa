@@ -1,4 +1,4 @@
-import { TextField, Typography } from "@material-ui/core";
+import { Button, TextField, Typography } from "@material-ui/core";
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -6,11 +6,6 @@ import "./GroupPanel.css"
 
 
 // fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k + offset}-${new Date().getTime()}`,
-    content: `item ${k + offset}`
-  }));
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -46,6 +41,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "grey",
+  borderRadius: "15px",
 
   // styles we need to apply on draggables
   ...draggableStyle
@@ -53,23 +49,22 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   padding: grid,
-  width: 250
+  width: 250,
+  borderRadius: "15px",
 });
 
 class GroupPanel extends Component {
     constructor(props) {
       super(props);
-      console.log(props);
       this.state = {
         answerGroups: props.answerGroups,
         answerQuestions: props.answerQuestions,
-        fieldIds: [...props.answerGroups.keys()],
+        fieldIds: [...props.answerGroups.keys()].map(function (x) {return x.toString();} ),
         items: props.answerGroups,
       };
     }
     onDragEnd = result => {
         const { source, destination } = result;
-        console.log("this in onDragEnd", this);
         // dropped outside the list
         if (!destination) {
           return;
@@ -93,32 +88,32 @@ class GroupPanel extends Component {
     }
 
     render(){
-        console.log("this in render", this)
         return (
             <div>
-              <button
-                type="button"
-                onClick={() => {
-                  this.setState({items: [...this.state.items, []]});
-                }}
-              >
-                Add new group
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  this.setState({items: [...this.state.items, getItems(1)]});
-                }}
-              >
-                Add new item
-              </button>
+              <div>
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                    this.setState({items: [...this.state.items, []]});
+                    }}
+                >
+                    Add answer group
+                </Button>
+              </div>
               <div style={{ display: "flex" }}>
                 <DragDropContext onDragEnd={this.onDragEnd}>
                   {this.state.items.map((el, ind) => (
                     <div>
-                        {/* {console.log("this.state.fieldIds[ind]", this.state.fieldIds[ind])} */}
-                        {/* {console.log("this.state.answerQuestions[ind]", this.state.answerQuestions[ind])} */}
-                        <TextField id={this.state.fieldIds[ind]} label={this.state.answerQuestions[ind]} variant="outline" />
+                        <Typography variant="h6">Q{ind}:
+                            <TextField 
+                                id={this.state.fieldIds[ind]} 
+                                helperText="Edit Question" 
+                                variant="outlined" 
+                                defaultValue={this.state.answerQuestions[ind]} 
+                                fullWidth
+                                margin="dense"
+                            />
+                            </Typography>
                         <Droppable key={ind} droppableId={`${ind}`}>
                         {(provided, snapshot) => (
                             <div
@@ -149,8 +144,7 @@ class GroupPanel extends Component {
                                         }}
                                     >
                                         {item.content}
-                                        <button
-                                        type="button"
+                                        <Button variant="contained" 
                                         onClick={() => {
                                             const newStateItems = [...this.state.items];
                                             newStateItems[ind].splice(index, 1);
@@ -160,7 +154,7 @@ class GroupPanel extends Component {
                                         }}
                                         >
                                         delete
-                                        </button>
+                                        </Button>
                                     </div>
                                     </div>
                                 )}

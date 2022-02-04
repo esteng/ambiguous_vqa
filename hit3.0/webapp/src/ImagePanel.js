@@ -15,17 +15,13 @@ class ImagePanel extends React.Component {
     render() {
         console.log(this.state.imgUrl);
         return (
-            <div className="outer">
-                <div className="text">
-                    <Typography variant="h5" align="center">
-                       <b> Question: </b> {this.state.questionStr}
-                    </Typography>
-                </div>
-                <div className="inner">
-                    <img src={this.state.imgUrl} alt="blah"/>
-                </div>
+                <div>
+                <Typography variant="h5" align="center">
+                    <b> Question: </b> {this.state.questionStr}
+                </Typography> 
+                <img src={this.state.imgUrl} alt="blah" style={{maxWidth: "100%", height: "auto"}}/>
             </div>
-        );
+            );
     }
 }
 export default ImagePanel;

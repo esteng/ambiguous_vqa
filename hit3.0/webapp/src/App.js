@@ -1,10 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { Component } from 'react';
 import mock from './mock.json';
 import Header from './Header'
 import ImagePanel from './ImagePanel'
 import GroupPanel from './GroupPanel'
+import {Alert, FormControlLabel, Checkbox, Button, TextField } from '@mui/material';
+
+
 // import QuestionPanel from './QuestionPanel'
 // import ButtonPanel from './ButtonPanel'
 
@@ -31,7 +33,10 @@ class App extends Component {
         imgUrl: imgUrl,
         questionStr: questionStr,
         answerGroups: answerGroups,
-        answerQuestions: answerQuestions
+        answerQuestions: answerQuestions,
+        isSkipped: false,
+        skipReason: "",
+        errorMessage: null
       };
       // this.state = {imgUrl: window.imgUrl}
     } 
@@ -42,26 +47,106 @@ class App extends Component {
         imgUrl: imgUrl,
         questionStr: questionStr,
         answerGroups: answerGroups,
-        answerQuestions: answerQuestions
+        answerQuestions: answerQuestions,
+        isSkipped: false,
+        skipReason: "",
+        errorMessage: null
       };
     }
   }
  
   handleChange = event => {
     this.setState({"questionStr": event.target.value})
-    console.log(this.state)
+  }
+
+  handleSubmit = event => {
+    // if is skipped and no reason, error 
+    if (this.state.isSkipped & this.state.skipReason.length === 0){
+      var errorMessage = <Alert severity="error">You cannot skip without providing a reason</Alert>;
+      this.setState({"errorMessage": errorMessage})
+      event.preventDefault(); 
+    }
+    // otherwise, send to json 
+    else {
+      var n = document.querySelector("#answerGroups")
+      if (n) {
+        n.value = JSON.stringify(this.state.answerGroups)
+      }
+      var n = document.querySelector("#answerQuestions")
+      if (n) {
+        n.value = JSON.stringify(this.state.answerQuestions)
+      }
+      var n = document.querySelector("#isSkip")
+      if (n) {
+        n.value = JSON.stringify(this.state.isSkipped)
+      }
+      var n = document.querySelector("#skipReason")
+      if (n) {
+        n.value = JSON.stringify(this.state.skipReason)
+      }
+    }
+
+
+  }
+  handleSkip = event => {
+    // set skip 
+    this.setState({isSkipped: !this.state.isSkipped})
+  }
+  handleSkipReason = event => {
+    this.setState({skipReason: event.target.value})
+    if (event.target.value.length > 0){
+      this.setState({errorMessage: null})
+    }
   }
 
   render() {
+    var skipReasonBox;
+    if (this.state.isSkipped) {
+
+      skipReasonBox = <TextField 
+                            id="skip-reason" 
+                            required helperText="Reason for skipping" 
+                            variant="outlined" 
+                            fullWidth 
+                            margin="dense"
+                            onChange={this.handleSkipReason}/>
+    }
+    else {
+      skipReasonBox = ""
+    }
 
     return (
     <div>
       <Header trainingBtn={null} handleFontSizeChange={false}/>
-      <ImagePanel imgUrl={this.state.imgUrl} questionStr={this.state.questionStr} /> 
-      <GroupPanel answerGroups={this.state.answerGroups} answerQuestions={this.state.answerQuestions}/>
-      <input className="submit" onClick={this.handleSubmit}
+      <div style={{width: "100%", display: "table"}}>
+        <div style={{display: "table-row"}}>
+          <div style={{width: "50%", display: "table-cell"}}>
+            <ImagePanel imgUrl={this.state.imgUrl} questionStr={this.state.questionStr} /> 
+          </div>
+          <div style={{width: "50%", display: "table-cell"}}>
+            <GroupPanel answerGroups={this.state.answerGroups} answerQuestions={this.state.answerQuestions}/> 
+            <div style={{width: "50%"}}>
+              <FormControlLabel control={<Checkbox name="skipCheck" value="value" onClick={this.handleSkip}/>} label="skip"/>
+              {skipReasonBox}
+            </div>
+            <div style={{width: "50%"}}>
+              {this.state.errorMessage}
+              <input className="submit" onClick={this.handleSubmit}
                type="submit" value="Submit" />
+              {/* <Button variant="contained" onClick={this.handleSubmit}> */}
+                {/* Submit */}
+              {/* </Button> */}
+            </div>
+          </div>
+
+        </div>
+        
+
+   
+        
       </div>        
+    </div>
+
     );
   }
 }
