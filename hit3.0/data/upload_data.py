@@ -16,11 +16,11 @@ def get_image_fname(num):
 image_root = pathlib.Path("/brtx/603-nvme2/annotator_uncertainty/vqa/val2014") 
 
 to_copy_path = pathlib.Path("to_copy")
-to_copy_path.mkdir(exists_ok=True)
+to_copy_path.mkdir(exist_ok=True)
 
 for example in data:
     image_id = example['image_id']
-    fname = get_image_fname(num) 
+    fname = get_image_fname(image_id) 
     path_to_image = image_root.joinpath(fname) 
    
     # copy 

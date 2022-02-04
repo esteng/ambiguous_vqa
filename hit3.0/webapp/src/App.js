@@ -12,6 +12,32 @@ import {Alert, FormControlLabel, Checkbox, Button, TextField } from '@mui/materi
 
 // import Button from "@material-ui/core/Button/Button";
 // Main class that serves the app  
+
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+/**
+ * Moves an item from one list to another list.
+ */
+const move = (source, destination, droppableSource, droppableDestination) => {
+  const sourceClone = Array.from(source);
+  const destClone = Array.from(destination);
+  const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+  destClone.splice(droppableDestination.index, 0, removed);
+
+  const result = {};
+  result[droppableSource.droppableId] = sourceClone;
+  result[droppableDestination.droppableId] = destClone;
+
+  return result;
+};
+
 class App extends Component {
   // needs to
   // 1. display image and question
@@ -29,6 +55,9 @@ class App extends Component {
       el.style.display = 'none';
       // this.initializeStates(window.imgUrl, window.questionStr, window.answerGroups, window.answerQuestions);
       const {imgUrl, questionStr, answerGroups, answerQuestions} = {"imageUrl": window.imgUrl, "questionStr": window.questionStr, "answerGroups": window.answerGroups, "answerQuestions": window.answerQuestions};
+
+
+
       this.state = {
         imgUrl: imgUrl,
         questionStr: questionStr,
@@ -36,7 +65,8 @@ class App extends Component {
         answerQuestions: answerQuestions,
         isSkipped: false,
         skipReason: "",
-        errorMessage: null
+        errorMessage: null,
+        groupPanel: new GroupPanel({answerGroups: answerGroups, answerQuestions: answerQuestions, dragDropHander: this.dragDropHandler, questionHandler: this.questionHandler})
       };
       // this.state = {imgUrl: window.imgUrl}
     } 
@@ -50,7 +80,8 @@ class App extends Component {
         answerQuestions: answerQuestions,
         isSkipped: false,
         skipReason: "",
-        errorMessage: null
+        errorMessage: null,
+        groupPanel: new GroupPanel({answerGroups: answerGroups, answerQuestions: answerQuestions, dragDropHander: this.dragDropHandler, questionHandler: this.questionHandler})
       };
     }
   }
@@ -68,19 +99,24 @@ class App extends Component {
     }
     // otherwise, send to json 
     else {
-      var n = document.querySelector("#answerGroups")
+      console.log("submit!")
+      console.log(this.state.answerGroups)
+      console.log(this.state.answerQuestions)
+      var n = document.querySelector("#answerGroupsInput")
       if (n) {
         n.value = JSON.stringify(this.state.answerGroups)
+        var n2 = document.querySelector("#answerGroupsInput")
+        console.log("value: ", n2.value)
       }
-      var n = document.querySelector("#answerQuestions")
+      var n = document.querySelector("#answerQuestionsInput")
       if (n) {
         n.value = JSON.stringify(this.state.answerQuestions)
       }
-      var n = document.querySelector("#isSkip")
+      var n = document.querySelector("#isSkipInput")
       if (n) {
         n.value = JSON.stringify(this.state.isSkipped)
       }
-      var n = document.querySelector("#skipReason")
+      var n = document.querySelector("#skipReasonInput")
       if (n) {
         n.value = JSON.stringify(this.state.skipReason)
       }
@@ -97,6 +133,55 @@ class App extends Component {
     if (event.target.value.length > 0){
       this.setState({errorMessage: null})
     }
+  }
+
+  handleAnswerGroupUpdate = event => {
+    this.setState({answerGroups: event.target.value})
+  }
+
+  handleAnswerQuestionUpdate = event => {
+    console.log("hanlde question update")
+    this.setState({answerQuestions: event.target.value})
+  }
+
+  handleDelete = (ind, index) => {
+    const newStateItems = [...this.state.answerGroups];
+    newStateItems[ind].splice(index, 1);
+    this.setState({answerGroups: newStateItems.filter(group => group.length)});
+  }
+
+  onDragEnd = result => {
+    console.log("calling onDragEnd")
+    const { source, destination } = result;
+    // dropped outside the list
+    if (!destination) {
+      return;
+    }
+    const sInd = +source.droppableId;
+    const dInd = +destination.droppableId;
+
+    var itemsToSet = null;
+    if (sInd === dInd) {
+      const items = reorder(this.state.answerGroups[sInd], source.index, destination.index);
+      const newStateItems = [...this.state.answerGroups];
+      newStateItems[sInd] = items;
+      itemsToSet = newStateItems;
+      // this.setState({items: newStateItems});
+    } else {
+      const result = move(this.state.answerGroups[sInd], this.state.answerGroups[dInd], source, destination);
+      const newStateItems = [...this.state.answerGroups];
+      newStateItems[sInd] = result[sInd];
+      newStateItems[dInd] = result[dInd];
+      itemsToSet = newStateItems.filter(group => group.length)
+      // this.setState({items: newStateItems.filter(group => group.length)});
+    }
+    console.log("updating state")
+    this.setState({answerGroups: itemsToSet})
+    console.log("updated state")
+    // this.setState({groupPanel: GroupPanel({answerGroups: itemsToSet, 
+    //                                        answerQuestions: this.state.answerQuestions, 
+    //                                        dragDropHander: this.dragDropHandler, 
+    //                                        questionHandler: this.questionHandler})})
   }
 
   render() {
@@ -124,7 +209,13 @@ class App extends Component {
             <ImagePanel imgUrl={this.state.imgUrl} questionStr={this.state.questionStr} /> 
           </div>
           <div style={{width: "50%", display: "table-cell"}}>
-            <GroupPanel answerGroups={this.state.answerGroups} answerQuestions={this.state.answerQuestions}/> 
+            {/* {this.state.groupPanel} */}
+            <GroupPanel answerGroups={this.state.answerGroups} 
+                        answerQuestions={this.state.answerQuestions} 
+                        dragDropHandler={this.onDragEnd} 
+                        questionHandler={this.handleAnswerQuestionUpdate}
+                        deleteHandler={this.handleDelete}/> 
+
             <div style={{width: "50%"}}>
               <FormControlLabel control={<Checkbox name="skipCheck" value="value" onClick={this.handleSkip}/>} label="skip"/>
               {skipReasonBox}
