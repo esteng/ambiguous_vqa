@@ -42,6 +42,8 @@ class GroupPanel extends Component {
       this.dragDropHandler = props.dragDropHandler
       this.questionHandler = props.questionHandler
       this.deleteHandler = props.deleteHandler
+      this.addHandler = props.addHandler
+      this.resetHandler = props.resetHandler
 
     }
 
@@ -64,11 +66,19 @@ class GroupPanel extends Component {
               <div>
                 <Button
                     variant="contained"
-                    onClick={() => {
-                    this.setState({items: [...this.state.items, []]});
-                    }}
-                >
+                    // onClick={() => {
+                    // this.setState({items: [...this.state.items, []]});
+                    // }}
+                    onClick={() => this.addHandler()}>
                     Add answer group
+                </Button>
+                <Button
+                    variant="contained"
+                    // onClick={() => {
+                    // this.setState({items: [...this.state.items, []]});
+                    // }}
+                    onClick={() => this.resetHandler()}>
+                    Reset
                 </Button>
               </div>
               <div style={{ display: "flex" }}>

@@ -19,7 +19,7 @@ class ImagePanel extends React.Component {
                 <Typography variant="h5" align="center">
                     <b> Question: </b> {this.state.questionStr}
                 </Typography> 
-                <img src={this.state.imgUrl} alt="blah" style={{maxWidth: "100%", height: "auto"}}/>
+                <img src={this.state.imgUrl} alt="blah" style={{maxWidth: "100%"}}/>
             </div>
             );
     }

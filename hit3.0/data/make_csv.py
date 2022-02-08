@@ -23,7 +23,7 @@ def get_line(line, url_base = "https://cs.jhu.edu/~esteng/images_for_hit/"):
                 "answerGroups": None, 
                 "answerQuestions": None}    
 
-    image_url = f"{url_base}/{line['image']}"
+    image_url = f"{url_base}{line['image']}"
     question_str = line['question']
     answer_groups = get_answer_groups(line['answers'], line['ans_groups'])
     answer_questions = [question_str for i in range(len(answer_groups))]
