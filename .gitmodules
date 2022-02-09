@@ -1,0 +1,3 @@
+[submodule "models/allennlp"]
+	path = models/allennlp
+	url = git@github.com:allenai/allennlp.git

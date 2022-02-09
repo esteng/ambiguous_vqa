@@ -1,0 +1,5 @@
+#allennlp==2.9.0
+torchvision<0.11.3
+torch>=1.8.0,<1.10.2
+detectron2
+transformers>=4.1,<4.17

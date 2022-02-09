@@ -7,30 +7,6 @@ import "./GroupPanel.css"
 
 // fake data generator
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
-/**
- * Moves an item from one list to another list.
- */
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-  destClone.splice(droppableDestination.index, 0, removed);
-
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-
-  return result;
-};
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -62,30 +38,27 @@ class GroupPanel extends Component {
         fieldIds: [...props.answerGroups.keys()].map(function (x) {return x.toString();} ),
         items: props.answerGroups,
       };
+
+      this.dragDropHandler = props.dragDropHandler
+      this.questionHandler = props.questionHandler
+      this.deleteHandler = props.deleteHandler
+      this.addHandler = props.addHandler
+      this.resetHandler = props.resetHandler
+
     }
-    onDragEnd = result => {
-        const { source, destination } = result;
-        // dropped outside the list
-        if (!destination) {
-          return;
-        }
-        const sInd = +source.droppableId;
-        const dInd = +destination.droppableId;
-    
-        if (sInd === dInd) {
-          const items = reorder(this.state.items[sInd], source.index, destination.index);
-          const newStateItems = [...this.state.items];
-          newStateItems[sInd] = items;
-          this.setState({items: newStateItems});
-        } else {
-          const result = move(this.state.items[sInd], this.state.items[dInd], source, destination);
-          const newStateItems = [...this.state.items];
-          newStateItems[sInd] = result[sInd];
-          newStateItems[dInd] = result[dInd];
-    
-          this.setState({items: newStateItems.filter(group => group.length)});
-        }
+
+    // componentWillReceiveProps(nextProps) {
+      // this.setState({ answerGroups: nextProps.answerGroups, 
+                      // answerQuestions: nextProps.answerQuestions});  
+    // } 
+    static getDerivedStateFromProps(nextProps, prevState){
+      return {answerGroups: nextProps.answerGroups,
+             answerQuestions: nextProps.answerQuestions, 
+             fieldIds: [...nextProps.answerGroups.keys()].map(function (x) {return x.toString();} ),
+             items: nextProps.answerGroups,
+            }
     }
+
 
     render(){
         return (
@@ -93,15 +66,23 @@ class GroupPanel extends Component {
               <div>
                 <Button
                     variant="contained"
-                    onClick={() => {
-                    this.setState({items: [...this.state.items, []]});
-                    }}
-                >
+                    // onClick={() => {
+                    // this.setState({items: [...this.state.items, []]});
+                    // }}
+                    onClick={() => this.addHandler()}>
                     Add answer group
+                </Button>
+                <Button
+                    variant="contained"
+                    // onClick={() => {
+                    // this.setState({items: [...this.state.items, []]});
+                    // }}
+                    onClick={() => this.resetHandler()}>
+                    Reset
                 </Button>
               </div>
               <div style={{ display: "flex" }}>
-                <DragDropContext onDragEnd={this.onDragEnd}>
+                <DragDropContext onDragEnd={this.dragDropHandler}>
                   {this.state.items.map((el, ind) => (
                     <div>
                         <Typography variant="h6">Q{ind}:
@@ -112,6 +93,7 @@ class GroupPanel extends Component {
                                 defaultValue={this.state.answerQuestions[ind]} 
                                 fullWidth
                                 margin="dense"
+                                onChange={this.questionHandler}
                             />
                             </Typography>
                         <Droppable key={ind} droppableId={`${ind}`}>
@@ -145,14 +127,7 @@ class GroupPanel extends Component {
                                     >
                                         {item.content}
                                         <Button variant="contained" 
-                                        onClick={() => {
-                                            const newStateItems = [...this.state.items];
-                                            newStateItems[ind].splice(index, 1);
-                                            this.setState(
-                                            {items: newStateItems.filter(group => group.length)}
-                                            );
-                                        }}
-                                        >
+                                        onClick={() => this.deleteHandler(ind, index) }>
                                         delete
                                         </Button>
                                     </div>

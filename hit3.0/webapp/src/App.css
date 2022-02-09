@@ -9,3 +9,63 @@
   margin: 0 30px;
   padding: 10px 20px;
 }
+
+.button1 {
+  border-radius: 4px;
+  background-color: white; /* Green */
+  border: none;
+  color: black;
+  border: 2px solid black;
+  padding: 10px;
+  height: 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+.button1:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.container{
+  display:inline-flex;
+  flex-wrap:wrap;
+}
+.flex-direction{
+  flex-direction:row;
+}
+.div1{
+  width:500px;
+  float: left;
+  height: auto;
+}
+
+.div2{
+  width: 500px;
+  float: left;
+  height: auto;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .flex-direction{
+  flex-direction:column;
+  }
+.div1{
+  /* width:202px; */
+  /* height:131px; */
+  width: 500px;
+  height: auto;
+  border-right:none;
+  }
+  .div2{
+    width:500px;
+    height:auto;
+  }
+
+}
+
