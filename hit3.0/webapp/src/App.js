@@ -77,7 +77,6 @@ class App extends Component {
         skipReason: "All answer the same question",
         errorMessage: null,
         isOverflowing: false,
-        groupPanel: new GroupPanel({answerGroups: answerGroups, answerQuestions: answerQuestions, dragDropHander: this.dragDropHandler, questionHandler: this.questionHandler})
       };
       // this.state = {imgUrl: window.imgUrl}
     } 
@@ -93,7 +92,6 @@ class App extends Component {
         skipReason: "All answer the same question",
         errorMessage: null,
         isOverflowing: false,
-        groupPanel: new GroupPanel({answerGroups: answerGroups, answerQuestions: answerQuestions, dragDropHander: this.dragDropHandler, questionHandler: this.questionHandler})
       };
     }
     this.originalState = JSON.parse(JSON.stringify(this.state))
@@ -105,14 +103,7 @@ class App extends Component {
   }
 
   handleSubmit = event => {
-    // if is skipped and no reason, error 
-    // if (this.state.isSkipped & this.state.skipReason.length === 0){
-    //   var errorMessage = <Alert severity="error">You cannot skip without providing a reason</Alert>;
-    //   this.setState({"errorMessage": errorMessage})
-    //   event.preventDefault(); 
-    // }
-    // otherwise, send to json 
-    // else {
+    console.log(this.state.answerQuestions)
     var n = document.querySelector("#answerGroupsInput")
     if (n) {
       n.value = JSON.stringify(this.state.answerGroups)
@@ -149,14 +140,24 @@ class App extends Component {
     this.setState({answerGroups: event.target.value})
   }
 
-  handleAnswerQuestionUpdate = event => {
-    this.setState({answerQuestions: event.target.value})
+  handleAnswerQuestionUpdate = (event, index) => {
+    var event;
+    // this is currently fucked, questions only have one value, need to have indexed values 
+    var new_answerQuestions = this.state.answerQuestions;
+    new_answerQuestions[index] = event.target.value;
+    this.setState({answerQuestions: new_answerQuestions});
   }
 
   handleDelete = (ind, index) => {
     const newStateItems = [...this.state.answerGroups];
+    const newStateQuestions = [...this.state.answerQuestions];
     newStateItems[ind].splice(index, 1);
+    if (newStateItems[ind].length === 0) {
+      newStateQuestions.splice(ind, 1);
+    }
     this.setState({answerGroups: newStateItems.filter(group => group.length)});
+    this.setState({answerQuestions: newStateQuestions.filter(group => group.length)});
+    // this.setState({answerQuestions: newStateQuestions})
     if (this.state.answerGroups.length > 2) { 
       this.setState({isOverflowing: true})
     } else {
@@ -166,6 +167,7 @@ class App extends Component {
 
   handleAdd = () => {
     this.setState({answerGroups: [...this.state.answerGroups, []]})
+    this.setState({answerQuestions: [...this.state.answerQuestions, ""]})
     if (this.state.answerGroups.length > 2) { 
       this.setState({isOverflowing: true})
     } else {
@@ -189,6 +191,7 @@ class App extends Component {
     const dInd = +destination.droppableId;
 
     var itemsToSet = null;
+    var questionsToSet = this.state.answerQuestions; 
     if (sInd === dInd) {
       const items = reorder(this.state.answerGroups[sInd], source.index, destination.index);
       const newStateItems = [...this.state.answerGroups];
@@ -200,6 +203,10 @@ class App extends Component {
       newStateItems[sInd] = result[sInd];
       newStateItems[dInd] = result[dInd];
       itemsToSet = newStateItems.filter(group => group.length)
+      if (itemsToSet[sInd].length === 0) {
+        questionsToSet = questionsToSet.splice(sInd, 1)
+        this.setState({answerQuestions: questionsToSet})
+      }
     }
     this.setState({answerGroups: itemsToSet})
   }
@@ -244,8 +251,7 @@ class App extends Component {
               {skipReasonBox}
             </div>
             <div style={{width: "50%", float:"left"}}>
-              {/* {this.state.errorMessage} */}
-              <input className="submit" onClick={this.handleSubmit} className="button1"
+              <input  onClick={this.handleSubmit} className="button1"
                 type="submit" value="Submit" />
             </div>
           </div>

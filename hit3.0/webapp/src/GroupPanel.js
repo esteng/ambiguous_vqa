@@ -90,10 +90,11 @@ class GroupPanel extends Component {
                                 id={this.state.fieldIds[ind]} 
                                 helperText="Edit Question" 
                                 variant="outlined" 
-                                defaultValue={this.state.answerQuestions[ind]} 
+                                // defaultValue={this.state.answerQuestions[ind]} 
+                                value={this.state.answerQuestions[ind]}
                                 fullWidth
                                 margin="dense"
-                                onChange={this.questionHandler}
+                                onChange={(event) => this.questionHandler(event, ind)}
                             />
                             </Typography>
                         <Droppable key={ind} droppableId={`${ind}`}>
