@@ -30,7 +30,7 @@ def get_groups(rows, num_anns=2):
         to_ret.append(ex_rows)
     return to_ret 
 
-def skip_agreement(rows, num_anns=2):
+def skip_agreement(rows, num_anns=2): # TO DO (TEST)
     n_agree = 0
     total = 0
     agree = []
@@ -45,12 +45,12 @@ def skip_agreement(rows, num_anns=2):
         total += 1
     return agree, disagree, n_agree/total 
         
-def group_agreement(rows, num_anns=2): 
-    agree, disagree, perc = skip_agreement(rows, num_anns)
-    all_groups = []
-    n_agree, total = 0, 0
-    group_agree, group_disagree = [], []
-    for ex_rows in get_groups(agree, num_anns): 
+def group_agreement(rows, num_anns=2): # TO DO
+    agree, disagree, perc = skip_agreement(rows, num_anns) # Agreement, disagreement, percent agreement
+    all_groups = [] 
+    n_agree, total = 0, 0 # n_agree, total
+    group_agree, group_disagree = [], [] # Group agreement, group disagreement
+    for ex_rows in get_groups(agree, num_anns): #   
         # don't consider skipped examples 
         if ex_rows[0]['Answer.is_skip']: 
             continue 
@@ -59,6 +59,7 @@ def group_agreement(rows, num_anns=2):
         ex_groups = [ann['Answer.answer_groups'] for ann in ex_rows]
         # all_groups.append(ex_groups)
 
+        # Sorting groups 
         for i, ann_groups in enumerate(ex_groups): 
             for j, group in enumerate(ann_groups): 
                 sorted_group = sorted(group, key=lambda x: x['id'])
@@ -72,7 +73,7 @@ def group_agreement(rows, num_anns=2):
 
             # loop over groups 
             for i, gold_group in enumerate(first_group): 
-                # if any are not equal, break
+                # if any are not equal, break TO DO 
                 if do_break:
                     break 
                 # loop over group items 
