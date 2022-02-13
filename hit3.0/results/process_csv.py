@@ -50,28 +50,30 @@ def group_agreement(rows, num_anns=2): # TO DO
     all_groups = [] 
     n_agree, total = 0, 0 # n_agree, total
     group_agree, group_disagree = [], [] # Group agreement, group disagreement
-    for ex_rows in get_groups(agree, num_anns): #   
+    for ex_rows in get_groups(agree, num_anns): # Rows for each example (annotator x examples)   
         # don't consider skipped examples 
         if ex_rows[0]['Answer.is_skip']: 
             continue 
 
         do_break = False
-        ex_groups = [ann['Answer.answer_groups'] for ann in ex_rows]
+        ex_groups = [ann['Answer.answer_groups'] for ann in ex_rows] # for exact agreement (ignore)
         # all_groups.append(ex_groups)
 
         # Sorting groups 
-        for i, ann_groups in enumerate(ex_groups): 
+        for i, ann_groups in enumerate(ex_groups): # Group of annotations from annotators
             for j, group in enumerate(ann_groups): 
                 sorted_group = sorted(group, key=lambda x: x['id'])
-                ex_groups[i][j] = sorted_group 
+                ex_groups[i][j] = sorted_group
+
+        # Group by HitID
 
         first_group = ex_groups[0]
-        # loop over annotators 
+        # loop over annotations of an example 
         for ann_groups in ex_groups:
             if do_break:
                 break 
 
-            # loop over groups 
+            # loop over groups of annotations 
             for i, gold_group in enumerate(first_group): 
                 # if any are not equal, break TO DO 
                 if do_break:
@@ -95,6 +97,21 @@ def group_agreement(rows, num_anns=2): # TO DO
 
     pprint(group_disagree, fields = ["Input.questionStr", "Answer.is_skip", "WorkerId", "Answer.answer_questions", "Answer.answer_groups"]) 
     pdb.set_trace() 
+
+########################################
+
+    # Group by HitId and then compute pairwise group overlap
+    id_sorted_group = {}
+
+    for ex_rows in get_groups(agree, num_anns):
+        if ex_rows[0]['Answer.is_skip']:
+            continue
+
+        do_break = False
+        id_sorted_group[ex_row[0]['HITId']] = [ann['Answer.answer_groups'] for ann in ex_rows]
+
+    for id_rows in id_sorted_group
+        
 
 
 def pprint(rows, fields):
