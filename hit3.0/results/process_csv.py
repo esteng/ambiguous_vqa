@@ -50,94 +50,117 @@ def group_agreement(rows, num_anns=2): # TO DO
     all_groups = [] 
     n_agree, total = 0, 0 # n_agree, total
     group_agree, group_disagree = [], [] # Group agreement, group disagreement
-    for ex_rows in get_groups(agree, num_anns): # Rows for each example (annotator x examples)   
-        # don't consider skipped examples 
-        if ex_rows[0]['Answer.is_skip']: 
-            continue 
 
-        do_break = False
-        ex_groups = [ann['Answer.answer_groups'] for ann in ex_rows] # for exact agreement (ignore)
-        # all_groups.append(ex_groups)
+    if False: 
+        for ex_rows in get_groups(agree, num_anns): # Rows for each example (annotator x examples)   
+            # don't consider skipped examples 
+            if ex_rows[0]['Answer.is_skip']: 
+                continue 
 
-        # Sorting groups 
-        for i, ann_groups in enumerate(ex_groups): # Group of annotations from annotators
-            for j, group in enumerate(ann_groups): 
-                sorted_group = sorted(group, key=lambda x: x['id'])
-                ex_groups[i][j] = sorted_group
+            do_break = False
+            ex_groups = [ann['Answer.answer_groups'] for ann in ex_rows] # for exact agreement (ignore)
+            # all_groups.append(ex_groups)
 
-        # Group by HitID
+            # Sorting groups 
+            for i, ann_groups in enumerate(ex_groups): # Group of annotations from annotators
+                for j, group in enumerate(ann_groups): 
+                    sorted_group = sorted(group, key=lambda x: x['id'])
+                    ex_groups[i][j] = sorted_group
 
-        first_group = ex_groups[0]
-        # loop over annotations of an example 
-        for ann_groups in ex_groups:
-            if do_break:
-                break 
+            # Group by HitID
 
-            # loop over groups of annotations 
-            for i, gold_group in enumerate(first_group): 
-                # if any are not equal, break TO DO 
+            first_group = ex_groups[0]
+            # loop over annotations of an example 
+            for ann_groups in ex_groups:
                 if do_break:
                     break 
-                # loop over group items 
-                try:
-                    other_group = ann_groups[i]
-                except IndexError:
-                    group_disagree += ex_rows
-                    do_break = True
-                    break
-                for j, item in enumerate(gold_group):
-                    other_item = other_group[j]
-                    if item != other_item: 
+
+                # loop over groups of annotations 
+                for i, gold_group in enumerate(first_group): 
+                    # if any are not equal, break TO DO 
+                    if do_break:
+                        break 
+                    # loop over group items 
+                    try:
+                        other_group = ann_groups[i]
+                    except IndexError:
                         group_disagree += ex_rows
                         do_break = True
                         break
-        n_agree += 1
-        group_agree += ex_rows
-        total += 1
+                    for j, item in enumerate(gold_group):
+                        other_item = other_group[j]
+                        if item != other_item: 
+                            group_disagree += ex_rows
+                            do_break = True
+                            break
+            n_agree += 1
+            group_agree += ex_rows
+            total += 1
 
-    pprint(group_disagree, fields = ["Input.questionStr", "Answer.is_skip", "WorkerId", "Answer.answer_questions", "Answer.answer_groups"]) 
-    pdb.set_trace() 
+        pprint(group_disagree, fields = ["Input.questionStr", "Answer.is_skip", "WorkerId", "Answer.answer_questions", "Answer.answer_groups"]) 
+        pdb.set_trace() 
 
 ########################################
     # Jimen's reworked code
 
     # Group by HitId and then compute pairwise group overlap
     # Have dictionary sorted by example id
-    is_sorted_scores = {}
+    id_sorted_scores = {}
 
     # Skip skipped examples
     for ex_rows in get_groups(agree, num_anns):
         if ex_rows[0]['Answer.is_skip']:
             continue
 
-        do_break = False
+        # do_break = False
         # Put answer_groups into dictionary based on hit id
-        if ex_row[0]['HITId'] in id_sorted_scores:
-            id_sorted_scores[ex_row[0]['HITId']]['Answer.answer_groups'].append(ann['Answer.answer_groups'])
+        if ex_rows[0]['HITId'] in id_sorted_scores:
+            for ann in ex_rows:
+                id_sorted_scores[ex_rows[0]['HITId']]['Answer.answer_groups'].append(ann['Answer.answer_groups'])
 
         else:
-            id_sorted_scores[ex_rows[0]['HITID']] = {} 
+            id_sorted_scores[ex_rows[0]['HITId']] = {} 
             id_sorted_scores[ex_rows[0]['HITId']]['Answer.answer_groups'] = []
-            id_sorted_scores[ex_rows[0]['HITId']]['Answer.answer_groups'].append(ann['Answer.answer_groups'])
+            for ann in ex_rows: 
+                id_sorted_scores[ex_rows[0]['HITId']]['Answer.answer_groups'].append(ann['Answer.answer_groups'])
             # Can input other data such as Input.questionStr, Answer.is_skip, WorkerId, Answer.answer_questions here
 
     # Compute pairwise scores
-    int groups_agree, group_disagree
+    # int groups_agree, group_disagree = 0,0
 
-    for HITId in id_sorted_scores:
-        for i in id_sorted_scores[HITId]['Answer.answer_groups']:
-            for j in id_sorted_scores[HITid]['Answer.answer_groups']:
+    group_agree, group_disagree = [], []
+    for hit_id in id_sorted_scores:
+        for i in range(len(id_sorted_scores[hit_id]['Answer.answer_groups'])):
+            for j in range(len(id_sorted_scores[hit_id]['Answer.answer_groups'])):
+                if i == j: 
+                    continue
                 # Compute score between two annotators (exact agreement)
-                if id_sorted_group[HITId]['Answer.answer_groups'][i] == id_sorted_group[id_rows]['Answer.groups'][j]:
-                    group_agree +=  1 # Will replace with Sorensen's formula
+                key = (hit_id, i, j)
+                # for thing in id_sorted_scores[hit_id]['Answer.answer_groups'][i] 
+                    # for list in thing: 
+                        # sort list on key
+                group_tuple = ([], [])
+                idxs = (i, j)
+                for t_idx in range(len(group_tuple)):
+                    idx = idxs[t_idx]
+                    for w, big_list in enumerate(id_sorted_scores[hit_id]['Answer.answer_groups'][idx]): 
+                        big_list = sorted(big_list, key=lambda x:x['id']) 
+                        group_tuple[t_idx].append(big_list)
+                group_a, group_b = group_tuple
+
+      
+                if group_a == group_b:
+                    group_agree.append(key)
+                    # group_agree +=  1 # Will replace with Sorensen's formula
                     # Sorensen's formula: 
                     # DSC = 2|i_set cap j_set|/|i_set|+|j_set|
 
                 else:
-                    group_disagree += 1
+                    group_disagree.append(key)
 
-        id_sorted_scores[HITId]['GroupAgreement'] = group_agree
+        id_sorted_scores[hit_id]['GroupAgreement'] = len(group_agree)/(len(group_agree) + len(group_disagree))
 
+        print(id_sorted_scores[hit_id]['GroupAgreement'])
 ########################################
 
 def pprint(rows, fields):
