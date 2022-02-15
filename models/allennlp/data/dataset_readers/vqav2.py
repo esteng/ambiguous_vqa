@@ -1,6 +1,7 @@
 import logging
 from collections import Counter
 from os import PathLike
+import pdb 
 from typing import (
     Dict,
     List,
@@ -446,27 +447,28 @@ class VQAv2Reader(VisionReader):
         failed_instances_count = 0
         for question_dict, processed_image in zip(question_dicts, processed_images):
             answers = answers_by_question_id.get(question_dict["question_id"])
+            for ans in answers: 
+                instance = self.text_to_instance(question_dict["question"], processed_image, ans)
+                attempted_instances_count += 1
+                if instance is None:
+                    failed_instances_count += 1
+                else:
+                    yield instance
 
-            instance = self.text_to_instance(question_dict["question"], processed_image, answers)
-            attempted_instances_count += 1
-            if instance is None:
-                failed_instances_count += 1
-            else:
-                yield instance
-
-            if attempted_instances_count % 2000 == 0:
-                failed_instances_fraction = failed_instances_count / attempted_instances_count
-                if failed_instances_fraction > 0.1:
-                    logger.warning(
-                        f"{failed_instances_fraction*100:.0f}% of instances have no answers."
-                    )
+                if attempted_instances_count % 2000 == 0:
+                    failed_instances_fraction = failed_instances_count / attempted_instances_count
+                    if failed_instances_fraction > 0.1:
+                        logger.warning(
+                            f"{failed_instances_fraction*100:.0f}% of instances have no answers."
+                        )
 
     @overrides
     def text_to_instance(
         self,  # type: ignore
         question: str,
         image: Union[str, Tuple[Tensor, Tensor]],
-        answer_counts: Optional[MutableMapping[str, int]] = None,
+        # answer_counts: Optional[MutableMapping[str, int]] = None,
+        answer: Optional[str] = None,
         *,
         use_cache: bool = True,
     ) -> Optional[Instance]:
@@ -487,22 +489,30 @@ class VQAv2Reader(VisionReader):
             fields["box_features"] = ArrayField(features)
             fields["box_coordinates"] = ArrayField(coords)
 
-        if answer_counts is not None:
-            answer_fields = []
-            weights = []
+        if answer is not None:
 
-            for answer, count in answer_counts.items():
-                if self.answer_vocab is None or answer in self.answer_vocab:
-                    answer_fields.append(LabelField(answer, label_namespace="answers"))
-                    weights.append(get_score(count))
+            if self.answer_vocab is None or answer in self.answer_vocab:
+                # TODO: (elias): this is a weird way to do things, should each be treated separately 
+                # answer_fields.append(LabelField(answer, label_namespace="answers"))
+                # weights.append(get_score(count))
+                answer_field = LabelField(answer, label_namespace="answers")
+                weight = ArrayField(torch.ones(1)) 
 
-            if len(answer_fields) <= 0:
+                fields['labels'] = answer_field
+                fields['label_weights'] = weight
+            elif self.answer_vocab is not None:
+                # skip this answer 
                 return None
-
-            fields["labels"] = ListField(answer_fields)
-            fields["label_weights"] = ArrayField(torch.tensor(weights))
-
+            else:
+                pass
         return Instance(fields)
+            # if len(answer_fields) <= 0:
+                # return None
+
+            # fields["labels"] = ListField(answer_fields)
+            # fields["label_weights"] = ArrayField(torch.tensor(weights))
+
+        # return Instance(fields)
 
     @overrides
     def apply_token_indexers(self, instance: Instance) -> None:

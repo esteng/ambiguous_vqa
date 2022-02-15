@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function train(){
+    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
     rm -rf ${CHECKPOINT_DIR}/ckpt
     echo "Training a new transductive model for VQA..."
     python -um allennlp train \
