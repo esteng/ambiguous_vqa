@@ -4,6 +4,8 @@ import json
 import csv 
 import pdb 
 
+import numpy as np
+
 def process_row(row):
     columns_to_json = ['Answer.answer_groups', "Answer.answer_questions", "Input.answerGroups", "Input.answerQuestions"]
     for col in columns_to_json:
@@ -129,6 +131,9 @@ def group_agreement(rows, num_anns=2): # TO DO
     # int groups_agree, group_disagree = 0,0
 
     group_agree, group_disagree = [], []
+
+    # TODO: Jimena: declare this array 
+    group_scores = np.zeros((len(id_sorted_scores), ))
     for hit_id in id_sorted_scores:
         for i in range(len(id_sorted_scores[hit_id]['Answer.answer_groups'])):
             for j in range(len(id_sorted_scores[hit_id]['Answer.answer_groups'])):
@@ -148,7 +153,7 @@ def group_agreement(rows, num_anns=2): # TO DO
                         group_tuple[t_idx].append(big_list)
                 group_a, group_b = group_tuple
 
-      
+                # TODO: Jimena: swap this out for F1  
                 if group_a == group_b:
                     group_agree.append(key)
                     # group_agree +=  1 # Will replace with Sorensen's formula
