@@ -1,0 +1,209 @@
+annotators agree on skips 76.47% of the time
+6 for fields Input.questionStr, Answer.is_skip, WorkerId, Answer.answer_questions, Answer.answer_groups
+	"Where are the flowers?", False, 52, What are the flowers in?, [
+    [
+        {
+            "id": "g0.0",
+            "content": "behind girl"
+        },
+        {
+            "id": "g0.1",
+            "content": "behind her"
+        },
+        {
+            "id": "g0.2",
+            "content": "behind person"
+        },
+        {
+            "id": "g2.0",
+            "content": "left"
+        }
+    ],
+    [
+        {
+            "id": "g1.0",
+            "content": "on edge of counter"
+        },
+        {
+            "id": "g1.1",
+            "content": "on counter"
+        },
+        {
+            "id": "g4.0",
+            "content": "floor"
+        }
+    ],
+    [
+        {
+            "id": "g3.0",
+            "content": "in vase"
+        },
+        {
+            "id": "g3.1",
+            "content": "vase"
+        }
+    ]
+]
+	"Where are the flowers?", False, 129, What are the flowers in?, [
+    [
+        {
+            "id": "g0.0",
+            "content": "behind girl"
+        },
+        {
+            "id": "g0.1",
+            "content": "behind her"
+        },
+        {
+            "id": "g0.2",
+            "content": "behind person"
+        },
+        {
+            "id": "g1.0",
+            "content": "on edge of counter"
+        },
+        {
+            "id": "g1.1",
+            "content": "on counter"
+        },
+        {
+            "id": "g2.0",
+            "content": "left"
+        },
+        {
+            "id": "g4.0",
+            "content": "floor"
+        }
+    ],
+    [
+        {
+            "id": "g3.0",
+            "content": "in vase"
+        },
+        {
+            "id": "g3.1",
+            "content": "vase"
+        }
+    ]
+]
+	"What are the letters on the bus?", False, 52, What are the numbers on the bus?, [
+    [
+        {
+            "id": "g0.0",
+            "content": "lak 3090"
+        },
+        {
+            "id": "g0.2",
+            "content": "lak309g"
+        }
+    ],
+    [
+        {
+            "id": "g0.1",
+            "content": "lak"
+        },
+        {
+            "id": "g1.0",
+            "content": "lak"
+        }
+    ],
+    [
+        {
+            "id": "g0.3",
+            "content": "3096"
+        }
+    ]
+]
+	"What are the letters on the bus?", False, 129, What is the writing on the bus?, [
+    [
+        {
+            "id": "g0.1",
+            "content": "lak"
+        },
+        {
+            "id": "g1.0",
+            "content": "lak"
+        }
+    ],
+    [
+        {
+            "id": "g0.0",
+            "content": "lak 3090"
+        },
+        {
+            "id": "g0.2",
+            "content": "lak309g"
+        },
+        {
+            "id": "g0.3",
+            "content": "3096"
+        }
+    ]
+]
+	"What is the man looking out of?", False, 52, What body part is the man looking out of?, [
+    [
+        {
+            "id": "g0.0",
+            "content": "carriage"
+        },
+        {
+            "id": "g0.1",
+            "content": "horse carriage"
+        },
+        {
+            "id": "g1.0",
+            "content": "wagon"
+        },
+        {
+            "id": "g2.0",
+            "content": "buggy"
+        }
+    ],
+    [
+        {
+            "id": "g3.0",
+            "content": "glasses"
+        }
+    ],
+    [
+        {
+            "id": "g4.0",
+            "content": "he's looking out his eyes"
+        },
+        {
+            "id": "g4.1",
+            "content": "eyes"
+        }
+    ]
+]
+	"What is the man looking out of?", False, 129, [
+    "What is the man looking out of?",
+    "What is the man looking out of?",
+    "What is the man looking out of?",
+    "What is the man looking out of?",
+    "What is the man looking out of?",
+    "What is the man looking out of?"
+], [
+    [
+        {
+            "id": "g0.0",
+            "content": "carriage"
+        },
+        {
+            "id": "g0.1",
+            "content": "horse carriage"
+        },
+        {
+            "id": "g1.0",
+            "content": "wagon"
+        },
+        {
+            "id": "g2.0",
+            "content": "buggy"
+        }
+    ]
+]
+--Return--
+> /home/jgualla1/annotator_uncertainty/hit3.0/results/process_csv.py(97)group_agreement()->None
+-> pdb.set_trace()
+(Pdb) 
