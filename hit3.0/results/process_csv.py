@@ -99,20 +99,46 @@ def group_agreement(rows, num_anns=2): # TO DO
     pdb.set_trace() 
 
 ########################################
+    # Jimen's reworked code
 
     # Group by HitId and then compute pairwise group overlap
-    id_sorted_group = {}
+    # Have dictionary sorted by example id
+    is_sorted_scores = {}
 
+    # Skip skipped examples
     for ex_rows in get_groups(agree, num_anns):
         if ex_rows[0]['Answer.is_skip']:
             continue
 
         do_break = False
-        id_sorted_group[ex_row[0]['HITId']] = [ann['Answer.answer_groups'] for ann in ex_rows]
+        # Put answer_groups into dictionary based on hit id
+        if ex_row[0]['HITId'] in id_sorted_scores:
+            id_sorted_scores[ex_row[0]['HITId']]['Answer.answer_groups'].append(ann['Answer.answer_groups'])
 
-    for id_rows in id_sorted_group
-        
+        else:
+            id_sorted_scores[ex_rows[0]['HITID']] = {} 
+            id_sorted_scores[ex_rows[0]['HITId']]['Answer.answer_groups'] = []
+            id_sorted_scores[ex_rows[0]['HITId']]['Answer.answer_groups'].append(ann['Answer.answer_groups'])
+            # Can input other data such as Input.questionStr, Answer.is_skip, WorkerId, Answer.answer_questions here
 
+    # Compute pairwise scores
+    int groups_agree, group_disagree
+
+    for HITId in id_sorted_scores:
+        for i in id_sorted_scores[HITId]['Answer.answer_groups']:
+            for j in id_sorted_scores[HITid]['Answer.answer_groups']:
+                # Compute score between two annotators (exact agreement)
+                if id_sorted_group[HITId]['Answer.answer_groups'][i] == id_sorted_group[id_rows]['Answer.groups'][j]:
+                    group_agree +=  1 # Will replace with Sorensen's formula
+                    # Sorensen's formula: 
+                    # DSC = 2|i_set cap j_set|/|i_set|+|j_set|
+
+                else:
+                    group_disagree += 1
+
+        id_sorted_scores[HITId]['GroupAgreement'] = group_agree
+
+########################################
 
 def pprint(rows, fields):
     def stringify(x): 
