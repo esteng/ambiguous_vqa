@@ -141,3 +141,6 @@ from allennlp.modules.transformer.output_layer import OutputLayer
 
 from allennlp.modules.transformer.bimodal_attention import BiModalAttention
 from allennlp.modules.transformer.bimodal_encoder import BiModalEncoder
+
+from allennlp.modules.transformer_decoder.prenorm_transformer_decoder import MisoTransformerDecoder
+from allennlp.modules.seq2seq_encoders.prenorm_transformer_encoder import MisoTransformerEncoder

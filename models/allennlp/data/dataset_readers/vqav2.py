@@ -30,6 +30,7 @@ from allennlp.data.tokenizers import Tokenizer
 from allennlp.modules.vision.grid_embedder import GridEmbedder
 from allennlp.modules.vision.region_detector import RegionDetector
 from allennlp.data.dataset_readers.vision_reader import VisionReader
+from models.allennlp.nn.util import add_sentence_boundary_token_ids
 
 logger = logging.getLogger(__name__)
 
@@ -472,13 +473,24 @@ class VQAv2Reader(VisionReader):
         *,
         use_cache: bool = True,
     ) -> Optional[Instance]:
-        tokenized_question = self._tokenizer.tokenize(question)
-        question_field = TextField(tokenized_question, None)
+        tokenized_question_input = self._tokenizer.tokenize(question)
+        tokenized_question_output = self._tokenizer.add_special_tokens(tokenized_question_input)
+        question_field = TextField(tokenized_question_input, None)
         from allennlp.data import Field
 
         fields: Dict[str, Field] = {
             "question": question_field,
         }
+
+        # question as teacher forcing string, needs to have SOS token
+        fields["target_tokens_input"] = TextField(
+            tokens=tokenized_question_output[:-1],
+        )
+
+        # question as output string, needs to have EOS token 
+        fields["target_tokens_output"] = TextField(
+            tokens=tokenized_question_output[1:]
+        )
 
         if image is not None:
             if isinstance(image, str):
@@ -493,8 +505,6 @@ class VQAv2Reader(VisionReader):
 
             if self.answer_vocab is None or answer in self.answer_vocab:
                 # TODO: (elias): this is a weird way to do things, should each be treated separately 
-                # answer_fields.append(LabelField(answer, label_namespace="answers"))
-                # weights.append(get_score(count))
                 answer_field = LabelField(answer, label_namespace="answers")
                 weight = ArrayField(torch.ones(1)) 
 
@@ -517,3 +527,5 @@ class VQAv2Reader(VisionReader):
     @overrides
     def apply_token_indexers(self, instance: Instance) -> None:
         instance["question"].token_indexers = self._token_indexers  # type: ignore
+        instance["target_tokens_input"].token_indexers = self._token_indexers  # type: ignore
+        instance["target_tokens_output"].token_indexers = self._token_indexers  # type: ignore
