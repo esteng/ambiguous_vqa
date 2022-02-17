@@ -6,9 +6,20 @@ function train(){
     echo "Training a new transductive model for VQA..."
     python -um allennlp train \
     --include-package allennlp.data.dataset_readers \
+    --include-package allennlp.training \
     -s ${CHECKPOINT_DIR}/ckpt \
     ${TRAINING_CONFIG}
+}
 
+function eval(){
+    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+    export TEST_DATA="unittest"
+    echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
+    python -um allennlp evaluate \
+    --include-package allennlp.data.dataset_readers \
+    --include-package allennlp.training \
+    ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
+    ${TEST_DATA} 
 }
 
 function usage() {
@@ -69,6 +80,8 @@ function main() {
         train
     elif [[ "${action}" == "resume" ]]; then
         resume
+    elif [[ "${action}" == "eval" ]]; then
+        eval
     fi 
 }
 

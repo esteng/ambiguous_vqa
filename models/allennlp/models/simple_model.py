@@ -134,7 +134,8 @@ class SimpleDebugModel(Model):
 
         encoder = SimpleEncoder(
             pretrained_module=transformer,
-            in_dim=1920,
+            in_dim=1280,
+            # in_dim=128,
             hidden_dim=32,
             num_layers=2, 
             out_dim=32
@@ -202,12 +203,14 @@ class SimpleDebugModel(Model):
             binary_label_mask = weighted_labels.new_ones(logits.size())
             binary_label_mask[:, 0] = 0
             binary_label_mask[:, 1] = 0
- 
+
             outputs["loss"] = (
-                self.loss(logits, labels)
+                torch.nn.functional.binary_cross_entropy_with_logits(
+                    logits, weighted_labels, weight=binary_label_mask, reduction="sum"
+                )
                 / batch_size
             )
-
+ 
             self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
             self.vqa_metric(logits, labels, label_weights)
         return outputs
@@ -242,11 +245,14 @@ class SimpleEncoder(torch.nn.Module):
         self.out_dim = out_dim
 
     def forward(self, embedding_output, v_embedding_output):
-        embedding_last = embedding_output[:,-1,:]
+    # def forward(self, embedding_output): 
+        # embedding_last = embedding_output[:,-1,:]
+        embedding_last = torch.mean(embedding_output, dim=1) 
         bsz, n1, n2 = v_embedding_output.shape
         vision_last = v_embedding_output.reshape(bsz, -1)
 
         input_vector = torch.cat([embedding_last, vision_last], dim=1)
+        # input_vector = embedding_last 
         print(input_vector.shape)
         output = self.network(input_vector)
         return output 

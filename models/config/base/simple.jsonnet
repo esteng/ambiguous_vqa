@@ -1,4 +1,6 @@
-local model_name = "bert-base-uncased";
+// local model_name = "bert-base-uncased";
+local model_name = "prajjwal1/bert-tiny";
+local other_model_name = "bert-base-uncased";
 local vocab_size = 30522;     // for bert-*-uncased models
 //local vocab_size = 28996;   // for bert-*-cased models
 local effective_batch_size = 128;
@@ -10,17 +12,18 @@ local construct_vocab = false;
 local dataset = "unittest";
 local dataset_vocab = "balanced_real";
 
-local vocabulary = if construct_vocab then {
-      // read the files to construct the vocab
-      "min_count": {"answers": 9}
-    } else {
-      // // read the constructed vocab
-      "type": "from_files",
-      "directory": std.format(
-        "https://storage.googleapis.com/allennlp-public-data/vqav2/vilbert_vqa_%s.%s.vocab.tar.gz",
-        [dataset_vocab, model_name])
+// local vocabulary = if construct_vocab then {
+//       // read the files to construct the vocab
+//       "min_count": {"answers": 9}
+//     } else {
+//       // // read the constructed vocab
+//       "type": "from_files",
+//       "directory": std.format(
+//         "https://storage.googleapis.com/allennlp-public-data/vqav2/vilbert_vqa_%s.%s.vocab.tar.gz",
+//         [dataset_vocab, other_model_name])
 
-    };
+//     };
+// local vocabulary = {"type": "from_instances", "min_count": {"answers": 1}};
 
 {
   "dataset_reader": {
@@ -44,19 +47,19 @@ local vocabulary = if construct_vocab then {
     },
     "max_instances": line_limit,
     "image_processing_batch_size": 16,
-    "answer_vocab": if construct_vocab then null else vocabulary,
+    // "answer_vocab": if construct_vocab then null else vocabulary,
     // "multiple_answers_per_question": !construct_vocab,
     multiple_answers_per_question: false,
 
   },
-  "validation_dataset_reader": self.dataset_reader {
-    "answer_vocab": null    // make sure we don't skip unanswerable questions during validation
-  },
-  "vocabulary": vocabulary,
+  // "validation_dataset_reader": self.dataset_reader {
+  //   "answer_vocab": null    // make sure we don't skip unanswerable questions during validation
+  // },
+  // "vocabulary": vocabulary,
   // "train_data_path": [std.format("%s_train[0:10]", dataset), std.format("%s_val[0:10]", dataset)],
   // "validation_data_path": std.format("%s_val[0:10]", dataset),
   "train_data_path": [std.format("%s", dataset), std.format("%s", dataset)],
-  "validation_data_path": std.format("%s", dataset),
+  // "validation_data_path": std.format("%s", dataset),
   "model": {
     "type": "simple_debug_from_huggingface",
     "model_name": model_name,
@@ -82,19 +85,22 @@ local vocabulary = if construct_vocab then {
     //[if !construct_vocab then "max_instances_in_memory"]: 10240
   },
   [if num_gpus > 1 then "distributed"]: {
-    "cuda_devices": std.range(0, num_gpus - 1)
-    #"cuda_devices": std.repeat([-1], num_gpus)  # Use this for debugging on CPU
+    #"cuda_devices": std.range(0, num_gpus - 1)
+    "cuda_devices": std.repeat([-1], num_gpus)  # Use this for debugging on CPU
   },
   // Don't train if we're just constructing vocab. The results would be confusing.
   [if !construct_vocab then "trainer"]: {
+    "type": "warmup_gradient_descent",
+    "cuda_device": -1,
     "optimizer": {
       "type": "adam",
-      "lr": 1e-3,
+      "lr": 1e-2,
       "weight_decay": 0.01,
     },
-    "validation_metric": "+vqa_score",
-    "patience": 100,
-    "num_epochs": 80,
+    // "validation_metric": "+vqa_score",
+    "save_warmup": 198,
+    "patience": 201,
+    "num_epochs": 200,
     "num_gradient_accumulation_steps": effective_batch_size / gpu_batch_size / std.max(1, num_gpus),
   },
   "random_seed": 12,

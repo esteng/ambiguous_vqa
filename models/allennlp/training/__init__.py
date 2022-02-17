@@ -9,3 +9,4 @@ from allennlp.training.trainer import (
     TrainerCallback,
     TrackEpochCallback,
 )
+from allennlp.training.warmup_trainer import WarmupGradientDescentTrainer
