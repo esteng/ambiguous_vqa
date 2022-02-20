@@ -46,7 +46,7 @@ class Header extends PureComponent {
         <Dialog open={this.state.dialogOpen} onClose={this.handleDialogClose} aria-labelledby="simple-dialog-title">
           <DialogTitle>Instructions</DialogTitle>
           <Typography className='dialogText'>
-            These instructions are explained with examples <a href="https://youtu.be/F7iPx7yoodI" target="_blank">in this video</a>.
+            These instructions are explained with examples <a href="https://youtu.be/qvmrL7JAlgk" target="_blank">in this video</a>.
             In each example, you'll see an image, a question about the image, and a set of answers. 
             We are interested in figuring out what question the answers are actually answering.<br/> 
             <br/>

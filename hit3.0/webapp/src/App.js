@@ -67,6 +67,8 @@ class App extends Component {
 
       const {imgUrl, questionStr, answerGroups, answerQuestions} = {"imgUrl": window.imgUrl, "questionStr": window.questionStr, "answerGroups": window.answerGroups, "answerQuestions": window.answerQuestions};
 
+      var errorMessage = new Array(answerQuestions.length);
+      errorMessage.fill("You must edit each question if you do not skip");
 
       this.state = {
         imgUrl: imgUrl,
@@ -75,7 +77,7 @@ class App extends Component {
         answerQuestions: answerQuestions,
         isSkipped: false,
         skipReason: "All answer the same question",
-        errorMessage: null,
+        errorMessage: errorMessage,
         isOverflowing: false,
       };
       // this.state = {imgUrl: window.imgUrl}
@@ -83,6 +85,9 @@ class App extends Component {
     else {
       // this code is executeed independently, not inside Turkle.
       const {imgUrl, questionStr, answerGroups, answerQuestions} = mock;
+
+      var errorMessage = new Array(answerQuestions.length);
+      errorMessage.fill("You must edit each question if you do not skip");
       this.state = {
         imgUrl: imgUrl,
         questionStr: questionStr,
@@ -90,7 +95,7 @@ class App extends Component {
         answerQuestions: answerQuestions,
         isSkipped: false,
         skipReason: "All answer the same question",
-        errorMessage: null,
+        errorMessage: errorMessage,
         isOverflowing: false,
       };
     }
@@ -103,7 +108,16 @@ class App extends Component {
   }
 
   handleSubmit = event => {
-    console.log(this.state.answerQuestions)
+    if (!this.state.isSkipped){
+      console.log(this.state.errorMessage)
+      for (var i = 0; i < this.state.errorMessage.length; i++){
+        if (this.state.errorMessage[i] != null){
+          console.log("preventing default")
+          event.preventDefault();
+        }
+      }
+    }
+
     var n = document.querySelector("#answerGroupsInput")
     if (n) {
       n.value = JSON.stringify(this.state.answerGroups)
@@ -131,9 +145,6 @@ class App extends Component {
   }
   handleSkipReason = event => {
     this.setState({skipReason: event.target.value})
-    if (event.target.value.length > 0){
-      this.setState({errorMessage: null})
-    }
   }
 
   handleAnswerGroupUpdate = event => {
@@ -141,11 +152,23 @@ class App extends Component {
   }
 
   handleAnswerQuestionUpdate = (event, index) => {
-    var event;
-    // this is currently fucked, questions only have one value, need to have indexed values 
     var new_answerQuestions = this.state.answerQuestions;
     new_answerQuestions[index] = event.target.value;
+
     this.setState({answerQuestions: new_answerQuestions});
+
+    var error_message = new Array(this.state.answerQuestions.length);
+    for (var i = 0; i < new_answerQuestions.length; i++) {
+      var question = this.state.answerQuestions[i]
+      if (question === this.state.questionStr && !this.state.isSkipped) {
+        error_message[i] = "You must edit each question if you do not skip";
+      }
+      else {
+        error_message[i] = null;
+      }
+      event.preventDefault();
+    }
+    this.setState({errorMessage: error_message});
   }
 
   handleDelete = (ind, index) => {
@@ -202,11 +225,15 @@ class App extends Component {
       const newStateItems = [...this.state.answerGroups];
       newStateItems[sInd] = result[sInd];
       newStateItems[dInd] = result[dInd];
-      itemsToSet = newStateItems.filter(group => group.length)
-      if (itemsToSet[sInd].length === 0) {
-        questionsToSet = questionsToSet.splice(sInd, 1)
+      console.log("pre filter", newStateItems)
+      // itemsToSet = newStateItems.filter(group => group.length)
+      itemsToSet =  [...newStateItems]
+      if (itemsToSet[sInd] == null ||  itemsToSet[sInd].length === 0) {
+        // console.log("at sInd", questionsToSet[sInd])
+        var removed = questionsToSet.splice(sInd, 1)
         this.setState({answerQuestions: questionsToSet})
       }
+      itemsToSet = itemsToSet.filter(group => group.length)
     }
     this.setState({answerGroups: itemsToSet})
   }
@@ -243,7 +270,8 @@ class App extends Component {
                         questionHandler={this.handleAnswerQuestionUpdate}
                         addHandler={this.handleAdd}
                         resetHandler={this.handleReset}
-                        deleteHandler={this.handleDelete}/> 
+                        deleteHandler={this.handleDelete}
+                        errorMessage={this.state.errorMessage}/> 
           </div>
           <div>
             <div style={{width: "50%", float:"left"}}>
