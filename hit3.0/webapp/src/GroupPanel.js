@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from "@material-ui/core";
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
+import Alert from '@mui/material/Alert';
 import "./GroupPanel.css"
 
 
@@ -37,6 +37,7 @@ class GroupPanel extends Component {
         answerQuestions: props.answerQuestions,
         fieldIds: [...props.answerGroups.keys()].map(function (x) {return x.toString();} ),
         items: props.answerGroups,
+        errorMessage: props.errorMessage,
       };
 
       this.dragDropHandler = props.dragDropHandler
@@ -56,6 +57,7 @@ class GroupPanel extends Component {
              answerQuestions: nextProps.answerQuestions, 
              fieldIds: [...nextProps.answerGroups.keys()].map(function (x) {return x.toString();} ),
              items: nextProps.answerGroups,
+             errorMessage: nextProps.errorMessage,
             }
     }
 
@@ -85,13 +87,17 @@ class GroupPanel extends Component {
                 <DragDropContext onDragEnd={this.dragDropHandler}>
                   {this.state.items.map((el, ind) => (
                     <div>
+                      {/* */}
+                      
                         <Typography variant="h6">Q{ind}:
                             <TextField 
                                 id={this.state.fieldIds[ind]} 
                                 helperText="Edit Question" 
                                 variant="outlined" 
                                 // defaultValue={this.state.answerQuestions[ind]} 
-                                value={this.state.answerQuestions[ind]}
+                                error
+                                helperText={this.state.errorMessage[ind] ? this.state.errorMessage[ind] : null}
+                                value={this.state.answerQuestions[ind] || ''}
                                 fullWidth
                                 margin="dense"
                                 onChange={(event) => this.questionHandler(event, ind)}
