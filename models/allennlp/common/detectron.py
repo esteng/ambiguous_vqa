@@ -372,7 +372,8 @@ class AttributeRes5ROIHeads(AttributeROIHeads, Res5ROIHeads):
     """
 
     def __init__(self, cfg, input_shape):
-        super(Res5ROIHeads, self).__init__(cfg, input_shape)
+
+        super(AttributeRes5ROIHeads, self).__init__(cfg, input_shape)
 
         self.in_features = cfg.MODEL.ROI_HEADS.IN_FEATURES
         assert len(self.in_features) == 1

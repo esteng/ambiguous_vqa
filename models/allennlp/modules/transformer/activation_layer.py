@@ -5,7 +5,7 @@ from allennlp.common import FromParams
 
 from allennlp.modules.transformer.transformer_module import TransformerModule
 
-# from transformers.modeling_bert import ACT2FN
+from transformers.activations import ACT2FN
 
 
 
