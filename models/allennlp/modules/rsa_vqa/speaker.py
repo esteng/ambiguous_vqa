@@ -93,11 +93,12 @@ class PrenormSpeakerModule(BaseSpeakerModule):
 
     def _test_forward(self,
                       source_memory: torch.Tensor):
-        encoded = source_memory.unsqueeze(1)
-        source_mask = torch.ones_like(encoded)
-
-        # run beam search 
-        pass 
+        embedded = source_memory.unsqueeze(1)
+        source_mask = torch.ones_like(embedded)[:,:,0].bool()
+        encoded = self._encode(embedded, source_mask) 
+        decoded = self.decoder(encoded) 
+        loss = torch.nan
+        return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
 
     def _prepare_output_projections(
         self, last_predictions: torch.Tensor, state: Dict[str, torch.Tensor]

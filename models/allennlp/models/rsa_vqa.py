@@ -301,21 +301,29 @@ class RSAVQAModel(Model):
             speaker_loss = speaker_output['loss']
             speaker_losses.append(speaker_loss) 
 
-            self.acc_metrics[i](speaker_output['predictions'].contiguous(), 
-                                question_input['tokens']['tokens'][:,1:].contiguous())
-            # pred = self.debug_tokenizer.batch_decode(speaker_output['top_k'].unsqueeze(1).reshape((bsz, -1))) 
-            # true = self.debug_tokenizer.batch_decode(question_input['tokens']['tokens'], vocabulary=self.vocab)
-            gold_predictions = {"predictions": question_input['tokens']['tokens'][:,1:]}
-            pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
-            true = self.speaker_modules[i].make_output_human_readable(gold_predictions)['predicted_tokens']
-            
-            logger.info("")
-            logger.info(f"pred: {pred[0]}")
-            logger.info(f"true: {true[0]}")
-            logger.info(f"pred: {pred[1]}")
-            logger.info(f"true: {true[1]}")
+            if question_input is not None: 
+                self.acc_metrics[i](speaker_output['predictions'].contiguous(), 
+                                    question_input['tokens']['tokens'][:,1:].contiguous())
+                # pred = self.debug_tokenizer.batch_decode(speaker_output['top_k'].unsqueeze(1).reshape((bsz, -1))) 
+                # true = self.debug_tokenizer.batch_decode(question_input['tokens']['tokens'], vocabulary=self.vocab)
+                gold_predictions = {"predictions": question_input['tokens']['tokens'][:,1:]}
+                pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
+                true = self.speaker_modules[i].make_output_human_readable(gold_predictions)['predicted_tokens']
+                
+                logger.info("")
+                logger.info(f"pred: {pred[0]}")
+                logger.info(f"true: {true[0]}")
+                logger.info(f"pred: {pred[1]}")
+                logger.info(f"true: {true[1]}")
 
             encoded_by_speaker = speaker_output['encoder_output']['encoder_outputs']
+            if question_input is None:
+                beam_size = self.speaker_modules[i].decoder._beam_search.beam_size
+                encoded_by_speaker = encoded_by_speaker.reshape((bsz, beam_size, -1)) 
+                # take only top beam, they're all the same 
+                encoded_by_speaker = encoded_by_speaker[:,0,:].unsqueeze(1)
+
+            print(f"i: {i} encoded_by_speaker: {encoded_by_speaker.shape}")
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask) 
@@ -348,7 +356,8 @@ class RSAVQAModel(Model):
                 )
                 / batch_size
             )
- 
+
+
             self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
             self.vqa_metric(logits, labels, label_weights)
             # logger.info(f"loss: {loss.item()}")
