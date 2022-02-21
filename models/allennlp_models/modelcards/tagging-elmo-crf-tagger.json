@@ -1,0 +1,72 @@
+{
+    "id": "tagging-elmo-crf-tagger",
+    "registered_model_name": "crf_tagger",
+    "registered_predictor_name": null,
+    "display_name": "ELMo-based Named Entity Recognition",
+    "task_id": "ner",
+    "model_details": {
+        "description": "This model is the baseline model described in [Semi-supervised sequence tagging with bidirectional language models](https://api.semanticscholar.org/CorpusID:7197241). It uses a Gated Recurrent Unit (GRU) character encoder as well as a GRU phrase encoder, and it starts with pretrained GloVe vectors for its token embeddings. It was trained on the CoNLL-2003 NER dataset.",
+        "short_description": "NER tagger using a Gated Recurrent Unit (GRU) character encoder as well as a GRU phrase encoder, with GloVe embeddings.",
+        "developed_by": "Peters et al",
+        "contributed_by": null,
+        "date": "2020-02-10",
+        "version": "1",
+        "model_type": "Gated Recurrent Unit (GRU)",
+        "paper": {
+            "citation": "\n@inproceedings{Peters2017SemisupervisedST,\ntitle={Semi-supervised sequence tagging with bidirectional language models},\nauthor={Matthew E. Peters and Waleed Ammar and Chandra Bhagavatula and R. Power},\nbooktitle={ACL},\nyear={2017}}\n",
+            "title": "Semi-supervised sequence tagging with bidirectional language models",
+            "url": "https://api.semanticscholar.org/CorpusID:7197241"
+        },
+        "license": null,
+        "contact": "allennlp-contact@allenai.org"
+    },
+    "intended_use": {
+        "primary_uses": null,
+        "primary_users": null,
+        "out_of_scope_use_cases": null
+    },
+    "factors": {
+        "relevant_factors": null,
+        "evaluation_factors": null
+    },
+    "metrics": {
+        "model_performance_measures": "Accuracy and Span-based F1 metric",
+        "decision_thresholds": null,
+        "variation_approaches": null
+    },
+    "evaluation_data": {
+        "dataset": {
+            "name": "CoNLL-2003 NER dataset",
+            "url": "https://www.clips.uantwerpen.be/conll2003/ner/",
+            "notes": "The NER model was evaluated on the CoNLL-2003 NER dataset. Unfortunately we cannot release this data due to licensing restrictions.",
+            "processed_url": "path/to/dataset"
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "training_data": {
+        "dataset": {
+            "name": "CoNLL-2003 NER dataset",
+            "url": "https://www.clips.uantwerpen.be/conll2003/ner/",
+            "notes": "The NER model was trained on the CoNLL-2003 NER dataset. Unfortunately we cannot release this data due to licensing restrictions.",
+            "processed_url": "/path/to/dataset"
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "quantitative_analyses": {
+        "unitary_results": "Achieves 99% accuracy and 96% F1 on the CoNLL-2003 validation set.",
+        "intersectional_results": null
+    },
+    "model_caveats_and_recommendations": {
+        "caveats_and_recommendations": "This model is based on ELMo. ELMo is not deterministic, meaning that you will see slight differences every time you run it. Also, ELMo likes to be warmed up, so we recommend processing dummy input before processing real workloads with it."
+    },
+    "model_ethical_considerations": {
+        "ethical_considerations": null
+    },
+    "model_usage": {
+        "archive_file": "ner-elmo.2021-02-12.tar.gz",
+        "training_config": "tagging/ner_elmo.jsonnet",
+        "install_instructions": "pip install allennlp==2.1.0 allennlp-models==2.1.0"
+    }
+}

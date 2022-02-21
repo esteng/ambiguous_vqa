@@ -1,3 +1,4 @@
+from cProfile import label
 import collections
 import logging
 from copy import deepcopy
@@ -8,7 +9,7 @@ from overrides import overrides
 import torch
 from transformers import AutoModel, AutoTokenizer
 
-from allennlp.data import TextFieldTensors, Vocabulary
+from allennlp.data import TextFieldTensors, Vocabulary, TokenIndexer
 from allennlp.models.model import Model
 from allennlp.modules import TextFieldEmbedder
 from allennlp.modules.transformer import (
@@ -21,6 +22,7 @@ from allennlp.nn import util
 from allennlp.common.params import Params
 from allennlp.modules.rsa_vqa.speaker import BaseSpeakerModule
 from allennlp.modules.rsa_vqa.listener import BaseListenerModule
+from allennlp.data.fields.metadata_field import MetadataField
 
 logger = logging.getLogger(__name__)
 
@@ -33,16 +35,16 @@ class RSAVQAModel(Model):
     def __init__(
         self,
         vocab: Vocabulary,
-        model_name: str,
         text_embeddings: TextEmbeddings,
         image_embeddings: ImageFeatureEmbeddings,
         encoder: BiModalEncoder,
-        speaker_modules: List[str],
-        listener_modules: List[str],
+        speaker_modules: List[BaseSpeakerModule],
+        listener_modules: List[BaseListenerModule],
         copy_speaker_listener: bool,
         pooled_output_dim: int,
         fusion_method: str = "sum",
         dropout: float = 0.1,
+        vqa_loss_factor: float = 1.0,
         label_namespace: str = "answers",
         keep_tokens: bool = False,
         tune_bert: bool = False,
@@ -50,7 +52,7 @@ class RSAVQAModel(Model):
     ) -> None:
         super().__init__(vocab)
 
-        self.debug_tokenizer = AutoTokenizer.from_pretrained(model_name)
+        # self.debug_tokenizer = AutoTokenizer.from_pretrained(model_name)
 
         self.consistency_wrong_map: Dict[str, int] = collections.Counter()
         from allennlp.training.metrics import F1MultiLabelMeasure
@@ -60,7 +62,9 @@ class RSAVQAModel(Model):
         self.vqa_metric = VqaMeasure()
 
         from allennlp.training.metrics import CategoricalAccuracy
-        self.acc_metrics = [CategoricalAccuracy() for i in range(len(listener_modules))]
+        from allennlp.training.metrics import BLEU
+        exclude_indices = set(speaker_modules[0]._exclude_indices)
+        self.acc_metrics = [BLEU(exclude_indices=exclude_indices) for i in range(len(speaker_modules))]
 
         self.fusion_method = fusion_method
 
@@ -89,6 +93,7 @@ class RSAVQAModel(Model):
         self.classifier = torch.nn.Linear(self.encoder.hidden_size2, num_labels)
         self.dropout = torch.nn.Dropout(dropout)
         self.loss = torch.nn.CrossEntropyLoss()
+        self.vqa_loss_factor = vqa_loss_factor
 
     @classmethod
     def from_huggingface_model_name(
@@ -112,13 +117,14 @@ class RSAVQAModel(Model):
         pooled_output_dim: int,
         pooled_dropout: float = 0.1,
         fusion_method: str = "sum",
+        vqa_loss_factor: float = 1.0,
         num_listener_steps: int = 1,
         copy_speaker_listener: bool = True,
         tune_bert: bool = False,
         tune_images: bool = False,
         keep_tokens: bool = False,
-        speaker_params: Dict[str, Union[Dict, str]] = None,
-        listener_params: Dict[str, Union[Dict, str]] = None,
+        speaker_module: BaseSpeakerModule = None,
+        listener_module: BaseListenerModule = None,
     ):
         transformer = AutoModel.from_pretrained(model_name)
 
@@ -154,29 +160,28 @@ class RSAVQAModel(Model):
         speaker_stack = []
         listener_stack = []
 
-        speaker_params['vocab_size'] = text_embeddings.word_embeddings.num_embeddings
+        # speaker_params['vocab_size'] = text_embeddings.word_embeddings.num_embeddings
+        # speaker_params['decoder']['target_embedder']['vocab'] = vocab
         # listener_params['vocab_size'] = num_labels
 
         if copy_speaker_listener: 
             for i in range(len(num_listener_steps)):
                 # instantiate separate speakers and listeners for each layer 
 
-                speaker = BaseSpeakerModule.from_params(Params(speaker_params))
-                listener = BaseListenerModule.from_params(Params(listener_params))
+                # speaker = BaseSpeakerModule.from_params(Params(speaker_params))
+                speaker = deepcopy(speaker_module)
+                listener = deepcopy(listener_module)
                 speaker_stack.append(speaker)
                 listener_stack.append(listener)
 
         else:
-            speaker = BaseSpeakerModule.from_params(Params(speaker_params))
-            listener = BaseListenerModule.from_params(Params(listener_params))
-
             # take advantage of the fact that * references the same object 
-            speaker_stack = [speaker] * num_listener_steps
-            listener_stack = [listener] * num_listener_steps
+            speaker_stack = [speaker_module] * num_listener_steps
+            listener_stack = [listener_module] * num_listener_steps
 
         return cls(
             vocab=vocab,
-            model_name=model_name,
+            label_namespace=label_namespace,
             text_embeddings=text_embeddings,
             image_embeddings=image_embeddings,
             encoder=l0_encoder,
@@ -185,6 +190,7 @@ class RSAVQAModel(Model):
             pooled_output_dim=pooled_output_dim,
             fusion_method=fusion_method,
             dropout=pooled_dropout,
+            vqa_loss_factor=vqa_loss_factor,
             keep_tokens=keep_tokens,
             tune_bert=tune_bert, 
             tune_images=tune_images,
@@ -198,9 +204,10 @@ class RSAVQAModel(Model):
         box_coordinates: torch.Tensor,
         question: TextFieldTensors,
         question_input: torch.Tensor = None,
-        question_output: torch.Tensor = None,
+        # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
+        debug_tokens: Optional[MetadataField] = None,
     ) -> Dict[str, torch.Tensor]:
         batch_size, _, feature_size = box_features.size()
 
@@ -212,18 +219,19 @@ class RSAVQAModel(Model):
         def get_embeddings(input_ids, token_type_ids, question_input):
             question_embedded_input = self.embeddings(input_ids, token_type_ids)
             num_tokens = question_embedded_input.size(1)
-            if question_input is not None:
-                question_embedded_for_teacher_forcing = self.embeddings(question_input['tokens']['token_ids'], question_input['tokens']['type_ids'])
-            else:
-                question_embedded_for_teacher_forcing = None
-            return question_embedded_input, num_tokens, question_embedded_for_teacher_forcing
+            # pdb.set_trace() 
+            # if question_input is not None:
+            #     # question_embedded_for_teacher_forcing = self.token_embeddings(question_input['tokens']['tokens'], question_input['tokens']['type_ids'])
+            # else:
+            #     question_embedded_for_teacher_forcing = None
+            return question_embedded_input, num_tokens # , question_embedded_for_teacher_forcing
 
         # Get text embedding 
         if self.tune_bert:
-            question_embedded_input, num_tokens, question_embedded_for_teacher_forcing = get_embeddings(input_ids, token_type_ids, question_input)
+            question_embedded_input, num_tokens = get_embeddings(input_ids, token_type_ids, question_input)
         else:
             with torch.no_grad():
-                question_embedded_input, num_tokens, question_embedded_for_teacher_forcing = get_embeddings(input_ids, token_type_ids, question_input)
+                question_embedded_input, num_tokens = get_embeddings(input_ids, token_type_ids, question_input)
 
         # get image region embedding 
         if self.tune_images: 
@@ -284,35 +292,34 @@ class RSAVQAModel(Model):
             listener_output = pooled_output
         speaker_losses = []
 
-
-        if question_input is not None:
-            teacher_mask = question_input["tokens"]["mask"]
-        else:
-            teacher_mask = None
-
         # TODO (elias): embed question input with a token embedder!
         for i in range(self.num_listener_steps): 
             bsz = listener_output.shape[0]
             speaker_output = self.speaker_modules[i](fused_representation=listener_output,
-                                                     gold_utterance_input=question_embedded_for_teacher_forcing, 
-                                                     gold_utterance_output=question_output['tokens']['token_ids'],
-                                                     gold_utterance_mask=teacher_mask)
+                                                     gold_utterance=question_input)
+                                                    #  gold_utterance_output=question_output)
             speaker_loss = speaker_output['loss']
             speaker_losses.append(speaker_loss) 
-            self.acc_metrics[i](speaker_output['output'], question_output['tokens']['token_ids'])
 
-            pred = self.debug_tokenizer.batch_decode(speaker_output['top_k'].unsqueeze(1).reshape((bsz, -1))) 
-            true = self.debug_tokenizer.batch_decode(question_output['tokens']['token_ids'], vocabulary=self.vocab)
-
+            self.acc_metrics[i](speaker_output['predictions'].contiguous(), 
+                                question_input['tokens']['tokens'][:,1:].contiguous())
+            # pred = self.debug_tokenizer.batch_decode(speaker_output['top_k'].unsqueeze(1).reshape((bsz, -1))) 
+            # true = self.debug_tokenizer.batch_decode(question_input['tokens']['tokens'], vocabulary=self.vocab)
+            gold_predictions = {"predictions": question_input['tokens']['tokens'][:,1:]}
+            pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
+            true = self.speaker_modules[i].make_output_human_readable(gold_predictions)['predicted_tokens']
+            
+            logger.info("")
             logger.info(f"pred: {pred[0]}")
             logger.info(f"true: {true[0]}")
+            logger.info(f"pred: {pred[1]}")
+            logger.info(f"true: {true[1]}")
 
-            encoded_by_speaker = speaker_output['encoder_output']
+            encoded_by_speaker = speaker_output['encoder_output']['encoder_outputs']
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask) 
 
-        # pdb.set_trace()
         logits = self.classifier(listener_output['output']) 
         probs = torch.softmax(logits, dim=-1)
 
@@ -344,8 +351,11 @@ class RSAVQAModel(Model):
  
             self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
             self.vqa_metric(logits, labels, label_weights)
-            # losses = [loss] + speaker_losses
-            losses = speaker_losses
+            # logger.info(f"loss: {loss.item()}")
+            # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
+            # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
+            losses = [self.vqa_loss_factor * loss] + speaker_losses
+            # losses = speaker_losses
             big_loss = 0.0
             for loss in losses:
                 big_loss += loss
@@ -357,6 +367,6 @@ class RSAVQAModel(Model):
         result = self.f1_metric.get_metric(reset)
         result["vqa_score"] = self.vqa_metric.get_metric(reset)["score"]
         for i in range(len(self.acc_metrics)):
-            result[f'speaker_acc_{i}'] = self.acc_metrics[i].get_metric(reset) 
+            result[f'speaker_bleu_{i}'] = self.acc_metrics[i].get_metric(reset)['BLEU'] 
 
         return result

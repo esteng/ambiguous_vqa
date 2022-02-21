@@ -19,6 +19,8 @@ from overrides import overrides
 import torch
 from torch import Tensor
 
+from allennlp.common.util import START_SYMBOL, END_SYMBOL
+from allennlp.data.tokenizers.token import Token
 from allennlp.common.file_utils import cached_path
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
@@ -288,12 +290,14 @@ class VQAv2Reader(VisionReader):
         answer_vocab: Optional[Union[Vocabulary, str]] = None,
         feature_cache_dir: Optional[Union[str, PathLike]] = None,
         tokenizer: Optional[Tokenizer] = None,
-        token_indexers: Optional[Dict[str, TokenIndexer]] = None,
+        source_token_indexers: Optional[Dict[str, TokenIndexer]] = None,
+        target_token_indexers: Optional[Dict[str, TokenIndexer]] = None,
         cuda_device: Optional[Union[int, torch.device]] = None,
         max_instances: Optional[int] = None,
         image_processing_batch_size: int = 8,
         run_image_feature_extraction: bool = True,
-        multiple_answers_per_question: bool = True
+        multiple_answers_per_question: bool = True,
+        is_training: bool = True
     ) -> None:
         super().__init__(
             image_dir,
@@ -302,13 +306,12 @@ class VQAv2Reader(VisionReader):
             region_detector,
             feature_cache_dir=feature_cache_dir,
             tokenizer=tokenizer,
-            token_indexers=token_indexers,
+            token_indexers=source_token_indexers,
             cuda_device=cuda_device,
             max_instances=max_instances,
             image_processing_batch_size=image_processing_batch_size,
             run_image_feature_extraction=run_image_feature_extraction,
         )
-
         # read answer vocab
         if answer_vocab is None:
             self.answer_vocab = None
@@ -320,6 +323,10 @@ class VQAv2Reader(VisionReader):
                 preprocess_answer(a)
                 for a in answer_vocab.get_token_to_index_vocabulary("answers").keys()
             )
+
+        # deal with token indexers
+        self._source_token_indexers = source_token_indexers
+        self._target_token_indexers = target_token_indexers
 
         if run_image_feature_extraction:
             # normalize self.images some more
@@ -337,6 +344,8 @@ class VQAv2Reader(VisionReader):
                 del self.images[None]
 
         self.multiple_answers_per_question = multiple_answers_per_question
+
+        self.is_training = is_training
 
     @overrides
     def _read(self, splits_or_list_of_splits: Union[str, List[str]]):
@@ -474,7 +483,8 @@ class VQAv2Reader(VisionReader):
         use_cache: bool = True,
     ) -> Optional[Instance]:
         tokenized_question_input = self._tokenizer.tokenize(question)
-        tokenized_question_output = self._tokenizer.add_special_tokens(tokenized_question_input)
+        # tokenized_question_output = self._tokenizer.add_special_tokens(tokenized_question_input)
+        tokenized_question_output = [Token(START_SYMBOL)] + tokenized_question_input + [Token(END_SYMBOL)]
         question_field = TextField(tokenized_question_input, None)
         from allennlp.data import Field
 
@@ -482,15 +492,19 @@ class VQAv2Reader(VisionReader):
             "question": question_field,
         }
 
-        # question as teacher forcing string, needs to have SOS token
-        fields["question_input"] = TextField(
-            tokens=tokenized_question_output[:-1],
-        )
 
-        # question as output string, needs to have EOS token 
-        fields["question_output"] = TextField(
-            tokens=tokenized_question_output[1:]
-        )
+        if self.is_training:
+            # question as teacher forcing string, needs to have SOS token
+            fields["question_input"] = TextField(
+                # tokens=tokenized_question_output[:-1],
+                tokens=tokenized_question_output,
+            )
+            fields["debug_tokens"] = MetadataField(question)
+
+            # question as output string, needs to have EOS token 
+            # fields["question_output"] = TextField(
+            #     tokens=tokenized_question_output[1:]
+            # )
 
         if image is not None:
             if isinstance(image, str):
@@ -526,6 +540,7 @@ class VQAv2Reader(VisionReader):
 
     @overrides
     def apply_token_indexers(self, instance: Instance) -> None:
-        instance["question"].token_indexers = self._token_indexers  # type: ignore
-        instance["question_input"].token_indexers = self._token_indexers  # type: ignore
-        instance["question_output"].token_indexers = self._token_indexers  # type: ignore
+        instance["question"].token_indexers = self._source_token_indexers  # type: ignore
+        if self.is_training: 
+            instance["question_input"].token_indexers = self._target_token_indexers  # type: ignore
+            # instance["question_output"].token_indexers = self._target_token_indexers  # type: ignore

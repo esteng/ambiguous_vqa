@@ -1,0 +1,69 @@
+{
+    "id": "structured-prediction-srl",
+    "registered_model_name": "srl",
+    "registered_predictor_name": null,
+    "display_name": "Open Information Extraction",
+    "task_id": "srl",
+    "model_details": {
+        "description": "A reimplementation of a deep BiLSTM sequence prediction model (Stanovsky et al., 2018).",
+        "short_description": "A reimplementation of a deep BiLSTM sequence prediction model (Stanovsky et al., 2018)",
+        "developed_by": "Stanovsky et al",
+        "contributed_by": null,
+        "date": "2020-03-26",
+        "version": "1",
+        "model_type": "BiLSTM",
+        "paper": {
+            "citation": "\n@inproceedings{Stanovsky2018SupervisedOI,\ntitle={Supervised Open Information Extraction},\nauthor={Gabriel Stanovsky and Julian Michael and Luke Zettlemoyer and I. Dagan},\nbooktitle={NAACL-HLT},\nyear={2018}}\n",
+            "title": "Supervised Open Information Extraction",
+            "url": "https://api.semanticscholar.org/CorpusID:44145304"
+        },
+        "license": null,
+        "contact": "allennlp-contact@allenai.org"
+    },
+    "intended_use": {
+        "primary_uses": null,
+        "primary_users": null,
+        "out_of_scope_use_cases": null
+    },
+    "factors": {
+        "relevant_factors": null,
+        "evaluation_factors": null
+    },
+    "metrics": {
+        "model_performance_measures": "CoNLL SRL metrics",
+        "decision_thresholds": null,
+        "variation_approaches": null
+    },
+    "evaluation_data": {
+        "dataset": {
+            "name": "OIE2016, WEB and NYT, PENN",
+            "url": "https://github.com/gabrielStanovsky/oie-benchmark",
+            "notes": "The Open Information extractor was evaluated on the OIE2016 corpus. Unfortunately we cannot release this data due to licensing restrictions by the LDC. You can get the data on the corpus homepage."
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "training_data": {
+        "dataset": {
+            "name": "All Words Open IE",
+            "url": "https://github.com/gabrielStanovsky/supervised-oie/tree/master/data"
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "quantitative_analyses": {
+        "unitary_results": null,
+        "intersectional_results": null
+    },
+    "model_caveats_and_recommendations": {
+        "caveats_and_recommendations": null
+    },
+    "model_ethical_considerations": {
+        "ethical_considerations": null
+    },
+    "model_usage": {
+        "archive_file": "openie-model.2020.03.26.tar.gz",
+        "training_config": "structured-prediction/srl.jsonnet",
+        "install_instructions": "pip install allennlp==2.1.0 allennlp-models==2.1.0"
+    }
+}

@@ -1,0 +1,69 @@
+{
+    "id": "generation-bart",
+    "registered_model_name": "bart",
+    "registered_predictor_name": null,
+    "display_name": "BART",
+    "model_details": {
+        "description": "The BART model here uses a language modeling head, and therefore can be used for generation. The BART encoder, implemented as a `Seq2SeqEncoder`, which assumes it operates on already embedded inputs.  This means that we remove the token and position embeddings from BART in this module.  For the typical use case of using BART to encode inputs to your model (where we include the token and position embeddings from BART), you should use `PretrainedTransformerEmbedder(bart_model_name, sub_module=\"encoder\")` instead of this.",
+        "short_description": "BART with a language model head for generation.",
+        "developed_by": "Lewis et al",
+        "contributed_by": "Dirk Groeneveld",
+        "date": "2020-07-25",
+        "version": "1",
+        "model_type": "BART",
+        "paper": {
+            "citation": "\n@inproceedings{Lewis2020BARTDS,\ntitle={BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension},\nauthor={M. Lewis and Yinhan Liu and Naman Goyal and Marjan Ghazvininejad and A. Mohamed and Omer Levy and Ves Stoyanov and L. Zettlemoyer},\nbooktitle={ACL},\nyear={2020}}\n",
+            "title": "BART: Denosing Sequence-to-Sequence Pre-training for Natural Language Generation,Translation, and Comprehension",
+            "url": "https://api.semanticscholar.org/CorpusID:204960716"
+        },
+        "license": null,
+        "contact": "allennlp-contact@allenai.org"
+    },
+    "intended_use": {
+        "primary_uses": null,
+        "primary_users": null,
+        "out_of_scope_use_cases": null
+    },
+    "factors": {
+        "relevant_factors": null,
+        "evaluation_factors": null
+    },
+    "metrics": {
+        "model_performance_measures": "ROUGE and BLEU",
+        "decision_thresholds": null,
+        "variation_approaches": null
+    },
+    "evaluation_data": {
+        "dataset": {
+            "name": "CNN/DailyMail",
+            "url": "https://github.com/abisee/cnn-dailymail",
+            "notes": "Please download the data from the url provided."
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "training_data": {
+        "dataset": {
+            "name": "CNN/DailyMail",
+            "url": "https://github.com/abisee/cnn-dailymail",
+            "notes": "Please download the data from the url provided."
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "quantitative_analyses": {
+        "unitary_results": null,
+        "intersectional_results": null
+    },
+    "model_caveats_and_recommendations": {
+        "caveats_and_recommendations": null
+    },
+    "model_ethical_considerations": {
+        "ethical_considerations": null
+    },
+    "model_usage": {
+        "archive_file": "bart-2020.07.25.tar.gz",
+        "training_config": "generation/bart_cnn_dm.jsonnet",
+        "install_instructions": "pip install allennlp==1.0.0 allennlp-models==1.0.0"
+    }
+}

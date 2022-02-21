@@ -1,0 +1,66 @@
+{
+    "id": "tagging-fine-grained-transformer-crf-tagger",
+    "registered_model_name": "crf_tagger",
+    "registered_predictor_name": null,
+    "display_name": "Fine Grained Named Entity Recognition with Transformer",
+    "task_id": "ner",
+    "model_details": {
+        "description": "Fine-grained NER model",
+        "short_description": "Fine-grained NER model",
+        "developed_by": null,
+        "contributed_by": null,
+        "date": "2020-07-14",
+        "version": "1",
+        "model_type": "Transformer",
+        "paper": null,
+        "license": null,
+        "contact": "allennlp-contact@allenai.org"
+    },
+    "intended_use": {
+        "primary_uses": null,
+        "primary_users": null,
+        "out_of_scope_use_cases": null
+    },
+    "factors": {
+        "relevant_factors": null,
+        "evaluation_factors": null
+    },
+    "metrics": {
+        "model_performance_measures": "Accuracy and Span-based F1 metric",
+        "decision_thresholds": null,
+        "variation_approaches": null
+    },
+    "evaluation_data": {
+        "dataset": {
+            "name": "Ontonotes 5.0",
+            "url": "https://catalog.ldc.upenn.edu/LDC2013T19",
+            "notes": "Unfortunately we cannot release this data due to licensing restrictions."
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "training_data": {
+        "dataset": {
+            "name": "Ontonotes 5.0",
+            "url": "https://catalog.ldc.upenn.edu/LDC2013T19",
+            "notes": "Unfortunately we cannot release this data due to licensing restrictions."
+        },
+        "motivation": null,
+        "preprocessing": null
+    },
+    "quantitative_analyses": {
+        "unitary_results": "On the validation set:\nAccuracy: 98%\nF1: 88%",
+        "intersectional_results": null
+    },
+    "model_caveats_and_recommendations": {
+        "caveats_and_recommendations": null
+    },
+    "model_ethical_considerations": {
+        "ethical_considerations": null
+    },
+    "model_usage": {
+        "archive_file": "fgner-transformer.2021-02-11.tar.gz",
+        "training_config": "tagging/fgner_transformer.jsonnet",
+        "install_instructions": "pip install allennlp==2.1.0 allennlp-models==2.1.0"
+    }
+}

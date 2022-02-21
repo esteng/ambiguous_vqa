@@ -711,7 +711,6 @@ class TrainModel(Registrable):
         )
 
         vocabulary_ = vocabulary.construct(instances=instance_generator)
-
         model_ = model.construct(vocab=vocabulary_, serialization_dir=serialization_dir)
 
         # Initializing the model can have side effect of expanding the vocabulary.

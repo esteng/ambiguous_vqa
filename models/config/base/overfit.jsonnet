@@ -17,55 +17,48 @@ local pooled_output_dim = 32;
 local tokenizer = {"type": "pretrained_transformer",
                    "model_name": model_name};
 
-local token_indexers = {"tokens": {"type": "pretrained_transformer",
-                                    "model_name": model_name
+local pretrained_token_indexers = {"tokens": {"type": "pretrained_transformer",
+                                    "model_name": model_name,
                                   }
                         };
-
-  // local vocabulary = if construct_vocab then {
-  //       // read the files to construct the vocab
-//       "min_count": {"answers": 9}
-//     } else {
-//       // // read the constructed vocab
-//       "type": "from_files",
-//       "directory": std.format(
-//         "https://storage.googleapis.com/allennlp-public-data/vqav2/vilbert_vqa_%s.%s.vocab.tar.gz",
-//         [dataset_vocab, other_model_name])
-
-//     };
-// local vocabulary = {"type": "from_instances", "min_count": {"answers": 1}};
+local token_indexers = {"tokens": {"type": "single_id",
+                                    "namespace": "target_tokens"}};
 
 {
   "dataset_reader": {
     "type": "vqav2",
     "image_dir": std.format("/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s", dataset),
     [if !construct_vocab then "feature_cache_dir"]: std.format("/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s/feature_cache", dataset),
-    #"image_dir": std.format("/Users/dirkg/Documents/data/vision/vqa/%s", dataset),
-    #[if !construct_vocab then "feature_cache_dir"]: std.format("/Users/dirkg/Documents/data/vision/vqa/%s/feature_cache", dataset),
     [if !construct_vocab then "image_loader"]: "detectron",
     [if !construct_vocab then "image_featurizer"]: "resnet_backbone",
     [if !construct_vocab then "region_detector"]: "faster_rcnn",
     "tokenizer": tokenizer,
-    "token_indexers": token_indexers,
+    "source_token_indexers": pretrained_token_indexers,
+    "target_token_indexers": token_indexers,
     "max_instances": line_limit,
     "image_processing_batch_size": 16,
-    // "answer_vocab": if construct_vocab then null else vocabulary,
-    // "multiple_answers_per_question": !construct_vocab,
-    multiple_answers_per_question: false,
-
+    "multiple_answers_per_question": false,
   },
-  // "validation_dataset_reader": self.dataset_reader {
-  //   "answer_vocab": null    // make sure we don't skip unanswerable questions during validation
-  // },
-  // "vocabulary": vocabulary,
-  // "train_data_path": [std.format("%s_train[0:10]", dataset), std.format("%s_val[0:10]", dataset)],
-  // "validation_data_path": std.format("%s_val[0:10]", dataset),
+  "validation_dataset_reader": {
+    "type": "vqav2",
+    "image_dir": std.format("/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s", dataset),
+    [if !construct_vocab then "feature_cache_dir"]: std.format("/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s/feature_cache", dataset),
+    [if !construct_vocab then "image_loader"]: "detectron",
+    [if !construct_vocab then "image_featurizer"]: "resnet_backbone",
+    [if !construct_vocab then "region_detector"]: "faster_rcnn",
+    "tokenizer": tokenizer,
+    "source_token_indexers": pretrained_token_indexers,
+    "target_token_indexers": token_indexers,
+    "max_instances": line_limit,
+    "is_training": false,
+    "image_processing_batch_size": 16,
+    "multiple_answers_per_question": false,
+  },
   "train_data_path": [std.format("%s", dataset), std.format("%s", dataset)],
-  // "validation_data_path": std.format("%s", dataset),
   "model": {
     "type": "rsa_vqa_from_huggingface",
-    "label_namespace": "answers",
     "model_name": model_name,
+    "label_namespace": "answers",
     "image_feature_dim": 2048,
     "image_hidden_size": 32,
     "image_num_attention_heads": 2,
@@ -86,8 +79,10 @@ local token_indexers = {"tokens": {"type": "pretrained_transformer",
     "tune_bert": false,
     "tune_images": false,
     "keep_tokens": false,
-    "speaker_params": {"type": "prenorm_speaker", 
-                       "encoder": {"input_size": 128,
+    "vqa_loss_factor": 10,
+    "speaker_module": {"type": "prenorm_speaker", 
+                       "target_namespace": "target_tokens",
+                       "encoder": {"input_size": 32,
                                    "hidden_size": pooled_output_dim,
                                    "encoder_layer": {"type": "pre_norm",
                                                      "d_model": pooled_output_dim,
@@ -101,23 +96,46 @@ local token_indexers = {"tokens": {"type": "pretrained_transformer",
                                    "num_layers": 1,
                                    "dropout": 0.0
                                    },
-                       "decoder": {"type": "transformer_decoder",
-                                   "input_size": 128,
-                                   "hidden_size": pooled_output_dim,
-                                   "decoder_layer": {"type": "pre_norm",
-                                                     "d_model": pooled_output_dim,
-                                                     "n_head": 2,
-                                                     "norm": {"type": "scale_norm", 
-                                                              "dim": 32},
-                                                      "dim_feedforward": 64,
-                                                      "dropout": 0.0,
-                                                      "init_scale": 32,
-                                                    }, 
-                                    "num_layers": 1,
-                                    "dropout": 0.0
-                                    },
+                      //  "decoder": {"type": "transformer_decoder",
+                      //              "input_size": 128,
+                      //              "hidden_size": pooled_output_dim,
+                      //              "decoder_layer": {"type": "pre_norm",
+                      //                                "d_model": pooled_output_dim,
+                      //                                "n_head": 2,
+                      //                                "norm": {"type": "scale_norm", 
+                      //                                         "dim": 32},
+                      //                                 "dim_feedforward": 64,
+                      //                                 "dropout": 0.0,
+                      //                                 "init_scale": 32,
+                      //                               }, 
+                      //               "num_layers": 1,
+                      //               "dropout": 0.0
+                      //               },
+                      "decoder": {
+                        "type": "auto_regressive_seq_decoder",
+                        "decoder_net": 
+                            {"type": "stacked_self_attention",
+                              "decoding_dim": 32,
+                              "target_embedding_dim": 32,
+                              "feedforward_hidden_dim": 64,
+                              "num_layers": 2,
+                              "num_attention_heads": 2,
+                              "dropout_prob": 0.0,
+                              "residual_dropout_prob": 0.0,
+                              "attention_dropout_prob": 0.0
+                            },
+                          "max_decoding_steps": 50,
+                          "target_namespace": "target_tokens",
+                          "target_embedder": {
+                              "vocab_namespace": "target_tokens",
+                              "embedding_dim": 32
+                            },
+                          "scheduled_sampling_ratio": 0.5,
+                          "beam_size": 10,
+                          // "token_based_metric": "nla_metric"
+                        },
                        "dropout": 0.0},
-    "listener_params": {"type": "prenorm_listener", 
+    "listener_module": {"type": "prenorm_listener", 
                        "encoder": {"input_size": pooled_output_dim,
                                    "hidden_size": pooled_output_dim,
                                    "encoder_layer": {"type": "pre_norm",
@@ -155,9 +173,9 @@ local token_indexers = {"tokens": {"type": "pretrained_transformer",
       "weight_decay": 0.01,
     },
     // "validation_metric": "+vqa_score",
-    "save_warmup": 298,
-    "patience": 301,
-    "num_epochs": 300,
+    "save_warmup": 198,
+    "patience": 201,
+    "num_epochs": 200,
     "num_gradient_accumulation_steps": effective_batch_size / gpu_batch_size / std.max(1, num_gpus),
   },
   "random_seed": 12,
