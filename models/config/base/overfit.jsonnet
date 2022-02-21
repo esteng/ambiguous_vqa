@@ -6,14 +6,24 @@ local vocab_size = 30522;     // for bert-*-uncased models
 local effective_batch_size = 128;
 local gpu_batch_size = 128;
 local num_gpus = 1;
-local line_limit = 100;
+local line_limit = 2;
 
 local construct_vocab = false;
 local dataset = "unittest";
 local dataset_vocab = "balanced_real";
 
-// local vocabulary = if construct_vocab then {
-//       // read the files to construct the vocab
+local pooled_output_dim = 32; 
+
+local tokenizer = {"type": "pretrained_transformer",
+                   "model_name": model_name};
+
+local token_indexers = {"tokens": {"type": "pretrained_transformer",
+                                    "model_name": model_name
+                                  }
+                        };
+
+  // local vocabulary = if construct_vocab then {
+  //       // read the files to construct the vocab
 //       "min_count": {"answers": 9}
 //     } else {
 //       // // read the constructed vocab
@@ -35,16 +45,8 @@ local dataset_vocab = "balanced_real";
     [if !construct_vocab then "image_loader"]: "detectron",
     [if !construct_vocab then "image_featurizer"]: "resnet_backbone",
     [if !construct_vocab then "region_detector"]: "faster_rcnn",
-    "tokenizer": {
-      "type": "pretrained_transformer",
-      "model_name": model_name
-    },
-    "token_indexers": {
-      "tokens": {
-        "type": "pretrained_transformer",
-        "model_name": model_name
-      }
-    },
+    "tokenizer": tokenizer,
+    "token_indexers": token_indexers,
     "max_instances": line_limit,
     "image_processing_batch_size": 16,
     // "answer_vocab": if construct_vocab then null else vocabulary,
@@ -70,7 +72,7 @@ local dataset_vocab = "balanced_real";
     "image_num_hidden_layers": 1,
     "combined_hidden_size": 32,
     "combined_num_attention_heads": 2,
-    "pooled_output_dim": 32,
+    "pooled_output_dim": pooled_output_dim,
     "image_intermediate_size": 32,
     "image_attention_dropout": 0.0,
     "image_hidden_dropout": 0.0,
@@ -83,48 +85,49 @@ local dataset_vocab = "balanced_real";
     "copy_speaker_listener": false,
     "tune_bert": false,
     "tune_images": false,
+    "keep_tokens": false,
     "speaker_params": {"type": "prenorm_speaker", 
-                       "encoder": {"input_size": 123,
-                                   "hidden_size": 16,
+                       "encoder": {"input_size": 128,
+                                   "hidden_size": pooled_output_dim,
                                    "encoder_layer": {"type": "pre_norm",
-                                                     "d_model": 16,
+                                                     "d_model": pooled_output_dim,
                                                      "n_head": 2,
                                                      "norm": {"type": "scale_norm", 
-                                                              "dim": 16},
-                                                      "dim_feedforward": 32,
+                                                              "dim": 32},
+                                                      "dim_feedforward": 64,
                                                       "dropout": 0.0,
-                                                      "init_scale": 16,
+                                                      "init_scale": 32,
                                                     }, 
                                    "num_layers": 1,
                                    "dropout": 0.0
                                    },
                        "decoder": {"type": "transformer_decoder",
-                                   "input_size": 123,
-                                   "hidden_size": 16,
+                                   "input_size": 128,
+                                   "hidden_size": pooled_output_dim,
                                    "decoder_layer": {"type": "pre_norm",
-                                                     "d_model": 16,
+                                                     "d_model": pooled_output_dim,
                                                      "n_head": 2,
                                                      "norm": {"type": "scale_norm", 
-                                                              "dim": 16},
-                                                      "dim_feedforward": 32,
+                                                              "dim": 32},
+                                                      "dim_feedforward": 64,
                                                       "dropout": 0.0,
-                                                      "init_scale": 16,
+                                                      "init_scale": 32,
                                                     }, 
                                     "num_layers": 1,
                                     "dropout": 0.0
                                     },
                        "dropout": 0.0},
     "listener_params": {"type": "prenorm_listener", 
-                       "encoder": {"input_size": 123,
-                                   "hidden_size": 16,
+                       "encoder": {"input_size": pooled_output_dim,
+                                   "hidden_size": pooled_output_dim,
                                    "encoder_layer": {"type": "pre_norm",
-                                                     "d_model": 16,
+                                                     "d_model": pooled_output_dim,
                                                      "n_head": 2,
                                                      "norm": {"type": "scale_norm", 
-                                                              "dim": 16},
-                                                      "dim_feedforward": 32,
+                                                              "dim": 32},
+                                                      "dim_feedforward": 64,
                                                       "dropout": 0.0,
-                                                      "init_scale": 16,
+                                                      "init_scale": 32,
                                                     },
                                                      
                                    "num_layers": 1,
@@ -135,7 +138,7 @@ local dataset_vocab = "balanced_real";
   },
   "data_loader": {
     "batch_size": gpu_batch_size,
-    "shuffle": true,
+    "shuffle": false,
     //[if !construct_vocab then "max_instances_in_memory"]: 10240
   },
   [if num_gpus > 1 then "distributed"]: {
@@ -148,13 +151,13 @@ local dataset_vocab = "balanced_real";
     "cuda_device": 0,
     "optimizer": {
       "type": "adam",
-      "lr": 1e-2,
+      "lr": 1e-3,
       "weight_decay": 0.01,
     },
     // "validation_metric": "+vqa_score",
-    "save_warmup": 198,
-    "patience": 201,
-    "num_epochs": 200,
+    "save_warmup": 298,
+    "patience": 301,
+    "num_epochs": 300,
     "num_gradient_accumulation_steps": effective_batch_size / gpu_batch_size / std.max(1, num_gpus),
   },
   "random_seed": 12,

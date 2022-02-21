@@ -22,7 +22,7 @@ from torch import Tensor
 from allennlp.common.file_utils import cached_path
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
-from allennlp.data.fields import ArrayField, LabelField, ListField, TextField
+from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField
 from allennlp.data.image_loader import ImageLoader
 from allennlp.data.instance import Instance
 from allennlp.data.token_indexers import TokenIndexer
@@ -30,7 +30,7 @@ from allennlp.data.tokenizers import Tokenizer
 from allennlp.modules.vision.grid_embedder import GridEmbedder
 from allennlp.modules.vision.region_detector import RegionDetector
 from allennlp.data.dataset_readers.vision_reader import VisionReader
-from models.allennlp.nn.util import add_sentence_boundary_token_ids
+from allennlp.nn.util import add_sentence_boundary_token_ids
 
 logger = logging.getLogger(__name__)
 
@@ -483,12 +483,12 @@ class VQAv2Reader(VisionReader):
         }
 
         # question as teacher forcing string, needs to have SOS token
-        fields["target_tokens_input"] = TextField(
+        fields["question_input"] = TextField(
             tokens=tokenized_question_output[:-1],
         )
 
         # question as output string, needs to have EOS token 
-        fields["target_tokens_output"] = TextField(
+        fields["question_output"] = TextField(
             tokens=tokenized_question_output[1:]
         )
 
@@ -527,5 +527,5 @@ class VQAv2Reader(VisionReader):
     @overrides
     def apply_token_indexers(self, instance: Instance) -> None:
         instance["question"].token_indexers = self._token_indexers  # type: ignore
-        instance["target_tokens_input"].token_indexers = self._token_indexers  # type: ignore
-        instance["target_tokens_output"].token_indexers = self._token_indexers  # type: ignore
+        instance["question_input"].token_indexers = self._token_indexers  # type: ignore
+        instance["question_output"].token_indexers = self._token_indexers  # type: ignore
