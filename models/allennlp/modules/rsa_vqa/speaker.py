@@ -1,4 +1,5 @@
-import pdb 
+import pdb
+from platform import java_ver 
 from typing import Tuple, Dict, Any
 import torch
 from einops import rearrange
@@ -32,10 +33,6 @@ class BaseSpeakerModule(torch.nn.Module, Registrable):
         self.decoder = decoder 
         self.dropout = torch.nn.Dropout(dropout)
         self.activation = torch.nn.ReLU()
-        # pdb.set_trace() 
-        # out_size = [v for k,v in self.decoder.layers[-1]._modules.items() if "linear" in k][-1].out_features
-        # num_labels = vocab.get_vocab_size(target_namespace)
-        # self.output_layer = torch.nn.Linear(out_size, num_labels)
         self.loss = torch.nn.CrossEntropyLoss()
 
         self._start_index = self.vocab.get_token_index(START_SYMBOL, self._target_namespace)
@@ -59,16 +56,20 @@ class PrenormSpeakerModule(BaseSpeakerModule):
                                                    decoder=decoder,
                                                    dropout=dropout)
 
+        self.encoded_vec_for_backprop = torch.nn.parameter.Parameter(torch.zeros(1,1, encoder.hidden_size))
+
     def forward(self, 
                 fused_representation: torch.Tensor,
                 gold_utterance: torch.Tensor=None, 
-                gold_utterance_mask: torch.Tensor=None): 
+                gold_utterance_mask: torch.Tensor=None,
+                speaker_encoder_output: torch.Tensor=None): 
         if gold_utterance is not None: 
             return self._training_forward(target_tokens=gold_utterance,
                                           source_memory=fused_representation,
                                           target_mask=gold_utterance_mask)
         else:
-            return self._test_forward(source_memory=fused_representation)
+            return self._test_forward(source_memory=fused_representation, 
+                                      speaker_encoder_output=speaker_encoder_output)
 
     def _encode(self, embedded_input: torch.Tensor, source_mask: torch.Tensor): 
         encoder_outputs = self.encoder(embedded_input, source_mask)
@@ -92,13 +93,37 @@ class PrenormSpeakerModule(BaseSpeakerModule):
         return {"encoder_output": encoded, "output": decoded['logits'], "predictions": top_k, "loss": loss}
 
     def _test_forward(self,
-                      source_memory: torch.Tensor):
-        embedded = source_memory.unsqueeze(1)
-        source_mask = torch.ones_like(embedded)[:,:,0].bool()
-        encoded = self._encode(embedded, source_mask) 
-        decoded = self.decoder(encoded) 
-        loss = torch.nan
-        return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
+                      source_memory: torch.Tensor,
+                      speaker_encoder_output: torch.Tensor=None):
+        if speaker_encoder_output is None: 
+            embedded = source_memory.unsqueeze(1)
+            source_mask = torch.ones_like(embedded)[:,:,0].bool()
+            encoded = self._encode(embedded, source_mask) 
+            decoded = self.decoder(encoded) 
+            loss = torch.nan
+            return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
+        else:
+            # if it's not the first iteration, pass previous iteration's output in here 
+            # intervene, replace encoded
+            prev_speaker_output = speaker_encoder_output[0]
+            if len(prev_speaker_output.shape) == 2:
+                source_mask = torch.ones_like(prev_speaker_output.detach()[:,0].unsqueeze(0).bool())
+            else:
+                source_mask = torch.ones_like(prev_speaker_output.detach()[:,:,0].unsqueeze(0).bool())
+            # try:
+            #     print(f"in test forward: {prev_speaker_output[0,0,0:10]}") 
+            # except:
+            #     print(f"in test forward: {prev_speaker_output[0,0:10]}") 
+
+            encoded = {'encoder_outputs': prev_speaker_output,
+                                 'source_mask': source_mask}
+
+            # don't decode for now, this is causing the issues because Beam search is non-diff
+            encoded_for_decode = {'encoder_outputs': prev_speaker_output.detach().clone(),
+                                 'source_mask': source_mask.detach().clone()}
+            decoded = self.decoder(encoded_for_decode)
+            loss = torch.nan
+            return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
 
     def _prepare_output_projections(
         self, last_predictions: torch.Tensor, state: Dict[str, torch.Tensor]
@@ -108,8 +133,14 @@ class PrenormSpeakerModule(BaseSpeakerModule):
         into the target space, which can then be used to get probabilities of
         each target token for the next step.
         """
-        # shape: (group_size, max_input_sequence_length, encoder_output_dim)
-        encoder_outputs = state["encoder_outputs"]
+        if ("speaker_outputs" in state and 
+            len(state['speaker_outputs']) > 0 and 
+            state['speaker_outputs'][0] is not None):
+            # shape: (group_size, max_input_sequence_length, encoder_output_dim)
+            encoder_outputs = state["encoder_outputs"].detach().clone()
+        else:
+            # shape: (group_size, max_input_sequence_length, encoder_output_dim)
+            encoder_outputs = state["encoder_outputs"]
 
         # shape: (group_size, max_input_sequence_length)
         source_mask = state["source_mask"]
@@ -141,9 +172,6 @@ class PrenormSpeakerModule(BaseSpeakerModule):
         state["previous_steps_predictions"] = previous_steps_predictions
 
         # Update state with new decoder state, override previous state
-
-        state[""]
-
 
         # shape: (group_size, num_classes)
 

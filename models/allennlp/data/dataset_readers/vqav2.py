@@ -411,6 +411,10 @@ class VQAv2Reader(VisionReader):
             "unittest": Split(
                 "test_fixtures/data/vqav2/annotations.json",
                 "test_fixtures/data/vqav2/questions.json"
+            ),
+            "unittest_swapped": Split(
+                "test_fixtures/data/vqav2_swapped/annotations.json",
+                "test_fixtures/data/vqav2_swapped/questions.json"
             )
         }
         # fmt: on
@@ -499,7 +503,7 @@ class VQAv2Reader(VisionReader):
                 # tokens=tokenized_question_output[:-1],
                 tokens=tokenized_question_output,
             )
-            fields["debug_tokens"] = MetadataField(question)
+        fields["debug_tokens"] = MetadataField(question)
 
             # question as output string, needs to have EOS token 
             # fields["question_output"] = TextField(
@@ -516,7 +520,7 @@ class VQAv2Reader(VisionReader):
             fields["box_coordinates"] = ArrayField(coords)
 
         if answer is not None:
-
+            fields["debug_answer"] = MetadataField(answer)
             if self.answer_vocab is None or answer in self.answer_vocab:
                 # TODO: (elias): this is a weird way to do things, should each be treated separately 
                 answer_field = LabelField(answer, label_namespace="answers")

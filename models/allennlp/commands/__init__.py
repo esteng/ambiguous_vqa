@@ -11,6 +11,7 @@ from allennlp.commands.cached_path import CachedPath
 from allennlp.commands.evaluate import Evaluate
 from allennlp.commands.find_learning_rate import FindLearningRate
 from allennlp.commands.predict import Predict
+from allennlp.commands.min_gen import MinGen
 from allennlp.commands.print_results import PrintResults
 from allennlp.commands.subcommand import Subcommand
 from allennlp.commands.test_install import TestInstall

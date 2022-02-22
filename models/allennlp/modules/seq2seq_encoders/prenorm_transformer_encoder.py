@@ -31,6 +31,7 @@ class TransformerEncoder(torch.nn.Module, Registrable):
         self.layers = _get_clones(encoder_layer, num_layers)
         self.num_layers = num_layers
         self.dropout = InputVariationalDropout(dropout)
+        self.hidden_size = hidden_size
 
         if self.prenorm:
             self.final_norm = copy.deepcopy(encoder_layer.norm3) 

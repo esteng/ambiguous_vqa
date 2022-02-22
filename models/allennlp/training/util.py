@@ -6,6 +6,7 @@ import logging
 import os
 import shutil
 import json
+import pdb 
 from os import PathLike
 from typing import Any, Dict, Iterable, Optional, Union, Tuple, Set, List
 from collections import Counter
@@ -396,6 +397,187 @@ def evaluate(
 
         return final_metrics
 
+def minimize_and_generate(
+    model: Model,
+    data_loader: DataLoader,
+    num_descent_steps: int, 
+    lr: float = 0.01,
+    cuda_device: int = -1,
+    batch_weight_key: str = None,
+    output_file: str = None,
+    predictions_output_file: str = None,
+) -> Dict[str, Any]:
+    """
+    # Parameters
+
+    model : `Model`
+        The model to evaluate
+    data_loader : `DataLoader`
+        The `DataLoader` that will iterate over the evaluation data (data loaders already contain
+        their data).
+    cuda_device : `int`, optional (default=`-1`)
+        The cuda device to use for this evaluation.  The model is assumed to already be using this
+        device; this parameter is only used for moving the input data to the correct device.
+    batch_weight_key : `str`, optional (default=`None`)
+        If given, this is a key in the output dictionary for each batch that specifies how to weight
+        the loss for that batch.  If this is not given, we use a weight of 1 for every batch.
+    metrics_output_file : `str`, optional (default=`None`)
+        Optional path to write the final metrics to.
+    predictions_output_file : `str`, optional (default=`None`)
+        Optional path to write the predictions to.
+
+    # Returns
+
+    `Dict[str, Any]`
+        The final metrics.
+    """
+    check_for_gpu(cuda_device)
+    predictions_file = (
+        None if predictions_output_file is None else open(predictions_output_file, "w")
+    )
+
+    # model.eval()
+    data_loader.batch_size = 1
+
+    iterator = iter(data_loader)
+    logger.info("Iterating over dataset")
+    generator_tqdm = Tqdm.tqdm(iterator)
+
+    # Number of batches in instances.
+    batch_count = 0
+    # Number of batches where the model produces a loss.
+    loss_count = 0
+    # Cumulative weighted loss
+    total_loss = 0.0
+    # Cumulative weight across all batches.
+    total_weight = 0.0
+
+    import pdb 
+    # TODO: batch size needs to be 1
+    model.zero_grad()
+    # batch starts by not having speaker_encoder_outputs
+    for batch in generator_tqdm:
+        batch = nn_util.move_to_device(batch, cuda_device)
+        with torch.no_grad():
+            initial_output_dict = model(**batch)
+        output_dict = None
+        for epoch in range(num_descent_steps):
+            batch_count += 1
+            # turn off gradients to the model 
+            # for p in model.parameters():
+            #     p.requires_grad = False
+            # get output encoder vector, either from init or from previous iteration
+            if epoch == 0:
+                speaker_output = initial_output_dict['speaker_outputs'][0]
+            else:
+                speaker_output = output_dict['speaker_outputs'][0]
+
+            # weird shape bs 
+            if len(speaker_output.shape) == 2:
+                vec = speaker_output[0,:].unsqueeze(0).unsqueeze(1).clone()
+            elif len(speaker_output.shape) == 3: 
+                vec = speaker_output[0,:,:].unsqueeze(0).clone()
+            else:
+                raise AssertionError
+            # detach to make it a constant 
+            vec = vec.detach().clone()
+            # make it require gradients 
+            vec = vec.requires_grad_(True)
+            model.eval() 
+            # Update batch with the vec that needs gradients
+            try:
+                batch['speaker_encoder_outputs'][0] = vec
+            except KeyError:
+                batch['speaker_encoder_outputs'] = [vec]
+
+            # define an optimizer just for that vec 
+            optimizer = torch.optim.SGD([vec],
+                                        lr=lr)
+            optimizer.zero_grad()
+
+            # run the model forward with the gradient-having vector 
+            model.requires_grad_(False)
+            output_dict = model(**batch)
+            # get the model loss 
+            vqa_loss = output_dict["vqa_loss"]
+            print(f"loss: {vqa_loss}")
+            # compute gradient on vec 
+            vqa_loss.backward()
+            # Take one step on the vector  
+            optimizer.step()
+            # after optimizer step, update batch 
+            try:
+                batch['speaker_encoder_outputs'][0] = vec
+            except KeyError:
+                batch['speaker_encoder_outputs'] = [vec]
+
+            metrics = model.get_metrics()
+
+            if vqa_loss is not None:
+                loss_count += 1
+                if batch_weight_key:
+                    weight = output_dict[batch_weight_key].item()
+                else:
+                    weight = 1.0
+
+                total_weight += weight
+                total_loss += vqa_loss.item() * weight
+                # Report the average loss so far.
+                metrics["loss"] = total_loss / total_weight
+
+            if not HasBeenWarned.tqdm_ignores_underscores and any(
+                metric_name.startswith("_") for metric_name in metrics
+            ):
+                logger.warning(
+                    'Metrics with names beginning with "_" will '
+                    "not be logged to the tqdm progress bar."
+                )
+                HasBeenWarned.tqdm_ignores_underscores = True
+            description = (
+                ", ".join(
+                    [
+                        "%s: %.2f" % (name, value)
+                        for name, value in metrics.items()
+                        if not name.startswith("_")
+                    ]
+                )
+                + " ||"
+            )
+            generator_tqdm.set_description(description, refresh=False)
+
+
+            if predictions_file is not None:
+                predictions = json.dumps(sanitize(model.make_output_human_readable(output_dict)))
+                predictions_file.write(predictions + "\n")
+
+        # pass forward through the model 
+        with torch.no_grad():
+            model.eval()
+            output_dict = model(**batch)
+            print(output_dict)
+            import pdb 
+            pdb.set_trace() 
+            print(output_dict['speaker_utterances'])
+            something = 0
+
+
+
+        if predictions_file is not None:
+            predictions_file.close()
+
+        final_metrics = model.get_metrics(reset=True)
+        if loss_count > 0:
+            # Sanity check
+            if loss_count != batch_count:
+                raise RuntimeError(
+                    "The model you are trying to evaluate only sometimes produced a loss!"
+                )
+            final_metrics["loss"] = total_loss / total_weight
+
+        if output_file is not None:
+            dump_metrics(output_file, final_metrics, log=True)
+
+        return final_metrics
 
 def description_from_metrics(metrics: Dict[str, float]) -> str:
     if not HasBeenWarned.tqdm_ignores_underscores and any(

@@ -22,6 +22,20 @@ function eval(){
     ${TEST_DATA} 
 }
 
+function min_gen(){
+    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+    export TEST_DATA="unittest_swapped"
+    echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
+    python -um allennlp min_gen \
+    --include-package allennlp.data.dataset_readers \
+    --include-package allennlp.training \
+    ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
+    ${TEST_DATA} \
+    --cuda-device 0 \
+    --num-descent-steps 1000 \
+    --lr 0.1
+}
+
 function usage() {
 
     echo -e 'usage: train.sh [-h] -a action'
@@ -82,6 +96,8 @@ function main() {
         resume
     elif [[ "${action}" == "eval" ]]; then
         eval
+    elif [[ "${action}" == "min_gen" ]]; then
+        min_gen 
     fi 
 }
 
