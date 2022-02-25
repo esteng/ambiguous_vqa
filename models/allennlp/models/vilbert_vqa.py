@@ -252,6 +252,11 @@ class VqaVilbert(Model):
             binary_label_mask[:, 0] = 0
             binary_label_mask[:, 1] = 0
 
+
+            # if not self.training:
+            #     import pdb 
+            #     pdb.set_trace() 
+
             outputs["loss"] = (
                 torch.nn.functional.binary_cross_entropy_with_logits(
                     logits, weighted_labels, weight=binary_label_mask, reduction="sum"

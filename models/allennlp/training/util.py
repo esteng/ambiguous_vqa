@@ -456,11 +456,13 @@ def minimize_and_generate(
     # TODO: batch size needs to be 1
     model.zero_grad()
     # batch starts by not having speaker_encoder_outputs
+    batch_losses = []
     for batch in generator_tqdm:
         batch = nn_util.move_to_device(batch, cuda_device)
         with torch.no_grad():
             initial_output_dict = model(**batch)
         output_dict = None
+        losses = []
         for epoch in range(num_descent_steps):
             batch_count += 1
             # turn off gradients to the model 
@@ -500,6 +502,7 @@ def minimize_and_generate(
             output_dict = model(**batch)
             # get the model loss 
             vqa_loss = output_dict["vqa_loss"]
+            losses.append(vqa_loss.item())
             print(f"loss: {vqa_loss}")
             # compute gradient on vec 
             vqa_loss.backward()
@@ -550,6 +553,7 @@ def minimize_and_generate(
                 predictions = json.dumps(sanitize(model.make_output_human_readable(output_dict)))
                 predictions_file.write(predictions + "\n")
 
+        batch_losses.append(losses)
         # pass forward through the model 
         with torch.no_grad():
             model.eval()

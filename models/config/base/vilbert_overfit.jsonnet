@@ -39,7 +39,7 @@ local vocabulary = if construct_vocab then {
         "model_name": model_name
       }
     },
-    "max_instances": 5000,
+    "max_instances": 128,
     "image_processing_batch_size": 16,
     "answer_vocab": if construct_vocab then null else vocabulary,
     "multiple_answers_per_question": !construct_vocab,
@@ -48,23 +48,23 @@ local vocabulary = if construct_vocab then {
     "answer_vocab": null    // make sure we don't skip unanswerable questions during validation
   },
   "vocabulary": vocabulary,
-  "train_data_path": [std.format("%s_train", dataset), std.format("%s_val[1000:]", dataset)],
-  "validation_data_path": std.format("%s_val[:1000]", dataset),
+  "train_data_path": [std.format("%s_train", dataset)],
+  "validation_data_path": std.format("%s_val[:128]", dataset),
   "model": {
     "type": "vqa_vilbert_from_huggingface",
     "model_name": model_name,
     "image_feature_dim": 2048,
-    "image_hidden_size": 1024,
-    "image_num_attention_heads": 8,
-    "image_num_hidden_layers": 6,
-    "combined_hidden_size": 1024,
-    "combined_num_attention_heads": 8,
-    "pooled_output_dim": 1024,
-    "image_intermediate_size": 1024,
+    "image_hidden_size": 256,
+    "image_num_attention_heads": 2,
+    "image_num_hidden_layers": 2,
+    "combined_hidden_size": 256,
+    "combined_num_attention_heads": 2,
+    "pooled_output_dim": 256,
+    "image_intermediate_size": 256,
     "image_attention_dropout": 0.1,
     "image_hidden_dropout": 0.1,
-    "image_biattention_id": [0, 1, 2, 3, 4, 5],
-    "text_biattention_id": [6, 7, 8, 9, 10, 11],
+    "image_biattention_id": [0],
+    "text_biattention_id": [1],
     "text_fixed_layer": 0,
     "image_fixed_layer": 0,
     "fusion_method": "mul",
@@ -91,11 +91,11 @@ local vocabulary = if construct_vocab then {
         [["^embeddings\\.", "^encoder.layers1\\.", "^t_pooler\\."], {"lr": 4e-4}]
       ],
     },
-    "learning_rate_scheduler": {
-      "type": "linear_with_warmup",
-      //"num_steps_per_epoch": std.ceil(0 / $["data_loader"]["batch_size"] / $["trainer"]["num_gradient_accumulation_steps"]),
-      "warmup_steps": 1000
-    },
+    // "learning_rate_scheduler": {
+    //   "type": "linear_with_warmup",
+    //   //"num_steps_per_epoch": std.ceil(0 / $["data_loader"]["batch_size"] / $["trainer"]["num_gradient_accumulation_steps"]),
+    //   "warmup_steps": 1000
+    // },
     "validation_metric": "+vqa_score",
     "patience": 100,
     "num_epochs": 100,

@@ -48,7 +48,6 @@ class VqaMeasure(Metric):
 
         logits, labels, label_weights = self.detach_tensors(logits, labels, label_weights)
         predictions = logits.argmax(dim=1)
-        # pdb.set_trace() 
         # Sum over dimension 1 gives the score per question. We care about the overall sum though,
         # so we sum over all dimensions.
         self._sum_of_scores += (label_weights * (labels == predictions.unsqueeze(-1))).sum()
@@ -68,8 +67,10 @@ class VqaMeasure(Metric):
         score : `float`
         """
         from allennlp.common.util import nan_safe_tensor_divide
-
-        return {"score": nan_safe_tensor_divide(self._sum_of_scores, self._score_count).item()}
+        to_ret = {"score": nan_safe_tensor_divide(self._sum_of_scores, self._score_count).item()}
+        if reset:
+            self.reset()
+        return to_ret
 
     @overrides
     def reset(self) -> None:

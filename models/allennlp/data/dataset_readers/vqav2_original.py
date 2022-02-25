@@ -1,7 +1,6 @@
 import logging
 from collections import Counter
 from os import PathLike
-import pdb 
 from typing import (
     Dict,
     List,
@@ -19,12 +18,10 @@ from overrides import overrides
 import torch
 from torch import Tensor
 
-from allennlp.common.util import START_SYMBOL, END_SYMBOL
-from allennlp.data.tokenizers.token import Token
 from allennlp.common.file_utils import cached_path
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
-from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField
+from allennlp.data.fields import ArrayField, LabelField, ListField, TextField
 from allennlp.data.image_loader import ImageLoader
 from allennlp.data.instance import Instance
 from allennlp.data.token_indexers import TokenIndexer
@@ -32,7 +29,6 @@ from allennlp.data.tokenizers import Tokenizer
 from allennlp.modules.vision.grid_embedder import GridEmbedder
 from allennlp.modules.vision.region_detector import RegionDetector
 from allennlp.data.dataset_readers.vision_reader import VisionReader
-from allennlp.nn.util import add_sentence_boundary_token_ids
 
 logger = logging.getLogger(__name__)
 
@@ -235,8 +231,8 @@ def get_score(count: int) -> float:
     return min(1.0, count / 3)
 
 
-@DatasetReader.register("vqav2")
-class VQAv2Reader(VisionReader):
+@DatasetReader.register("vqav2_original")
+class VQAv2OGReader(VisionReader):
     """
     Parameters
     ----------
@@ -290,15 +286,12 @@ class VQAv2Reader(VisionReader):
         answer_vocab: Optional[Union[Vocabulary, str]] = None,
         feature_cache_dir: Optional[Union[str, PathLike]] = None,
         tokenizer: Optional[Tokenizer] = None,
-        source_token_indexers: Optional[Dict[str, TokenIndexer]] = None,
-        target_token_indexers: Optional[Dict[str, TokenIndexer]] = None,
+        token_indexers: Optional[Dict[str, TokenIndexer]] = None,
         cuda_device: Optional[Union[int, torch.device]] = None,
         max_instances: Optional[int] = None,
         image_processing_batch_size: int = 8,
         run_image_feature_extraction: bool = True,
-        multiple_answers_per_question: bool = True,
-        is_training: bool = True,
-        is_validation: bool = False,
+        multiple_answers_per_question: bool = True
     ) -> None:
         super().__init__(
             image_dir,
@@ -307,12 +300,13 @@ class VQAv2Reader(VisionReader):
             region_detector,
             feature_cache_dir=feature_cache_dir,
             tokenizer=tokenizer,
-            token_indexers=source_token_indexers,
+            token_indexers=token_indexers,
             cuda_device=cuda_device,
             max_instances=max_instances,
             image_processing_batch_size=image_processing_batch_size,
             run_image_feature_extraction=run_image_feature_extraction,
         )
+
         # read answer vocab
         if answer_vocab is None:
             self.answer_vocab = None
@@ -324,10 +318,6 @@ class VQAv2Reader(VisionReader):
                 preprocess_answer(a)
                 for a in answer_vocab.get_token_to_index_vocabulary("answers").keys()
             )
-
-        # deal with token indexers
-        self._source_token_indexers = source_token_indexers
-        self._target_token_indexers = target_token_indexers
 
         if run_image_feature_extraction:
             # normalize self.images some more
@@ -345,9 +335,6 @@ class VQAv2Reader(VisionReader):
                 del self.images[None]
 
         self.multiple_answers_per_question = multiple_answers_per_question
-
-        self.is_training = is_training
-        self.is_validation = is_validation
 
     @overrides
     def _read(self, splits_or_list_of_splits: Union[str, List[str]]):
@@ -375,7 +362,6 @@ class VQAv2Reader(VisionReader):
         aws_base = "https://s3.amazonaws.com/cvmlp/vqa/"
         mscoco_base = aws_base + "mscoco/vqa/"
         scene_base = aws_base + "abstract_v002/vqa/"
-        local_base = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
 
         # fmt: off
         splits = {
@@ -386,14 +372,6 @@ class VQAv2Reader(VisionReader):
             "balanced_real_val": Split(
                 mscoco_base + "v2_Annotations_Val_mscoco.zip!v2_mscoco_val2014_annotations.json",  # noqa: E501
                 mscoco_base + "v2_Questions_Val_mscoco.zip!v2_OpenEnded_mscoco_val2014_questions.json",  # noqa: E501
-            ),
-            "balanced_real_train_small": Split(
-                local_base + "v2_mscoco_train2014_annotations_small.json",  # noqa: E501
-                local_base + "v2_OpenEnded_mscoco_train2014_questions_small.json",  # noqa: E501
-            ),
-            "balanced_real_val_small": Split(
-                local_base + "v2_mscoco_val2014_annotations_small.json",  # noqa: E501
-                local_base + "v2_OpenEnded_mscoco_val2014_questions_small.json",  # noqa: E501
             ),
             "balanced_real_test": Split(
                 None,
@@ -422,10 +400,6 @@ class VQAv2Reader(VisionReader):
             "unittest": Split(
                 "test_fixtures/data/vqav2/annotations.json",
                 "test_fixtures/data/vqav2/questions.json"
-            ),
-            "unittest_swapped": Split(
-                "test_fixtures/data/vqav2_swapped/annotations.json",
-                "test_fixtures/data/vqav2_swapped/questions.json"
             )
         }
         # fmt: on
@@ -438,10 +412,7 @@ class VQAv2Reader(VisionReader):
         answers_by_question_id = {}
         if split.annotations is not None:
             with open(cached_path(split.annotations, extract_archive=True)) as f:
-                try:
-                    annotations = json.load(f)
-                except:
-                    pdb.set_trace() 
+                annotations = json.load(f)
             for a in annotations["annotations"]:
                 qid = a["question_id"]
                 answer_counts: MutableMapping[str, int] = Counter()
@@ -475,7 +446,7 @@ class VQAv2Reader(VisionReader):
         failed_instances_count = 0
         for question_dict, processed_image in zip(question_dicts, processed_images):
             answers = answers_by_question_id.get(question_dict["question_id"])
-            # for ans in answers: 
+
             instance = self.text_to_instance(question_dict["question"], processed_image, answers)
             attempted_instances_count += 1
             if instance is None:
@@ -496,33 +467,16 @@ class VQAv2Reader(VisionReader):
         question: str,
         image: Union[str, Tuple[Tensor, Tensor]],
         answer_counts: Optional[MutableMapping[str, int]] = None,
-        # answer: Optional[str] = None,
         *,
         use_cache: bool = True,
     ) -> Optional[Instance]:
-        tokenized_question_input = self._tokenizer.tokenize(question)
-        # tokenized_question_output = self._tokenizer.add_special_tokens(tokenized_question_input)
-        tokenized_question_output = [Token(START_SYMBOL)] + tokenized_question_input + [Token(END_SYMBOL)]
-        question_field = TextField(tokenized_question_input, None)
+        tokenized_question = self._tokenizer.tokenize(question)
+        question_field = TextField(tokenized_question, None)
         from allennlp.data import Field
 
         fields: Dict[str, Field] = {
             "question": question_field,
         }
-
-
-        if self.is_training or self.is_validation:
-            # question as teacher forcing string, needs to have SOS token
-            fields["question_input"] = TextField(
-                # tokens=tokenized_question_output[:-1],
-                tokens=tokenized_question_output,
-            )
-        fields["debug_tokens"] = MetadataField(question)
-
-            # question as output string, needs to have EOS token 
-            # fields["question_output"] = TextField(
-            #     tokens=tokenized_question_output[1:]
-            # )
 
         if image is not None:
             if isinstance(image, str):
@@ -534,17 +488,13 @@ class VQAv2Reader(VisionReader):
             fields["box_coordinates"] = ArrayField(coords)
 
         if answer_counts is not None:
-            fields["debug_answer"] = MetadataField(answer_counts)
             answer_fields = []
             weights = []
 
             for answer, count in answer_counts.items():
                 if self.answer_vocab is None or answer in self.answer_vocab:
                     answer_fields.append(LabelField(answer, label_namespace="answers"))
-                    if self.multiple_answers_per_question:
-                        weights.append(get_score(count))
-                    else:
-                        weights.append(min(1.0, count))
+                    weights.append(get_score(count))
 
             if len(answer_fields) <= 0:
                 return None
@@ -552,32 +502,8 @@ class VQAv2Reader(VisionReader):
             fields["labels"] = ListField(answer_fields)
             fields["label_weights"] = ArrayField(torch.tensor(weights))
 
-        # if answer is not None:
-        #     fields["debug_answer"] = MetadataField(answer)
-        #     if self.answer_vocab is None or answer in self.answer_vocab:
-        #         # TODO: (elias): this is a weird way to do things, should each be treated separately 
-        #         answer_field = LabelField(answer, label_namespace="answers")
-        #         weight = ArrayField(torch.ones(1)) 
-
-        #         fields['labels'] = answer_field
-        #         fields['label_weights'] = weight
-        #     elif self.answer_vocab is not None:
-        #         # skip this answer 
-        #         return None
-        #     else:
-        #         pass
         return Instance(fields)
-            # if len(answer_fields) <= 0:
-                # return None
-
-            # fields["labels"] = ListField(answer_fields)
-            # fields["label_weights"] = ArrayField(torch.tensor(weights))
-
-        # return Instance(fields)
 
     @overrides
     def apply_token_indexers(self, instance: Instance) -> None:
-        instance["question"].token_indexers = self._source_token_indexers  # type: ignore
-        if self.is_training or self.is_validation: 
-            instance["question_input"].token_indexers = self._target_token_indexers  # type: ignore
-            # instance["question_output"].token_indexers = self._target_token_indexers  # type: ignore
+        instance["question"].token_indexers = self._token_indexers  # type: ignore

@@ -772,6 +772,7 @@ class GradientDescentTrainer(Trainer):
             if self._moving_average is not None:
                 self._moving_average.apply(batch_num_total)
 
+
             # Update the description with the latest metrics
             metrics = training_util.get_metrics(
                 self.model,

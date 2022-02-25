@@ -85,12 +85,19 @@ class PrenormSpeakerModule(BaseSpeakerModule):
         source_mask = torch.ones_like(embedded)[:,:,0].bool()
         encoded = self._encode(embedded, source_mask) 
 
+        if not self.training:
+            # detach during validation so it doesn't get copied 
+            encoded_for_ret = {}
+            for k in encoded.keys():
+                encoded_for_ret[k] = encoded[k].detach().clone()
+        else:
+            encoded_for_ret = encoded
         decoded = self.decoder(encoded, target_tokens)
 
         top_k = torch.argmax(decoded['logits'], dim=2)
         loss = decoded['loss']
 
-        return {"encoder_output": encoded, "output": decoded['logits'], "predictions": top_k, "loss": loss}
+        return {"encoder_output": encoded_for_ret, "output": decoded['logits'], "predictions": top_k, "loss": loss}
 
     def _test_forward(self,
                       source_memory: torch.Tensor,
