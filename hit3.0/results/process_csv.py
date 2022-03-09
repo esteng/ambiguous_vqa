@@ -30,6 +30,19 @@ def process_csv(filename):
     return to_ret 
 
 def get_groups(rows, enforce_num_anns, num_anns): 
+    """
+    Take raw csv rows, and return a dict of lists, with each list containt rows grouped 
+    by HIT ID
+
+    Parameters
+    ----------
+    - rows: List
+        A list of csv rows 
+    - enforce_num_anns: bool
+        if true, only keep HITs with num_anns annotations
+    - num_anns: int
+        number of annotators participating 
+    """
     rows_by_hit_id = defaultdict(list)
     for r in rows:
         rows_by_hit_id[r['HITId']].append(r) 
@@ -38,6 +51,17 @@ def get_groups(rows, enforce_num_anns, num_anns):
     return rows_by_hit_id
 
 def skip_agreement(rows_by_hit_id): # TO DO (TEST)
+    """
+    Compute the percentage of time all annotators agree 
+    on whether to skip, and the percentage of times 
+    each annotator agrees with each other annotator on
+    skipping an example
+
+    Parameters
+    ----------
+    - rows_by_hit_id: Dict[str, List]
+        dict of csv rows with HITId as keys 
+    """
     n_agree = 0
     total = 0
     agree = {}
@@ -76,6 +100,10 @@ def safe_divide(num, denom):
         return 0
 
 def f1_helper(group1, group2): 
+    """
+    Helper function to compute the F1 score
+    between two groups 
+    """
     ids1 = set([x['id'] for x in group1])
     ids2 = set([x['id'] for x in group2])
     # treat 1 as pred, 2 as true (symmetric so doesn't matter)
@@ -89,6 +117,13 @@ def f1_helper(group1, group2):
     return precision, recall, f1
 
 def f1_score(groups1, groups2):
+    """
+    Compute the f1 score between two sets of groups.
+    First, compute the F1 score between each of the 
+    possible set combinations, then use the 
+    Hungarian algorithm to find the maximum assignment,
+    i.e. the best alignment between groups in the two sets.
+    """
     # what do if groups are different length? 
     # just compute quadriatic, take max  
     p_scores = np.zeros((len(groups1), len(groups2)))
