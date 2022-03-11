@@ -21,12 +21,16 @@ def get_line(line, url_base = "https://cs.jhu.edu/~esteng/images_for_hit/"):
     line_dict = {"imgUrl": None,
                 "questionStr": None,
                 "answerGroups": None, 
-                "answerQuestions": None}    
+                "answerQuestions": None,
+                "question_id": None}    
 
     image_url = f"{url_base}{line['image']}"
     question_str = line['question']
     answer_groups = get_answer_groups(line['answers'], line['ans_groups'])
     answer_questions = [question_str for i in range(len(answer_groups))]
+
+    # metadata
+    line_dict['question_id'] = line['qid']
 
     line_dict['imgUrl'] = json.dumps(image_url) 
     line_dict['questionStr'] = json.dumps(question_str) 
@@ -36,7 +40,7 @@ def get_line(line, url_base = "https://cs.jhu.edu/~esteng/images_for_hit/"):
     
 def write_csv(to_write, out_path): 
     with open(out_path, "w") as f1:
-        writer = csv.DictWriter(f1, fieldnames=['imgUrl', 'questionStr', 'answerGroups', 'answerQuestions'])
+        writer = csv.DictWriter(f1, fieldnames=['imgUrl', 'questionStr', 'answerGroups', 'answerQuestions', 'question_id'])
         writer.writeheader()
         for line in to_write:
             writer.writerow(line)
