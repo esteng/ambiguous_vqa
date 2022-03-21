@@ -4,6 +4,7 @@ import logging
 from copy import deepcopy
 from typing import Dict, List, Optional, Union
 import pdb 
+from pathlib import Path
 
 from overrides import overrides
 import torch
@@ -23,7 +24,7 @@ from allennlp.common.params import Params
 from allennlp.modules.rsa_vqa.speaker import BaseSpeakerModule
 from allennlp.modules.rsa_vqa.listener import BaseListenerModule
 from allennlp.data.fields.metadata_field import MetadataField
-from allennlp.modules.vision.vision_language_encoder import VisionLanguageEncoder
+from allennlp.modules.vision.vision_language_encoder import CLIPLanguageEncoder, VisionLanguageEncoder, ViLTLanguageEncoder
 
 logger = logging.getLogger(__name__)
 
@@ -87,10 +88,14 @@ class RSAVQAModel(Model):
         self.num_labels = num_labels
         self.label_namespace = label_namespace
 
-        self.classifier = torch.nn.Linear(self.vision_language_encoder.encoder.hidden_size2, num_labels)
+        if isinstance(vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder): 
+            self.classifier = torch.nn.Linear(self.vision_language_encoder.projection_dim, num_labels)
+        else:
+            self.classifier = torch.nn.Linear(self.vision_language_encoder.encoder.hidden_size2, num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
-        self.loss = torch.nn.BCEWithLogitsLoss()
+        # self.loss = torch.nn.BCEWithLogitsLoss()
+        self.loss = torch.nn.CrossEntropyLoss()
         self.vqa_loss_factor = vqa_loss_factor
         self.speaker_loss_factor = speaker_loss_factor
 
@@ -106,22 +111,41 @@ class RSAVQAModel(Model):
         label_weights: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
+        debug_images: Optional[MetadataField] = None,
         speaker_encoder_outputs: Optional[List[torch.Tensor]] = None,
+        pooled_output: Optional[torch.Tensor] = None,
+        sequence_output: Optional[torch.Tensor] = None,
+        precompute_metadata: Optional[MetadataField] = None,
     ) -> Dict[str, torch.Tensor]:
         batch_size, _, feature_size = box_features.size()
-        
-        if speaker_encoder_outputs is None:
-            pooled_output, sequence_output_t = self.vision_language_encoder(
-                                                    box_features=box_features,
-                                                    box_coordinates=box_coordinates,
-                                                    question=question,
-                                                    question_input=question_input)
+
+        # only run vision-language encoder if the reps haven't been pre-computed  
+        if speaker_encoder_outputs is None and pooled_output is None:
+            if isinstance(self.vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder):
+                # TODO (elias) remove after debugging 
+                with torch.no_grad() :
+                    pooled_output, sequence_output = self.vision_language_encoder(debug_tokens,
+                                                                                debug_images)
+
+            else: 
+                pooled_output, sequence_output_t = self.vision_language_encoder(
+                                                        box_features=box_features,
+                                                        box_coordinates=box_coordinates,
+                                                        question=question,
+                                                        question_input=question_input)
             if self.keep_tokens:
                 encoded_tokens = self.encoded_token_projection(sequence_output_t)
                 listener_output = torch.cat([pooled_output.unsqueeze(1), encoded_tokens], dim=1)
             else:
                 listener_output = pooled_output
 
+        elif pooled_output is not None:
+            listener_output = pooled_output
+        else:
+            listener_output = None
+            question_input = None
+
+        if speaker_encoder_outputs is None:
             speaker_encoder_outputs = [None for i in range(self.num_listener_steps)]
         else:
             listener_output = None
@@ -137,7 +161,7 @@ class RSAVQAModel(Model):
             speaker_output = self.speaker_modules[i](fused_representation=listener_output,
                                                      gold_utterance=question_input,
                                                      speaker_encoder_output=speaker_encoder_outputs[i])
-                                                    #  gold_utterance_output=question_output)
+
             speaker_loss = speaker_output['loss']
             speaker_losses.append(speaker_loss) 
             speaker_utterances = []
@@ -159,6 +183,7 @@ class RSAVQAModel(Model):
 
                 gold_predictions = {"predictions": question_input['tokens']['tokens'][:,1:]}
                 pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
+                speaker_utterances.append(pred)
                 true = self.speaker_modules[i].make_output_human_readable(gold_predictions)['predicted_tokens']
 
                 # logger.info("")
@@ -182,6 +207,7 @@ class RSAVQAModel(Model):
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask) 
+
 
 
         logits = self.classifier(listener_output['output']) 
@@ -208,14 +234,16 @@ class RSAVQAModel(Model):
             binary_label_mask[:, 1] = 0
 
             # pdb.set_trace() 
-            vqa_loss = (
-                torch.nn.functional.binary_cross_entropy_with_logits(
-                    logits, weighted_labels, weight=binary_label_mask, reduction="sum"
-                )
-                / batch_size
-            )
-            # if vqa_loss.item() < 0.2:
-            #     pdb.set_trace()
+            # vqa_loss = (
+                # torch.nn.functional.binary_cross_entropy_with_logits(
+                    # logits, weighted_labels, weight=binary_label_mask, reduction="sum"
+                # )
+                # / batch_size
+            # )
+            # pdb.set_trace() 
+            vqa_loss = self.loss(logits, labels.squeeze(-1))
+            # if vqa_loss.item() < 4:
+                # pdb.set_trace()
 
 
             self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
@@ -245,3 +273,84 @@ class RSAVQAModel(Model):
 
     def eval_for_gen(self):
         self.eval()
+
+
+@Model.register("precompute_vqa")
+@Model.register("precompute_from_huggingface", constructor="from_huggingface_model_name")
+class PrecomputeVQAModel(RSAVQAModel):
+    """
+    Keep everything the same so that we can use the same config, but most things here don't get used 
+    """
+    def __init__(
+        self,
+        vocab: Vocabulary,
+        vision_language_encoder: VisionLanguageEncoder,
+        speaker_module: BaseSpeakerModule,
+        listener_module: BaseListenerModule,
+        num_listener_steps: int,
+        copy_speaker_listener: bool,
+        pooled_output_dim: int,
+        dropout: float = 0.1,
+        vqa_loss_factor: float = 1.0,
+        speaker_loss_factor: float = 1.0,
+        label_namespace: str = "answers",
+        keep_tokens: bool = False,
+    ) -> None:
+        super().__init__(vocab,
+                         vision_language_encoder,
+                         speaker_module,
+                         listener_module,
+                         num_listener_steps,
+                         copy_speaker_listener,
+                         pooled_output_dim,
+                         dropout,
+                         vqa_loss_factor,
+                         speaker_loss_factor,
+                         label_namespace,
+                         keep_tokens)
+
+
+    @overrides
+    def forward(
+        self,  # type: ignore
+        box_features: torch.Tensor,
+        box_coordinates: torch.Tensor,
+        question: TextFieldTensors,
+        question_input: torch.Tensor = None,
+        # question_output: torch.Tensor = None,
+        labels: Optional[torch.Tensor] = None,
+        label_weights: Optional[torch.Tensor] = None,
+        debug_tokens: Optional[MetadataField] = None,
+        debug_answer: Optional[MetadataField] = None,
+        debug_images: Optional[MetadataField] = None,
+        precompute_metadata: Optional[MetadataField] = None,
+        speaker_encoder_outputs: Optional[List[torch.Tensor]] = None,
+        pooled_output: Optional[torch.Tensor] = None,
+        sequence_output: Optional[torch.Tensor] = None,
+    ) -> Dict[str, torch.Tensor]:
+        batch_size, _, feature_size = box_features.size()
+
+        if isinstance(self.vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder):
+            # TODO (elias) remove after debugging 
+            with torch.no_grad() :
+                pooled_output, sequence_output = self.vision_language_encoder(debug_tokens,
+                                                                            debug_images)
+
+        else: 
+            pooled_output, sequence_output_t = self.vision_language_encoder(
+                                                    box_features=box_features,
+                                                    box_coordinates=box_coordinates,
+                                                    question=question,
+                                                    question_input=question_input)
+
+        for i in range(pooled_output.shape[0]):
+            metadata = precompute_metadata[i]
+            out_dir = Path(metadata['save_dir'])
+            out_dir.mkdir(exist_ok=True, parents=True)
+            filename = out_dir.joinpath(f"{metadata['image_id']}_{metadata['question_id']}.pt")
+            if filename.exists():
+                continue
+            else:
+                torch.save(pooled_output[i], filename)
+
+        return {"loss": torch.zeros(1, requires_grad=True)}

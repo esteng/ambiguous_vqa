@@ -110,17 +110,17 @@ class VisionReader(DatasetReader):
         self._token_indexers = token_indexers
 
         self.run_image_feature_extraction = run_image_feature_extraction
+        logger.info("Discovering images ...")
+        self.images = {
+            os.path.basename(filename): filename
+            for extension in {"png", "jpg"}
+            for filename in tqdm(
+                glob.iglob(os.path.join(image_dir, "**", f"*.{extension}"), recursive=True),
+                desc=f"Discovering {extension} images",
+            )
+        }
+        logger.info("Done discovering images")
         if run_image_feature_extraction:
-            logger.info("Discovering images ...")
-            self.images = {
-                os.path.basename(filename): filename
-                for extension in {"png", "jpg"}
-                for filename in tqdm(
-                    glob.iglob(os.path.join(image_dir, "**", f"*.{extension}"), recursive=True),
-                    desc=f"Discovering {extension} images",
-                )
-            }
-            logger.info("Done discovering images")
             # image loading
             self.image_loader = image_loader
             self.image_featurizer = image_featurizer.to(self.cuda_device)
@@ -195,26 +195,27 @@ class VisionReader(DatasetReader):
                 else:
                     yield b
 
-        for image_path in image_paths:
-            basename = os.path.basename(image_path)
-            try:
-                if use_cache:
-                    features: Tensor = self._features_cache[basename]
-                    coordinates: Tensor = self._coordinates_cache[basename]
-                    if len(batch) <= 0:
-                        yield features, coordinates
+        if hasattr(self, "image_loader") and self.image_loader is not None:
+            for image_path in image_paths:
+                basename = os.path.basename(image_path)
+                try:
+                    if use_cache:
+                        features: Tensor = self._features_cache[basename]
+                        coordinates: Tensor = self._coordinates_cache[basename]
+                        if len(batch) <= 0:
+                            yield features, coordinates
+                        else:
+                            batch.append((features, coordinates))
                     else:
-                        batch.append((features, coordinates))
-                else:
-                    # If we're not using the cache, we pretend we had a cache miss here.
-                    raise KeyError
-            except KeyError:
-                batch.append(image_path)
-                unprocessed_paths.add(image_path)
-                if len(unprocessed_paths) >= self.image_processing_batch_size:
-                    yield from yield_batch()
-                    batch = []
-                    unprocessed_paths = set()
+                        # If we're not using the cache, we pretend we had a cache miss here.
+                        raise KeyError
+                except (KeyError, AttributeError) as e:
+                    batch.append(image_path)
+                    unprocessed_paths.add(image_path)
+                    if len(unprocessed_paths) >= self.image_processing_batch_size:
+                        yield from yield_batch()
+                        batch = []
+                        unprocessed_paths = set()
 
-        if len(batch) > 0:
-            yield from yield_batch()
+            if len(batch) > 0:
+                yield from yield_batch()

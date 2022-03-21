@@ -1,6 +1,8 @@
 import logging
 from collections import Counter
+from multiprocessing.dummy import Array
 from os import PathLike
+from pathlib import Path
 import pdb 
 from typing import (
     Dict,
@@ -18,6 +20,7 @@ import re
 from overrides import overrides
 import torch
 from torch import Tensor
+import numpy as np
 
 from allennlp.common.util import START_SYMBOL, END_SYMBOL
 from allennlp.data.tokenizers.token import Token
@@ -283,10 +286,10 @@ class VQAv2Reader(VisionReader):
     def __init__(
         self,
         image_dir: Union[str, PathLike],
-        image_loader: ImageLoader,
-        image_featurizer: GridEmbedder,
-        region_detector: RegionDetector,
         *,
+        image_loader: Optional[ImageLoader] = None,
+        image_featurizer: Optional[GridEmbedder] = None,
+        region_detector: Optional[RegionDetector] = None,
         answer_vocab: Optional[Union[Vocabulary, str]] = None,
         feature_cache_dir: Optional[Union[str, PathLike]] = None,
         tokenizer: Optional[Tokenizer] = None,
@@ -296,10 +299,18 @@ class VQAv2Reader(VisionReader):
         max_instances: Optional[int] = None,
         image_processing_batch_size: int = 8,
         run_image_feature_extraction: bool = True,
+        pass_raw_image_paths: bool = False,
         multiple_answers_per_question: bool = True,
         is_training: bool = True,
         is_validation: bool = False,
+        is_precompute: bool = False,
+        use_precompute: bool = False
     ) -> None:
+
+        if pass_raw_image_paths: 
+            super_run_image_feature_extraction = False
+        else:
+            super_run_image_feature_extraction = run_image_feature_extraction
         super().__init__(
             image_dir,
             image_loader,
@@ -311,8 +322,11 @@ class VQAv2Reader(VisionReader):
             cuda_device=cuda_device,
             max_instances=max_instances,
             image_processing_batch_size=image_processing_batch_size,
-            run_image_feature_extraction=run_image_feature_extraction,
+            run_image_feature_extraction=super_run_image_feature_extraction,
         )
+        self.image_processing_batch_size = image_processing_batch_size
+        self.run_image_feature_extraction = run_image_feature_extraction
+        self.pass_raw_image_paths = pass_raw_image_paths
         # read answer vocab
         if answer_vocab is None:
             self.answer_vocab = None
@@ -329,7 +343,7 @@ class VQAv2Reader(VisionReader):
         self._source_token_indexers = source_token_indexers
         self._target_token_indexers = target_token_indexers
 
-        if run_image_feature_extraction:
+        if run_image_feature_extraction or pass_raw_image_paths: 
             # normalize self.images some more
             # At this point, self.images maps filenames to full paths, but we want to map image ids to full paths.
             filename_re = re.compile(r".*(\d{12})\.((jpg)|(png))")
@@ -348,6 +362,8 @@ class VQAv2Reader(VisionReader):
 
         self.is_training = is_training
         self.is_validation = is_validation
+        self.is_precompute = is_precompute
+        self.use_precompute = use_precompute
 
     @overrides
     def _read(self, splits_or_list_of_splits: Union[str, List[str]]):
@@ -376,6 +392,7 @@ class VQAv2Reader(VisionReader):
         mscoco_base = aws_base + "mscoco/vqa/"
         scene_base = aws_base + "abstract_v002/vqa/"
         local_base = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+        self.local_base = local_base 
 
         # fmt: off
         splits = {
@@ -433,7 +450,12 @@ class VQAv2Reader(VisionReader):
         try:
             split = splits[split_name]
         except KeyError:
-            raise ValueError(f"Unrecognized split: {split_name}.")
+            path = Path(split_name)
+            if path.exists():
+                split = Split(path.joinpath("annotations.json"), 
+                                          path.joinpath("questions.json"))
+            else:
+                raise ValueError(f"Unrecognized split: {split_name}.")
 
         answers_by_question_id = {}
         if split.annotations is not None:
@@ -461,13 +483,17 @@ class VQAv2Reader(VisionReader):
 
         question_dicts = list(self.shard_iterable(questions))
         processed_images: Iterable[Optional[Tuple[Tensor, Tensor]]]
-        if self.run_image_feature_extraction:
+        if self.run_image_feature_extraction and not self.pass_raw_image_paths:
             # It would be much easier to just process one image at a time, but it's faster to process
             # them in batches. So this code gathers up instances until it has enough to fill up a batch
             # that needs processing, and then processes them all.
             processed_images = self._process_image_paths(
                 self.images[int(question_dict["image_id"])] for question_dict in question_dicts
             )
+        elif self.pass_raw_image_paths:
+            # don't run feature extraction, just pass paths for later 
+            # processed_images = [None for i in range(len(question_dicts))]
+            processed_images = [self.images[int(question_dict["image_id"])] for question_dict in question_dicts]
         else:
             processed_images = [None for i in range(len(question_dicts))]
 
@@ -476,7 +502,13 @@ class VQAv2Reader(VisionReader):
         for question_dict, processed_image in zip(question_dicts, processed_images):
             answers = answers_by_question_id.get(question_dict["question_id"])
             # for ans in answers: 
-            instance = self.text_to_instance(question_dict["question"], processed_image, answers)
+            if self.is_precompute or self.use_precompute:
+                precompute_metadata = {"save_dir": local_base + "precomputed",
+                                       "question_id": question_dict['question_id'],
+                                       "image_id": question_dict['image_id']}
+            else:
+                precompute_metadata = None
+            instance = self.text_to_instance(question_dict["question"], processed_image, answers, precompute_metadata)
             attempted_instances_count += 1
             if instance is None:
                 failed_instances_count += 1
@@ -496,42 +528,45 @@ class VQAv2Reader(VisionReader):
         question: str,
         image: Union[str, Tuple[Tensor, Tensor]],
         answer_counts: Optional[MutableMapping[str, int]] = None,
+        precompute_metadata: Optional[Dict[str, str]] = None,
         # answer: Optional[str] = None,
         *,
         use_cache: bool = True,
     ) -> Optional[Instance]:
-        tokenized_question_input = self._tokenizer.tokenize(question)
-        # tokenized_question_output = self._tokenizer.add_special_tokens(tokenized_question_input)
-        tokenized_question_output = [Token(START_SYMBOL)] + tokenized_question_input + [Token(END_SYMBOL)]
-        question_field = TextField(tokenized_question_input, None)
-        from allennlp.data import Field
+        if self._tokenizer is not None:
+            tokenized_question_input = self._tokenizer.tokenize(question)
+            # tokenized_question_output = self._tokenizer.add_special_tokens(tokenized_question_input)
+            tokenized_question_output = [Token(START_SYMBOL)] + tokenized_question_input + [Token(END_SYMBOL)]
+            question_field = TextField(tokenized_question_input, None)
 
-        fields: Dict[str, Field] = {
-            "question": question_field,
-        }
+            from allennlp.data import Field
+            fields: Dict[str, Field] = {
+                "question": question_field,
+            }
 
 
-        if self.is_training or self.is_validation:
-            # question as teacher forcing string, needs to have SOS token
-            fields["question_input"] = TextField(
-                # tokens=tokenized_question_output[:-1],
-                tokens=tokenized_question_output,
-            )
+            if self.is_training or self.is_validation:
+                # question as teacher forcing string, needs to have SOS token
+                fields["question_input"] = TextField(
+                    # tokens=tokenized_question_output[:-1],
+                    tokens=tokenized_question_output,
+                )
+
         fields["debug_tokens"] = MetadataField(question)
 
-            # question as output string, needs to have EOS token 
-            # fields["question_output"] = TextField(
-            #     tokens=tokenized_question_output[1:]
-            # )
-
         if image is not None:
-            if isinstance(image, str):
-                features, coords = next(self._process_image_paths([image], use_cache=use_cache))
-            else:
-                features, coords = image
+            fields["debug_images"] = MetadataField(image)
+            if self._tokenizer is not None and not self.use_precompute and self.run_image_feature_extraction:
+                if isinstance(image, str):
+                    features, coords = next(self._process_image_paths([image], use_cache=use_cache))
+                else:
+                    features, coords = image
 
-            fields["box_features"] = ArrayField(features)
-            fields["box_coordinates"] = ArrayField(coords)
+                fields["box_features"] = ArrayField(features)
+                fields["box_coordinates"] = ArrayField(coords)
+            else:
+                fields["box_features"] = ArrayField(np.zeros((1,1)))
+                fields["box_coordinates"] = ArrayField(np.zeros((1,1)))
 
         if answer_counts is not None:
             fields["debug_answer"] = MetadataField(answer_counts)
@@ -552,28 +587,16 @@ class VQAv2Reader(VisionReader):
             fields["labels"] = ListField(answer_fields)
             fields["label_weights"] = ArrayField(torch.tensor(weights))
 
-        # if answer is not None:
-        #     fields["debug_answer"] = MetadataField(answer)
-        #     if self.answer_vocab is None or answer in self.answer_vocab:
-        #         # TODO: (elias): this is a weird way to do things, should each be treated separately 
-        #         answer_field = LabelField(answer, label_namespace="answers")
-        #         weight = ArrayField(torch.ones(1)) 
+        if precompute_metadata is not None: 
+            fields['precompute_metadata'] = MetadataField(precompute_metadata)
+            # load precomputed reps from file 
+            if self.use_precompute: 
+                path = Path(self.local_base + "precomputed").joinpath(f"{precompute_metadata['image_id']}_{precompute_metadata['question_id']}.pt")
+                pooled_output = torch.load(path)
+                fields['pooled_output'] = ArrayField(pooled_output)
+                # fields['sequence_output'] = ArrayField(sequence_output)
 
-        #         fields['labels'] = answer_field
-        #         fields['label_weights'] = weight
-        #     elif self.answer_vocab is not None:
-        #         # skip this answer 
-        #         return None
-        #     else:
-        #         pass
         return Instance(fields)
-            # if len(answer_fields) <= 0:
-                # return None
-
-            # fields["labels"] = ListField(answer_fields)
-            # fields["label_weights"] = ArrayField(torch.tensor(weights))
-
-        # return Instance(fields)
 
     @overrides
     def apply_token_indexers(self, instance: Instance) -> None:

@@ -485,7 +485,6 @@ def minimize_and_generate(
             vec = vec.detach().clone()
             # make it require gradients 
             vec = vec.requires_grad_(True)
-            model.eval() 
             # Update batch with the vec that needs gradients
             try:
                 batch['speaker_encoder_outputs'][0] = vec
@@ -498,6 +497,7 @@ def minimize_and_generate(
             optimizer.zero_grad()
 
             # run the model forward with the gradient-having vector 
+            model.eval() 
             model.requires_grad_(False)
             output_dict = model(**batch)
             # get the model loss 
