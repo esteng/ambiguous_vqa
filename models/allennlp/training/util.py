@@ -436,7 +436,6 @@ def minimize_and_generate(
         None if predictions_output_file is None else open(predictions_output_file, "w")
     )
 
-    # model.eval()
     data_loader.batch_size = 1
 
     iterator = iter(data_loader)
@@ -453,26 +452,27 @@ def minimize_and_generate(
     total_weight = 0.0
 
     import pdb 
-    # TODO: batch size needs to be 1
+    # zero all gradients
     model.zero_grad()
-    # batch starts by not having speaker_encoder_outputs
+    # batch starts by not having meaning_vectors
     batch_losses = []
     for batch in generator_tqdm:
         batch = nn_util.move_to_device(batch, cuda_device)
         with torch.no_grad():
+            # start by obtaining a meaning vector from the model 
             initial_output_dict = model(**batch)
         output_dict = None
         losses = []
+        # descend on the meaning vector 
         for epoch in range(num_descent_steps):
             batch_count += 1
-            # turn off gradients to the model 
-            # for p in model.parameters():
-            #     p.requires_grad = False
-            # get output encoder vector, either from init or from previous iteration
+            # get output encoder meaning vector, either from init or from previous iteration
             if epoch == 0:
-                speaker_output = initial_output_dict['speaker_outputs'][0]
+                # at first iteration, we take the meaning vector to be the output from the frozen model 
+                speaker_output = initial_output_dict['meaning_vectors_output'][0]
             else:
-                speaker_output = output_dict['speaker_outputs'][0]
+                # after that, it's the output of the previous epoch iteration 
+                speaker_output = output_dict['meaning_vectors_output'][0]
 
             # weird shape bs 
             if len(speaker_output.shape) == 2:
@@ -481,26 +481,28 @@ def minimize_and_generate(
                 vec = speaker_output[0,:,:].unsqueeze(0).clone()
             else:
                 raise AssertionError
-            # detach to make it a constant 
+            # detach from computation graph to make it a constant 
             vec = vec.detach().clone()
-            # make it require gradients 
+            # manually make it require gradients 
             vec = vec.requires_grad_(True)
             # Update batch with the vec that needs gradients
             try:
-                batch['speaker_encoder_outputs'][0] = vec
+                batch['meaning_vectors_input'][0] = vec
             except KeyError:
-                batch['speaker_encoder_outputs'] = [vec]
+                batch['meaning_vectors_input'] = [vec]
 
-            # define an optimizer just for that vec 
+            # define an optimizer just for the meaning vec 
             optimizer = torch.optim.SGD([vec],
                                         lr=lr)
             optimizer.zero_grad()
 
-            # run the model forward with the gradient-having vector 
+            # set model to test mode and turn off gradients 
             model.eval() 
             model.requires_grad_(False)
+            model.meaning_vector_source = "listener"
+            # run the model forward with the gradient-having vector 
             output_dict = model(**batch)
-            # get the model loss 
+            # get the model vqa loss 
             vqa_loss = output_dict["vqa_loss"]
             losses.append(vqa_loss.item())
             print(f"loss: {vqa_loss}")
@@ -510,9 +512,9 @@ def minimize_and_generate(
             optimizer.step()
             # after optimizer step, update batch 
             try:
-                batch['speaker_encoder_outputs'][0] = vec
+                batch['meaning_vectors_input'][0] = vec
             except KeyError:
-                batch['speaker_encoder_outputs'] = [vec]
+                batch['meaning_vectors_input'] = [vec]
 
             metrics = model.get_metrics()
 

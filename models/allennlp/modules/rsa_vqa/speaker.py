@@ -63,14 +63,16 @@ class PrenormSpeakerModule(BaseSpeakerModule):
                 fused_representation: torch.Tensor,
                 gold_utterance: torch.Tensor=None, 
                 gold_utterance_mask: torch.Tensor=None,
-                speaker_encoder_output: torch.Tensor=None): 
+                speaker_encoder_output: torch.Tensor=None,
+                do_detach: bool = False): 
         if gold_utterance is not None: 
             return self._training_forward(target_tokens=gold_utterance,
                                           source_memory=fused_representation,
                                           target_mask=gold_utterance_mask)
         else:
             return self._test_forward(source_memory=fused_representation, 
-                                      speaker_encoder_output=speaker_encoder_output)
+                                      speaker_encoder_output=speaker_encoder_output,
+                                      do_detach=do_detach)
 
     def _encode(self, embedded_input: torch.Tensor, source_mask: torch.Tensor): 
         encoder_outputs = self.encoder(embedded_input, source_mask)
@@ -102,11 +104,14 @@ class PrenormSpeakerModule(BaseSpeakerModule):
 
     def _test_forward(self,
                       source_memory: torch.Tensor,
-                      speaker_encoder_output: torch.Tensor=None):
+                      speaker_encoder_output: torch.Tensor=None,
+                      do_detach: bool = False):
         if speaker_encoder_output is None: 
             embedded = source_memory.unsqueeze(1)
             source_mask = torch.ones_like(embedded)[:,:,0].bool()
             encoded = self._encode(embedded, source_mask) 
+            if do_detach:
+                encoded = {k:v.detach().clone() for k,v in encoded.items()}
             decoded = self.decoder(encoded) 
             loss = torch.nan
             return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
@@ -118,10 +123,6 @@ class PrenormSpeakerModule(BaseSpeakerModule):
                 source_mask = torch.ones_like(prev_speaker_output.detach()[:,0].unsqueeze(0).bool())
             else:
                 source_mask = torch.ones_like(prev_speaker_output.detach()[:,:,0].unsqueeze(0).bool())
-            # try:
-            #     print(f"in test forward: {prev_speaker_output[0,0,0:10]}") 
-            # except:
-            #     print(f"in test forward: {prev_speaker_output[0,0:10]}") 
 
             encoded = {'encoder_outputs': prev_speaker_output,
                                  'source_mask': source_mask}
@@ -258,14 +259,16 @@ class SimpleSpeakerModule(BaseSpeakerModule):
                 fused_representation: torch.Tensor,
                 gold_utterance: torch.Tensor=None, 
                 gold_utterance_mask: torch.Tensor=None,
-                speaker_encoder_output: torch.Tensor=None): 
+                speaker_encoder_output: torch.Tensor=None,
+                do_detach: bool = False): 
         if gold_utterance is not None: 
             return self._training_forward(target_tokens=gold_utterance,
                                           source_memory=fused_representation,
                                           target_mask=gold_utterance_mask)
         else:
             return self._test_forward(source_memory=fused_representation, 
-                                      speaker_encoder_output=speaker_encoder_output)
+                                      speaker_encoder_output=speaker_encoder_output,
+                                      do_detach = do_detach)
 
     def _encode(self, embedded_input: torch.Tensor, source_mask: torch.Tensor): 
         encoder_outputs = self.encoder(embedded_input) 
@@ -297,12 +300,17 @@ class SimpleSpeakerModule(BaseSpeakerModule):
 
     def _test_forward(self,
                       source_memory: torch.Tensor,
-                      speaker_encoder_output: torch.Tensor=None):
+                      speaker_encoder_output: torch.Tensor=None,
+                      do_detach: bool = False):
         if speaker_encoder_output is None: 
             embedded = source_memory.unsqueeze(1)
             source_mask = torch.ones_like(embedded)[:,:,0].bool()
             encoded = self._encode(embedded, source_mask) 
-            decoded = self.decoder(encoded) 
+            if do_detach:
+                encoded_for_decode = {k:v.detach().clone() for k,v in encoded.items()}
+            else:
+                encoded_for_decode = encoded
+            decoded = self.decoder(encoded_for_decode) 
             loss = torch.nan
             return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
         else:

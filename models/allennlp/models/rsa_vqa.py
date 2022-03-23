@@ -48,6 +48,7 @@ class RSAVQAModel(Model):
         speaker_loss_factor: float = 1.0,
         label_namespace: str = "answers",
         keep_tokens: bool = False,
+        meaning_vector_source: str = "listener", 
     ) -> None:
         super().__init__(vocab)
 
@@ -98,6 +99,8 @@ class RSAVQAModel(Model):
         self.loss = torch.nn.CrossEntropyLoss()
         self.vqa_loss_factor = vqa_loss_factor
         self.speaker_loss_factor = speaker_loss_factor
+        
+        self.meaning_vector_source = meaning_vector_source
 
     @overrides
     def forward(
@@ -112,7 +115,7 @@ class RSAVQAModel(Model):
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
         debug_images: Optional[MetadataField] = None,
-        speaker_encoder_outputs: Optional[List[torch.Tensor]] = None,
+        meaning_vectors_input: Optional[List[torch.Tensor]] = None,
         pooled_output: Optional[torch.Tensor] = None,
         sequence_output: Optional[torch.Tensor] = None,
         precompute_metadata: Optional[MetadataField] = None,
@@ -120,7 +123,7 @@ class RSAVQAModel(Model):
         batch_size, _, feature_size = box_features.size()
 
         # only run vision-language encoder if the reps haven't been pre-computed  
-        if speaker_encoder_outputs is None and pooled_output is None:
+        if meaning_vectors_input is None and pooled_output is None:
             if isinstance(self.vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder):
                 # TODO (elias) remove after debugging 
                 with torch.no_grad() :
@@ -145,22 +148,41 @@ class RSAVQAModel(Model):
             listener_output = None
             question_input = None
 
-        if speaker_encoder_outputs is None:
-            speaker_encoder_outputs = [None for i in range(self.num_listener_steps)]
+        if meaning_vectors_input is None:
+            meaning_vectors_input = [None for i in range(self.num_listener_steps)]
         else:
             listener_output = None
             question_input = None
 
         speaker_losses = []
-        speaker_outputs = []   
+        meaning_vectors_output = []   
         for i in range(self.num_listener_steps): 
             if listener_output is None:
-                bsz = speaker_encoder_outputs[i].shape[0]
+                bsz = meaning_vectors_input[i].shape[0]
             else:
                 bsz = listener_output.shape[0]
-            speaker_output = self.speaker_modules[i](fused_representation=listener_output,
-                                                     gold_utterance=question_input,
-                                                     speaker_encoder_output=speaker_encoder_outputs[i])
+            
+            if self.meaning_vector_source == "listener" and meaning_vectors_input[i] is None: 
+                # meaning vector is set to listener output 
+                meaning_vectors_output.append(listener_output)
+                # run speaker module as normal, no modified output 
+                speaker_output = self.speaker_modules[i](fused_representation=listener_output, 
+                                                        gold_utterance=question_input)
+
+            elif self.meaning_vector_source == "listener" and meaning_vectors_input[i] is not None:
+                # run speaker module with the modified listener output 
+                listener_output = meaning_vectors_input[i].squeeze(0)
+                # listener output is the meaning vector 
+                meaning_vectors_output.append(listener_output)
+                speaker_output = self.speaker_modules[i](fused_representation=listener_output,
+                                                        gold_utterance=question_input,
+                                                        do_detach=True)
+            else:
+                # using speaker encoder output as meaning vector
+                speaker_output = self.speaker_modules[i](fused_representation=listener_output,
+                                                        gold_utterance=question_input,
+                                                        speaker_encoder_output=meaning_vectors_input[i])
+
 
             speaker_loss = speaker_output['loss']
             speaker_losses.append(speaker_loss) 
@@ -196,9 +218,12 @@ class RSAVQAModel(Model):
                 speaker_utterances.append(pred)
 
             encoded_by_speaker = speaker_output['encoder_output']['encoder_outputs']
-            speaker_outputs.append(encoded_by_speaker)
+
+            if self.meaning_vector_source == "speaker": 
+                meaning_vectors_output.append(encoded_by_speaker)
+
             if question_input is None:
-                if speaker_encoder_outputs[i] is None:
+                if meaning_vectors_input[i] is None: 
                     beam_size = self.speaker_modules[i].decoder._beam_search.beam_size
                 else:
                     beam_size = 1 
@@ -213,10 +238,11 @@ class RSAVQAModel(Model):
         logits = self.classifier(listener_output['output']) 
         probs = torch.softmax(logits, dim=-1)
 
-        outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, "speaker_outputs": speaker_outputs, "speaker_utterances": speaker_utterances}
+        outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, 
+                   "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances}
+
         if labels is not None and label_weights is not None:
             label_mask = labels > 1  # 0 is padding, 1 is OOV, which we want to ignore
-
             weighted_labels = util.masked_index_replace(
                 logits.new_zeros(logits.size() + (1,)),
                 labels.clamp(min=0),
@@ -241,7 +267,7 @@ class RSAVQAModel(Model):
                 # / batch_size
             # )
             # pdb.set_trace() 
-            vqa_loss = self.loss(logits, labels.squeeze(-1))
+            vqa_loss = self.loss(logits, labels.squeeze(-1)) / batch_size
             # if vqa_loss.item() < 4:
                 # pdb.set_trace()
 
