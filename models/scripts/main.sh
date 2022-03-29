@@ -22,7 +22,7 @@ function eval(){
     --predictions-output-file ${CHECKPOINT_DIR}/ckpt/predictions.jsonl 
 }
 
-function min_gen(){
+function min_gen_old(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
     python -um allennlp min_gen \
@@ -31,8 +31,24 @@ function min_gen(){
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --cuda-device 0 \
-    --num-descent-steps 1 \
-    --lr 0.1
+    --num-descent-steps 500 \
+    --lr 0.05
+}
+
+function min_gen(){
+    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+    echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
+    mkdir -p ${CHECKPOINT_DIR}/output
+    python -um allennlp min_gen \
+    --include-package allennlp.data.dataset_readers \
+    --include-package allennlp.training \
+    ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
+    ${TEST_DATA} \
+    --cuda-device 0 \
+    --descent-strategy thresh \
+    --descent-loss-threshold 0.05 \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/min_gen.jsonl \
+    --lr 0.05
 }
 
 function usage() {

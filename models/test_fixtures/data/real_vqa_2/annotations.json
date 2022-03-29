@@ -1,0 +1,3 @@
+{"info": {"description": "This is v2.0 of the VQA dataset.", "url": "http://visualqa.org", "version": "2.0", "year": 2017, "contributor": "VQA Team", "date_created": "2017-04-26 17:07:13"}, "license": {"url": "http://creativecommons.org/licenses/by/4.0/", "name": "Creative Commons Attribution 4.0 International License"}, "data_subtype": "train2014", "annotations": [
+{"question_type": "What color is the bus?", "multiple_choice_answer": "yellow", "answers": [
+    {"answer":  "yellow", "answer_confidence": "yes", "answer_id": 1}], "image_id": 467311, "answer_type": "other", "question_id": 467311006}], "data_type": "mscoco"}

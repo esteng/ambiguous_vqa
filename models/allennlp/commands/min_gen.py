@@ -41,6 +41,10 @@ class MinGen(Subcommand):
         subparser.add_argument(
             "--lr", type=float, default=0.01, help="learn rate for optimizing the encoded vector")
         subparser.add_argument(
+            "--descent-strategy", type=str, choices=['steps', 'thresh'], default='steps', help = "stopping condition for the descent")
+        subparser.add_argument(
+            "--descent-loss-threshold", type=float, default=0.05, help = "number of steps to optimize")
+        subparser.add_argument(
             "--num-descent-steps", type=int, default=10, help = "number of steps to optimize")
         subparser.add_argument(
             "--output-file", type=str, help="optional path to write the metrics to as JSON"
@@ -165,6 +169,8 @@ def min_gen_from_args(args: argparse.Namespace) -> Dict[str, Any]:
     metrics = minimize_and_generate(
         model,
         data_loader,
+        descent_strategy=args.descent_strategy,
+        descent_loss_threshold=args.descent_loss_threshold,
         num_descent_steps=args.num_descent_steps, 
         lr = args.lr,
         cuda_device=args.cuda_device,

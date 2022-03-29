@@ -53,7 +53,6 @@ class RSAVQAModel(Model):
         super().__init__(vocab)
 
         # self.debug_tokenizer = AutoTokenizer.from_pretrained(model_name)
-
         self.consistency_wrong_map: Dict[str, int] = collections.Counter()
         from allennlp.training.metrics import F1MultiLabelMeasure
         self.f1_metric = F1MultiLabelMeasure(average="micro")
