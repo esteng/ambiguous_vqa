@@ -46,7 +46,7 @@ function min_gen(){
     ${TEST_DATA} \
     --cuda-device 0 \
     --descent-strategy thresh \
-    --descent-loss-threshold 0.05 \
+    --descent-loss-threshold 0.15 \
     --predictions-output-file ${CHECKPOINT_DIR}/output/min_gen.jsonl \
     --lr 0.05
 }
