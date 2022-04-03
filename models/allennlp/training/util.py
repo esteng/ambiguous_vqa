@@ -403,6 +403,7 @@ def minimize_and_generate(
     data_loader: DataLoader,
     lr: float = 0.01,
     cuda_device: int = -1,
+    num_workers: int = 1,
     num_descent_steps: int = 1000, 
     descent_strategy: str = "steps",
     descent_loss_threshold: float = 0.05,
@@ -453,6 +454,7 @@ def minimize_and_generate(
         assert(num_descent_steps > 0)
 
     data_loader.batch_size = 1
+    data_loader.shuffle = False 
 
     iterator = iter(data_loader)
     logger.info("Iterating over dataset")
@@ -472,14 +474,15 @@ def minimize_and_generate(
     model.zero_grad()
     # batch starts by not having meaning_vectors
     batch_losses = []
-
-    batches_to_write = []
+    predictions_to_write = []
 
     for batch in generator_tqdm:
         batch = nn_util.move_to_device(batch, cuda_device)
         with torch.no_grad():
             # start by obtaining a meaning vector from the model 
             initial_output_dict = model(**batch)
+            original_loss = initial_output_dict['vqa_loss'].item()
+
         output_dict = None
         losses = []
 
@@ -538,7 +541,7 @@ def minimize_and_generate(
             # get the model vqa loss 
             vqa_loss = output_dict["vqa_loss"]
             losses.append(vqa_loss.item())
-            logger.info(f"loss: {vqa_loss}")
+            # logger.info(f"loss: {vqa_loss}")
             # compute gradient on vec 
             vqa_loss.backward()
             # Take one step on the vector  
@@ -586,11 +589,6 @@ def minimize_and_generate(
             loss = vqa_loss.item() 
             condition = get_condition(descent_strategy, loss, descent_loss_threshold, epoch, num_descent_steps)
 
-
-            # if predictions_file is not None:
-            #     predictions = json.dumps(sanitize(model.make_output_human_readable(output_dict)))
-            #     predictions_file.write(predictions + "\n")
-
         batch_losses.append(losses)
         # pass forward through the model 
         with torch.no_grad():
@@ -601,8 +599,9 @@ def minimize_and_generate(
             # print(output_dict)
             to_write = {k:v for k,v in batch.items() if k in KEYS_TO_WRITE}
             to_write['speaker_outputs'] = speaker_utts_str
+            to_write['original_loss'] = original_loss
             predictions = json.dumps(sanitize(to_write)) 
-            predictions_file.write(predictions + "\n")
+            predictions_to_write.append(predictions)
 
     final_metrics = model.get_metrics(reset=True)
     if loss_count > 0:
@@ -616,6 +615,7 @@ def minimize_and_generate(
     if output_file is not None:
         dump_metrics(output_file, final_metrics, log=True)
 
+    predictions_file.write("\n".join(predictions_to_write))
     if predictions_file is not None:
         predictions_file.close()
     return final_metrics
