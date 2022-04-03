@@ -8,6 +8,7 @@ from pathlib import Path
 
 from overrides import overrides
 import torch
+import torch.nn as nn
 from transformers import AutoModel, AutoTokenizer
 
 from allennlp.data import TextFieldTensors, Vocabulary, TokenIndexer
@@ -28,6 +29,53 @@ from allennlp.modules.vision.vision_language_encoder import CLIPLanguageEncoder,
 
 logger = logging.getLogger(__name__)
 
+class AsymmetricLossMultiLabel(nn.Module):
+    def __init__(self, gamma_neg=4, gamma_pos=1, clip=0.05, eps=1e-8, disable_torch_grad_focal_loss=False):
+        super(AsymmetricLossMultiLabel, self).__init__()
+
+        self.gamma_neg = gamma_neg
+        self.gamma_pos = gamma_pos
+        self.clip = clip
+        self.disable_torch_grad_focal_loss = disable_torch_grad_focal_loss
+        self.eps = eps
+
+    def forward(self, x, y):
+        """"
+        Parameters
+        ----------
+        x: input logits
+        y: targets (multi-label binarized vector)
+        """
+
+        # Calculating Probabilities
+        x_sigmoid = torch.sigmoid(x)
+        xs_pos = x_sigmoid
+        xs_neg = 1 - x_sigmoid
+
+        # Asymmetric Clipping
+        if self.clip is not None and self.clip > 0:
+            xs_neg = (xs_neg + self.clip).clamp(max=1)
+
+        # Basic CE calculation
+        los_pos = y * torch.log(xs_pos.clamp(min=self.eps))
+        los_neg = (1 - y) * torch.log(xs_neg.clamp(min=self.eps))
+        loss = los_pos + los_neg
+
+        # Asymmetric Focusing
+        if self.gamma_neg > 0 or self.gamma_pos > 0:
+            if self.disable_torch_grad_focal_loss:
+                torch._C.set_grad_enabled(False)
+            pt0 = xs_pos * y
+            pt1 = xs_neg * (1 - y)  # pt = p if t > 0 else 1-p
+            pt = pt0 + pt1
+            one_sided_gamma = self.gamma_pos * y + self.gamma_neg * (1 - y)
+            one_sided_w = torch.pow(1 - pt, one_sided_gamma)
+            if self.disable_torch_grad_focal_loss:
+                torch._C.set_grad_enabled(True)
+            loss *= one_sided_w
+
+        return -loss.sum()
+
 @Model.register("rsa_vqa")
 @Model.register("rsa_vqa_from_huggingface", constructor="from_huggingface_model_name")
 class RSAVQAModel(Model):
@@ -44,6 +92,7 @@ class RSAVQAModel(Model):
         copy_speaker_listener: bool,
         pooled_output_dim: int,
         dropout: float = 0.1,
+        loss_type: str = "ce",
         vqa_loss_factor: float = 1.0,
         speaker_loss_factor: float = 1.0,
         label_namespace: str = "answers",
@@ -94,6 +143,7 @@ class RSAVQAModel(Model):
             self.classifier = torch.nn.Linear(self.vision_language_encoder.encoder.hidden_size2, num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
+        self.loss_type = loss_type
         # self.loss = torch.nn.BCEWithLogitsLoss()
         self.loss = torch.nn.CrossEntropyLoss()
         self.vqa_loss_factor = vqa_loss_factor
@@ -266,7 +316,47 @@ class RSAVQAModel(Model):
                 # / batch_size
             # )
             # pdb.set_trace() 
-            vqa_loss = self.loss(logits, labels.squeeze(-1)) / batch_size
+            if self.loss_type == "bce":
+                _mul_labels = []
+                for label in labels:
+                    mul_labels = torch.zeros(self.num_labels).to(labels.device)
+                    mul_labels = mul_labels.scatter(0, torch.tensor(label).to(labels.device), torch.tensor([1.0 for i in label]).to(labels.device))
+                    _mul_labels.append(mul_labels)
+                batch_mul_labels = torch.stack(_mul_labels, 0).to(labels.device).float()
+                vqa_loss = torch.binary_cross_entropy_with_logits(logits, batch_mul_labels).mean()
+            elif self.loss_type == "wbce":
+                _mul_labels = []
+                for label in labels:
+                    mul_labels = torch.zeros(self.num_labels).to(labels.device)
+                    mul_labels = mul_labels.scatter(0, torch.tensor(label).to(labels.device), torch.tensor([1.0 for i in label]).to(labels.device))
+                    _mul_labels.append(mul_labels)
+                batch_mul_labels = torch.stack(_mul_labels, 0).to(labels.device).float()
+                eposion = 1e-10
+                count_pos = torch.sum(batch_mul_labels)*1.0+eposion
+                count_neg = torch.sum(1.-batch_mul_labels)*1.0
+                beta = count_neg/count_pos
+                beta_back = count_pos / (count_pos + count_neg)
+                bce1 = torch.nn.BCEWithLogitsLoss(pos_weight=beta)
+                bce_loss = bce1(logits.view(-1, self.num_labels), batch_mul_labels).view(-1)
+                vqa_loss = beta_back*bce_loss
+            elif self.loss_type == "nllloss":
+                _mul_labels = []
+                for label in labels:
+                    mul_labels = torch.zeros(self.num_labels).to(labels.device)
+                    mul_labels = mul_labels.scatter(0, torch.tensor(label).to(labels.device), torch.tensor([1.0 for i in label]).to(labels.device))
+                    _mul_labels.append(mul_labels)
+                batch_mul_labels = torch.stack(_mul_labels, 0).to(labels.device).float()
+                vqa_loss = nn.NLLLoss(logits, batch_mul_labels).mean()
+            elif self.loss_type == "aml":
+                _mul_labels = []
+                for label in labels:
+                    mul_labels = torch.zeros(self.num_labels).to(labels.device)
+                    mul_labels = mul_labels.scatter(0, torch.tensor(label).to(labels.device), torch.tensor([1.0 for i in label]).to(labels.device))
+                    _mul_labels.append(mul_labels)
+                batch_mul_labels = torch.stack(_mul_labels, 0).to(labels.device).float()
+                vqa_loss = self.aml_loss(logits, batch_mul_labels).mean()
+            else:
+                vqa_loss = self.loss(logits, mul_labels.squeeze(-1)) / batch_size
             # if vqa_loss.item() < 4:
                 # pdb.set_trace()
 
