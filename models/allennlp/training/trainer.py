@@ -601,7 +601,6 @@ class GradientDescentTrainer(Trainer):
         """
         batch = nn_util.move_to_device(batch, self.cuda_device)
         output_dict = self._pytorch_model(**batch)
-
         if for_training:
             try:
                 assert "loss" in output_dict

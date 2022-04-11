@@ -27,6 +27,7 @@ from allennlp.nn import util as nn_util
 
 logger = logging.getLogger(__name__)
 
+KEYS_TO_WRITE = ["debug_images", "debug_tokens", "debug_answer"]
 
 # We want to warn people that tqdm ignores metrics that start with underscores
 # exactly once. This variable keeps track of whether we have.
@@ -400,9 +401,11 @@ def evaluate(
 def minimize_and_generate(
     model: Model,
     data_loader: DataLoader,
-    num_descent_steps: int, 
     lr: float = 0.01,
     cuda_device: int = -1,
+    num_descent_steps: int = 1000, 
+    descent_strategy: str = "steps",
+    descent_loss_threshold: float = 0.05,
     batch_weight_key: str = None,
     output_file: str = None,
     predictions_output_file: str = None,
@@ -415,6 +418,14 @@ def minimize_and_generate(
     data_loader : `DataLoader`
         The `DataLoader` that will iterate over the evaluation data (data loaders already contain
         their data).
+    num_descent_steps: `int`
+        number of steps to run descent for 
+    descent_strategy: `str` (default="steps")
+        The strategy used for descent. Either a fixed number of steps ("steps") or descend until 
+        the loss reaches threshold ("thresh")
+    descent_loss_threshold: `float` (default=0.01)
+        If strategy is "thresh", the threshold to stopping the descent. Continue optimizing until loss
+        reaches the threshold. 
     cuda_device : `int`, optional (default=`-1`)
         The cuda device to use for this evaluation.  The model is assumed to already be using this
         device; this parameter is only used for moving the input data to the correct device.
@@ -435,8 +446,12 @@ def minimize_and_generate(
     predictions_file = (
         None if predictions_output_file is None else open(predictions_output_file, "w")
     )
+    assert(descent_strategy in ["thresh", "steps"])
+    if descent_strategy == "thresh": 
+        assert(descent_loss_threshold > 0.00)
+    if descent_strategy == "steps": 
+        assert(num_descent_steps > 0)
 
-    # model.eval()
     data_loader.batch_size = 1
 
     iterator = iter(data_loader)
@@ -453,26 +468,44 @@ def minimize_and_generate(
     total_weight = 0.0
 
     import pdb 
-    # TODO: batch size needs to be 1
+    # zero all gradients
     model.zero_grad()
-    # batch starts by not having speaker_encoder_outputs
+    # batch starts by not having meaning_vectors
     batch_losses = []
+
+    batches_to_write = []
+
     for batch in generator_tqdm:
         batch = nn_util.move_to_device(batch, cuda_device)
         with torch.no_grad():
+            # start by obtaining a meaning vector from the model 
             initial_output_dict = model(**batch)
         output_dict = None
         losses = []
-        for epoch in range(num_descent_steps):
-            batch_count += 1
-            # turn off gradients to the model 
-            # for p in model.parameters():
-            #     p.requires_grad = False
-            # get output encoder vector, either from init or from previous iteration
-            if epoch == 0:
-                speaker_output = initial_output_dict['speaker_outputs'][0]
+
+        epoch = 0
+        loss = 100
+
+        def get_condition(descent_strategy, loss, descent_loss_threshold, epoch, num_descent_steps):
+            if descent_strategy == "thresh": 
+                condition = loss > descent_loss_threshold
             else:
-                speaker_output = output_dict['speaker_outputs'][0]
+                condition = epoch < num_descent_steps
+            return condition
+        
+        condition = get_condition(descent_strategy, loss, descent_loss_threshold, epoch, num_descent_steps)
+        # descend on the meaning vector 
+        # for epoch in range(num_descent_steps):
+        # TODO: elias: change to while loop 
+        while condition: 
+            batch_count += 1
+            # get output encoder meaning vector, either from init or from previous iteration
+            if epoch == 0:
+                # at first iteration, we take the meaning vector to be the output from the frozen model 
+                speaker_output = initial_output_dict['meaning_vectors_output'][0]
+            else:
+                # after that, it's the output of the previous epoch iteration 
+                speaker_output = output_dict['meaning_vectors_output'][0]
 
             # weird shape bs 
             if len(speaker_output.shape) == 2:
@@ -481,38 +514,40 @@ def minimize_and_generate(
                 vec = speaker_output[0,:,:].unsqueeze(0).clone()
             else:
                 raise AssertionError
-            # detach to make it a constant 
+            # detach from computation graph to make it a constant 
             vec = vec.detach().clone()
-            # make it require gradients 
+            # manually make it require gradients 
             vec = vec.requires_grad_(True)
-            model.eval() 
             # Update batch with the vec that needs gradients
             try:
-                batch['speaker_encoder_outputs'][0] = vec
+                batch['meaning_vectors_input'][0] = vec
             except KeyError:
-                batch['speaker_encoder_outputs'] = [vec]
+                batch['meaning_vectors_input'] = [vec]
 
-            # define an optimizer just for that vec 
+            # define an optimizer just for the meaning vec 
             optimizer = torch.optim.SGD([vec],
                                         lr=lr)
             optimizer.zero_grad()
 
-            # run the model forward with the gradient-having vector 
+            # set model to test mode and turn off gradients 
+            model.eval() 
             model.requires_grad_(False)
+            model.meaning_vector_source = "listener"
+            # run the model forward with the gradient-having vector 
             output_dict = model(**batch)
-            # get the model loss 
+            # get the model vqa loss 
             vqa_loss = output_dict["vqa_loss"]
             losses.append(vqa_loss.item())
-            print(f"loss: {vqa_loss}")
+            logger.info(f"loss: {vqa_loss}")
             # compute gradient on vec 
             vqa_loss.backward()
             # Take one step on the vector  
             optimizer.step()
             # after optimizer step, update batch 
             try:
-                batch['speaker_encoder_outputs'][0] = vec
+                batch['meaning_vectors_input'][0] = vec
             except KeyError:
-                batch['speaker_encoder_outputs'] = [vec]
+                batch['meaning_vectors_input'] = [vec]
 
             metrics = model.get_metrics()
 
@@ -547,41 +582,51 @@ def minimize_and_generate(
                 + " ||"
             )
             generator_tqdm.set_description(description, refresh=False)
+            epoch += 1
+            loss = vqa_loss.item() 
+            condition = get_condition(descent_strategy, loss, descent_loss_threshold, epoch, num_descent_steps)
 
 
-            if predictions_file is not None:
-                predictions = json.dumps(sanitize(model.make_output_human_readable(output_dict)))
-                predictions_file.write(predictions + "\n")
+            # if predictions_file is not None:
+            #     predictions = json.dumps(sanitize(model.make_output_human_readable(output_dict)))
+            #     predictions_file.write(predictions + "\n")
 
         batch_losses.append(losses)
         # pass forward through the model 
         with torch.no_grad():
             model.eval()
             output_dict = model(**batch)
-            print(output_dict)
-            import pdb 
-            pdb.set_trace() 
-            print(output_dict['speaker_utterances'])
-            something = 0
+            speaker_utts = output_dict['speaker_utterances']
+            speaker_utts_str = convert_utterances(speaker_utts)
+            # print(output_dict)
+            to_write = {k:v for k,v in batch.items() if k in KEYS_TO_WRITE}
+            to_write['speaker_outputs'] = speaker_utts_str
+            predictions = json.dumps(sanitize(to_write)) 
+            predictions_file.write(predictions + "\n")
 
+    final_metrics = model.get_metrics(reset=True)
+    if loss_count > 0:
+        # Sanity check
+        if loss_count != batch_count:
+            raise RuntimeError(
+                "The model you are trying to evaluate only sometimes produced a loss!"
+            )
+        final_metrics["loss"] = total_loss / total_weight
 
+    if output_file is not None:
+        dump_metrics(output_file, final_metrics, log=True)
 
-        if predictions_file is not None:
-            predictions_file.close()
+    if predictions_file is not None:
+        predictions_file.close()
+    return final_metrics
 
-        final_metrics = model.get_metrics(reset=True)
-        if loss_count > 0:
-            # Sanity check
-            if loss_count != batch_count:
-                raise RuntimeError(
-                    "The model you are trying to evaluate only sometimes produced a loss!"
-                )
-            final_metrics["loss"] = total_loss / total_weight
-
-        if output_file is not None:
-            dump_metrics(output_file, final_metrics, log=True)
-
-        return final_metrics
+def convert_utterances(utterances, special_toks = ["[CLS]", "[SEP]"]):
+    to_ret = []
+    utterances = utterances[0][0]
+    for utt in utterances:
+        utt = [x for x in utt if x not in special_toks]
+        to_ret.append(" ".join(utt))
+    return to_ret 
 
 def description_from_metrics(metrics: Dict[str, float]) -> str:
     if not HasBeenWarned.tqdm_ignores_underscores and any(

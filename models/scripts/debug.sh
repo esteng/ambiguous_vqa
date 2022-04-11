@@ -2,7 +2,7 @@
 
 function train(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
-    # rm -rf ${CHECKPOINT_DIR}/ckpt
+    rm -rf ${CHECKPOINT_DIR}/ckpt
     echo "Training a new transductive model for VQA..."
     python -um allennlp train \
     --include-package allennlp.data.dataset_readers \
@@ -13,42 +13,27 @@ function train(){
 
 function eval(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+    export TEST_DATA="unittest"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
     python -um allennlp evaluate \
     --include-package allennlp.data.dataset_readers \
     --include-package allennlp.training \
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
-    ${TEST_DATA} \
-    --predictions-output-file ${CHECKPOINT_DIR}/ckpt/predictions.jsonl 
-}
-
-function min_gen_old(){
-    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
-    echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
-    python -um allennlp min_gen \
-    --include-package allennlp.data.dataset_readers \
-    --include-package allennlp.training \
-    ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
-    ${TEST_DATA} \
-    --cuda-device 0 \
-    --num-descent-steps 500 \
-    --lr 0.05
+    ${TEST_DATA} 
 }
 
 function min_gen(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+    export TEST_DATA="unittest_swapped"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
-    mkdir -p ${CHECKPOINT_DIR}/output
     python -um allennlp min_gen \
     --include-package allennlp.data.dataset_readers \
     --include-package allennlp.training \
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --cuda-device 0 \
-    --descent-strategy thresh \
-    --descent-loss-threshold 0.15 \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/min_gen.jsonl \
-    --lr 0.05
+    --num-descent-steps 1000 \
+    --lr 0.1
 }
 
 function usage() {

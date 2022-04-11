@@ -97,6 +97,8 @@ class WarmupGradientDescentTrainer(GradientDescentTrainer):
             self._batch_num_total = 0
 
         done_early = False
+
+
         for batch_group in batch_group_generator_tqdm:
             if self._distributed:
                 # Check whether the other workers have stopped already (due to differing amounts of
@@ -187,6 +189,7 @@ class WarmupGradientDescentTrainer(GradientDescentTrainer):
                     self._scaler.update()
                 else:
                     self.optimizer.step()
+
 
             # Update moving averages
             if self._moving_average is not None:
