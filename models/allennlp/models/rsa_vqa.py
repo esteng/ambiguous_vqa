@@ -1,4 +1,4 @@
-from cProfile import label
+import os 
 import collections
 import logging
 from copy import deepcopy
@@ -43,6 +43,7 @@ class RSAVQAModel(Model):
         num_listener_steps: int,
         copy_speaker_listener: bool,
         pooled_output_dim: int,
+        beam_size: int = 5,
         dropout: float = 0.1,
         vqa_loss_factor: float = 1.0,
         speaker_loss_factor: float = 1.0,
@@ -64,6 +65,8 @@ class RSAVQAModel(Model):
         from allennlp.training.metrics import BLEU
         exclude_indices = set(speaker_module._exclude_indices) | set([0])
 
+        self.beam_size = beam_size
+        speaker_module.decoder._beam_search.beam_size = beam_size 
         if copy_speaker_listener:
             speaker_modules = [deepcopy(speaker_module) for i in range(num_listener_steps)]
             listener_modules = [deepcopy(listener_module) for i in range(num_listener_steps)]
@@ -100,6 +103,26 @@ class RSAVQAModel(Model):
         self.speaker_loss_factor = speaker_loss_factor
         
         self.meaning_vector_source = meaning_vector_source
+
+    def _cache_meaning_vectors(self, meaning_vectors, precompute_metadata):
+        checkpoint_dir = os.environ['CHECKPOINT_DIR']
+
+
+        for layer in range(len(meaning_vectors)):
+            for i in range(len(meaning_vectors[layer])):
+                metadata = precompute_metadata[i]
+                out_dir = Path(metadata['save_dir'])
+                out_dir.mkdir(exist_ok=True, parents=True)
+                checkpoint_file = out_dir.joinpath("checkpoint_info.txt")
+                # save checkpoint info to make organization easier later 
+                if not checkpoint_file.exists():
+                    with open(checkpoint_file, 'w') as f:
+                        f.write(str(checkpoint_dir))
+                filename = out_dir.joinpath(f"{metadata['image_id']}_{metadata['question_id']}_{layer}.pt")
+                if filename.exists():
+                    continue
+                else:
+                    torch.save(meaning_vectors[layer][i], filename)
 
     @overrides
     def forward(
@@ -232,58 +255,62 @@ class RSAVQAModel(Model):
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask) 
 
+        if precompute_metadata is not None:
+            self._cache_meaning_vectors(meaning_vectors_output, precompute_metadata)
+            outputs = {} 
+            outputs['loss'] = 0.0 
+            outputs['vqa_loss'] = 0.0 
+        else:
+            logits = self.classifier(listener_output['output']) 
+            probs = torch.softmax(logits, dim=-1)
 
+            outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, 
+                    "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances}
 
-        logits = self.classifier(listener_output['output']) 
-        probs = torch.softmax(logits, dim=-1)
+            if labels is not None and label_weights is not None:
+                label_mask = labels > 1  # 0 is padding, 1 is OOV, which we want to ignore
+                weighted_labels = util.masked_index_replace(
+                    logits.new_zeros(logits.size() + (1,)),
+                    labels.clamp(min=0),
+                    label_mask,
+                    label_weights.unsqueeze(-1),
+                ).squeeze(-1)
 
-        outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, 
-                   "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances}
+                # TODO: (elias): with a different label output vocab, is this still true? 
+                # weighted_labels now has shape (batch_size, num_labels).  We need to ignore the first
+                # two columns of this in our loss function and accuracy metric.  The first column is a
+                # padding label, and the second column is an OOV label.  We want the loss function to
+                # be computed on every other label.
+                binary_label_mask = weighted_labels.new_ones(logits.size())
+                binary_label_mask[:, 0] = 0
+                binary_label_mask[:, 1] = 0
 
-        if labels is not None and label_weights is not None:
-            label_mask = labels > 1  # 0 is padding, 1 is OOV, which we want to ignore
-            weighted_labels = util.masked_index_replace(
-                logits.new_zeros(logits.size() + (1,)),
-                labels.clamp(min=0),
-                label_mask,
-                label_weights.unsqueeze(-1),
-            ).squeeze(-1)
-
-            # TODO: (elias): with a different label output vocab, is this still true? 
-            # weighted_labels now has shape (batch_size, num_labels).  We need to ignore the first
-            # two columns of this in our loss function and accuracy metric.  The first column is a
-            # padding label, and the second column is an OOV label.  We want the loss function to
-            # be computed on every other label.
-            binary_label_mask = weighted_labels.new_ones(logits.size())
-            binary_label_mask[:, 0] = 0
-            binary_label_mask[:, 1] = 0
-
-            # pdb.set_trace() 
-            # vqa_loss = (
-                # torch.nn.functional.binary_cross_entropy_with_logits(
-                    # logits, weighted_labels, weight=binary_label_mask, reduction="sum"
+                # pdb.set_trace() 
+                # vqa_loss = (
+                    # torch.nn.functional.binary_cross_entropy_with_logits(
+                        # logits, weighted_labels, weight=binary_label_mask, reduction="sum"
+                    # )
+                    # / batch_size
                 # )
-                # / batch_size
-            # )
-            # pdb.set_trace() 
-            vqa_loss = self.loss(logits, labels.squeeze(-1)) / batch_size
-            # if vqa_loss.item() < 4:
-                # pdb.set_trace()
+                # pdb.set_trace() 
+                vqa_loss = self.loss(logits, labels.squeeze(-1)) / batch_size
+                # if vqa_loss.item() < 4:
+                    # pdb.set_trace()
 
 
-            self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
-            self.vqa_metric(logits, labels, label_weights)
-            # logger.info(f"loss: {loss.item()}")
-            # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
-            # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
-            losses = [self.vqa_loss_factor * vqa_loss] + [self.speaker_loss_factor * x for x in speaker_losses]
-            # losses = speaker_losses
-            big_loss = 0.0
-            for loss in losses:
-                big_loss += loss
+                self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
+                self.vqa_metric(logits, labels, label_weights)
+                # logger.info(f"loss: {loss.item()}")
+                # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
+                # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
+                losses = [self.vqa_loss_factor * vqa_loss] + [self.speaker_loss_factor * x for x in speaker_losses]
+                # losses = speaker_losses
+                big_loss = 0.0
+                for loss in losses:
+                    big_loss += loss
 
-            outputs['loss'] =  big_loss
-            outputs['vqa_loss'] = vqa_loss
+                outputs['loss'] =  big_loss
+                outputs['vqa_loss'] = vqa_loss
         return outputs
 
     @overrides
@@ -367,6 +394,7 @@ class PrecomputeVQAModel(RSAVQAModel):
                                                     box_coordinates=box_coordinates,
                                                     question=question,
                                                     question_input=question_input)
+
 
         for i in range(pooled_output.shape[0]):
             metadata = precompute_metadata[i]

@@ -304,7 +304,9 @@ class VQAv2Reader(VisionReader):
         is_training: bool = True,
         is_validation: bool = False,
         is_precompute: bool = False,
-        use_precompute: bool = False
+        use_precompute: bool = False,
+        retrieval_baseline: bool = False,
+        retrieval_save_dir: str = None,
     ) -> None:
 
         if pass_raw_image_paths: 
@@ -364,6 +366,8 @@ class VQAv2Reader(VisionReader):
         self.is_validation = is_validation
         self.is_precompute = is_precompute
         self.use_precompute = use_precompute
+        self.retrieval_baseline = retrieval_baseline
+        self.retrieval_save_dir = retrieval_save_dir
 
     @overrides
     def _read(self, splits_or_list_of_splits: Union[str, List[str]]):
@@ -502,8 +506,10 @@ class VQAv2Reader(VisionReader):
         for question_dict, processed_image in zip(question_dicts, processed_images):
             answers = answers_by_question_id.get(question_dict["question_id"])
             # for ans in answers: 
-            if self.is_precompute or self.use_precompute:
-                precompute_metadata = {"save_dir": local_base + "precomputed",
+            if self.is_precompute or self.use_precompute or self.retrieval_baseline:
+                if self.retrieval_baseline:
+                    local_base = self.retrieval_save_dir
+                precompute_metadata = {"save_dir": local_base, 
                                        "question_id": question_dict['question_id'],
                                        "image_id": question_dict['image_id']}
             else:

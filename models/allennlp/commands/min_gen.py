@@ -49,6 +49,12 @@ class MinGen(Subcommand):
         subparser.add_argument(
             "--output-file", type=str, help="optional path to write the metrics to as JSON"
         )
+        subparser.add_argument(
+            "--mix-strategy", type=str, choices=[None, "end", "continuous"], default=None, help = "mix strategy the vectors. None means no mixing, end means mixing only at the end, continous mixes in the original meaning vector at each optimization step "
+        )
+        subparser.add_argument(
+            "--mix-ratio", type=float, default=0.5, help="mix ratio"
+        )
 
         subparser.add_argument(
             "--predictions-output-file",
@@ -75,6 +81,9 @@ class MinGen(Subcommand):
                 "'{\"iterator.batch_size\": 16}'.  Nested parameters can be specified either"
                 " with nested dictionaries or with dot syntax."
             ),
+        )
+        subparser.add_argument(
+            "--beam-size", type=int, help="Beam size when using beam search decoder", default=5,
         )
 
         subparser.add_argument(
@@ -169,9 +178,12 @@ def min_gen_from_args(args: argparse.Namespace) -> Dict[str, Any]:
     metrics = minimize_and_generate(
         model,
         data_loader,
+        beam_size=args.beam_size,
         descent_strategy=args.descent_strategy,
         descent_loss_threshold=args.descent_loss_threshold,
         num_descent_steps=args.num_descent_steps, 
+        mix_strategy=args.mix_strategy,
+        mix_ratio=args.mix_ratio,
         lr = args.lr,
         cuda_device=args.cuda_device,
         batch_weight_key=args.batch_weight_key,

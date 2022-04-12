@@ -291,6 +291,8 @@ def evaluate(
     batch_weight_key: str = None,
     output_file: str = None,
     predictions_output_file: str = None,
+    ignore_keys: List[str] = None,
+    get_metric: bool = True,
 ) -> Dict[str, Any]:
     """
     # Parameters
@@ -343,56 +345,62 @@ def evaluate(
             output_dict = model(**batch)
             loss = output_dict.get("loss")
 
-            metrics = model.get_metrics()
+            if get_metric:
+                metrics = model.get_metrics()
 
-            if loss is not None:
-                loss_count += 1
-                if batch_weight_key:
-                    weight = output_dict[batch_weight_key].item()
-                else:
-                    weight = 1.0
+                if loss is not None:
+                    loss_count += 1
+                    if batch_weight_key:
+                        weight = output_dict[batch_weight_key].item()
+                    else:
+                        weight = 1.0
 
-                total_weight += weight
-                total_loss += loss.item() * weight
-                # Report the average loss so far.
-                metrics["loss"] = total_loss / total_weight
+                    total_weight += weight
+                    total_loss += loss.item() * weight
+                    # Report the average loss so far.
+                    metrics["loss"] = total_loss / total_weight
 
-            if not HasBeenWarned.tqdm_ignores_underscores and any(
-                metric_name.startswith("_") for metric_name in metrics
-            ):
-                logger.warning(
-                    'Metrics with names beginning with "_" will '
-                    "not be logged to the tqdm progress bar."
+                if not HasBeenWarned.tqdm_ignores_underscores and any(
+                    metric_name.startswith("_") for metric_name in metrics
+                ):
+                    logger.warning(
+                        'Metrics with names beginning with "_" will '
+                        "not be logged to the tqdm progress bar."
+                    )
+                    HasBeenWarned.tqdm_ignores_underscores = True
+                description = (
+                    ", ".join(
+                        [
+                            "%s: %.2f" % (name, value)
+                            for name, value in metrics.items()
+                            if not name.startswith("_")
+                        ]
+                    )
+                    + " ||"
                 )
-                HasBeenWarned.tqdm_ignores_underscores = True
-            description = (
-                ", ".join(
-                    [
-                        "%s: %.2f" % (name, value)
-                        for name, value in metrics.items()
-                        if not name.startswith("_")
-                    ]
-                )
-                + " ||"
-            )
-            generator_tqdm.set_description(description, refresh=False)
+                generator_tqdm.set_description(description, refresh=False)
 
             if predictions_file is not None:
-                predictions = json.dumps(sanitize(model.make_output_human_readable(output_dict)))
+                predictions = sanitize(model.make_output_human_readable(output_dict))
+                if ignore_keys is not None:
+                    predictions = {k:v for k,v in predictions.items() if k not in ignore_keys}
+                predictions = json.dumps(predictions)
                 predictions_file.write(predictions + "\n")
 
         if predictions_file is not None:
             predictions_file.close()
 
-        final_metrics = model.get_metrics(reset=True)
-        if loss_count > 0:
-            # Sanity check
-            if loss_count != batch_count:
-                raise RuntimeError(
-                    "The model you are trying to evaluate only sometimes produced a loss!"
-                )
-            final_metrics["loss"] = total_loss / total_weight
-
+        if get_metric:
+            final_metrics = model.get_metrics(reset=True)
+            if loss_count > 0:
+                # Sanity check
+                if loss_count != batch_count:
+                    raise RuntimeError(
+                        "The model you are trying to evaluate only sometimes produced a loss!"
+                    )
+                final_metrics["loss"] = total_loss / total_weight
+        else:
+            final_metrics = {}
         if output_file is not None:
             dump_metrics(output_file, final_metrics, log=True)
 
@@ -401,10 +409,13 @@ def evaluate(
 def minimize_and_generate(
     model: Model,
     data_loader: DataLoader,
+    beam_size: int = 5,
     lr: float = 0.01,
     cuda_device: int = -1,
     num_workers: int = 1,
     num_descent_steps: int = 1000, 
+    mix_strategy: str = None,
+    mix_ratio: float = 0.5,
     descent_strategy: str = "steps",
     descent_loss_threshold: float = 0.05,
     batch_weight_key: str = None,
@@ -450,8 +461,8 @@ def minimize_and_generate(
     assert(descent_strategy in ["thresh", "steps"])
     if descent_strategy == "thresh": 
         assert(descent_loss_threshold > 0.00)
-    if descent_strategy == "steps": 
-        assert(num_descent_steps > 0)
+    #if descent_strategy == "steps": 
+    #    assert(num_descent_steps > 0)
 
     data_loader.batch_size = 1
     data_loader.shuffle = False 
@@ -472,6 +483,7 @@ def minimize_and_generate(
     import pdb 
     # zero all gradients
     model.zero_grad()
+    model.beam_size = beam_size
     # batch starts by not having meaning_vectors
     batch_losses = []
     predictions_to_write = []
@@ -482,6 +494,7 @@ def minimize_and_generate(
             # start by obtaining a meaning vector from the model 
             initial_output_dict = model(**batch)
             original_loss = initial_output_dict['vqa_loss'].item()
+            original_meaning_vec = initial_output_dict['meaning_vectors_output'][0].clone() 
 
         output_dict = None
         losses = []
@@ -519,6 +532,8 @@ def minimize_and_generate(
                 raise AssertionError
             # detach from computation graph to make it a constant 
             vec = vec.detach().clone()
+            if mix_strategy == "continuous": 
+                vec = (1-mix_ratio) * vec + mix_ratio * original_meaning_vec 
             # manually make it require gradients 
             vec = vec.requires_grad_(True)
             # Update batch with the vec that needs gradients
@@ -593,6 +608,9 @@ def minimize_and_generate(
         # pass forward through the model 
         with torch.no_grad():
             model.eval()
+            if mix_strategy == "end": 
+                batch['meaning_vectors_input'][0] = (1-mix_ratio) * original_meaning_vec + mix_ratio * batch['meaning_vectors_input'][0]
+
             output_dict = model(**batch)
             speaker_utts = output_dict['speaker_utterances']
             speaker_utts_str = convert_utterances(speaker_utts)
