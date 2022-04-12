@@ -42,10 +42,7 @@ def get_groups(rows, enforce_num_anns, num_anns, mturk):
     - num_anns: int
         number of annotators participating 
     """
-    if mturk:
-        key="HITTypeId"
-    else:
-        key="HITId"
+    key="HITId"
     rows_by_hit_id = defaultdict(list)
     for r in rows:
         rows_by_hit_id[r[key]].append(r) 
@@ -118,11 +115,14 @@ def skip_agreement(rows_by_hit_id, interact=False, mturk=False): # TO DO (TEST)
                             per_annotator_agreement[key]['correct_skipped'] += 1
                         else:
                             per_annotator_agreement[key]['correct_unskipped'] += 1
-
-                    else:
-                        if interact:
+                        if interact and not row1['Answer.is_skip']:
                             pprint([row1, row2], ['Input.imgUrl', 'Input.questionStr', user_key, 'Answer.is_skip'])
                             pdb.set_trace() 
+
+                    # else:
+                    #     if interact:
+                    #         pprint([row1, row2], ['Input.imgUrl', 'Input.questionStr', user_key, 'Answer.is_skip'])
+                    #         pdb.set_trace() 
                     per_annotator_agreement[key]['total'] += 1
 
 
@@ -282,6 +282,8 @@ if __name__ == "__main__":
 
     annotator_report(rows_by_hit_id, args.mturk)
     agree, disagree, skip_agree_perc, skip_per_annotator_agreement = skip_agreement(rows_by_hit_id, interact=args.interact, mturk=args.mturk) 
+
+    pdb.set_trace() 
 
     print(f"annotators agree on skips {skip_agree_perc*100:.2f}% of the time")
     print(f"per_annotator: {skip_per_annotator_agreement}")

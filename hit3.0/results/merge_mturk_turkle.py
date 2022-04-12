@@ -1,5 +1,7 @@
 import csv 
 import argparse 
+import pdb 
+import copy 
 
 def read_csv(csv_path):
     with open(csv_path, 'r') as f:
@@ -43,12 +45,18 @@ def merge_csvs(csv_turkle, csv_mturk):
             if row_t[pivot_key] == row_m[pivot_key]:
                 row_t, row_m = unify_rows(row_t, row_m) 
                 # if hit_id_t not in done: 
-                to_ret.append(row_t)
+                t_key = f"{row_t['Turkle.Username']}_{hit_id_t}"
+                if t_key not in done:
+                    to_ret.append(row_t)
+                    done.append(t_key)
                     # done.append(hit_id_t)
-                if hit_id_m not in done:
-                    row_m['HITId'] = hit_id_t
-                    to_ret.append(row_m)
-                    done.append(hit_id_m)
+                m_key = f"{row_m['Turkle.Username']}_{hit_id_m}"
+                if m_key not in done:
+                    copy_row = copy.deepcopy(row_m)
+                    copy_row['HITId'] = hit_id_t
+                    to_ret.append(copy_row)
+                    done.append(m_key)
+                    print(len(done), len(to_ret))
 
     return to_ret 
 
