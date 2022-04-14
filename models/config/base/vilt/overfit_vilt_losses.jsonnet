@@ -9,7 +9,8 @@ local line_limit = 16;
 // local line_limit = 16;
 
 local construct_vocab = false;
-local dataset = "balanced_real_train";
+// local dataset = "balanced_real_train";
+local dataset = "unittest";
 local dataset_vocab = "balanced_real";
 
 local pooled_output_dim = 768;
@@ -33,11 +34,8 @@ local token_indexers = { tokens: {
 {
   dataset_reader: {
     type: 'vqav2',
-    image_dir: 'data/vqa/balanced_real',
-    [if !construct_vocab then 'feature_cache_dir']: std.format('data/vqa/%s/feature_cache', dataset),
-    [if !construct_vocab then 'image_loader']: 'detectron',
-    [if !construct_vocab then 'image_featurizer']: 'resnet_backbone',
-    [if !construct_vocab then 'region_detector']: 'faster_rcnn',
+    // image_dir: 'data/vqa/balanced_real',
+    image_dir: std.format('/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s', dataset),
     // "tokenizer": tokenizer,
     source_token_indexers: pretrained_token_indexers,
     target_token_indexers: token_indexers,
@@ -45,28 +43,25 @@ local token_indexers = { tokens: {
     image_processing_batch_size: 16,
     run_image_feature_extraction: false,
     pass_raw_image_paths: true,
-    multiple_answers_per_question: false,
-    use_onehot: true,
+    multiple_answers_per_question: true,
+    use_multilabel: true,
     is_training: true,
     is_validation: false,
     use_precompute: false,
   },
   validation_dataset_reader: {
     type: 'vqav2',
-    image_dir: 'data/vqa/balanced_real',
-    [if !construct_vocab then 'feature_cache_dir']: std.format('data/vqa/%s/feature_cache', dataset),
-    [if !construct_vocab then 'image_loader']: 'detectron',
-    [if !construct_vocab then 'image_featurizer']: 'resnet_backbone',
-    [if !construct_vocab then 'region_detector']: 'faster_rcnn',
+    // image_dir: 'data/vqa/balanced_real',
+    image_dir: std.format('/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s', dataset),
     tokenizer: tokenizer,
     source_token_indexers: pretrained_token_indexers,
     target_token_indexers: token_indexers,
     max_instances: line_limit,
-    use_onehot: true,
+    use_multilabel: true,
     is_training: false,
     is_validation: true,
     image_processing_batch_size: 16,
-    multiple_answers_per_question: false,
+    multiple_answers_per_question: true,
     run_image_feature_extraction: false,
     pass_raw_image_paths: true,
     use_precompute: false,
@@ -164,9 +159,9 @@ local token_indexers = { tokens: {
     //   "warmup_steps": 4000
     // },
     validation_metric: '+vqa_score',
-    save_warmup: 0,
+    save_warmup: 199,
     patience: 300,
-    num_epochs: 25,
+    num_epochs: 300,
     num_gradient_accumulation_steps: effective_batch_size / gpu_batch_size / std.max(1, num_gpus),
   },
   random_seed: 12,

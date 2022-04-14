@@ -20,6 +20,7 @@ from allennlp.training.metrics.fbeta_measure import FBetaMeasure
 from allennlp.training.metrics.fbeta_multi_label_measure import (
     FBetaMultiLabelMeasure,
     F1MultiLabelMeasure,
+    BCEF1MultiLabelMeasure,
 )
 from allennlp.training.metrics.f1_measure import F1Measure
 from allennlp.training.metrics.mean_absolute_error import MeanAbsoluteError

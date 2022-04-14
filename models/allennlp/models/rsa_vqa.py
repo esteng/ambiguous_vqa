@@ -103,8 +103,12 @@ class RSAVQAModel(Model):
 
         # self.debug_tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.consistency_wrong_map: Dict[str, int] = collections.Counter()
-        from allennlp.training.metrics import F1MultiLabelMeasure
-        self.f1_metric = F1MultiLabelMeasure(average="micro")
+        from allennlp.training.metrics import F1MultiLabelMeasure, BCEF1MultiLabelMeasure
+        # self.f1_metric = F1MultiLabelMeasure(average="micro")
+        if loss['type'] == "bce": 
+            self.f1_metric = BCEF1MultiLabelMeasure() 
+        else:
+            self.f1_metric = F1MultiLabelMeasure(average="micro")
 
         from allennlp.training.metrics.vqa import VqaMeasure
         self.vqa_metric = VqaMeasure()
@@ -149,6 +153,23 @@ class RSAVQAModel(Model):
         
         self.meaning_vector_source = meaning_vector_source
 
+    def get_label_weights(self, labels, debug_answers):
+        weights = torch.zeros_like(labels)
+        for row in range(weights.shape[0]):
+            for answer, count in debug_answers[row].items():
+                ans_idx = self.vocab._token_to_index['answers'][answer]
+                weights[row, ans_idx] = count
+        # normalize weights 
+        weights = weights / weights.sum(dim=1, keepdim=True)
+        # make zero examples also have a weight 
+        # proportional to how many zeros there are
+        num_zeros = weights == 0
+        num_zeros = num_zeros.sum(dim=1, keepdim=True)
+        weights_zero_mask = torch.ones_like(weights) / num_zeros
+        weights[weights == 0] = weights_zero_mask[weights == 0]
+        return weights
+
+
     @overrides
     def forward(
         self,  # type: ignore
@@ -159,6 +180,7 @@ class RSAVQAModel(Model):
         # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
+        label_indices: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
         debug_images: Optional[MetadataField] = None,
@@ -293,33 +315,12 @@ class RSAVQAModel(Model):
                 label_mask = torch.sum(labels, 2) > 1  # 0 is padding, 1 is OOV, which we want to ignore
             else:
                 label_mask = labels > 1
-            """
-            weighted_labels = util.masked_index_replace(
-                logits.new_zeros(logits.size() + (1,)),
-                labels.clamp(min=0),
-                label_mask,
-                label_weights.unsqueeze(-1),
-            ).squeeze(-1)
 
-            # TODO: (elias): with a different label output vocab, is this still true? 
-            # weighted_labels now has shape (batch_size, num_labels).  We need to ignore the first
-            # two columns of this in our loss function and accuracy metric.  The first column is a
-            # padding label, and the second column is an OOV label.  We want the loss function to
-            # be computed on every other label.
-            binary_label_mask = weighted_labels.new_ones(logits.size())
-            binary_label_mask[:, 0] = 0
-            binary_label_mask[:, 1] = 0
-            """
-            # pdb.set_trace() 
-            # vqa_loss = (
-                # torch.nn.functional.binary_cross_entropy_with_logits(
-                    # logits, weighted_labels, weight=binary_label_mask, reduction="sum"
-                # )
-                # / batch_size
-            # )
-            # pdb.set_trace() 
             if self.loss['type'] == "bce":
-                vqa_loss = torch.binary_cross_entropy_with_logits(logits, torch.squeeze(labels, 1).float()).mean()
+                # deal with label weights and indices
+                labels = labels.squeeze(1).float()
+                label_weights = self.get_label_weights(labels, debug_answer)
+                vqa_loss = torch.binary_cross_entropy_with_logits(logits, labels, weight=label_weights).mean()
             elif self.loss['type'] == "wbce":
                 eposion = 1e-10
                 count_pos = torch.sum(labels)*1.0+eposion
@@ -337,14 +338,14 @@ class RSAVQAModel(Model):
             else:
                 loss_fn = nn.CrossEntropyLoss()
                 vqa_loss = loss_fn(logits, labels.squeeze(-1)) / batch_size
-            # if vqa_loss.item() < 4:
-                # pdb.set_trace()
 
+            if self.loss['type'] in ["bce", "wbce"]: 
+                labels_for_metric = torch.argmax(labels*label_weights, dim=1)
+                label_weights_for_metric = torch.ones_like(labels_for_metric)
+            else:
+                labels_for_metric = labels 
+                label_weights_for_metric = label_weights
 
-            # self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
-            if self.loss['type'] in ['bce', 'wbce', 'nllloss', 'aml']:
-                self.f1_metric(logits, torch.squeeze(labels, 1).float())
-            self.vqa_metric(logits, labels, label_weights)
             # logger.info(f"loss: {loss.item()}")
             # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
             # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
@@ -356,6 +357,10 @@ class RSAVQAModel(Model):
 
             outputs['loss'] =  big_loss
             outputs['vqa_loss'] = vqa_loss
+
+            self.vqa_metric(logits, labels_for_metric, label_weights_for_metric)
+            if self.loss['type'] in ['bce', 'wbce', 'nllloss', 'aml']:
+                self.f1_metric(logits, labels)
         return outputs
 
     def softmax_cross_entropy_with_softtarget(self, input, target, reduction='mean'):
@@ -435,6 +440,7 @@ class PrecomputeVQAModel(RSAVQAModel):
         # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
+        label_indices: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
         debug_images: Optional[MetadataField] = None,

@@ -50,7 +50,9 @@ class VqaMeasure(Metric):
         predictions = logits.argmax(dim=1)
         # Sum over dimension 1 gives the score per question. We care about the overall sum though,
         # so we sum over all dimensions.
-        self._sum_of_scores += (label_weights * (labels == predictions.unsqueeze(-1))).sum()
+        if len(labels.shape) > 1:
+            predictions = predictions.unsqueeze(-1)
+        self._sum_of_scores += (label_weights * (labels == predictions)).sum()
         self._score_count += labels.size(0)
 
         from allennlp.common.util import is_distributed
