@@ -5,6 +5,7 @@ import itertools
 import json
 import csv 
 import pdb
+from re import I
 from scipy.optimize import linear_sum_assignment
 from tracemalloc import get_tracemalloc_memory 
 
@@ -20,6 +21,7 @@ def process_row(row):
     return row
 
 def process_csv(filename):
+    fieldnames = ["HITId","HITTypeId","Title","CreationTime","MaxAssignments","AssignmentDurationInSeconds","AssignmentId","WorkerId","AcceptTime","SubmitTime","WorkTimeInSeconds","Input.answerGroups","Input.answerQuestions","Input.imgUrl","Input.questionStr","Answer.answer_groups","Answer.answer_questions","Answer.is_skip","Answer.skipCheck","Answer.skip_reason","Turkle.Username"]
     to_ret = []
     with open(filename) as f1:
         reader = csv.DictReader(f1)
@@ -28,7 +30,7 @@ def process_csv(filename):
 
     return to_ret 
 
-def get_groups(rows, enforce_num_anns, num_anns, mturk): 
+def get_groups(rows, enforce_num_anns, num_anns, annotator_names=None): 
     """
     Take raw csv rows, and return a dict of lists, with each list containt rows grouped 
     by HIT ID
@@ -42,23 +44,25 @@ def get_groups(rows, enforce_num_anns, num_anns, mturk):
     - num_anns: int
         number of annotators participating 
     """
-    key="HITId"
     rows_by_hit_id = defaultdict(list)
     for r in rows:
-        rows_by_hit_id[r[key]].append(r) 
+        rows_by_hit_id[r['HITId']].append(r) 
     if enforce_num_anns: 
         rows_by_hit_id = {k: v for k,v in rows_by_hit_id.items() if len(v) == num_anns}
+    if annotator_names is not None:
+        new_rows = {}
+        for k,v in rows_by_hit_id.items(): 
+            v = [x for x in v if x['Turkle.Username'] in annotator_names]
+            if len(v) == len(annotator_names):
+                new_rows[k] = v
+        rows_by_hit_id = new_rows
     return rows_by_hit_id
 
-def annotator_report(groups, mturk): 
+def annotator_report(groups): 
     annotator_lines = defaultdict(list)
-    if mturk:
-        user_key = "WorkerId"
-    else:
-        user_key = "Turkle.Username"
     for hit_id, rows in groups.items():
         for row in rows:
-            ann = row[user_key]
+            ann = row['Turkle.Username']
             annotator_lines[ann].append(row)
 
     ann_report = {}
@@ -71,7 +75,7 @@ def annotator_report(groups, mturk):
         print(f"Annotator: {ann}, skipped: {skipped}, completed: {completed}")
 
 
-def skip_agreement(rows_by_hit_id, interact=False, mturk=False): # TO DO (TEST)
+def skip_agreement(rows_by_hit_id, interact=False, annotator_names=None): # TO DO (TEST)
     """
     Compute the percentage of time all annotators agree 
     on whether to skip, and the percentage of times 
@@ -88,10 +92,6 @@ def skip_agreement(rows_by_hit_id, interact=False, mturk=False): # TO DO (TEST)
     agree = {}
     disagree = {}
     # correct, total 
-    if mturk:
-        user_key = "WorkerId"
-    else:
-        user_key = "Turkle.Username"
 
     per_annotator_agreement = defaultdict(lambda: {"correct": 0, "total": 0, "correct_skipped": 0, "correct_unskipped": 0})
     for hit_id, ex_rows in rows_by_hit_id.items(): 
@@ -102,9 +102,12 @@ def skip_agreement(rows_by_hit_id, interact=False, mturk=False): # TO DO (TEST)
         else:
             disagree[hit_id] = ex_rows
         for row1 in ex_rows:
-            ann1 = row1[user_key]
+            ann1 = row1['Turkle.Username']
             for row2 in ex_rows:
-                ann2 = row2[user_key]
+                ann2 = row2['Turkle.Username']
+                if annotator_names is not None:
+                    if ann1 not in annotator_names or ann2 not in annotator_names:
+                        continue 
                 key = f"{ann1}_{ann2}"
                 if ann1 == ann2: 
                     continue
@@ -115,18 +118,14 @@ def skip_agreement(rows_by_hit_id, interact=False, mturk=False): # TO DO (TEST)
                             per_annotator_agreement[key]['correct_skipped'] += 1
                         else:
                             per_annotator_agreement[key]['correct_unskipped'] += 1
-                        if interact and not row1['Answer.is_skip']:
-                            pprint([row1, row2], ['Input.imgUrl', 'Input.questionStr', user_key, 'Answer.is_skip'])
+
+                    else:
+                        if interact:
+                            pprint([row1, row2], ['Input.imgUrl', 'Input.questionStr', 'Turkle.Username', 'Answer.is_skip'])
                             pdb.set_trace() 
-
-                    # else:
-                    #     if interact:
-                    #         pprint([row1, row2], ['Input.imgUrl', 'Input.questionStr', user_key, 'Answer.is_skip'])
-                    #         pdb.set_trace() 
                     per_annotator_agreement[key]['total'] += 1
-
-
         total += 1
+
     for k, v in per_annotator_agreement.items():
         per_annotator_agreement[k] = (safe_divide(v['correct'], v['total']), v)
     return agree, disagree, n_agree/total, per_annotator_agreement
@@ -178,14 +177,14 @@ def f1_score(groups1, groups2):
     best_f1_scores = f1_scores[f1_assignment]
     return np.mean(best_f1_scores, axis=0)
         
-def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, mturk=False): # TO DO
-    rows_by_hit_id = get_groups(rows, enforce_num_anns = enforce_num_anns, num_anns = num_anns, mturk=mturk) 
-    agree, disagree, perc, __ = skip_agreement(rows_by_hit_id, mturk=mturk) # Agreement, disagreement, percent agreement
+def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False): # TO DO
+    rows_by_hit_id = get_groups(rows, enforce_num_anns = enforce_num_anns, num_anns = num_anns) 
+    agree, disagree, perc, __ = skip_agreement(rows_by_hit_id) # Agreement, disagreement, percent agreement
+    all_groups = [] 
+    n_agree, total = 0, 0 # n_agree, total
+    group_agree, group_disagree = [], [] # Group agreement, group disagreement
 
-    if mturk:
-        user_key = "WorkerId"
-    else:
-        user_key = "Turkle.Username"
+    # Jimen's reworked code
 
     # Group by HitId and then compute pairwise group overlap
     # Have dictionary sorted by example id
@@ -204,13 +203,13 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
         # Put answer_groups into dictionary based on hit id
         if hit_id in id_sorted_scores:
             for ann in ex_rows:
-                id_sorted_scores[hit_id]['Answer.answer_groups'].append((ann[user_key], ann['Answer.answer_groups']))
+                id_sorted_scores[hit_id]['Answer.answer_groups'].append((ann['Turkle.Username'], ann['Answer.answer_groups']))
 
         else:
             id_sorted_scores[hit_id] = {} 
             id_sorted_scores[hit_id]['Answer.answer_groups'] = []
             for ann in ex_rows: 
-                id_sorted_scores[hit_id]['Answer.answer_groups'].append((ann[user_key], ann['Answer.answer_groups']))
+                id_sorted_scores[hit_id]['Answer.answer_groups'].append((ann['Turkle.Username'], ann['Answer.answer_groups']))
             # Can input other data such as Input.questionStr, Answer.is_skip, WorkerId, Answer.answer_questions here
 
     group_agree, group_disagree = [], []
@@ -234,6 +233,7 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
                 if ann1_name == ann2_name: 
                     continue
                 
+                # pdb.set_trace() 
                 group_f1 = f1_score(ann1_groups, ann2_groups)
                 group_scores[i, ann1_idx, ann2_idx] = group_f1
 
@@ -241,9 +241,16 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
         ann_combos = itertools.combinations(range(len(id_sorted_scores[hit_id]['Answer.answer_groups'])), 2)
         scores_for_avg.append(np.mean([group_scores[i, c[0], c[1]] for c in ann_combos]))
 
+        # id_sorted_scores[hit_id]['GroupAgreement'] = len(group_agree)/(len(group_agree) + len(group_disagree))
+
+        # print(hit_id, id_sorted_scores[hit_id]['GroupAgreement'])
         print(group_scores[i])
+
+
+        # pprint(rows_by_hit_id[hit_id], ["Input.questionStr", "Turkle.Username", "Answer.answer_groups"])
     print(scores_for_avg)
     return np.mean(scores_for_avg)
+########################################
 
 def pprint(rows, fields):
     def stringify(x): 
@@ -258,31 +265,101 @@ def pprint(rows, fields):
     to_print.append(header) 
     prefix = "\t"
     for row in rows:
-
         values = [stringify(row[f]) for f in fields]
         to_print.append(f"{prefix}{', '.join(values)}")
     print("\n".join(to_print))
-            
+
+def make_lookup(input_row_file): 
+    with open(input_row_file) as f1:
+        reader = csv.DictReader(f1) 
+        lookup = {}
+        for row in reader:
+            question_str = row['questionStr']
+            qid = row['question_id']
+            # if question_str in lookup.keys():
+                # pdb.set_trace() 
+            lookup[question_str] = qid
+    return lookup 
+
+
+def subsample(agree, n_unskipped, n_skipped, annotator_names, lookup): 
+    unskipped, skipped = 0, 0
+    to_keep = []
+    print(len(agree))
+    complete = 0
+    has_skip_false, has_skip_true = 0, 0
+    for hit_id, example_group in agree.items(): 
+        # example_rows = [x for x in example_group if x['Turkle.Username'] in annotator_names]
+        example_rows = example_group
+        example_row = example_rows[0] 
+        if example_row['Answer.is_skip']: 
+            has_skip_true += 1
+        else:
+            has_skip_false += 1
+        question = example_row['Input.questionStr']
+        qid = lookup[question]
+        # pdb.set_trace() 
+        if example_row['Answer.is_skip']:
+            if skipped < n_skipped:
+                to_keep.append(qid)
+                skipped += 1
+        else: 
+            if unskipped < n_unskipped:
+                to_keep.append(qid)
+                unskipped += 1
+            else:
+                continue
+
+    return to_keep 
+
+def subset_data(input_row_file, output_row_file, to_keep): 
+    with open(input_row_file) as f1, \
+        open(output_row_file, "w") as f2: 
+        reader = csv.DictReader(f1)
+        writer = csv.DictWriter(f2, fieldnames=reader.fieldnames)
+        writer.writeheader()
+        for row in reader:
+            if row['question_id'] in to_keep:
+                writer.writerow(row)
 
 
 if __name__ == "__main__": 
+    """
+    A bit of a hacky file in order to get annotations for the pilot MTurk HIT based on the Turkle HIT.
+    Reads in the Turkle results file, figures out which annotations the best annotators agree on, then 
+    takes a subset of those annotations, pulls out the corresponding input line, and writes to a csv 
+    """
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--csv", type=str, required=True, help="path to results csv")
     parser.add_argument("--enforce-num-anns", action='store_true')
     parser.add_argument("--interact", action="store_true")
     parser.add_argument("--n", type=int, default=2, help="number of annotators per example")
-    parser.add_argument("--mturk", action="store_true", help="set flag to true if csv is from mturk")
+    parser.add_argument("--out-path", type=str, default="../csvs/for_mturk.csv")
+    parser.add_argument("--input-row-file", type=str, default="../csvs/sorted_by_difference_full.csv")
+    parser.add_argument("--n-skipped", type=int, default=28)
+    parser.add_argument("--n-unskipped", type=int, default=14)
+
+    parser.add_argument("--annotator-names", type=str, default="esteng,ohussei3")
     args = parser.parse_args()
+    args.annotator_names = args.annotator_names.split(",")
 
     rows = process_csv(args.csv)
-    rows_by_hit_id = get_groups(rows, 
-                                args.enforce_num_anns, 
-                                args.n,
-                                args.mturk)
+    rows_by_hit_id = get_groups(rows, args.enforce_num_anns, args.n, args.annotator_names)
+    # annotator_report(rows_by_hit_id)
+    (agree, 
+    disagree, 
+    skip_agree_perc, 
+    skip_per_annotator_agreement) = skip_agreement(rows_by_hit_id, 
+                                                   interact=args.interact, 
+                                                   annotator_names = args.annotator_names) 
 
-    annotator_report(rows_by_hit_id, args.mturk)
-    agree, disagree, skip_agree_perc, skip_per_annotator_agreement = skip_agreement(rows_by_hit_id, interact=args.interact, mturk=args.mturk) 
+    lookup = make_lookup(args.input_row_file)
 
+
+    to_keep = subsample(agree, n_unskipped = args.n_unskipped, n_skipped= args.n_skipped, annotator_names = args.annotator_names, lookup = lookup)
+
+    subset_data(args.input_row_file, args.out_path, to_keep)
     pdb.set_trace() 
 
     print(f"annotators agree on skips {skip_agree_perc*100:.2f}% of the time")
