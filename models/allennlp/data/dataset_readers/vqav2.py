@@ -27,7 +27,7 @@ from allennlp.data.tokenizers.token import Token
 from allennlp.common.file_utils import cached_path
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
-from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField
+from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField, MultiLabelField
 from allennlp.data.image_loader import ImageLoader
 from allennlp.data.instance import Instance
 from allennlp.data.token_indexers import TokenIndexer
@@ -301,6 +301,7 @@ class VQAv2Reader(VisionReader):
         run_image_feature_extraction: bool = True,
         pass_raw_image_paths: bool = False,
         multiple_answers_per_question: bool = True,
+        use_onehot: bool = False,
         is_training: bool = True,
         is_validation: bool = False,
         is_precompute: bool = False,
@@ -359,7 +360,7 @@ class VQAv2Reader(VisionReader):
                 del self.images[None]
 
         self.multiple_answers_per_question = multiple_answers_per_question
-
+        self.use_onehot = use_onehot
         self.is_training = is_training
         self.is_validation = is_validation
         self.is_precompute = is_precompute
@@ -391,7 +392,7 @@ class VQAv2Reader(VisionReader):
         aws_base = "https://s3.amazonaws.com/cvmlp/vqa/"
         mscoco_base = aws_base + "mscoco/vqa/"
         scene_base = aws_base + "abstract_v002/vqa/"
-        local_base = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+        local_base = "data/vqa/"
         self.local_base = local_base 
 
         # fmt: off
@@ -575,7 +576,10 @@ class VQAv2Reader(VisionReader):
 
             for answer, count in answer_counts.items():
                 if self.answer_vocab is None or answer in self.answer_vocab:
-                    answer_fields.append(LabelField(answer, label_namespace="answers"))
+                    if self.use_onehot:
+                        answer_fields.append(MultiLabelField(answer, label_namespace="answers"))
+                    else:
+                        answer_fields.append(LabelField(answer, label_namespace="answers"))
                     if self.multiple_answers_per_question:
                         weights.append(get_score(count))
                     else:
