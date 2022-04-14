@@ -78,6 +78,23 @@ function min_gen(){
     --predictions-output-file ${CHECKPOINT_DIR}/output/min_gen_debug_steps_1k.jsonl \
     --lr 0.05
 }
+
+function min_gen_save(){
+    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+    echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
+    mkdir -p ${CHECKPOINT_DIR}/output
+    python -um allennlp min_gen \
+    --include-package allennlp.data.dataset_readers \
+    --include-package allennlp.training \
+    ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
+    ${TEST_DATA} \
+    --descent-strategy steps \
+    --num-descent-steps 100 \
+    --cuda-device 0 \
+    --precompute-intermediate \
+    --retrieval-save-dir ${SAVE_DIR} \
+    --lr 0.05
+}
     #--mix-strategy end \
     #--mix-ratio 0.5 \
     #--descent-loss-threshold 0.15 \
@@ -154,6 +171,8 @@ function main() {
         predict 
     elif [[ "${action}" == "min_gen" ]]; then
         min_gen 
+    elif [[ "${action}" == "min_gen_save" ]]; then
+        min_gen_save 
     fi 
 }
 

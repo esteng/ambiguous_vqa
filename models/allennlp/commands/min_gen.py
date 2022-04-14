@@ -121,6 +121,18 @@ class MinGen(Subcommand):
             default=False,
             help="outputs tqdm status on separate lines and slows tqdm refresh rate",
         )
+        subparser.add_argument(
+            "--precompute-intermediate",
+            action="store_true",
+            default=False,
+            help="precompute intermediate meaning vectors and store in a file "
+        )
+        subparser.add_argument(
+            "--retrieval-save-dir",
+            type=str,
+            default=None,
+            help="path to store precomputed train representations for retrieval"
+        ) 
 
         subparser.set_defaults(func=min_gen_from_args)
 
@@ -150,6 +162,9 @@ def min_gen_from_args(args: argparse.Namespace) -> Dict[str, Any]:
     # Load the evaluation data
 
     dataset_reader = archive.validation_dataset_reader
+    if args.precompute_intermediate:
+        dataset_reader.retrieval_baseline = True
+        dataset_reader.retrieval_save_dir = args.retrieval_save_dir
 
     evaluation_data_path = args.input_file
     logger.info("Reading evaluation data from %s", evaluation_data_path)
@@ -189,6 +204,8 @@ def min_gen_from_args(args: argparse.Namespace) -> Dict[str, Any]:
         batch_weight_key=args.batch_weight_key,
         output_file=args.output_file,
         predictions_output_file=args.predictions_output_file,
+        precompute_intermediate=args.precompute_intermediate,
+        retrieval_save_dir=args.retrieval_save_dir,
     )
 
     logger.info("Finished evaluating.")

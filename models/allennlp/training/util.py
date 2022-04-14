@@ -4,9 +4,12 @@ Helper functions for Trainers
 import datetime
 import logging
 import os
+import copy
 import shutil
 import json
 import pdb 
+from pathlib import Path
+import os 
 from os import PathLike
 from typing import Any, Dict, Iterable, Optional, Union, Tuple, Set, List
 from collections import Counter
@@ -421,6 +424,8 @@ def minimize_and_generate(
     batch_weight_key: str = None,
     output_file: str = None,
     predictions_output_file: str = None,
+    precompute_intermediate: bool = False,
+    retrieval_save_dir: str = None,
 ) -> Dict[str, Any]:
     """
     # Parameters
@@ -454,6 +459,22 @@ def minimize_and_generate(
     `Dict[str, Any]`
         The final metrics.
     """
+    def _cache_intermediate_vec(vec, metadata):
+        checkpoint_dir = os.environ['CHECKPOINT_DIR']
+        out_dir = Path(metadata['save_dir'])
+        out_dir.mkdir(exist_ok=True, parents=True)
+        checkpoint_file = out_dir.joinpath("checkpoint_info.txt")
+        # save checkpoint info to make organization easier later 
+        if not checkpoint_file.exists():
+            with open(checkpoint_file, 'w') as f:
+                f.write(str(checkpoint_dir))
+        filename = out_dir.joinpath(f"{metadata['image_id']}_{metadata['question_id']}_0.pt")
+        if filename.exists():
+            return None
+        else:
+            torch.save(vec, filename)
+        return None 
+
     check_for_gpu(cuda_device)
     predictions_file = (
         None if predictions_output_file is None else open(predictions_output_file, "w")
@@ -488,7 +509,9 @@ def minimize_and_generate(
     batch_losses = []
     predictions_to_write = []
 
-    for batch in generator_tqdm:
+    for original_batch in generator_tqdm:
+        batch = copy.deepcopy(original_batch)
+        batch['precompute_metadata'] = None 
         batch = nn_util.move_to_device(batch, cuda_device)
         with torch.no_grad():
             # start by obtaining a meaning vector from the model 
@@ -611,6 +634,8 @@ def minimize_and_generate(
             if mix_strategy == "end": 
                 batch['meaning_vectors_input'][0] = (1-mix_ratio) * original_meaning_vec + mix_ratio * batch['meaning_vectors_input'][0]
 
+            if precompute_intermediate:
+                _cache_intermediate_vec(batch['meaning_vectors_input'][0], original_batch['precompute_metadata'][0])
             output_dict = model(**batch)
             speaker_utts = output_dict['speaker_utterances']
             speaker_utts_str = convert_utterances(speaker_utts)
@@ -633,8 +658,8 @@ def minimize_and_generate(
     if output_file is not None:
         dump_metrics(output_file, final_metrics, log=True)
 
-    predictions_file.write("\n".join(predictions_to_write))
     if predictions_file is not None:
+        predictions_file.write("\n".join(predictions_to_write))
         predictions_file.close()
     return final_metrics
 
