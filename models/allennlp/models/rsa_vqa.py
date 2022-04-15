@@ -1,3 +1,4 @@
+from ast import Mult
 from cProfile import label
 import collections
 import logging
@@ -26,53 +27,7 @@ from allennlp.modules.rsa_vqa.listener import BaseListenerModule
 from allennlp.data.fields.metadata_field import MetadataField
 from allennlp.modules.vision.vision_language_encoder import CLIPLanguageEncoder, VisionLanguageEncoder, ViLTLanguageEncoder
 
-class AsymmetricLossMultiLabel(nn.Module):
-    def __init__(self, gamma_neg=4, gamma_pos=1, clip=0.05, eps=1e-8, disable_torch_grad_focal_loss=False):
-        super(AsymmetricLossMultiLabel, self).__init__()
-
-        self.gamma_neg = gamma_neg
-        self.gamma_pos = gamma_pos
-        self.clip = clip
-        self.disable_torch_grad_focal_loss = disable_torch_grad_focal_loss
-        self.eps = eps
-
-    def forward(self, x, y):
-        """"
-        Parameters
-        ----------
-        x: input logits
-        y: targets (multi-label binarized vector)
-        """
-
-        # Calculating Probabilities
-        x_sigmoid = torch.sigmoid(x)
-        xs_pos = x_sigmoid
-        xs_neg = 1 - x_sigmoid
-
-        # Asymmetric Clipping
-        if self.clip is not None and self.clip > 0:
-            xs_neg = (xs_neg + self.clip).clamp(max=1)
-
-        # Basic CE calculation
-        los_pos = y * torch.log(xs_pos.clamp(min=self.eps))
-        los_neg = (1 - y) * torch.log(xs_neg.clamp(min=self.eps))
-        loss = los_pos + los_neg
-
-        # Asymmetric Focusing
-        if self.gamma_neg > 0 or self.gamma_pos > 0:
-            if self.disable_torch_grad_focal_loss:
-                torch._C.set_grad_enabled(False)
-            pt0 = xs_pos * y
-            pt1 = xs_neg * (1 - y)  # pt = p if t > 0 else 1-p
-            pt = pt0 + pt1
-            one_sided_gamma = self.gamma_pos * y + self.gamma_neg * (1 - y)
-            one_sided_w = torch.pow(1 - pt, one_sided_gamma)
-            if self.disable_torch_grad_focal_loss:
-                torch._C.set_grad_enabled(True)
-            loss *= one_sided_w
-
-        return -loss.sum()
-
+from allennlp.nn.losses import Loss, BCELoss, WeightedBCELoss, MultilabelCELoss, AsymmetricLossMultiLabel, CELoss
 
 logger = logging.getLogger(__name__)
 
@@ -92,7 +47,7 @@ class RSAVQAModel(Model):
         copy_speaker_listener: bool,
         pooled_output_dim: int,
         dropout: float = 0.1,
-        loss: Dict[str, str] = {"type": "cross-entropy"},
+        loss: Loss = CELoss(),
         vqa_loss_factor: float = 1.0,
         speaker_loss_factor: float = 1.0,
         label_namespace: str = "answers",
@@ -104,8 +59,9 @@ class RSAVQAModel(Model):
         # self.debug_tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.consistency_wrong_map: Dict[str, int] = collections.Counter()
         from allennlp.training.metrics import F1MultiLabelMeasure, BCEF1MultiLabelMeasure
-        # self.f1_metric = F1MultiLabelMeasure(average="micro")
-        if loss['type'] == "bce": 
+        self.loss_fxn = loss
+        if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss) \
+            or isinstance(self.loss_fxn, MultilabelCELoss): 
             self.f1_metric = BCEF1MultiLabelMeasure() 
         else:
             self.f1_metric = F1MultiLabelMeasure(average="micro")
@@ -147,28 +103,10 @@ class RSAVQAModel(Model):
             self.classifier = torch.nn.Linear(self.vision_language_encoder.encoder.hidden_size2, num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
-        self.loss = loss
         self.vqa_loss_factor = vqa_loss_factor
         self.speaker_loss_factor = speaker_loss_factor
         
         self.meaning_vector_source = meaning_vector_source
-
-    def get_label_weights(self, labels, debug_answers):
-        weights = torch.zeros_like(labels)
-        for row in range(weights.shape[0]):
-            for answer, count in debug_answers[row].items():
-                ans_idx = self.vocab._token_to_index['answers'][answer]
-                weights[row, ans_idx] = count
-        # normalize weights 
-        weights = weights / weights.sum(dim=1, keepdim=True)
-        # make zero examples also have a weight 
-        # proportional to how many zeros there are
-        num_zeros = weights == 0
-        num_zeros = num_zeros.sum(dim=1, keepdim=True)
-        weights_zero_mask = torch.ones_like(weights) / num_zeros
-        weights[weights == 0] = weights_zero_mask[weights == 0]
-        return weights
-
 
     @overrides
     def forward(
@@ -311,36 +249,19 @@ class RSAVQAModel(Model):
                    "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances}
 
         if labels is not None and label_weights is not None:
-            if self.loss['type'] in ['bce', 'wbce', 'nllloss', 'aml']:
-                label_mask = torch.sum(labels, 2) > 1  # 0 is padding, 1 is OOV, which we want to ignore
-            else:
-                label_mask = labels > 1
+            # if self.loss['type'] in ['bce', 'wbce', 'nllloss', 'aml']:
+            #     label_mask = torch.sum(labels, 2) > 1  # 0 is padding, 1 is OOV, which we want to ignore
+            # else:
+            #     label_mask = labels > 1
+            vqa_loss = self.loss_fxn(logits, labels,  debug_answer)
 
-            if self.loss['type'] == "bce":
-                # deal with label weights and indices
-                labels = labels.squeeze(1).float()
-                label_weights = self.get_label_weights(labels, debug_answer)
-                vqa_loss = torch.binary_cross_entropy_with_logits(logits, labels, weight=label_weights).mean()
-            elif self.loss['type'] == "wbce":
-                eposion = 1e-10
-                count_pos = torch.sum(labels)*1.0+eposion
-                count_neg = torch.sum(1.-labels)*1.0
-                beta = count_neg/count_pos
-                beta_back = count_pos / (count_pos + count_neg)
-                bce1 = torch.nn.BCEWithLogitsLoss(pos_weight=beta)
-                bce_loss = bce1(logits, torch.squeeze(labels, 1).float()).view(-1)
-                vqa_loss = beta_back*bce_loss
-            elif self.loss['type'] == "nllloss":
-                vqa_loss = nn.NLLLoss(logits, labels).mean()
-            elif self.loss['type'] == "aml":
-                aml_loss = AsymmetricLossMultiLabel()
-                vqa_loss = aml_loss(logits, labels).mean()
-            else:
-                loss_fn = nn.CrossEntropyLoss()
-                vqa_loss = loss_fn(logits, labels.squeeze(-1)) / batch_size
-
-            if self.loss['type'] in ["bce", "wbce"]: 
+            if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss): 
+                labels = labels.squeeze(1)
                 labels_for_metric = torch.argmax(labels*label_weights, dim=1)
+                label_weights_for_metric = torch.ones_like(labels_for_metric)
+            elif isinstance(self.loss_fxn, MultilabelCELoss):  
+                labels = labels.squeeze(1)
+                labels_for_metric = torch.argmax(labels, dim=1)
                 label_weights_for_metric = torch.ones_like(labels_for_metric)
             else:
                 labels_for_metric = labels 
@@ -359,7 +280,7 @@ class RSAVQAModel(Model):
             outputs['vqa_loss'] = vqa_loss
 
             self.vqa_metric(logits, labels_for_metric, label_weights_for_metric)
-            if self.loss['type'] in ['bce', 'wbce', 'nllloss', 'aml']:
+            if not isinstance(self.loss_fxn, CELoss):
                 self.f1_metric(logits, labels)
         return outputs
 
