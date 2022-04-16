@@ -139,11 +139,6 @@ class WarmupGradientDescentTrainer(GradientDescentTrainer):
                     loss = batch_outputs["loss"]
                     reg_loss = batch_outputs.get("reg_loss")
                     if torch.isnan(loss):
-                        import pickle as pkl 
-                        with open("/home/estengel/scratch/nan_loss_batch.pkl", "wb") as f:
-                            pkl.dump(batch, f)
-                        with open("/home/estengel/scratch/nan_loss_batch_outputs.pkl", "wb") as f:
-                            pkl.dump(batch_outputs, f)
                         raise ValueError("nan loss encountered")
                     loss = loss / len(batch_group)
 
