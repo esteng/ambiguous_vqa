@@ -8,7 +8,7 @@ class Loss(torch.nn.Module, Registrable):
     def __init__(self):
         super().__init__()
 
-    def forward(self, logits, labels, debug_answer):
+    def forward(self, logits, labels, debug_answer, label_weights):
         raise NotImplementedError
 
 @Loss.register("ce")
@@ -18,8 +18,8 @@ class CELoss(Loss):
         self.loss_fxn = F.cross_entropy
 
     @overrides 
-    def forward(self, logits, labels, debug_answer):
-        return self.loss_fxn(logits, labels) 
+    def forward(self, logits, labels, debug_answer, label_weights=None):
+        return self.loss_fxn(logits, labels), label_weights
 
 
 @Loss.register("bce")
@@ -30,13 +30,20 @@ class BCELoss(Loss):
         self.loss_fxn = F.binary_cross_entropy_with_logits
 
     def get_label_weights(self, labels, debug_answers):
-        """get label weights for BCE loss from per-answer counts 
+        """
+        get label weights for BCE loss from per-answer counts 
         """
         weights = torch.zeros_like(labels)
         for row in range(weights.shape[0]):
             for answer, count in debug_answers[row].items():
-                ans_idx = self.vocab._token_to_index['answers'][answer]
-                weights[row, ans_idx] = count
+                try:
+                    ans_idx = self.vocab._token_to_index['answers'][answer]
+                    weights[row, ans_idx] = count
+                except KeyError:
+                    # for now, just make weights all 1s 
+                    print(f"cannot find answer in vocab: {answer}")
+                    weights[row] = 1.0
+
         # normalize weights 
         weights = weights / weights.sum(dim=1, keepdim=True)
         # make zero examples also have a weight 
@@ -48,10 +55,10 @@ class BCELoss(Loss):
         return weights
 
     @overrides 
-    def forward(self, logits, labels, debug_answer):
+    def forward(self, logits, labels, debug_answer, label_weights=None):
         labels = labels.squeeze(1).float()
         label_weights = self.get_label_weights(labels, debug_answer)
-        return self.loss_fxn(logits, labels, weight=label_weights).mean()
+        return self.loss_fxn(logits, labels, weight=label_weights).mean(), label_weights
 
 
 @Loss.register("wbce")
@@ -62,7 +69,7 @@ class WeightedBCELoss(Loss):
         self.loss_fxn = F.binary_cross_entropy_with_logits
 
     @overrides
-    def forward(self, logits, labels, debug_answer):
+    def forward(self, logits, labels, debug_answer, label_weights=None):
         labels = labels.squeeze(1)
         count_pos = torch.sum(labels)*1.0+self.eps
         count_neg = torch.sum(1.-labels)*1.0
@@ -70,7 +77,7 @@ class WeightedBCELoss(Loss):
         beta_back = count_pos / (count_pos + count_neg)
         bce_loss = self.loss_fxn(logits, torch.squeeze(labels, 1).float(), weight=beta).view(-1)
         vqa_loss = beta_back*bce_loss
-        return vqa_loss
+        return vqa_loss, label_weights
 
 @Loss.register("multilabel_ce")
 class MultilabelCELoss(Loss):
@@ -83,19 +90,24 @@ class MultilabelCELoss(Loss):
         weights = torch.zeros_like(labels)
         for row in range(weights.shape[0]):
             for answer, count in debug_answers[row].items():
-                ans_idx = self.vocab._token_to_index['answers'][answer]
-                weights[row, ans_idx] = count
+                try:
+                    ans_idx = self.vocab._token_to_index['answers'][answer]
+                    weights[row, ans_idx] = count
+                except KeyError:
+                    # for now, just uniformly smooth this example 
+                    print(f"cannot find answer in vocab: {answer}")
+                    weights[row] = 1.0
         # normalize weights 
         weights = weights / weights.sum(dim=1, keepdim=True)
         return weights
     
     @overrides
-    def forward(self, logits, labels, debug_answer): 
+    def forward(self, logits, labels, debug_answer, label_weights=None): 
         labels = labels.squeeze(1)
         labels = self.get_soft_labels(labels, debug_answer)
         logits = logits.log_softmax(dim=1)        
         loss = torch.mean(torch.sum(-labels * logits, dim=1))
-        return loss 
+        return loss, label_weights
 
 @Loss.register("asym")
 class AsymmetricLossMultiLabel(Loss):
@@ -108,7 +120,7 @@ class AsymmetricLossMultiLabel(Loss):
         self.disable_torch_grad_focal_loss = disable_torch_grad_focal_loss
         self.eps = eps
 
-    def forward(self, x, y):
+    def forward(self, x, y, label_weights=None):
         """"
         Parameters
         ----------
@@ -143,4 +155,4 @@ class AsymmetricLossMultiLabel(Loss):
                 torch._C.set_grad_enabled(True)
             loss *= one_sided_w
 
-        return -loss.sum()
+        return -loss.sum(), label_weights

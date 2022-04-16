@@ -253,7 +253,7 @@ class RSAVQAModel(Model):
             #     label_mask = torch.sum(labels, 2) > 1  # 0 is padding, 1 is OOV, which we want to ignore
             # else:
             #     label_mask = labels > 1
-            vqa_loss = self.loss_fxn(logits, labels,  debug_answer)
+            vqa_loss, label_weights = self.loss_fxn(logits, labels,  debug_answer, label_weights=label_weights)
 
             if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss): 
                 labels = labels.squeeze(1)

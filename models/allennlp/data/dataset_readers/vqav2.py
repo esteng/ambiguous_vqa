@@ -576,6 +576,10 @@ class VQAv2Reader(VisionReader):
                 fields["box_coordinates"] = ArrayField(np.zeros((1,1)))
 
         if answer_counts is not None:
+            # skip this one 
+            if len(answer_counts) == 0:
+                return None 
+
             fields["debug_answer"] = MetadataField(answer_counts)
             answer_fields = []
             weights = []
