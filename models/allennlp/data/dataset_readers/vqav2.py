@@ -27,7 +27,7 @@ from allennlp.data.tokenizers.token import Token
 from allennlp.common.file_utils import cached_path
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
-from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField
+from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField, MultiLabelField
 from allennlp.data.image_loader import ImageLoader
 from allennlp.data.instance import Instance
 from allennlp.data.token_indexers import TokenIndexer
@@ -301,6 +301,7 @@ class VQAv2Reader(VisionReader):
         run_image_feature_extraction: bool = True,
         pass_raw_image_paths: bool = False,
         multiple_answers_per_question: bool = True,
+        use_multilabel: bool = False,
         is_training: bool = True,
         is_validation: bool = False,
         is_precompute: bool = False,
@@ -361,7 +362,7 @@ class VQAv2Reader(VisionReader):
                 del self.images[None]
 
         self.multiple_answers_per_question = multiple_answers_per_question
-
+        self.use_multilabel = use_multilabel 
         self.is_training = is_training
         self.is_validation = is_validation
         self.is_precompute = is_precompute
@@ -395,7 +396,7 @@ class VQAv2Reader(VisionReader):
         aws_base = "https://s3.amazonaws.com/cvmlp/vqa/"
         mscoco_base = aws_base + "mscoco/vqa/"
         scene_base = aws_base + "abstract_v002/vqa/"
-        local_base = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+        local_base = "data/vqa/"
         self.local_base = local_base 
 
         # fmt: off
@@ -462,6 +463,7 @@ class VQAv2Reader(VisionReader):
                 raise ValueError(f"Unrecognized split: {split_name}.")
 
         answers_by_question_id = {}
+        # answers_for_metric_by_question_id = {} 
         if split.annotations is not None:
             with open(cached_path(split.annotations, extract_archive=True)) as f:
                 try:
@@ -472,8 +474,11 @@ class VQAv2Reader(VisionReader):
                 qid = a["question_id"]
                 answer_counts: MutableMapping[str, int] = Counter()
                 if self.multiple_answers_per_question:
-                    for answer in (answer_dict["answer"] for answer_dict in a["answers"]):
-                        answer_counts[preprocess_answer(answer)] += 1
+                    for answer_dict in a["answers"]:
+                        # only use confident answers 
+                        if answer_dict['answer_confidence'] in ["yes", "maybe"]:
+                            answer = answer_dict['answer']
+                            answer_counts[preprocess_answer(answer)] += 1
                 else:
                     answer_counts[preprocess_answer(a["multiple_choice_answer"])] = 1
                 answers_by_question_id[qid] = answer_counts
@@ -514,6 +519,7 @@ class VQAv2Reader(VisionReader):
                                        "image_id": question_dict['image_id']}
             else:
                 precompute_metadata = None
+            # instance = self.text_to_instance(question_dict["question"], processed_image, answers, answers_for_metric, precompute_metadata)
             instance = self.text_to_instance(question_dict["question"], processed_image, answers, precompute_metadata)
             attempted_instances_count += 1
             if instance is None:
@@ -534,6 +540,7 @@ class VQAv2Reader(VisionReader):
         question: str,
         image: Union[str, Tuple[Tensor, Tensor]],
         answer_counts: Optional[MutableMapping[str, int]] = None,
+        # answer_counts_for_metric: Optional[MutableMapping[str, int]] = None,
         precompute_metadata: Optional[Dict[str, str]] = None,
         # answer: Optional[str] = None,
         *,
@@ -575,23 +582,44 @@ class VQAv2Reader(VisionReader):
                 fields["box_coordinates"] = ArrayField(np.zeros((1,1)))
 
         if answer_counts is not None:
+            # skip this one 
+            if len(answer_counts) == 0:
+                return None 
+
             fields["debug_answer"] = MetadataField(answer_counts)
             answer_fields = []
             weights = []
+            indices = []
 
-            for answer, count in answer_counts.items():
-                if self.answer_vocab is None or answer in self.answer_vocab:
-                    answer_fields.append(LabelField(answer, label_namespace="answers"))
-                    if self.multiple_answers_per_question:
-                        weights.append(get_score(count))
-                    else:
-                        weights.append(min(1.0, count))
+            if self.use_multilabel: 
+                instance_answers = []
+                for answer, count in answer_counts.items():
+                    instance_answers.append(answer)
+                    weights.append(count)
+                    indices.append(0) 
+                answer_field = MultiLabelField(instance_answers, label_namespace="answers")
+                answer_fields.append(answer_field)
+
+                    # instance_weights[index] = count
+                # normalize weights
+                # instance_weights = instance_weights / instance_weights.sum()
+                # answer_fields.append(answer_field)
+                # weights.append(instance_weights)
+            else: 
+                for answer, count in answer_counts.items():
+                    if self.answer_vocab is None or answer in self.answer_vocab:
+                        answer_fields.append(LabelField(answer, label_namespace="answers"))
+                        if self.multiple_answers_per_question:
+                            weights.append(get_score(count))
+                        else:
+                            weights.append(min(1.0, count))
 
             if len(answer_fields) <= 0:
                 return None
 
             fields["labels"] = ListField(answer_fields)
             fields["label_weights"] = ArrayField(torch.tensor(weights))
+            fields["label_indices"] = ArrayField(torch.tensor(indices))
 
         if precompute_metadata is not None: 
             fields['precompute_metadata'] = MetadataField(precompute_metadata)
@@ -600,7 +628,6 @@ class VQAv2Reader(VisionReader):
                 path = Path(self.local_base + "precomputed").joinpath(f"{precompute_metadata['image_id']}_{precompute_metadata['question_id']}.pt")
                 pooled_output = torch.load(path)
                 fields['pooled_output'] = ArrayField(pooled_output)
-                # fields['sequence_output'] = ArrayField(sequence_output)
 
         return Instance(fields)
 

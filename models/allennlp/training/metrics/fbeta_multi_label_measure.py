@@ -1,5 +1,5 @@
 from typing import List, Optional
-
+import pdb 
 import torch
 import torch.distributed as dist
 from overrides import overrides
@@ -121,7 +121,6 @@ class FBetaMultiLabelMeasure(FBetaMeasure):
         # If the prediction tensor is all zeros, the record is not classified to any of the labels.
         pred_mask = (predictions.sum(dim=-1) != 0).unsqueeze(-1)
         threshold_predictions = (predictions >= self._threshold).float()
-
         class_indices = (
             torch.arange(num_classes, device=predictions.device)
             .unsqueeze(0)
@@ -187,3 +186,64 @@ class F1MultiLabelMeasure(FBetaMultiLabelMeasure):
         self, average: str = None, labels: List[int] = None, threshold: float = 0.5
     ) -> None:
         super().__init__(1.0, average, labels, threshold)
+
+@Metric.register("bce_f1_multi_label")
+class BCEF1MultiLabelMeasure(Metric):
+    def __init__(
+        self, 
+    ) -> None:
+        super().__init__() 
+        self.precision = 0.0
+        self.recall = 0.0 
+        self.f1 = 0.0 
+        self.n = 0.0 
+        self.eps = 1e-8
+
+    @overrides
+    def __call__(
+        self,
+        predictions: torch.Tensor,
+        gold_labels: torch.Tensor):
+        """
+        predictions: torch.Tensor
+            batch x vocab 
+        gold_labels: torch.Tensor
+            batch x vocab 
+        """
+
+        thresholded_predictions = predictions.detach().clone()
+        thresholded_predictions[thresholded_predictions > 0] = 1
+        thresholded_predictions[thresholded_predictions <= 0] = 0
+
+        true_positives = (gold_labels * thresholded_predictions).bool().sum()
+        false_negatives = (gold_labels * (1 - thresholded_predictions)).bool().sum()
+        false_positives = ((1 - gold_labels) * thresholded_predictions).bool().sum()
+
+        precision = true_positives / (true_positives + false_positives)
+        recall = true_positives/ (true_positives + false_negatives)
+        f1 = 2 * precision * recall / (precision + recall)
+
+        self.precision += precision
+        self.recall += recall
+        self.f1 += f1 
+
+        self.n += 1 
+
+    @overrides
+    def get_metric(self, reset: bool = False):
+        precision = self.precision/(self.n + self.eps)
+        recall = self.recall/(self.n  + self.eps)
+        f1= self.f1/(self.n  + self.eps) 
+        if reset:
+            self.reset()
+        try:
+            return {"precision": precision.item(), "recall": recall.item(), "fscore": f1.item()} 
+        except AttributeError:
+            return {"precision": precision, "recall": recall, "fscore": f1} 
+    
+    @overrides
+    def reset(self): 
+        self.precision = 0.0
+        self.recall = 0.0 
+        self.f1 = 0.0 
+        self.n = 0.0 

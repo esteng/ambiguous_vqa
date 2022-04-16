@@ -1,3 +1,4 @@
+
 import os 
 import collections
 import logging
@@ -5,7 +6,7 @@ from copy import deepcopy
 from typing import Dict, List, Optional, Union
 import pdb 
 from pathlib import Path
-
+import torch.nn as nn
 from overrides import overrides
 import torch
 from transformers import AutoModel, AutoTokenizer
@@ -26,6 +27,8 @@ from allennlp.modules.rsa_vqa.listener import BaseListenerModule
 from allennlp.data.fields.metadata_field import MetadataField
 from allennlp.modules.vision.vision_language_encoder import CLIPLanguageEncoder, VisionLanguageEncoder, ViLTLanguageEncoder
 
+from allennlp.nn.losses import Loss, BCELoss, WeightedBCELoss, MultilabelCELoss, AsymmetricLossMultiLabel, CELoss
+
 logger = logging.getLogger(__name__)
 
 @Model.register("rsa_vqa")
@@ -45,6 +48,7 @@ class RSAVQAModel(Model):
         pooled_output_dim: int,
         beam_size: int = 5,
         dropout: float = 0.1,
+        loss: Loss = CELoss(),
         vqa_loss_factor: float = 1.0,
         speaker_loss_factor: float = 1.0,
         label_namespace: str = "answers",
@@ -55,8 +59,13 @@ class RSAVQAModel(Model):
 
         # self.debug_tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.consistency_wrong_map: Dict[str, int] = collections.Counter()
-        from allennlp.training.metrics import F1MultiLabelMeasure
-        self.f1_metric = F1MultiLabelMeasure(average="micro")
+        from allennlp.training.metrics import F1MultiLabelMeasure, BCEF1MultiLabelMeasure
+        self.loss_fxn = loss
+        if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss) \
+            or isinstance(self.loss_fxn, MultilabelCELoss): 
+            self.f1_metric = BCEF1MultiLabelMeasure() 
+        else:
+            self.f1_metric = F1MultiLabelMeasure(average="micro")
 
         from allennlp.training.metrics.vqa import VqaMeasure
         self.vqa_metric = VqaMeasure()
@@ -97,8 +106,6 @@ class RSAVQAModel(Model):
             self.classifier = torch.nn.Linear(self.vision_language_encoder.encoder.hidden_size2, num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
-        # self.loss = torch.nn.BCEWithLogitsLoss()
-        self.loss = torch.nn.CrossEntropyLoss()
         self.vqa_loss_factor = vqa_loss_factor
         self.speaker_loss_factor = speaker_loss_factor
         
@@ -134,6 +141,7 @@ class RSAVQAModel(Model):
         # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
+        label_indices: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
         debug_images: Optional[MetadataField] = None,
@@ -255,63 +263,64 @@ class RSAVQAModel(Model):
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask) 
 
-        if precompute_metadata is not None:
-            self._cache_meaning_vectors(meaning_vectors_output, precompute_metadata)
-            outputs = {} 
-            outputs['loss'] = 0.0 
-            outputs['vqa_loss'] = 0.0 
-        else:
-            logits = self.classifier(listener_output['output']) 
-            probs = torch.softmax(logits, dim=-1)
+        logits = self.classifier(listener_output['output']) 
+        probs = torch.softmax(logits, dim=-1)
 
-            outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, 
-                    "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances}
+        outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, 
+                   "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances}
 
-            if labels is not None and label_weights is not None:
-                label_mask = labels > 1  # 0 is padding, 1 is OOV, which we want to ignore
-                weighted_labels = util.masked_index_replace(
-                    logits.new_zeros(logits.size() + (1,)),
-                    labels.clamp(min=0),
-                    label_mask,
-                    label_weights.unsqueeze(-1),
-                ).squeeze(-1)
+        if labels is not None and label_weights is not None:
+            # if self.loss['type'] in ['bce', 'wbce', 'nllloss', 'aml']:
+            #     label_mask = torch.sum(labels, 2) > 1  # 0 is padding, 1 is OOV, which we want to ignore
+            # else:
+            #     label_mask = labels > 1
+            vqa_loss, label_weights = self.loss_fxn(logits, labels,  debug_answer, label_weights=label_weights)
 
-                # TODO: (elias): with a different label output vocab, is this still true? 
-                # weighted_labels now has shape (batch_size, num_labels).  We need to ignore the first
-                # two columns of this in our loss function and accuracy metric.  The first column is a
-                # padding label, and the second column is an OOV label.  We want the loss function to
-                # be computed on every other label.
-                binary_label_mask = weighted_labels.new_ones(logits.size())
-                binary_label_mask[:, 0] = 0
-                binary_label_mask[:, 1] = 0
+            if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss): 
+                labels = labels.squeeze(1)
+                labels_for_metric = torch.argmax(labels*label_weights, dim=1)
+                label_weights_for_metric = torch.ones_like(labels_for_metric)
+            elif isinstance(self.loss_fxn, MultilabelCELoss):  
+                labels = labels.squeeze(1)
+                labels_for_metric = torch.argmax(labels, dim=1)
+                label_weights_for_metric = torch.ones_like(labels_for_metric)
+            else:
+                labels_for_metric = labels 
+                label_weights_for_metric = label_weights
 
-                # pdb.set_trace() 
-                # vqa_loss = (
-                    # torch.nn.functional.binary_cross_entropy_with_logits(
-                        # logits, weighted_labels, weight=binary_label_mask, reduction="sum"
-                    # )
-                    # / batch_size
-                # )
-                # pdb.set_trace() 
-                vqa_loss = self.loss(logits, labels.squeeze(-1)) / batch_size
-                # if vqa_loss.item() < 4:
-                    # pdb.set_trace()
+            # logger.info(f"loss: {loss.item()}")
+            # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
+            # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
+            losses = [self.vqa_loss_factor * vqa_loss] + [self.speaker_loss_factor * x for x in speaker_losses]
+            # losses = speaker_losses
+            big_loss = 0.0
+            for loss in losses:
+                big_loss += loss
 
+            outputs['loss'] =  big_loss
+            outputs['vqa_loss'] = vqa_loss
 
-                self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
-                self.vqa_metric(logits, labels, label_weights)
-                # logger.info(f"loss: {loss.item()}")
-                # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
-                # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
-                losses = [self.vqa_loss_factor * vqa_loss] + [self.speaker_loss_factor * x for x in speaker_losses]
-                # losses = speaker_losses
-                big_loss = 0.0
-                for loss in losses:
-                    big_loss += loss
+            self.vqa_metric(logits, labels_for_metric, label_weights_for_metric)
+            if not isinstance(self.loss_fxn, CELoss):
+                self.f1_metric(logits, labels)
 
-                outputs['loss'] =  big_loss
-                outputs['vqa_loss'] = vqa_loss
         return outputs
+
+    def softmax_cross_entropy_with_softtarget(self, input, target, reduction='mean'):
+        """
+        :param input: (batch, *)
+        :param target: (batch, *) same shape as input, each item must be a valid distribution: target[i, :].sum() == 1.
+        """
+        logprobs = torch.nn.functional.log_softmax(input.view(input.shape[0], -1), dim=1)
+        batchloss = - torch.sum(target.view(target.shape[0], -1) * logprobs, dim=1)
+        if reduction == 'none':
+            return batchloss
+        elif reduction == 'mean':
+            return torch.mean(batchloss)
+        elif reduction == 'sum':
+            return torch.sum(batchloss)
+        else:
+            raise NotImplementedError('Unsupported reduction mode.')
 
     @overrides
     def get_metrics(self, reset: bool = False) -> Dict[str, float]:
@@ -343,6 +352,7 @@ class PrecomputeVQAModel(RSAVQAModel):
         copy_speaker_listener: bool,
         pooled_output_dim: int,
         dropout: float = 0.1,
+        losses: str = "ce",
         vqa_loss_factor: float = 1.0,
         speaker_loss_factor: float = 1.0,
         label_namespace: str = "answers",
@@ -356,6 +366,7 @@ class PrecomputeVQAModel(RSAVQAModel):
                          copy_speaker_listener,
                          pooled_output_dim,
                          dropout,
+                         losses,
                          vqa_loss_factor,
                          speaker_loss_factor,
                          label_namespace,
@@ -372,6 +383,7 @@ class PrecomputeVQAModel(RSAVQAModel):
         # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
+        label_indices: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
         debug_images: Optional[MetadataField] = None,
