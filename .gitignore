@@ -1,0 +1,3 @@
+*.pyc
+data/to_copy
+data/to_copy/*
