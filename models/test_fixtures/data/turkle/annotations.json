@@ -1,0 +1,89 @@
+{"info": {"description": "This is v2.0 of the VQA dataset.", "url": "http://visualqa.org", "version": "2.0", "year": 2017, "contributor": "VQA Team", "date_created": "2017-04-26 17:07:13"}, "license": {"url": "http://creativecommons.org/licenses/by/4.0/", "name": "Creative Commons Attribution 4.0 International License"}, "data_subtype": "train2014", 
+"annotations": [
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "farmers market",
+            "answers": [
+                {
+                    "answer": "farmers market",
+                    "answer_confidence": "maybe",
+                    "answer_id": 1
+                }
+            ],
+            "image_id": 456109,
+            "question_type": "where are the",
+            "question_id": "456109001_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "above tables",
+            "answers": [
+                {
+                    "answer": "above tables",
+                    "answer_confidence": "yes",
+                    "answer_id": 2
+                }
+            ],
+            "image_id": 456109,
+            "question_type": "where are the",
+            "question_id": "456109001_1"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "coffee",
+            "answers": [
+                {
+                    "answer": "coffee",
+                    "answer_confidence": "maybe",
+                    "answer_id": 1
+                }
+            ],
+            "image_id": 460694,
+            "question_type": "was",
+            "question_id": "460694000_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "yes",
+            "answers": [
+                {
+                    "answer": "coffee",
+                    "answer_confidence": "yes",
+                    "answer_id": 2
+                }
+            ],
+            "image_id": 460694,
+            "question_type": "was",
+            "question_id": "460694000_1"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "on street",
+            "answers": [
+                {
+                    "answer": "on street",
+                    "answer_confidence": "yes",
+                    "answer_id": 1
+                }
+            ],
+            "image_id": 467311,
+            "question_type": "where is the",
+            "question_id": "467311006_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "in front",
+            "answers": [
+                {
+                    "answer": "in front",
+                    "answer_confidence": "maybe",
+                    "answer_id": 4
+                }
+            ],
+            "image_id": 467311,
+            "question_type": "where is the",
+            "question_id": "467311006_1"
+        }
+    ],
+    "data_type": "mscoco"
+}

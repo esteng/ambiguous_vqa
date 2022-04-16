@@ -49,6 +49,12 @@ class Evaluate(Subcommand):
         subparser.add_argument(
             "--weights-file", type=str, help="a path that overrides which weights file to use"
         )
+        subparser.add_argument(
+            "--ignore-logits", action="store_true", help="set to true to ignore logits when file saved",
+        )
+        subparser.add_argument(
+            "--beam-size", type=int, help="Beam size when using beam search decoder"
+        )
 
         cuda_device = subparser.add_mutually_exclusive_group(required=False)
         cuda_device.add_argument(
@@ -102,6 +108,18 @@ class Evaluate(Subcommand):
             default=False,
             help="outputs tqdm status on separate lines and slows tqdm refresh rate",
         )
+        subparser.add_argument(
+            "--precompute-intermediate",
+            action="store_true",
+            default=False,
+            help="precompute intermediate meaning vectors and store in a file "
+        )
+        subparser.add_argument(
+            "--retrieval-save-dir",
+            type=str,
+            default=None,
+            help="path to store precomputed train representations for retrieval"
+        ) 
 
         subparser.set_defaults(func=evaluate_from_args)
 
@@ -129,8 +147,13 @@ def evaluate_from_args(args: argparse.Namespace) -> Dict[str, Any]:
     model.eval()
 
     # Load the evaluation data
-
-    dataset_reader = archive.validation_dataset_reader
+    if not args.precompute_intermediate:
+        dataset_reader = archive.validation_dataset_reader
+    else:
+        # use training dataset reader  
+        dataset_reader = archive.dataset_reader
+        dataset_reader.retrieval_baseline = True
+        dataset_reader.retrieval_save_dir = args.retrieval_save_dir
 
     evaluation_data_path = args.input_file
     logger.info("Reading evaluation data from %s", evaluation_data_path)
@@ -155,6 +178,12 @@ def evaluate_from_args(args: argparse.Namespace) -> Dict[str, Any]:
 
     data_loader.index_with(model.vocab)
 
+    ignore_keys = []
+    if args.ignore_logits:
+        ignore_keys.append("logits")
+        ignore_keys.append("probs")
+        ignore_keys.append("meaning_vectors_output")
+
     metrics = evaluate(
         model,
         data_loader,
@@ -162,6 +191,8 @@ def evaluate_from_args(args: argparse.Namespace) -> Dict[str, Any]:
         args.batch_weight_key,
         output_file=args.output_file,
         predictions_output_file=args.predictions_output_file,
+        ignore_keys=ignore_keys,
+        get_metric = not args.precompute_intermediate,
     )
 
     logger.info("Finished evaluating.")

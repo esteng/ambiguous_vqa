@@ -44,11 +44,15 @@ def separate(questions, annotations, line_limit=None, exclude_multiple_choice=Fa
             if answer['answer'] == annotation['multiple_choice_answer'] and exclude_multiple_choice:
                 # don't need to use for now; since it's been trained on 
                 continue
+            new_question_id = str(question['question_id']) + '_' + str(answer['answer_id'])
             dummy_annotation = copy.deepcopy(annotation)
             dummy_annotation['answers'] = dummy_answer 
             dummy_annotation['multiple_choice_answer'] = dummy_answer[0]['answer']
+            dummy_annotation['question_id'] = new_question_id
+            dummy_question = copy.deepcopy(question)
+            dummy_question['question_id'] = new_question_id
 
-            questions_to_write.append(question)
+            questions_to_write.append(dummy_question)
             annotations_to_write.append(dummy_annotation)
 
     new_questions = questions

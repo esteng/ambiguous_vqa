@@ -1,5 +1,5 @@
-from ast import Mult
-from cProfile import label
+
+import os 
 import collections
 import logging
 from copy import deepcopy
@@ -46,6 +46,7 @@ class RSAVQAModel(Model):
         num_listener_steps: int,
         copy_speaker_listener: bool,
         pooled_output_dim: int,
+        beam_size: int = 5,
         dropout: float = 0.1,
         loss: Loss = CELoss(),
         vqa_loss_factor: float = 1.0,
@@ -73,6 +74,8 @@ class RSAVQAModel(Model):
         from allennlp.training.metrics import BLEU
         exclude_indices = set(speaker_module._exclude_indices) | set([0])
 
+        self.beam_size = beam_size
+        speaker_module.decoder._beam_search.beam_size = beam_size 
         if copy_speaker_listener:
             speaker_modules = [deepcopy(speaker_module) for i in range(num_listener_steps)]
             listener_modules = [deepcopy(listener_module) for i in range(num_listener_steps)]
@@ -107,6 +110,26 @@ class RSAVQAModel(Model):
         self.speaker_loss_factor = speaker_loss_factor
         
         self.meaning_vector_source = meaning_vector_source
+
+    def _cache_meaning_vectors(self, meaning_vectors, precompute_metadata):
+        checkpoint_dir = os.environ['CHECKPOINT_DIR']
+
+
+        for layer in range(len(meaning_vectors)):
+            for i in range(len(meaning_vectors[layer])):
+                metadata = precompute_metadata[i]
+                out_dir = Path(metadata['save_dir'])
+                out_dir.mkdir(exist_ok=True, parents=True)
+                checkpoint_file = out_dir.joinpath("checkpoint_info.txt")
+                # save checkpoint info to make organization easier later 
+                if not checkpoint_file.exists():
+                    with open(checkpoint_file, 'w') as f:
+                        f.write(str(checkpoint_dir))
+                filename = out_dir.joinpath(f"{metadata['image_id']}_{metadata['question_id']}_{layer}.pt")
+                if filename.exists():
+                    continue
+                else:
+                    torch.save(meaning_vectors[layer][i], filename)
 
     @overrides
     def forward(
@@ -240,8 +263,6 @@ class RSAVQAModel(Model):
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask) 
 
-
-
         logits = self.classifier(listener_output['output']) 
         probs = torch.softmax(logits, dim=-1)
 
@@ -282,6 +303,7 @@ class RSAVQAModel(Model):
             self.vqa_metric(logits, labels_for_metric, label_weights_for_metric)
             if not isinstance(self.loss_fxn, CELoss):
                 self.f1_metric(logits, labels)
+
         return outputs
 
     def softmax_cross_entropy_with_softtarget(self, input, target, reduction='mean'):
@@ -384,6 +406,7 @@ class PrecomputeVQAModel(RSAVQAModel):
                                                     box_coordinates=box_coordinates,
                                                     question=question,
                                                     question_input=question_input)
+
 
         for i in range(pooled_output.shape[0]):
             metadata = precompute_metadata[i]

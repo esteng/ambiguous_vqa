@@ -6,5 +6,6 @@
 
 # need CHECKPOINT_DIR, TRAINING_CONFIG
 
+echo "visbile: $CUDA_VISIBLE_DEVICES" 
 ./scripts/main.sh -a train 
 
