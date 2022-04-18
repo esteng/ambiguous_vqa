@@ -4,3 +4,6 @@
 
 data/to_copy
 data/to_copy/*
+
+models/baselines/outputs
+models/baselines/outputs/*
