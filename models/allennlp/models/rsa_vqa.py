@@ -142,6 +142,7 @@ class RSAVQAModel(Model):
         # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
+        labels_from_pretrained: Optional[torch.Tensor] = None,
         labels_for_metric: Optional[torch.Tensor] = None,
         weights_for_metric: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
@@ -269,14 +270,14 @@ class RSAVQAModel(Model):
                    "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances,
                    "predicted_labels": predicted_labels}
 
-        if labels is not None and label_weights is not None:
-            vqa_loss, weighted_labels, mask = self.loss_fxn(logits, labels,  debug_answer, label_weights=label_weights)
+        if (labels is not None or labels_from_pretrained is not None) and label_weights is not None:
+            vqa_loss, weighted_labels, mask = self.loss_fxn(logits, labels_from_pretrained,  debug_answer, label_weights=label_weights)
             outputs['debug_answer'] = debug_answer
             if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss): 
 
                 binary_label_mask = mask 
                 self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
-                self.vqa_metric(logits, labels_for_metric, weights_for_metric, do_interact=False, debug_tokens=debug_tokens, debug_answer=debug_answer) 
+                self.vqa_metric(logits, labels_from_pretrained, weights_for_metric, do_interact=False, debug_tokens=debug_tokens, debug_answer=debug_answer) 
 
             elif isinstance(self.loss_fxn, MultilabelCELoss):  
                 labels = labels.squeeze(1)
