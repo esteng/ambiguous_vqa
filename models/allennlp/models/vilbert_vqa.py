@@ -244,6 +244,7 @@ class VqaVilbert(Model):
                 label_weights.unsqueeze(-1),
             ).squeeze(-1)
 
+
             # weighted_labels now has shape (batch_size, num_labels).  We need to ignore the first
             # two columns of this in our loss function and accuracy metric.  The first column is a
             # padding label, and the second column is an OOV label.  We want the loss function to
@@ -256,7 +257,7 @@ class VqaVilbert(Model):
             # if not self.training:
             #     import pdb 
             #     pdb.set_trace() 
-
+            pdb.set_trace()
             outputs["loss"] = (
                 torch.nn.functional.binary_cross_entropy_with_logits(
                     logits, weighted_labels, weight=binary_label_mask, reduction="sum"

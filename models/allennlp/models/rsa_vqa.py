@@ -22,6 +22,7 @@ from allennlp.modules.transformer import (
 )
 from allennlp.nn import util
 from allennlp.common.params import Params
+from allennlp.modules.rsa_vqa.vqa_classifier import VQAClassifier
 from allennlp.modules.rsa_vqa.speaker import BaseSpeakerModule
 from allennlp.modules.rsa_vqa.listener import BaseListenerModule
 from allennlp.data.fields.metadata_field import MetadataField
@@ -61,11 +62,11 @@ class RSAVQAModel(Model):
         self.consistency_wrong_map: Dict[str, int] = collections.Counter()
         from allennlp.training.metrics import F1MultiLabelMeasure, BCEF1MultiLabelMeasure
         self.loss_fxn = loss
-        if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss) \
-            or isinstance(self.loss_fxn, MultilabelCELoss): 
-            self.f1_metric = BCEF1MultiLabelMeasure() 
-        else:
-            self.f1_metric = F1MultiLabelMeasure(average="micro")
+        # if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss) \
+        #     or isinstance(self.loss_fxn, MultilabelCELoss): 
+        #     self.f1_metric = BCEF1MultiLabelMeasure() 
+        # else:
+        self.f1_metric = F1MultiLabelMeasure(average="micro")
 
         from allennlp.training.metrics.vqa import VqaMeasure
         self.vqa_metric = VqaMeasure()
@@ -101,9 +102,9 @@ class RSAVQAModel(Model):
         self.label_namespace = label_namespace
 
         if isinstance(vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder): 
-            self.classifier = torch.nn.Linear(self.vision_language_encoder.projection_dim, num_labels)
+            self.classifier = VQAClassifier(self.vision_language_encoder.projection_dim, num_labels)
         else:
-            self.classifier = torch.nn.Linear(self.vision_language_encoder.encoder.hidden_size2, num_labels)
+            self.classifier = VQAClassifier(self.vision_language_encoder.encoder.hidden_size2, num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
         self.vqa_loss_factor = vqa_loss_factor
@@ -141,7 +142,8 @@ class RSAVQAModel(Model):
         # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
-        label_indices: Optional[torch.Tensor] = None,
+        labels_for_metric: Optional[torch.Tensor] = None,
+        weights_for_metric: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
         debug_images: Optional[MetadataField] = None,
@@ -238,11 +240,6 @@ class RSAVQAModel(Model):
                 speaker_utterances.append(pred)
                 true = self.speaker_modules[i].make_output_human_readable(gold_predictions)['predicted_tokens']
 
-                # logger.info("")
-                # logger.info(f"pred: {pred[0]}")
-                # logger.info(f"true: {true[0]}")
-                # logger.info(f"pred: {pred[1]}")
-                # logger.info(f"true: {true[1]}")
             else:
                 pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
                 speaker_utterances.append(pred)
@@ -266,24 +263,25 @@ class RSAVQAModel(Model):
         logits = self.classifier(listener_output['output']) 
         probs = torch.softmax(logits, dim=-1)
 
+        predicted_labels = torch.argmax(logits, dim=1)
+
         outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, 
-                   "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances}
+                   "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances,
+                   "predicted_labels": predicted_labels}
 
         if labels is not None and label_weights is not None:
-            # if self.loss['type'] in ['bce', 'wbce', 'nllloss', 'aml']:
-            #     label_mask = torch.sum(labels, 2) > 1  # 0 is padding, 1 is OOV, which we want to ignore
-            # else:
-            #     label_mask = labels > 1
-            vqa_loss, label_weights = self.loss_fxn(logits, labels,  debug_answer, label_weights=label_weights)
-
+            vqa_loss, weighted_labels, mask = self.loss_fxn(logits, labels,  debug_answer, label_weights=label_weights)
+            outputs['debug_answer'] = debug_answer
             if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss): 
-                labels = labels.squeeze(1)
-                labels_for_metric = torch.argmax(labels*label_weights, dim=1)
-                label_weights_for_metric = torch.ones_like(labels_for_metric)
+
+                binary_label_mask = mask 
+                self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
+                self.vqa_metric(logits, labels_for_metric, weights_for_metric, do_interact=False, debug_tokens=debug_tokens, debug_answer=debug_answer) 
+
             elif isinstance(self.loss_fxn, MultilabelCELoss):  
                 labels = labels.squeeze(1)
                 labels_for_metric = torch.argmax(labels, dim=1)
-                label_weights_for_metric = torch.ones_like(labels_for_metric)
+                label_weights_for_f1_metric = torch.ones_like(labels_for_metric)
             else:
                 labels_for_metric = labels 
                 label_weights_for_metric = label_weights
@@ -300,9 +298,10 @@ class RSAVQAModel(Model):
             outputs['loss'] =  big_loss
             outputs['vqa_loss'] = vqa_loss
 
-            self.vqa_metric(logits, labels_for_metric, label_weights_for_metric)
-            if not isinstance(self.loss_fxn, CELoss):
-                self.f1_metric(logits, labels)
+            # self.vqa_metric(logits, labels_for_metric, label_weights_for_metric, do_interact = vqa_loss.item() < 50)
+            # if not isinstance(self.loss_fxn, CELoss):
+            #     # self.f1_metric(logits, labels)
+            #     self.f1_metric(logits, labels_for_f1_metric, weight_for_metric.bool())
 
         return outputs
 

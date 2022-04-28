@@ -26,7 +26,7 @@ class VqaMeasure(Metric):
         self._score_count: Union[None, torch.Tensor] = None
 
     @overrides
-    def __call__(self, logits: torch.Tensor, labels: torch.Tensor, label_weights: torch.Tensor):
+    def __call__(self, logits: torch.Tensor, labels: torch.Tensor, label_weights: torch.Tensor, do_interact: bool = False, debug_tokens = None, debug_answer = None):
         """
         # Parameters
 
@@ -48,6 +48,8 @@ class VqaMeasure(Metric):
 
         logits, labels, label_weights = self.detach_tensors(logits, labels, label_weights)
         predictions = logits.argmax(dim=1)
+        if do_interact:
+            pdb.set_trace() 
         # Sum over dimension 1 gives the score per question. We care about the overall sum though,
         # so we sum over all dimensions.
         if len(labels.shape) > 1:

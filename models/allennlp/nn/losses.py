@@ -3,7 +3,7 @@ from overrides import overrides
 import torch 
 import torch.nn.functional as F
 from allennlp.common.registrable import Registrable
-
+from allennlp.nn import util 
 class Loss(torch.nn.Module, Registrable):
     def __init__(self):
         super().__init__()
@@ -19,8 +19,7 @@ class CELoss(Loss):
 
     @overrides 
     def forward(self, logits, labels, debug_answer, label_weights=None):
-        return self.loss_fxn(logits, labels), label_weights
-
+        return self.loss_fxn(logits, labels), label_weights, None
 
 @Loss.register("bce")
 class BCELoss(Loss):
@@ -29,55 +28,119 @@ class BCELoss(Loss):
         self.vocab = vocab 
         self.loss_fxn = F.binary_cross_entropy_with_logits
 
-    def get_label_weights(self, labels, debug_answers):
+    def get_label_weights(self, logits, labels, label_weights):
         """
         get label weights for BCE loss from per-answer counts 
         """
-        weights = torch.zeros_like(labels)
-        for row in range(weights.shape[0]):
-            for answer, count in debug_answers[row].items():
-                try:
-                    ans_idx = self.vocab._token_to_index['answers'][answer]
-                    weights[row, ans_idx] = count
-                except KeyError:
-                    # for now, just make weights all 1s 
-                    print(f"cannot find answer in vocab: {answer}")
-                    weights[row] = 1.0
 
-        # normalize weights 
-        weights = weights / weights.sum(dim=1, keepdim=True)
-        # make zero examples also have a weight 
-        # proportional to how many zeros there are
-        num_zeros = weights == 0
-        num_zeros = num_zeros.sum(dim=1, keepdim=True)
-        weights_zero_mask = torch.ones_like(weights) / num_zeros
-        weights[weights == 0] = weights_zero_mask[weights == 0]
-        return weights
+        # pdb.set_trace() 
+        # try with 1 here, don't compute loss for UNKs 
+        # pdb.set_trace() 
+        label_mask = labels > 1  # 1 is OOV, -1 is pad
+        # label_weights[label_weights > 0] = 1
+        weighted_labels = util.masked_index_replace(
+            logits.new_zeros(logits.size() + (1,)),
+            labels.clamp(min=0).long(),
+            label_mask,
+            label_weights.unsqueeze(-1),
+        ).squeeze(-1)
+
+        binary_label_mask = weighted_labels.new_ones(logits.size())
+        # don't compute loss for padding tokens 
+        # binary_label_mask[weighted_labels > 0] = 1
+        return weighted_labels, binary_label_mask 
 
     @overrides 
     def forward(self, logits, labels, debug_answer, label_weights=None):
         labels = labels.squeeze(1).float()
-        label_weights = self.get_label_weights(labels, debug_answer)
-        return self.loss_fxn(logits, labels, weight=label_weights).mean(), label_weights
+        label_weight_tensor, binary_mask = self.get_label_weights(logits, labels, label_weights)
+        batch_size = labels.shape[0]
+        # loss = self.loss_fxn(logits, label_weight_tensor, weight=binary_mask, reduction="sum")/batch_size
+        loss = self.loss_fxn(logits, label_weight_tensor, weight=binary_mask, reduction="mean") * label_weight_tensor.size(1)
+                # https://github.com/jnhwkim/ban-vqa/blob/master/train.py#L19
+                # https://github.com/dandelin/ViLT/blob/762fd3975c180db6fc88f577cf39549983fa373a/vilt/modules/objectives.py#L316
+        return loss, label_weight_tensor, binary_mask
 
 
 @Loss.register("wbce")
-class WeightedBCELoss(Loss):
-    def __init__(self): 
-        super().__init__()
+class WeightedBCELoss(BCELoss):
+    def __init__(self,
+                vocab, 
+                temperature: float = 1.0): 
+        super().__init__(vocab)
         self.eps = 1e-10
-        self.loss_fxn = F.binary_cross_entropy_with_logits
+        self.temperature = temperature
+        # temperature [0, 1]
+        # temperature of 1 means BCE, temperature of 0 means full reweighting 
 
     @overrides
+    def get_label_weights(self, logits, labels, label_weights):
+        """
+        get label weights for W-BCE loss from per-answer counts 
+        """
+
+        label_mask = labels > 1  # 1 is OOV, -1 is pad
+        weighted_labels = util.masked_index_replace(
+            logits.new_zeros(logits.size() + (1,)),
+            labels.clamp(min=0).long(),
+            label_mask,
+            label_weights.unsqueeze(-1),
+        ).squeeze(-1)
+
+        pos_binary_label_mask = weighted_labels.new_zeros(logits.size())
+        neg_binary_label_mask = weighted_labels.new_zeros(logits.size())
+
+        pos_binary_label_mask[weighted_labels > 0] = 1
+        neg_binary_label_mask[weighted_labels == 0] = 1
+
+        return weighted_labels, pos_binary_label_mask, neg_binary_label_mask
+
+    @overrides 
     def forward(self, logits, labels, debug_answer, label_weights=None):
-        labels = labels.squeeze(1)
-        count_pos = torch.sum(labels)*1.0+self.eps
-        count_neg = torch.sum(1.-labels)*1.0
-        beta = count_neg/count_pos
-        beta_back = count_pos / (count_pos + count_neg)
-        bce_loss = self.loss_fxn(logits, torch.squeeze(labels, 1).float(), weight=beta).view(-1)
-        vqa_loss = beta_back*bce_loss
-        return vqa_loss, label_weights
+        labels = labels.squeeze(1).float()
+        binary_labels = labels > 0
+        temp = 1 - self.temperature + self.eps
+        count_pos = torch.sum(binary_labels)+self.eps
+        count_neg = torch.sum(~binary_labels)
+        ratio = min(1.0, count_pos / (temp * (count_pos + count_neg))) 
+        # the lower the ratio, the higher the weight 
+        weight_pos = 1.0 / ((1-ratio)+self.eps)
+        # weight_pos = 1.0
+        # the lower the ratio, the lower the weight 
+        weight_neg = 1.0
+        print(f"\ntemp: {temp}\ncount_pos: {count_pos}\ncount_neg: {count_neg}\nbeta: {ratio}\nweight_pos: {weight_pos}\nweight_neg: {weight_neg}")
+
+        label_weight_tensor, pos_binary_mask, neg_binary_mask = self.get_label_weights(logits, labels, label_weights) 
+        batch_size = labels.shape[0]
+
+
+
+        loss_pos =  self.loss_fxn(logits, label_weight_tensor, weight=pos_binary_mask, reduction="sum")/batch_size
+        loss_neg =  self.loss_fxn(logits, label_weight_tensor, weight=neg_binary_mask, reduction="sum")/batch_size
+        # print(f"loss_pos: {loss_pos}, loss_neg: {loss_neg}, weight_pos: {weight_pos}") 
+        loss = weight_pos * loss_pos + weight_neg * loss_neg
+        print(f"loss: {loss}") 
+        return loss, label_weight_tensor, pos_binary_mask + neg_binary_mask
+
+@Loss.register("dro")
+class DROBCELoss(WeightedBCELoss):
+    def __init__(self,
+                vocab): 
+        super().__init__(vocab)
+
+    @overrides 
+    def forward(self, logits, labels, debug_answer, label_weights=None):
+        labels = labels.squeeze(1).float()
+
+        label_weight_tensor, pos_binary_mask, neg_binary_mask = self.get_label_weights(logits, labels, label_weights) 
+        batch_size = labels.shape[0]
+
+        loss_pos =  self.loss_fxn(logits, label_weight_tensor, weight=pos_binary_mask, reduction="sum")/batch_size
+        loss_neg =  self.loss_fxn(logits, label_weight_tensor, weight=neg_binary_mask, reduction="sum")/batch_size
+        print(f"loss_pos: {loss_pos}, loss_neg: {loss_neg}") 
+        loss = torch.max(loss_pos, loss_neg)
+        print(f"loss: {loss}") 
+        return loss, label_weight_tensor, pos_binary_mask + neg_binary_mask
 
 @Loss.register("multilabel_ce")
 class MultilabelCELoss(Loss):
@@ -107,7 +170,7 @@ class MultilabelCELoss(Loss):
         labels = self.get_soft_labels(labels, debug_answer)
         logits = logits.log_softmax(dim=1)        
         loss = torch.mean(torch.sum(-labels * logits, dim=1))
-        return loss, label_weights
+        return loss, label_weights, None
 
 @Loss.register("asym")
 class AsymmetricLossMultiLabel(Loss):
@@ -155,4 +218,4 @@ class AsymmetricLossMultiLabel(Loss):
                 torch._C.set_grad_enabled(True)
             loss *= one_sided_w
 
-        return -loss.sum(), label_weights
+        return -loss.sum(), label_weights, None

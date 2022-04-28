@@ -1,6 +1,7 @@
 from copy import deepcopy 
 from typing import List, Any
 import pdb 
+import pathlib
 
 import torch
 from transformers import AutoModel, AutoTokenizer, CLIPModel, CLIPProcessor, ViltProcessor, ViltForQuestionAnswering, ViltModel
@@ -238,6 +239,40 @@ class ViLTLanguageEncoder(VisionLanguageEncoder):
         combined_pooled = outputs['pooler_output'].float()
 
         return combined_pooled, outputs['last_hidden_state']
+
+
+@VisionLanguageEncoder.register("vilt_classifier")
+class ClassifierViLTLanguageEncoder(VisionLanguageEncoder):
+    def __init__(self, model_name: str, 
+                       half_precision: bool = False):
+        super(ClassifierViLTLanguageEncoder, self).__init__()
+        self.half_precision = half_precision
+        if half_precision: 
+            self.model = ViltForQuestionAnswering.from_pretrained(model_name).half()
+        else:
+            self.model = ViltForQuestionAnswering.from_pretrained(model_name)
+        self.processor = ViltProcessor.from_pretrained(model_name)
+        self.projection_dim = self.model.config.hidden_size
+
+    # def convert_to_vocab_labels(self, logits):
+    #     # batch_size, num_classes 
+    #     pred_labels = logits.argmax(dim=-1)
+    #     # batch_size
+    #     pred_tokens = [self.model.config.id2label[idx] for idx in pred_labels]
+    #     pred_vocab_tokens = [self.vocab.get_token_index(x) for x in pred_tokens]
+    #     return torch.tensor(pred_vocab_tokens)
+
+    def forward(self, text_batch, image_batch): 
+        images = [Image.open(img_path) for img_path in image_batch]
+        inputs = self.processor(text = text_batch, images = images, return_tensors="pt", padding=True).to(self.model.device)
+        if self.half_precision:
+            for k, v in inputs.items():
+                if isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor):
+                    inputs[k] = v.half()
+        outputs = self.model(**inputs) 
+        return outputs['logits']
+
+
 
 @VisionLanguageEncoder.register("debug_l_only")
 @VisionLanguageEncoder.register("debug_l_only_from_huggingface", constructor="from_huggingface_model_name")

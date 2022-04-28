@@ -1,4 +1,5 @@
 import logging
+import copy
 from collections import Counter
 from multiprocessing.dummy import Array
 from os import PathLike
@@ -36,6 +37,7 @@ from allennlp.modules.vision.grid_embedder import GridEmbedder
 from allennlp.modules.vision.region_detector import RegionDetector
 from allennlp.data.dataset_readers.vision_reader import VisionReader
 from allennlp.nn.util import add_sentence_boundary_token_ids
+from allennlp.modules.vision.vision_language_encoder import VisionLanguageEncoder
 
 logger = logging.getLogger(__name__)
 
@@ -233,7 +235,6 @@ def preprocess_answer(answer: str) -> str:
     answer = answer.replace(",", "")
     return answer
 
-
 def get_score(count: int) -> float:
     return min(1.0, count / 3)
 
@@ -293,6 +294,7 @@ class VQAv2Reader(VisionReader):
         answer_vocab: Optional[Union[Vocabulary, str]] = None,
         feature_cache_dir: Optional[Union[str, PathLike]] = None,
         tokenizer: Optional[Tokenizer] = None,
+        pretrained_model: Optional[VisionLanguageEncoder] = None,
         source_token_indexers: Optional[Dict[str, TokenIndexer]] = None,
         target_token_indexers: Optional[Dict[str, TokenIndexer]] = None,
         cuda_device: Optional[Union[int, torch.device]] = None,
@@ -369,6 +371,16 @@ class VQAv2Reader(VisionReader):
         self.use_precompute = use_precompute
         self.retrieval_baseline = retrieval_baseline
         self.retrieval_save_dir = retrieval_save_dir
+
+        # extract labels and then delete 
+        if pretrained_model is not None:
+            self.pretrained_model_label2id = copy.deepcopy(pretrained_model.model.config.label2id)
+            # garbage collect pretrained model to make space in memory 
+            del(pretrained_model)
+        else:
+            self.pretrained_model_label2id = None
+
+
 
     @overrides
     def _read(self, splits_or_list_of_splits: Union[str, List[str]]):
@@ -587,39 +599,52 @@ class VQAv2Reader(VisionReader):
                 return None 
 
             fields["debug_answer"] = MetadataField(answer_counts)
-            answer_fields = []
-            weights = []
-            indices = []
+            answer_fields_for_metric = []
+            weights_for_metric = []
+            if self.pretrained_model_label2id is not None:
+                answers_from_pretrained = []
+
+            for answer, count in answer_counts.items():
+                if self.answer_vocab is None or answer in self.answer_vocab:
+                    answer_fields_for_metric.append(LabelField(answer, label_namespace="answers"))
+                    if self.pretrained_model_label2id is not None:
+                        pretrained_answer = self.pretrained_model_label2id.get(answer, -1)
+                        answers_from_pretrained.append(pretrained_answer)
+
+                    weights_for_metric.append(get_score(count))
+            if self.pretrained_model_label2id is not None:
+                fields['labels_from_pretrained'] = ArrayField(torch.tensor(answers_from_pretrained))
+
+            fields['labels_for_metric'] = ListField(answer_fields_for_metric)
+            fields['weights_for_metric'] = ArrayField(torch.tensor(weights_for_metric))
 
             if self.use_multilabel: 
-                instance_answers = []
-                for answer, count in answer_counts.items():
-                    instance_answers.append(answer)
-                    weights.append(count)
-                    indices.append(0) 
-                answer_field = MultiLabelField(instance_answers, label_namespace="answers")
-                answer_fields.append(answer_field)
+                fields["labels"] = ListField(answer_fields_for_metric)
+                fields["label_weights"] = ArrayField(torch.tensor(weights_for_metric))
+                answer_fields = answer_fields_for_metric
+                weights = weights_for_metric
 
-                    # instance_weights[index] = count
-                # normalize weights
-                # instance_weights = instance_weights / instance_weights.sum()
-                # answer_fields.append(answer_field)
-                # weights.append(instance_weights)
             else: 
+                answer_fields = []
+                weights = []
                 for answer, count in answer_counts.items():
                     if self.answer_vocab is None or answer in self.answer_vocab:
                         answer_fields.append(LabelField(answer, label_namespace="answers"))
                         if self.multiple_answers_per_question:
-                            weights.append(get_score(count))
+                            weights.append(count)
+                            # weights.append(get_score(count))
                         else:
                             weights.append(min(1.0, count))
+                # normalize weights 
+                weights = torch.tensor(weights)
+                if self.multiple_answers_per_question:
+                    weights = weights/weights.sum()
+
+                fields["labels"] = ListField(answer_fields)
+                fields["label_weights"] = ArrayField(weights) 
 
             if len(answer_fields) <= 0:
                 return None
-
-            fields["labels"] = ListField(answer_fields)
-            fields["label_weights"] = ArrayField(torch.tensor(weights))
-            fields["label_indices"] = ArrayField(torch.tensor(indices))
 
         if precompute_metadata is not None: 
             fields['precompute_metadata'] = MetadataField(precompute_metadata)

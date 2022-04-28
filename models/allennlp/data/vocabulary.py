@@ -575,7 +575,6 @@ class Vocabulary(Registrable):
                         self.add_token_to_namespace(token, namespace)
                 elif count >= min_count.get(namespace, 1):
                     self.add_token_to_namespace(token, namespace)
-
         for namespace, tokens in tokens_to_add.items():
             for token in tokens:
                 self.add_token_to_namespace(token, namespace)
