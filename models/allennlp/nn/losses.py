@@ -61,6 +61,42 @@ class BCELoss(Loss):
                 # https://github.com/dandelin/ViLT/blob/762fd3975c180db6fc88f577cf39549983fa373a/vilt/modules/objectives.py#L316
         return loss, label_weight_tensor, binary_mask
 
+@Loss.register("bce_ce")
+class CEAndBCELoss(BCELoss):
+    def __init__(self, vocab):
+        super().__init__(vocab)
+        self.bce_loss_fxn = F.binary_cross_entropy_with_logits
+        self.ce_loss_fxn = F.cross_entropy
+
+
+    def get_ce_labels(self, bce_labels, label_weights): 
+        mc_answer_idx = label_weights.argmax(dim=-1)
+        mc_answer_idx = mc_answer_idx.unsqueeze(-1)
+        ce_labels = torch.gather(bce_labels, dim=1, index=mc_answer_idx).squeeze(-1)
+        return ce_labels.long()
+
+    @overrides 
+    def forward(self, logits, bce_labels, debug_answer, label_weights=None):
+        bce_labels = bce_labels.squeeze(1).float()
+        bce_label_weight_tensor, binary_mask = self.get_label_weights(logits, bce_labels, label_weights)
+        batch_size = bce_labels.size(0)
+        # in min_gen
+        if len(bce_labels.size()) == 1:
+            bce_labels = bce_labels.unsqueeze(-1)
+
+        # loss = self.loss_fxn(logits, label_weight_tensor, weight=binary_mask, reduction="sum")/batch_size
+        bce_loss = self.bce_loss_fxn(logits, bce_label_weight_tensor, weight=binary_mask, reduction="mean") * bce_label_weight_tensor.size(1)
+                # https://github.com/jnhwkim/ban-vqa/blob/master/train.py#L19
+                # https://github.com/dandelin/ViLT/blob/762fd3975c180db6fc88f577cf39549983fa373a/vilt/modules/objectives.py#L316
+
+        ce_labels = self.get_ce_labels(bce_labels, label_weights)
+        try:
+            ce_loss = self.ce_loss_fxn(logits, ce_labels, ignore_index=-1, reduction="mean")
+        except RuntimeError:
+            pdb.set_trace() 
+        loss = bce_loss + ce_loss
+        return loss, bce_label_weight_tensor, binary_mask
+
 
 @Loss.register("wbce")
 class WeightedBCELoss(BCELoss):

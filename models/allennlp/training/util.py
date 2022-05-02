@@ -534,8 +534,6 @@ def minimize_and_generate(
         
         condition = get_condition(descent_strategy, loss, descent_loss_threshold, epoch, num_descent_steps)
         # descend on the meaning vector 
-        # for epoch in range(num_descent_steps):
-        # TODO: elias: change to while loop 
         while condition: 
             batch_count += 1
             # get output encoder meaning vector, either from init or from previous iteration

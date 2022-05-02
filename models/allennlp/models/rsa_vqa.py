@@ -28,7 +28,13 @@ from allennlp.modules.rsa_vqa.listener import BaseListenerModule
 from allennlp.data.fields.metadata_field import MetadataField
 from allennlp.modules.vision.vision_language_encoder import CLIPLanguageEncoder, VisionLanguageEncoder, ViLTLanguageEncoder
 
-from allennlp.nn.losses import Loss, BCELoss, WeightedBCELoss, MultilabelCELoss, AsymmetricLossMultiLabel, CELoss
+from allennlp.nn.losses import (Loss, 
+                                BCELoss, 
+                                WeightedBCELoss, 
+                                MultilabelCELoss, 
+                                AsymmetricLossMultiLabel, 
+                                CELoss, 
+                                CEAndBCELoss)
 
 logger = logging.getLogger(__name__)
 
@@ -97,14 +103,16 @@ class RSAVQAModel(Model):
         self.copy_speaker_listener = copy_speaker_listener 
         self.num_listener_steps = len(speaker_modules)
 
-        num_labels = vocab.get_vocab_size(label_namespace)
-        self.num_labels = num_labels
+        # num_labels = vocab.get_vocab_size(label_namespace)
+        # self.num_labels = num_labels
+        self.num_labels = len(self.vision_language_encoder.model.config.label2id)
+
         self.label_namespace = label_namespace
 
         if isinstance(vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder): 
-            self.classifier = VQAClassifier(self.vision_language_encoder.projection_dim, num_labels)
+            self.classifier = VQAClassifier(self.vision_language_encoder.projection_dim, self.num_labels)
         else:
-            self.classifier = VQAClassifier(self.vision_language_encoder.encoder.hidden_size2, num_labels)
+            self.classifier = VQAClassifier(self.vision_language_encoder.encoder.hidden_size2, self.num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
         self.vqa_loss_factor = vqa_loss_factor
@@ -273,11 +281,15 @@ class RSAVQAModel(Model):
         if (labels is not None or labels_from_pretrained is not None) and label_weights is not None:
             vqa_loss, weighted_labels, mask = self.loss_fxn(logits, labels_from_pretrained,  debug_answer, label_weights=label_weights)
             outputs['debug_answer'] = debug_answer
-            if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss): 
+            if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss) or \
+                isinstance(self.loss_fxn, CEAndBCELoss):
 
                 binary_label_mask = mask 
-                self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
-                self.vqa_metric(logits, labels_from_pretrained, weights_for_metric, do_interact=False, debug_tokens=debug_tokens, debug_answer=debug_answer) 
+                try:
+                    self.f1_metric(logits, weighted_labels, binary_label_mask.bool())
+                    self.vqa_metric(logits, labels_from_pretrained, weights_for_metric, do_interact=False, debug_tokens=debug_tokens, debug_answer=debug_answer) 
+                except RuntimeError:
+                    pass 
 
             elif isinstance(self.loss_fxn, MultilabelCELoss):  
                 labels = labels.squeeze(1)

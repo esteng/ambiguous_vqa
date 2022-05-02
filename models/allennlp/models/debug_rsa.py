@@ -108,16 +108,17 @@ class DebugRSAVQAModel(Model):
         # self.copy_speaker_listener = copy_speaker_listener 
         # self.num_listener_steps = len(speaker_modules)
 
-        num_labels = vocab.get_vocab_size(label_namespace)
-        self.num_labels = num_labels
+        # num_labels = vocab.get_vocab_size(label_namespace)
+        # self.num_labels = num_labels
+        self.num_labels = len(self.vision_language_encoder.model.config.label2id)
         self.label_namespace = label_namespace
 
         if isinstance(vision_language_encoder, CLIPLanguageEncoder) \
             or isinstance(self.vision_language_encoder, ViLTLanguageEncoder)\
             or isinstance(self.vision_language_encoder, ClassifierViLTLanguageEncoder): 
-            self.classifier = VQAClassifier(self.vision_language_encoder.projection_dim, num_labels)
+            self.classifier = VQAClassifier(self.vision_language_encoder.projection_dim, self.num_labels)
         else:
-            self.classifier = VQAClassifier(self.vision_language_encoder.encoder.hidden_size2, num_labels)
+            self.classifier = VQAClassifier(self.vision_language_encoder.encoder.hidden_size2, self.num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
         self.vqa_loss_factor = vqa_loss_factor
@@ -179,12 +180,13 @@ class DebugRSAVQAModel(Model):
     ) -> Dict[str, torch.Tensor]:
 
 
-        # with torch.no_grad():
-        self.vision_language_encoder.eval()
-        logits = self.vision_language_encoder(debug_tokens,
-                                            debug_images)
+        with torch.no_grad():
+        # self.vision_language_encoder.eval()
+            pooled_output, __ = self.vision_language_encoder(debug_tokens,
+                                                debug_images)
 
 
+        logits = self.classifier(pooled_output) 
         probs = torch.softmax(logits, dim=-1)
 
         predicted_labels = torch.argmax(logits, dim=-1)

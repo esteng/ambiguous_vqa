@@ -1,3 +1,4 @@
+from audioop import mul
 import logging
 import copy
 from collections import Counter
@@ -475,6 +476,7 @@ class VQAv2Reader(VisionReader):
                 raise ValueError(f"Unrecognized split: {split_name}.")
 
         answers_by_question_id = {}
+        multi_choice_answers_by_question_id = {}
         # answers_for_metric_by_question_id = {} 
         if split.annotations is not None:
             with open(cached_path(split.annotations, extract_archive=True)) as f:
@@ -485,6 +487,7 @@ class VQAv2Reader(VisionReader):
             for a in annotations["annotations"]:
                 qid = a["question_id"]
                 answer_counts: MutableMapping[str, int] = Counter()
+                mc_answer_counts = Counter()
                 if self.multiple_answers_per_question:
                     for answer_dict in a["answers"]:
                         # only use confident answers 
@@ -493,7 +496,10 @@ class VQAv2Reader(VisionReader):
                             answer_counts[preprocess_answer(answer)] += 1
                 else:
                     answer_counts[preprocess_answer(a["multiple_choice_answer"])] = 1
+                mc_answer_counts[preprocess_answer(a["multiple_choice_answer"])] = 1
+
                 answers_by_question_id[qid] = answer_counts
+                multi_choice_answers_by_question_id[qid] = mc_answer_counts
 
         questions = []
         with open(cached_path(split.questions, extract_archive=True)) as f:
@@ -522,6 +528,7 @@ class VQAv2Reader(VisionReader):
         failed_instances_count = 0
         for question_dict, processed_image in zip(question_dicts, processed_images):
             answers = answers_by_question_id.get(question_dict["question_id"])
+            mc_answers = multi_choice_answers_by_question_id.get(question_dict["question_id"])
             # for ans in answers: 
             if self.is_precompute or self.use_precompute or self.retrieval_baseline:
                 if self.retrieval_baseline:
@@ -532,7 +539,7 @@ class VQAv2Reader(VisionReader):
             else:
                 precompute_metadata = None
             # instance = self.text_to_instance(question_dict["question"], processed_image, answers, answers_for_metric, precompute_metadata)
-            instance = self.text_to_instance(question_dict["question"], processed_image, answers, precompute_metadata)
+            instance = self.text_to_instance(question_dict["question"], processed_image, answers, precompute_metadata, mc_answers = mc_answers)
             attempted_instances_count += 1
             if instance is None:
                 failed_instances_count += 1
@@ -554,6 +561,7 @@ class VQAv2Reader(VisionReader):
         answer_counts: Optional[MutableMapping[str, int]] = None,
         # answer_counts_for_metric: Optional[MutableMapping[str, int]] = None,
         precompute_metadata: Optional[Dict[str, str]] = None,
+        mc_answers: Optional[MutableMapping[str, int]] = None,
         # answer: Optional[str] = None,
         *,
         use_cache: bool = True,
@@ -604,6 +612,7 @@ class VQAv2Reader(VisionReader):
             if self.pretrained_model_label2id is not None:
                 answers_from_pretrained = []
 
+
             for answer, count in answer_counts.items():
                 if self.answer_vocab is None or answer in self.answer_vocab:
                     answer_fields_for_metric.append(LabelField(answer, label_namespace="answers"))
@@ -626,6 +635,7 @@ class VQAv2Reader(VisionReader):
 
             else: 
                 answer_fields = []
+                mc_answer_fields = []
                 weights = []
                 for answer, count in answer_counts.items():
                     if self.answer_vocab is None or answer in self.answer_vocab:

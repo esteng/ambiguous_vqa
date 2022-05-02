@@ -2,7 +2,10 @@
 
 function train(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
-    # rm -rf ${CHECKPOINT_DIR}/ckpt
+    mkdir -p ${CHECKPOINT_DIR}/code
+    echo "Copying code" 
+    cp -r allennlp ${CHECKPOINT_DIR}/code
+    cp -r allennlp_models ${CHECKPOINT_DIR}/code
     echo "Training a new transductive model for VQA..."
     python -um allennlp train \
     --include-package allennlp.data.dataset_readers \
@@ -27,7 +30,6 @@ function precompute_intermediate(){
 
 function resume(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
-    # rm -rf ${CHECKPOINT_DIR}/ckpt
     echo "Training a new transductive model for VQA..."
     python -um allennlp train \
     --include-package allennlp.data.dataset_readers \
@@ -72,12 +74,16 @@ function min_gen(){
     --include-package allennlp.training \
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
-    --descent-strategy steps \
-    --num-descent-steps 1000 \
     --cuda-device 0 \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/min_gen_debug_steps_1k.jsonl \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/big_min_gen_debug_steps_100.jsonl \
+    --descent-strategy steps \
+    --num-descent-steps 100 \
     --lr 0.05
 }
+    # --descent-loss-threshold  \
+    # --descent-strategy thresh \
+    # --mix-ratio 0.5 \
+    # --mix-strategy end \
 
 function min_gen_save(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"

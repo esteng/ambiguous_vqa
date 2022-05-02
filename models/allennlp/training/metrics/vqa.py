@@ -48,6 +48,8 @@ class VqaMeasure(Metric):
 
         logits, labels, label_weights = self.detach_tensors(logits, labels, label_weights)
         predictions = logits.argmax(dim=1)
+        # print(labels)
+        # print(predictions)
         if do_interact:
             pdb.set_trace() 
         # Sum over dimension 1 gives the score per question. We care about the overall sum though,
