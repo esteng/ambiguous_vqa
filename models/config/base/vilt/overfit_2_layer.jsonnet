@@ -93,12 +93,12 @@ local vilt_model ={
     label_namespace: 'answers',
     loss: {"type": "bce_ce"},
     vision_language_encoder: vilt_model, 
-    num_listener_steps: 1,
+    num_listener_steps: 3,
     copy_speaker_listener: false,
     pooled_output_dim: pooled_output_dim,
     keep_tokens: false,
     vqa_loss_factor: 10,
-    speaker_loss_factor: 1,
+    speaker_loss_factor: [1, 0.5, 0.1],
     speaker_module:
       {
         type: 'simple_speaker',
