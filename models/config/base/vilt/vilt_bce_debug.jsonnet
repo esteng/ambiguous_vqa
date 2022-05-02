@@ -3,11 +3,12 @@ local other_model_name = "bert-base-uncased";
 local gpu_batch_size = 256;
 local num_gpus = 1;
 local effective_batch_size = num_gpus * gpu_batch_size;
-local line_limit = 1024;
+local line_limit = 40000;
 // local line_limit = null;
 
 local construct_vocab = false;
-local dataset = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/filtered";
+local train_dataset = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/filtered";
+local valid_dataset = "balanced_real_val";
 
 local pooled_output_dim = 768; 
 
@@ -20,6 +21,12 @@ local pretrained_token_indexers = {"tokens": {"type": "pretrained_transformer",
                         };
 local token_indexers = {"tokens": {"type": "single_id",
                                     "namespace": "target_tokens"}};
+
+local vilt_model ={
+      type: 'vilt',
+      model_name: '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
+      half_precision: true,
+    };
 
 {
   "dataset_reader": {
@@ -36,6 +43,7 @@ local token_indexers = {"tokens": {"type": "single_id",
     "is_training": true,
     "is_validation": false,
     "use_precompute": false,
+    "pretrained_model": vilt_model,
   },
   "validation_dataset_reader": {
     "type": "vqav2",
@@ -52,20 +60,23 @@ local token_indexers = {"tokens": {"type": "single_id",
     "run_image_feature_extraction": false,
     "pass_raw_image_paths": true,
     "use_precompute": false,
+    "pretrained_model": vilt_model,
   },
-  "train_data_path": [std.format("%s", dataset)],
-  // "validation_data_path": std.format("%s[0:1000]", val_dataset),
+  "train_data_path": [std.format("%s", train_dataset)],
+  // "validation_data_path": std.format("%s[0:1000]", valid_dataset),
   // "train_data_path": [std.format("%s_train", dataset)],
-  "validation_data_path": "balanced_real_val[0:2000]",
+  // "validation_data_path": "balanced_real_val[0:2000]",
+  "validation_data_path": std.format("%s[0:2000]", valid_dataset),
   "model": {
     "type": "rsa_vqa",
     "label_namespace": "answers",
-    "loss": {"type": "bce"},
-    "vision_language_encoder": {
-      "type": "vilt", 
-      "model_name": "dandelin/vilt-b32-finetuned-vqa",
-      "half_precision": true,
-    },
+    "loss": {"type": "bce_ce"},
+    "vision_language_encoder": vilt_model,
+    #"vision_language_encoder": {
+    #  "type": "vilt", 
+    #  "model_name": "/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/",
+    #  "half_precision": true,
+    #},
     "num_listener_steps": 1,
     "copy_speaker_listener": false,
     "pooled_output_dim": pooled_output_dim,
@@ -112,6 +123,13 @@ local token_indexers = {"tokens": {"type": "single_id",
       },
     
   },
+  "vocabulary": {
+    "min_count": {
+      "target_tokens": 10,
+      "answers": 8,
+    },
+  },
+  "datasets_for_vocab_creation": ["train"],
   "data_loader": {
     "batch_size": gpu_batch_size,
     "shuffle": true,

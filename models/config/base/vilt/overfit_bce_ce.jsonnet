@@ -91,7 +91,7 @@ local vilt_model ={
   model: {
     type: 'rsa_vqa',
     label_namespace: 'answers',
-    loss: {"type": "bce"},
+    loss: {"type": "bce_ce"},
     vision_language_encoder: vilt_model, 
     num_listener_steps: 1,
     copy_speaker_listener: false,

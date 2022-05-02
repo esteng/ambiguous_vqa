@@ -20,6 +20,11 @@ local pretrained_token_indexers = {"tokens": {"type": "pretrained_transformer",
                         };
 local token_indexers = {"tokens": {"type": "single_id",
                                     "namespace": "target_tokens"}};
+local vilt_model ={
+      type: 'vilt',
+      model_name: '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
+      half_precision: true,
+    };
 
 {
   "dataset_reader": {
@@ -36,6 +41,7 @@ local token_indexers = {"tokens": {"type": "single_id",
     "is_training": true,
     "is_validation": false,
     "use_precompute": false,
+    "pretrained_model": vilt_model,
   },
   "validation_dataset_reader": {
     "type": "vqav2",
@@ -52,6 +58,7 @@ local token_indexers = {"tokens": {"type": "single_id",
     "run_image_feature_extraction": false,
     "pass_raw_image_paths": true,
     "use_precompute": false,
+    "pretrained_model": vilt_model,
   },
   "train_data_path": [std.format("%s", dataset)],
   // "validation_data_path": std.format("%s[0:1000]", val_dataset),
@@ -61,11 +68,7 @@ local token_indexers = {"tokens": {"type": "single_id",
     "type": "rsa_vqa",
     "label_namespace": "answers",
     "loss": {"type": "bce"},
-    "vision_language_encoder": {
-      "type": "vilt", 
-      "model_name": "dandelin/vilt-b32-finetuned-vqa",
-      "half_precision": true,
-    },
+    "vision_language_encoder": vilt_model,
     "num_listener_steps": 1,
     "copy_speaker_listener": false,
     "pooled_output_dim": pooled_output_dim,
@@ -116,6 +119,13 @@ local token_indexers = {"tokens": {"type": "single_id",
     "batch_size": gpu_batch_size,
     "shuffle": true,
   },
+  "vocabulary": {
+    "min_count": {
+      "target_tokens": 10,
+      "answers": 8,
+    },
+  },
+  "datasets_for_vocab_creation": ["train"],
   [if num_gpus > 1 then "distributed"]: {
     "cuda_devices": std.range(0, num_gpus - 1)
     // "cuda_devices": std.repeat([-1], num_gpus)  # Use this for debugging on CPU
@@ -127,11 +137,11 @@ local token_indexers = {"tokens": {"type": "single_id",
       "lr": 1e-4,
       "correct_bias": true,
       "weight_decay": 0.01,
-      "parameter_groups": [
+      // "parameter_groups": [
         // [["bias", "LayerNorm\\.weight", "layer_norm\\.weight"], {"weight_decay": 0}], // can't use both at the same time
         // smaller learning rate for the pretrained weights
-        [["^embeddings\\.", "^encoder.layers1\\.", "^t_pooler\\."], {"lr": 4e-3}]
-      ],
+        // [["^embeddings\\.", "^encoder.layers1\\.", "^t_pooler\\."], {"lr": 4e-3}]
+      // ],
     },
     // "learning_rate_scheduler": {
     //   "type": "linear_with_warmup",
