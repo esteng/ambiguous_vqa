@@ -57,7 +57,7 @@ class RSAVQAModel(Model):
         dropout: float = 0.1,
         loss: Loss = CELoss(),
         vqa_loss_factor: float = 1.0,
-        speaker_loss_factor: float = 1.0,
+        speaker_loss_factor: List[float] = [1.0],
         label_namespace: str = "answers",
         keep_tokens: bool = False,
         meaning_vector_source: str = "listener", 
@@ -116,6 +116,8 @@ class RSAVQAModel(Model):
         self.dropout = torch.nn.Dropout(dropout)
 
         self.vqa_loss_factor = vqa_loss_factor
+        if type(speaker_loss_factor) == int:
+            speaker_loss_factor = [speaker_loss_factor for i in range(len(speaker_modules))] 
         self.speaker_loss_factor = speaker_loss_factor
         
         self.meaning_vector_source = meaning_vector_source
@@ -267,9 +269,9 @@ class RSAVQAModel(Model):
 
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
             listener_output = self.listener_modules[i](encoded_by_speaker,
-                                                       listener_mask) 
+                                                       listener_mask)['output'] 
 
-        logits = self.classifier(listener_output['output']) 
+        logits = self.classifier(listener_output) 
         probs = torch.softmax(logits, dim=-1)
 
         predicted_labels = torch.argmax(logits, dim=1)
@@ -302,7 +304,7 @@ class RSAVQAModel(Model):
             # logger.info(f"loss: {loss.item()}")
             # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
             # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
-            losses = [self.vqa_loss_factor * vqa_loss] + [self.speaker_loss_factor * x for x in speaker_losses]
+            losses = [self.vqa_loss_factor * vqa_loss] + [self.speaker_loss_factor[i] * x for i, x in enumerate(speaker_losses)]
             # losses = speaker_losses
             big_loss = 0.0
             for loss in losses:
@@ -318,21 +320,6 @@ class RSAVQAModel(Model):
 
         return outputs
 
-    def softmax_cross_entropy_with_softtarget(self, input, target, reduction='mean'):
-        """
-        :param input: (batch, *)
-        :param target: (batch, *) same shape as input, each item must be a valid distribution: target[i, :].sum() == 1.
-        """
-        logprobs = torch.nn.functional.log_softmax(input.view(input.shape[0], -1), dim=1)
-        batchloss = - torch.sum(target.view(target.shape[0], -1) * logprobs, dim=1)
-        if reduction == 'none':
-            return batchloss
-        elif reduction == 'mean':
-            return torch.mean(batchloss)
-        elif reduction == 'sum':
-            return torch.sum(batchloss)
-        else:
-            raise NotImplementedError('Unsupported reduction mode.')
 
     @overrides
     def get_metrics(self, reset: bool = False) -> Dict[str, float]:

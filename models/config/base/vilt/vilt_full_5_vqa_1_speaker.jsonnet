@@ -60,7 +60,7 @@ local token_indexers = {"tokens": {"type": "single_id",
     "label_namespace": "answers",
     "vision_language_encoder": {
       "type": "vilt", 
-      "model_name": "dandelin/vilt-b32-finetuned-vqa",
+      "model_name": "/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/",
       "half_precision": true,
     },
     "num_listener_steps": 1,

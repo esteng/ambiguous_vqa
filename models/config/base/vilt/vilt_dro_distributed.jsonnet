@@ -1,6 +1,6 @@
 local model_name = "bert-base-uncased";
 local other_model_name = "bert-base-uncased";
-local gpu_batch_size = 256;
+local gpu_batch_size = 216;
 local num_gpus = 4;
 local effective_batch_size = num_gpus * gpu_batch_size;
 // local line_limit = 1024;
@@ -31,7 +31,8 @@ local token_indexers = {"tokens": {"type": "single_id",
     "image_processing_batch_size": 16,
     "run_image_feature_extraction": false,
     "pass_raw_image_paths": true,
-    "multiple_answers_per_question": false,
+    "multiple_answers_per_question": true,
+    "use_multilabel": true,
     "is_training": true,
     "is_validation": false,
     "use_precompute": false,
@@ -46,7 +47,8 @@ local token_indexers = {"tokens": {"type": "single_id",
     "is_training": false,
     "is_validation": true,
     "image_processing_batch_size": 16,
-    "multiple_answers_per_question": false,
+    "multiple_answers_per_question": true,
+    "use_multilabel": true,
     "run_image_feature_extraction": false,
     "pass_raw_image_paths": true,
     "use_precompute": false,
@@ -54,10 +56,11 @@ local token_indexers = {"tokens": {"type": "single_id",
   "train_data_path": [std.format("%s", dataset)],
   // "validation_data_path": std.format("%s[0:1000]", val_dataset),
   // "train_data_path": [std.format("%s_train", dataset)],
-  "validation_data_path": "balanced_real_val[0:1000]",
+  "validation_data_path": "balanced_real_val[0:2000]",
   "model": {
     "type": "rsa_vqa",
     "label_namespace": "answers",
+    "loss": {"type": "dro",},
     "vision_language_encoder": {
       "type": "vilt", 
       "model_name": "/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/",
@@ -67,7 +70,7 @@ local token_indexers = {"tokens": {"type": "single_id",
     "copy_speaker_listener": false,
     "pooled_output_dim": pooled_output_dim,
     "keep_tokens": false,
-    "vqa_loss_factor": 10,
+    "vqa_loss_factor": 5,
     "speaker_loss_factor": 1,
     "speaker_module": 
         {"type": "simple_speaker",
@@ -113,6 +116,13 @@ local token_indexers = {"tokens": {"type": "single_id",
     "batch_size": gpu_batch_size,
     "shuffle": true,
   },
+  "vocabulary": {
+    "min_count": {
+      "target_tokens": 10,
+      "answers": 8,
+    },
+  },
+  "datasets_for_vocab_creation": ["train"],
   [if num_gpus > 1 then "distributed"]: {
     "cuda_devices": std.range(0, num_gpus - 1)
     // "cuda_devices": std.repeat([-1], num_gpus)  # Use this for debugging on CPU

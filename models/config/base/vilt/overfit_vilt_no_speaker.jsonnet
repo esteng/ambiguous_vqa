@@ -15,8 +15,6 @@ local dataset_vocab = "balanced_real";
 
 local pooled_output_dim = 768;
 
-local vilt_path = "/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt/best.ckpt";
-
 local tokenizer = {
   type: 'pretrained_transformer',
   model_name: model_name,
@@ -34,7 +32,7 @@ local token_indexers = { tokens: {
 } };
 
 local vilt_model ={
-      type: 'vilt',
+      type: 'vilt_classifier',
       model_name: '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
     };
 
@@ -89,7 +87,7 @@ local vilt_model ={
     },
   },
   model: {
-    type: 'rsa_vqa',
+    type: 'rsa_debug',
     label_namespace: 'answers',
     loss: {"type": "bce"},
     vision_language_encoder: vilt_model, 
@@ -174,9 +172,9 @@ local vilt_model ={
     //   "warmup_steps": 4000
     // },
     validation_metric: '+vqa_score',
-    save_warmup: 900,
-    patience: 1000,
-    num_epochs: 1000,
+    save_warmup: 199,
+    patience: 300,
+    num_epochs: 300,
     num_gradient_accumulation_steps: effective_batch_size / gpu_batch_size / std.max(1, num_gpus),
   },
   random_seed: 12,
