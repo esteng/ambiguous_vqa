@@ -165,6 +165,7 @@ class RSAVQAModel(Model):
     ) -> Dict[str, torch.Tensor]:
         batch_size, _, feature_size = box_features.size()
 
+        print("in forward")
         # only run vision-language encoder if the reps haven't been pre-computed  
         if meaning_vectors_input is None and pooled_output is None:
             if isinstance(self.vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder):
@@ -200,6 +201,7 @@ class RSAVQAModel(Model):
         speaker_losses = []
         meaning_vectors_output = []   
         for i in range(self.num_listener_steps): 
+            print(f"speaker iteration {i}")
             if listener_output is None:
                 bsz = meaning_vectors_input[i].shape[0]
             else:
@@ -250,6 +252,7 @@ class RSAVQAModel(Model):
                 pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
                 speaker_utterances.append(pred)
                 true = self.speaker_modules[i].make_output_human_readable(gold_predictions)['predicted_tokens']
+                print(f"got predictions {i}")
 
             else:
                 pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
@@ -270,7 +273,9 @@ class RSAVQAModel(Model):
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask)['output'] 
+            print(f"got listener output {i} ")
 
+        print(f"classifier")
         logits = self.classifier(listener_output) 
         probs = torch.softmax(logits, dim=-1)
 
