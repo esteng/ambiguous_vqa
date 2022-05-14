@@ -74,7 +74,7 @@ local vilt_model ={
     "pooled_output_dim": pooled_output_dim,
     "keep_tokens": false,
     "vqa_loss_factor": 5,
-    "speaker_loss_factor": 1,
+    "speaker_loss_factor": [1],
     "speaker_module": 
         {"type": "simple_speaker",
         "target_namespace": "target_tokens",
@@ -150,7 +150,7 @@ local vilt_model ={
     // },
     "validation_metric": "+vqa_score",
     "save_warmup": 0,
-    "patience": 300,
+    "patience": 5,
     "num_epochs": 200,
     "num_gradient_accumulation_steps": effective_batch_size / gpu_batch_size, 
   },

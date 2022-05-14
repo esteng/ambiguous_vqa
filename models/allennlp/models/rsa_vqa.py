@@ -10,6 +10,7 @@ import torch.nn as nn
 from overrides import overrides
 import torch
 from transformers import AutoModel, AutoTokenizer
+import time 
 
 from allennlp.data import TextFieldTensors, Vocabulary, TokenIndexer
 from allennlp.models.model import Model
@@ -98,6 +99,8 @@ class RSAVQAModel(Model):
         if keep_tokens:
             self.encoded_token_projection = torch.nn.Linear(self.vision_language_encoder.encoder.hidden_size1, pooled_output_dim)
 
+        self.pooled_output_projection = torch.nn.Linear(pooled_output_dim, speaker_module.encoder_in_dim)
+
         self.speaker_modules = torch.nn.ModuleList(speaker_modules)
         self.listener_modules = torch.nn.ModuleList(listener_modules)
         self.copy_speaker_listener = copy_speaker_listener 
@@ -109,10 +112,7 @@ class RSAVQAModel(Model):
 
         self.label_namespace = label_namespace
 
-        if isinstance(vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder): 
-            self.classifier = VQAClassifier(self.vision_language_encoder.projection_dim, self.num_labels)
-        else:
-            self.classifier = VQAClassifier(self.vision_language_encoder.encoder.hidden_size2, self.num_labels)
+        self.classifier = VQAClassifier(speaker_module.encoder_hidden_dim, self.num_labels)
         self.dropout = torch.nn.Dropout(dropout)
 
         self.vqa_loss_factor = vqa_loss_factor
@@ -148,6 +148,7 @@ class RSAVQAModel(Model):
         box_features: torch.Tensor,
         box_coordinates: torch.Tensor,
         question: TextFieldTensors,
+        question_id: MetadataField,
         question_input: torch.Tensor = None,
         # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
@@ -165,11 +166,10 @@ class RSAVQAModel(Model):
     ) -> Dict[str, torch.Tensor]:
         batch_size, _, feature_size = box_features.size()
 
-        print("in forward")
         # only run vision-language encoder if the reps haven't been pre-computed  
         if meaning_vectors_input is None and pooled_output is None:
             if isinstance(self.vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder):
-                # TODO (elias) remove after debugging 
+                # TODO (elias) if we want to train full model, remove this
                 with torch.no_grad() :
                     pooled_output, sequence_output = self.vision_language_encoder(debug_tokens,
                                                                                 debug_images)
@@ -180,6 +180,8 @@ class RSAVQAModel(Model):
                                                         box_coordinates=box_coordinates,
                                                         question=question,
                                                         question_input=question_input)
+
+            pooled_output = self.pooled_output_projection(pooled_output)
             if self.keep_tokens:
                 encoded_tokens = self.encoded_token_projection(sequence_output_t)
                 listener_output = torch.cat([pooled_output.unsqueeze(1), encoded_tokens], dim=1)
@@ -192,6 +194,7 @@ class RSAVQAModel(Model):
             listener_output = None
             question_input = None
 
+
         if meaning_vectors_input is None:
             meaning_vectors_input = [None for i in range(self.num_listener_steps)]
         else:
@@ -199,20 +202,26 @@ class RSAVQAModel(Model):
             question_input = None
 
         speaker_losses = []
-        meaning_vectors_output = []   
+        meaning_vectors_output = []  
+        prev_listener_outputs = [] 
+        speaker_utterances = [[] for i in range(len(self.speaker_modules))]
         for i in range(self.num_listener_steps): 
-            print(f"speaker iteration {i}")
             if listener_output is None:
                 bsz = meaning_vectors_input[i].shape[0]
             else:
                 bsz = listener_output.shape[0]
-            
+
+
             if self.meaning_vector_source == "listener" and meaning_vectors_input[i] is None: 
                 # meaning vector is set to listener output 
                 meaning_vectors_output.append(listener_output)
                 # run speaker module as normal, no modified output 
                 speaker_output = self.speaker_modules[i](fused_representation=listener_output, 
                                                         gold_utterance=question_input)
+
+                if meaning_vectors_input[0] is not None and i > 0 and listener_output.requires_grad:
+                    # we're doing the min_gen procedure 
+                    speaker_output['encoder_output']['encoder_outputs'].requires_grad = True
 
             elif self.meaning_vector_source == "listener" and meaning_vectors_input[i] is not None:
                 # run speaker module with the modified listener output 
@@ -229,9 +238,10 @@ class RSAVQAModel(Model):
                                                         speaker_encoder_output=meaning_vectors_input[i])
 
 
+
             speaker_loss = speaker_output['loss']
             speaker_losses.append(speaker_loss) 
-            speaker_utterances = []
+            
             if question_input is not None: 
                 speaker_predictions = speaker_output['predictions'].contiguous() 
                 # get index of EOS 
@@ -242,21 +252,19 @@ class RSAVQAModel(Model):
                 # keep EOS in
                 prediction_mask[eos_prediction_indices] = 0
                 prediction_mask = 1 - prediction_mask
-
                 # mask out everything that comes after EOS 
                 speaker_predictions *= prediction_mask 
                 self.acc_metrics[i](speaker_predictions,
                                     question_input['tokens']['tokens'][:,1:].contiguous())
 
-                gold_predictions = {"predictions": question_input['tokens']['tokens'][:,1:]}
-                pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
-                speaker_utterances.append(pred)
-                true = self.speaker_modules[i].make_output_human_readable(gold_predictions)['predicted_tokens']
-                print(f"got predictions {i}")
+                if not self.training:
+                    pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
+                    speaker_utterances[i].append(pred)
 
             else:
-                pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
-                speaker_utterances.append(pred)
+                if not self.training:
+                    pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
+                    speaker_utterances[i].append(pred)
 
             encoded_by_speaker = speaker_output['encoder_output']['encoder_outputs']
 
@@ -273,9 +281,8 @@ class RSAVQAModel(Model):
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
             listener_output = self.listener_modules[i](encoded_by_speaker,
                                                        listener_mask)['output'] 
-            print(f"got listener output {i} ")
+            prev_listener_outputs.append(listener_output)
 
-        print(f"classifier")
         logits = self.classifier(listener_output) 
         probs = torch.softmax(logits, dim=-1)
 
@@ -283,7 +290,7 @@ class RSAVQAModel(Model):
 
         outputs = {"logits": logits, "probs": probs, "speaker_loss": speaker_losses, 
                    "meaning_vectors_output": meaning_vectors_output, "speaker_utterances": speaker_utterances,
-                   "predicted_labels": predicted_labels}
+                   "predicted_labels": predicted_labels, "question_id": question_id}
 
         if (labels is not None or labels_from_pretrained is not None) and label_weights is not None:
             vqa_loss, weighted_labels, mask = self.loss_fxn(logits, labels_from_pretrained,  debug_answer, label_weights=label_weights)

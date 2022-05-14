@@ -18,7 +18,7 @@ from allennlp.common import logging as common_logging
 from allennlp.common.util import prepare_environment
 from allennlp.data import DataLoader
 from allennlp.models.archival import load_archive
-from allennlp.training.util import evaluate, minimize_and_generate
+from allennlp.training.util import evaluate, minimize_and_generate, baseline_save_and_generate
 
 logger = logging.getLogger(__name__)
 
@@ -190,23 +190,35 @@ def min_gen_from_args(args: argparse.Namespace) -> Dict[str, Any]:
     data_loader.index_with(model.vocab)
 
 
-    metrics = minimize_and_generate(
-        model,
-        data_loader,
-        beam_size=args.beam_size,
-        descent_strategy=args.descent_strategy,
-        descent_loss_threshold=args.descent_loss_threshold,
-        num_descent_steps=args.num_descent_steps, 
-        mix_strategy=args.mix_strategy,
-        mix_ratio=args.mix_ratio,
-        lr = args.lr,
-        cuda_device=args.cuda_device,
-        batch_weight_key=args.batch_weight_key,
-        output_file=args.output_file,
-        predictions_output_file=args.predictions_output_file,
-        precompute_intermediate=args.precompute_intermediate,
-        retrieval_save_dir=args.retrieval_save_dir,
-    )
+    if args.lr == -1:
+        metrics = baseline_save_and_generate(
+                    model,
+                    data_loader,
+                    beam_size=args.beam_size,
+                    cuda_device=args.cuda_device,
+                    output_file=args.output_file,
+                    predictions_output_file=args.predictions_output_file,
+                    precompute_intermediate=args.precompute_intermediate,
+                    retrieval_save_dir=args.retrieval_save_dir,
+        )
+    else:
+        metrics = minimize_and_generate(
+            model,
+            data_loader,
+            beam_size=args.beam_size,
+            descent_strategy=args.descent_strategy,
+            descent_loss_threshold=args.descent_loss_threshold,
+            num_descent_steps=args.num_descent_steps, 
+            mix_strategy=args.mix_strategy,
+            mix_ratio=args.mix_ratio,
+            lr = args.lr,
+            cuda_device=args.cuda_device,
+            batch_weight_key=args.batch_weight_key,
+            output_file=args.output_file,
+            predictions_output_file=args.predictions_output_file,
+            precompute_intermediate=args.precompute_intermediate,
+            retrieval_save_dir=args.retrieval_save_dir,
+        )
 
     logger.info("Finished evaluating.")
 

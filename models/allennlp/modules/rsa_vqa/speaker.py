@@ -238,6 +238,8 @@ class SimpleSpeakerModule(BaseSpeakerModule):
                                                    encoder=None, 
                                                    decoder=decoder,
                                                    dropout=dropout)
+        self.encoder_in_dim = encoder_in_dim
+        self.encoder_hidden_dim = encoder_hidden_dim
         layer0 = torch.nn.Linear(encoder_in_dim, encoder_hidden_dim)
         layers = [layer0] + [torch.nn.Linear(encoder_hidden_dim, encoder_hidden_dim) for i in range(encoder_num_layers - 1)]
         modules = []

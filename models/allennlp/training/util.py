@@ -13,6 +13,7 @@ import os
 from os import PathLike
 from typing import Any, Dict, Iterable, Optional, Union, Tuple, Set, List
 from collections import Counter
+import numpy as np
 
 import torch
 from torch.nn.utils import clip_grad_norm_
@@ -409,6 +410,140 @@ def evaluate(
 
         return final_metrics
 
+def baseline_save_and_generate(
+    model: Model,
+    data_loader: DataLoader,
+    beam_size: int = 5,
+    cuda_device: int = -1,
+    output_file: str = None,
+    predictions_output_file: str = None,
+    precompute_intermediate: bool = False,
+    retrieval_save_dir: str = None,
+) -> Dict[str, Any]:
+    """
+    # Parameters
+
+    model : `Model`
+        The model to evaluate
+    data_loader : `DataLoader`
+        The `DataLoader` that will iterate over the evaluation data (data loaders already contain
+        their data).
+    cuda_device : `int`, optional (default=`-1`)
+        The cuda device to use for this evaluation.  The model is assumed to already be using this
+        device; this parameter is only used for moving the input data to the correct device.
+    batch_weight_key : `str`, optional (default=`None`)
+        If given, this is a key in the output dictionary for each batch that specifies how to weight
+        the loss for that batch.  If this is not given, we use a weight of 1 for every batch.
+    metrics_output_file : `str`, optional (default=`None`)
+        Optional path to write the final metrics to.
+    predictions_output_file : `str`, optional (default=`None`)
+        Optional path to write the predictions to.
+
+    # Returns
+
+    `Dict[str, Any]`
+        The final metrics.
+    """
+    def _cache_intermediate_vec(vec, metadata):
+        checkpoint_dir = os.environ['CHECKPOINT_DIR']
+        out_dir = Path(metadata['save_dir'])
+        out_dir.mkdir(exist_ok=True, parents=True)
+        checkpoint_file = out_dir.joinpath("checkpoint_info.txt")
+        # save checkpoint info to make organization easier later 
+        if not checkpoint_file.exists():
+            with open(checkpoint_file, 'w') as f:
+                f.write(str(checkpoint_dir))
+        filename = out_dir.joinpath(f"{metadata['image_id']}_{metadata['question_id']}_0.pt")
+        if filename.exists():
+            return None
+        else:
+            torch.save(vec, filename)
+        return None 
+
+    check_for_gpu(cuda_device)
+    predictions_file = (
+        None if predictions_output_file is None else open(predictions_output_file, "w")
+    )
+
+    data_loader.batch_size = 1
+    data_loader.shuffle = False 
+
+    iterator = iter(data_loader)
+    logger.info("Iterating over dataset")
+    generator_tqdm = Tqdm.tqdm(iterator)
+
+    # Number of batches in instances.
+    batch_count = 0
+    # Number of batches where the model produces a loss.
+    loss_count = 0
+    # Cumulative weighted loss
+    total_loss = 0.0
+    # Cumulative weight across all batches.
+    total_weight = 0.0
+
+    import pdb 
+    # zero all gradients
+    model.eval()
+    # model.zero_grad()
+    model.beam_size = beam_size
+    # batch starts by not having meaning_vectors
+    batch_losses = []
+    predictions_to_write = []
+
+    for original_batch in generator_tqdm:
+        batch = copy.deepcopy(original_batch)
+        batch['precompute_metadata'] = None 
+        batch = nn_util.move_to_device(batch, cuda_device)
+        with torch.no_grad():
+            # start by obtaining a meaning vector from the model
+            model.eval()
+            initial_output_dict = model(**batch)
+            original_loss = initial_output_dict['vqa_loss'].item()
+            original_meaning_vec = initial_output_dict['meaning_vectors_output'][0].clone() 
+            if len(original_meaning_vec.shape) == 2:
+                original_meaning_vec = original_meaning_vec[0,:].unsqueeze(0).unsqueeze(1).clone()
+            elif len(original_meaning_vec.shape) == 3: 
+                original_meaning_vec = original_meaning_vec[0,:,:].unsqueeze(0).clone()
+            else:
+                raise AssertionError
+            batch['meaning_vectors_input'] = [original_meaning_vec] + [None for i in range(model.num_listener_steps-1)]
+
+        output_dict = None
+        losses = []
+        batch_losses.append(losses)
+        # pass forward through the model 
+        with torch.no_grad():
+            model.eval()
+            if precompute_intermediate:
+                _cache_intermediate_vec(batch['meaning_vectors_input'][0], original_batch['precompute_metadata'][0])
+            output_dict = model(**batch)
+            speaker_utts = output_dict['speaker_utterances']
+            speaker_utts_str = convert_utterances(speaker_utts)
+            # print(output_dict)
+            to_write = {k:v for k,v in batch.items() if k in KEYS_TO_WRITE}
+            to_write['speaker_outputs'] = speaker_utts_str
+            to_write['original_loss'] = original_loss
+            predictions = json.dumps(sanitize(to_write)) 
+            predictions_to_write.append(predictions)
+
+    final_metrics = model.get_metrics(reset=True)
+    if loss_count > 0:
+        # Sanity check
+        if loss_count != batch_count:
+            raise RuntimeError(
+                "The model you are trying to evaluate only sometimes produced a loss!"
+            )
+        final_metrics["loss"] = total_loss / total_weight
+
+    if output_file is not None:
+        dump_metrics(output_file, final_metrics, log=True)
+
+    if predictions_file is not None:
+        predictions_file.write("\n".join(predictions_to_write))
+        predictions_file.close()
+    return final_metrics
+
+
 def minimize_and_generate(
     model: Model,
     data_loader: DataLoader,
@@ -559,9 +694,9 @@ def minimize_and_generate(
             vec = vec.requires_grad_(True)
             # Update batch with the vec that needs gradients
             try:
-                batch['meaning_vectors_input'][0] = vec
+                batch['meaning_vectors_input'] = [vec] + [None for i in range(model.num_listener_steps-1)]
             except KeyError:
-                batch['meaning_vectors_input'] = [vec]
+                batch['meaning_vectors_input'] = [vec] + [None for i in range(model.num_listener_steps-1)]
 
             # define an optimizer just for the meaning vec 
             optimizer = torch.optim.SGD([vec],
@@ -584,9 +719,11 @@ def minimize_and_generate(
             optimizer.step()
             # after optimizer step, update batch 
             try:
-                batch['meaning_vectors_input'][0] = vec
+                # batch['meaning_vectors_input'][0] = vec
+
+                batch['meaning_vectors_input'] = [vec] + [None for i in range(model.num_listener_steps-1)]
             except KeyError:
-                batch['meaning_vectors_input'] = [vec]
+                batch['meaning_vectors_input'] = [vec] + [None for i in range(model.num_listener_steps-1)]
 
             metrics = model.get_metrics()
 
@@ -662,11 +799,12 @@ def minimize_and_generate(
     return final_metrics
 
 def convert_utterances(utterances, special_toks = ["[CLS]", "[SEP]"]):
-    to_ret = []
-    utterances = utterances[0][0]
-    for utt in utterances:
-        utt = [x for x in utt if x not in special_toks]
-        to_ret.append(" ".join(utt))
+    to_ret = [[] for i in range(len(utterances))]
+    utterances = [x[0][0] for x in utterances]
+    for i, utt_list in enumerate(utterances):
+        for j, utt in enumerate(utt_list): 
+            utt = [x for x in utt if x not in special_toks]
+            to_ret[i].append(" ".join(utt))
     return to_ret 
 
 def description_from_metrics(metrics: Dict[str, float]) -> str:

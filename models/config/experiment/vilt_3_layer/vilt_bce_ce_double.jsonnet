@@ -1,6 +1,6 @@
 local model_name = "bert-base-uncased";
 local other_model_name = "bert-base-uncased";
-local gpu_batch_size = 216;
+local gpu_batch_size = 32;
 local num_gpus = 4;
 local effective_batch_size = num_gpus * gpu_batch_size;
 // local line_limit = 1024;
@@ -67,29 +67,29 @@ local vilt_model ={
   "model": {
     "type": "rsa_vqa",
     "label_namespace": "answers",
-    "loss": {"type": "bce"},
+    "loss": {"type": "bce_ce"},
     "vision_language_encoder": vilt_model,
-    "num_listener_steps": 1,
+    "num_listener_steps": 3,
     "copy_speaker_listener": false,
     "pooled_output_dim": pooled_output_dim,
     "keep_tokens": false,
     "vqa_loss_factor": 5,
-    "speaker_loss_factor": [1],
+    "speaker_loss_factor": [1,0.5,0.25],
     "speaker_module": 
         {"type": "simple_speaker",
         "target_namespace": "target_tokens",
-        "encoder_in_dim": pooled_output_dim,
+        "encoder_in_dim": 1536,
         "encoder_num_layers": 2,
-        "encoder_hidden_dim": pooled_output_dim,
+        "encoder_hidden_dim": 1536,
         "encoder_dropout": 0.2,
         "encoder_activation": "relu",
         "decoder": {
           "type": "auto_regressive_seq_decoder",
           "decoder_net": 
               {"type": "stacked_self_attention",
-                "decoding_dim": 768,
-                "target_embedding_dim": 768,
-                "feedforward_hidden_dim": 1024,
+                "decoding_dim": 1536,
+                "target_embedding_dim": 1536,
+                "feedforward_hidden_dim": 2048,
                 "num_layers": 2,
                 "num_attention_heads": 2,
                 "dropout_prob": 0.2,
@@ -100,16 +100,16 @@ local vilt_model ={
             "target_namespace": "target_tokens",
             "target_embedder": {
                 "vocab_namespace": "target_tokens",
-                "embedding_dim": 768
+                "embedding_dim": 1536,
               },
             "scheduled_sampling_ratio": 0.5,
             "beam_size": 5,
           },
           "dropout": 0.2},
     "listener_module": {"type": "simple_listener",
-        "encoder_in_dim": pooled_output_dim,
+        "encoder_in_dim": 1536,
         "encoder_num_layers": 2,
-        "encoder_hidden_dim": pooled_output_dim,
+        "encoder_hidden_dim": 1536,
         "encoder_dropout": 0.2,
         "encoder_activation": "relu"
       },
@@ -148,7 +148,7 @@ local vilt_model ={
     //   //"num_steps_per_epoch": std.ceil(0 / $["data_loader"]["batch_size"] / $["trainer"]["num_gradient_accumulation_steps"]),
     //   "warmup_steps": 4000
     // },
-    "validation_metric": "+vqa_score",
+    "validation_metric": "+f1_score",
     "save_warmup": 0,
     "patience": 5,
     "num_epochs": 200,

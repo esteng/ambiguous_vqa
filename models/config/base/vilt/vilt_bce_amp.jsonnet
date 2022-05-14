@@ -1,13 +1,14 @@
 local model_name = "bert-base-uncased";
 local other_model_name = "bert-base-uncased";
-local gpu_batch_size = 216;
-local num_gpus = 4;
+local gpu_batch_size = 256;
+local num_gpus = 1;
 local effective_batch_size = num_gpus * gpu_batch_size;
-// local line_limit = 1024;
-local line_limit = null;
+local line_limit = 40000;
+// local line_limit = null;
 
 local construct_vocab = false;
-local dataset = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/filtered";
+local train_dataset = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/filtered";
+local valid_dataset = "balanced_real_val";
 
 local pooled_output_dim = 768; 
 
@@ -20,6 +21,7 @@ local pretrained_token_indexers = {"tokens": {"type": "pretrained_transformer",
                         };
 local token_indexers = {"tokens": {"type": "single_id",
                                     "namespace": "target_tokens"}};
+
 local vilt_model ={
       type: 'vilt',
       model_name: '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
@@ -60,15 +62,21 @@ local vilt_model ={
     "use_precompute": false,
     "pretrained_model": vilt_model,
   },
-  "train_data_path": [std.format("%s", dataset)],
-  // "validation_data_path": std.format("%s[0:1000]", val_dataset),
+  "train_data_path": [std.format("%s", train_dataset)],
+  // "validation_data_path": std.format("%s[0:1000]", valid_dataset),
   // "train_data_path": [std.format("%s_train", dataset)],
-  "validation_data_path": "balanced_real_val[0:2000]",
+  // "validation_data_path": "balanced_real_val[0:2000]",
+  "validation_data_path": std.format("%s[0:2000]", valid_dataset),
   "model": {
     "type": "rsa_vqa",
     "label_namespace": "answers",
-    "loss": {"type": "bce"},
+    "loss": {"type": "bce_ce"},
     "vision_language_encoder": vilt_model,
+    #"vision_language_encoder": {
+    #  "type": "vilt", 
+    #  "model_name": "/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/",
+    #  "half_precision": true,
+    #},
     "num_listener_steps": 1,
     "copy_speaker_listener": false,
     "pooled_output_dim": pooled_output_dim,
@@ -115,10 +123,6 @@ local vilt_model ={
       },
     
   },
-  "data_loader": {
-    "batch_size": gpu_batch_size,
-    "shuffle": true,
-  },
   "vocabulary": {
     "min_count": {
       "target_tokens": 10,
@@ -126,22 +130,27 @@ local vilt_model ={
     },
   },
   "datasets_for_vocab_creation": ["train"],
+  "data_loader": {
+    "batch_size": gpu_batch_size,
+    "shuffle": true,
+  },
   [if num_gpus > 1 then "distributed"]: {
     "cuda_devices": std.range(0, num_gpus - 1)
     // "cuda_devices": std.repeat([-1], num_gpus)  # Use this for debugging on CPU
   },
   "trainer": {
     "type": "warmup_gradient_descent",
+    "use_amp": true, 
     "optimizer": {
       "type": "huggingface_adamw",
       "lr": 1e-4,
       "correct_bias": true,
       "weight_decay": 0.01,
-      // "parameter_groups": [
+      "parameter_groups": [
         // [["bias", "LayerNorm\\.weight", "layer_norm\\.weight"], {"weight_decay": 0}], // can't use both at the same time
         // smaller learning rate for the pretrained weights
-        // [["^embeddings\\.", "^encoder.layers1\\.", "^t_pooler\\."], {"lr": 4e-3}]
-      // ],
+        [["^embeddings\\.", "^encoder.layers1\\.", "^t_pooler\\."], {"lr": 4e-3}]
+      ],
     },
     // "learning_rate_scheduler": {
     //   "type": "linear_with_warmup",
@@ -150,7 +159,7 @@ local vilt_model ={
     // },
     "validation_metric": "+vqa_score",
     "save_warmup": 0,
-    "patience": 5,
+    "patience": 300,
     "num_epochs": 200,
     "num_gradient_accumulation_steps": effective_batch_size / gpu_batch_size, 
   },

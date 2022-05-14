@@ -1,21 +1,51 @@
 {"info": {"description": "This is v2.0 of the VQA dataset.", "url": "http://visualqa.org", "version": "2.0", "year": 2017, "contributor": "VQA Team", "date_created": "2017-04-26 17:07:13"}, "license": {"url": "http://creativecommons.org/licenses/by/4.0/", "name": "Creative Commons Attribution 4.0 International License"}, "data_subtype": "train2014", "annotations": [
 {"question_type": "what is this", "multiple_choice_answer": "net", "answers": [
-    {"answer": "net", "answer_confidence": "maybe", "answer_id": 1}], "image_id": 458752, "answer_type": "other", "question_id": 458752000}, 
+    {"answer": "balls", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "net", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "net", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "mesh", "answer_confidence": "yes", "answer_id": 3}], "image_id": 458752, "answer_type": "other", "question_id": 458752000}, 
 {"question_type": "what", "multiple_choice_answer": "pitcher", "answers": [
-    {"answer": "pitcher", "answer_confidence": "yes", "answer_id": 1}], "image_id": 458752, "answer_type": "other", "question_id": 458752001}, 
+    {"answer": "pitcher", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "pitcher", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "pitcher", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "pitcher", "answer_confidence": "yes", "answer_id": 3}], "image_id": 458752, "answer_type": "other", "question_id": 458752001}, 
 {"answer_type": "other", "multiple_choice_answer": "orange", "answers": [
-    {"answer": "orange", "answer_confidence": "yes", "answer_id": 1}], "image_id": 458752, "question_type": "what color is the", "question_id": 458752002}, 
+    {"answer": "orange", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "orange", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "orange", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "orange", "answer_confidence": "yes", "answer_id": 3}], "image_id": 458752, "question_type": "what color is the", "question_id": 458752002}, 
 {"question_type": "is this", "multiple_choice_answer": "yes", "answers": [
-    {"answer": "yes", "answer_confidence": "yes", "answer_id": 1}], "image_id": 458752, "answer_type": "yes/no", "question_id": 458752003}, 
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 3}], "image_id": 458752, "answer_type": "yes/no", "question_id": 458752003}, 
 {"question_type": "what color is the", "multiple_choice_answer": "white", "answers": [
-    {"answer": "white", "answer_confidence": "yes", "answer_id": 1}], "image_id": 262146, "answer_type": "other", "question_id": 262146000}, 
+    {"answer": "white", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "white", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "white", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "white", "answer_confidence": "yes", "answer_id": 3}], "image_id": 262146, "answer_type": "other", "question_id": 262146000}, 
 {"question_type": "what is the person", "multiple_choice_answer": "skiing", "answers": [
-    {"answer": "skiing", "answer_confidence": "yes", "answer_id": 1}], "image_id": 262146, "answer_type": "other", "question_id": 262146001}, 
+    {"answer": "skiing", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "skiing", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "skiing", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "skiing", "answer_confidence": "yes", "answer_id": 3}], "image_id": 262146, "answer_type": "other", "question_id": 262146001}, 
 {"question_type": "what color is the", "multiple_choice_answer": "red", "answers": [
-    {"answer": "red", "answer_confidence": "yes", "answer_id": 1}], "image_id": 262146, "answer_type": "other", "question_id": 262146002}, 
+    {"answer": "red", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "red", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "red", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "red", "answer_confidence": "yes", "answer_id": 3}], "image_id": 262146, "answer_type": "other", "question_id": 262146002}, 
 {"question_type": "what is in the", "multiple_choice_answer": "frisbee", "answers": [
-    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 1}], "image_id": 524291, "answer_type": "other", "question_id": 524291000}, 
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 3}], "image_id": 524291, "answer_type": "other", "question_id": 524291000}, 
 {"question_type": "is the", "multiple_choice_answer": "yes", "answers": [
-    {"answer": "yes", "answer_confidence": "yes", "answer_id": 1}], "image_id": 524291, "answer_type": "yes/no", "question_id": 524291001}, 
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "yes", "answer_confidence": "yes", "answer_id": 3}], "image_id": 524291, "answer_type": "yes/no", "question_id": 524291001}, 
 {"question_type": "is the", "multiple_choice_answer": "frisbee", "answers": [
-    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 1}], "image_id": 524291, "answer_type": "other", "question_id": 524291002}], "data_type": "mscoco"}
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 0},
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 1},
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 2},
+    {"answer": "frisbee", "answer_confidence": "yes", "answer_id": 3}], "image_id": 524291, "answer_type": "other", "question_id": 524291002}], "data_type": "mscoco"}

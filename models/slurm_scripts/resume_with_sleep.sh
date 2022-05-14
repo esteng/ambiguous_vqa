@@ -1,9 +1,7 @@
 #!/bin/bash
 
-#sleep 5400
-#export CHECKPOINT_DIR=/brtx/606-nvme1/estengel/annotator_uncertainty/models/vilt_finetuned_bce_ce/
-#export TRAINING_CONFIG=config/base/vilt/vilt_bce_ce_distributed.jsonnet
-export CHECKPOINT_DIR=/brtx/603-nvme1/estengel/annotator_uncertainty/models/vilt_finetuned_bce/
-export TRAINING_CONFIG=config/base/vilt/vilt_bce_distributed.jsonnet
-
+sleep 900
+export CHECKPOINT_DIR=/brtx/605-nvme1/estengel/annotator_uncertainty/models/vilt_bce_ce_3_layer_double/
+#export CHECKPOINT_DIR=/brtx/605-nvme1/estengel/annotator_uncertainty/models/vilt_bce_ce_3_layer/
+export TRAINING_CONFIG=${CHECKPOINT_DIR}/ckpt/config.json 
 sbatch slurm_scripts/resume.sh --export 

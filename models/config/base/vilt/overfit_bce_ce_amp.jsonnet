@@ -93,19 +93,19 @@ local vilt_model ={
     label_namespace: 'answers',
     loss: {"type": "bce_ce"},
     vision_language_encoder: vilt_model, 
-    num_listener_steps: 3,
+    num_listener_steps: 1,
     copy_speaker_listener: false,
     pooled_output_dim: pooled_output_dim,
     keep_tokens: false,
     vqa_loss_factor: 10,
-    speaker_loss_factor: [1, 0.5, 0.1],
+    speaker_loss_factor: [1],
     speaker_module:
       {
         type: 'simple_speaker',
         target_namespace: 'target_tokens',
-        encoder_in_dim: 384,
+        encoder_in_dim: pooled_output_dim,
         encoder_num_layers: 2,
-        encoder_hidden_dim: 384,
+        encoder_hidden_dim: pooled_output_dim,
         encoder_dropout: 0.0,
         encoder_activation: 'relu',
         decoder: {
@@ -113,8 +113,8 @@ local vilt_model ={
           decoder_net:
             {
               type: 'stacked_self_attention',
-              decoding_dim: 384,
-              target_embedding_dim: 384,
+              decoding_dim: 768,
+              target_embedding_dim: 768,
               feedforward_hidden_dim: 128,
               num_layers: 2,
               num_attention_heads: 2,
@@ -126,7 +126,7 @@ local vilt_model ={
           target_namespace: 'target_tokens',
           target_embedder: {
             vocab_namespace: 'target_tokens',
-            embedding_dim: 384,
+            embedding_dim: 768,
           },
           scheduled_sampling_ratio: 0.5,
           beam_size: 1,
@@ -135,9 +135,9 @@ local vilt_model ={
       },
     listener_module: {
       type: 'simple_listener',
-      encoder_in_dim: 384,
+      encoder_in_dim: pooled_output_dim,
       encoder_num_layers: 2,
-      encoder_hidden_dim: 384,
+      encoder_hidden_dim: pooled_output_dim,
       encoder_dropout: 0.0,
       encoder_activation: 'relu',
 
@@ -157,6 +157,7 @@ local vilt_model ={
   [if !construct_vocab then 'trainer']: {
     type: 'warmup_gradient_descent',
     cuda_device: 0,
+    use_amp: true,
     optimizer: {
       type: 'huggingface_adamw',
       lr: 1e-3,

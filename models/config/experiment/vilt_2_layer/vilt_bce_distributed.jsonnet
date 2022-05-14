@@ -74,7 +74,7 @@ local vilt_model ={
     "pooled_output_dim": pooled_output_dim,
     "keep_tokens": false,
     "vqa_loss_factor": 5,
-    "speaker_loss_factor": [1],
+    "speaker_loss_factor": 1,
     "speaker_module": 
         {"type": "simple_speaker",
         "target_namespace": "target_tokens",

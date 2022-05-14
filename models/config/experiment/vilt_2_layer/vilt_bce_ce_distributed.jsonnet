@@ -1,6 +1,6 @@
 local model_name = "bert-base-uncased";
 local other_model_name = "bert-base-uncased";
-local gpu_batch_size = 216;
+local gpu_batch_size = 108;
 local num_gpus = 4;
 local effective_batch_size = num_gpus * gpu_batch_size;
 // local line_limit = 1024;
@@ -67,14 +67,14 @@ local vilt_model ={
   "model": {
     "type": "rsa_vqa",
     "label_namespace": "answers",
-    "loss": {"type": "bce"},
+    "loss": {"type": "bce_ce"},
     "vision_language_encoder": vilt_model,
-    "num_listener_steps": 1,
+    "num_listener_steps": 2,
     "copy_speaker_listener": false,
     "pooled_output_dim": pooled_output_dim,
     "keep_tokens": false,
     "vqa_loss_factor": 5,
-    "speaker_loss_factor": [1],
+    "speaker_loss_factor": [1,0.5],
     "speaker_module": 
         {"type": "simple_speaker",
         "target_namespace": "target_tokens",

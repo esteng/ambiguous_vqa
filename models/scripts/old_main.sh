@@ -42,7 +42,6 @@ function resume(){
 function eval(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
-    mkdir -p ${CHECKPOINT_DIR}/output
     python -um allennlp evaluate \
     --include-package allennlp.data.dataset_readers \
     --include-package allennlp.training \
@@ -67,18 +66,21 @@ function predict(){
 }
 
 function min_gen(){
+    NUM=800
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
     mkdir -p ${CHECKPOINT_DIR}/output
+    cd $CHECKPOINT_DIR/code
+    ls 
     python -um allennlp min_gen \
     --include-package allennlp.data.dataset_readers \
     --include-package allennlp.training \
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --cuda-device 0 \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/big_min_gen_debug_steps_100.jsonl \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/big_min_gen_debug_steps_${NUM}.jsonl \
     --descent-strategy steps \
-    --num-descent-steps 100 \
+    --num-descent-steps ${NUM} \
     --lr 0.05
 }
     # --descent-loss-threshold  \
@@ -111,24 +113,6 @@ function min_gen_save(){
     #--mix-ratio 0.5 \
     #--descent-strategy steps \
     #--num-descent-steps 100 \
-
-function baseline_save(){
-    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
-    echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
-    mkdir -p ${CHECKPOINT_DIR}/output
-    python -um allennlp min_gen \
-    --include-package allennlp.data.dataset_readers \
-    --include-package allennlp.training \
-    ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
-    ${TEST_DATA} \
-    --cuda-device 0 \
-    --descent-strategy steps \
-    --num-descent-steps 0 \
-    --precompute-intermediate \
-    --retrieval-save-dir ${SAVE_DIR} \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/baseline_no_opt.jsonl \
-    --lr -1 
-}
 
 function usage() {
 
@@ -198,8 +182,6 @@ function main() {
         min_gen 
     elif [[ "${action}" == "min_gen_save" ]]; then
         min_gen_save 
-    elif [[ "${action}" == "baseline" ]]; then
-        baseline_save
     fi 
 }
 

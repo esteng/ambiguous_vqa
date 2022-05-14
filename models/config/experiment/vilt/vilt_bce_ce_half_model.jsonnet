@@ -1,6 +1,6 @@
 local model_name = "bert-base-uncased";
 local other_model_name = "bert-base-uncased";
-local gpu_batch_size = 216;
+local gpu_batch_size = 512;
 local num_gpus = 4;
 local effective_batch_size = num_gpus * gpu_batch_size;
 // local line_limit = 1024;
@@ -67,7 +67,7 @@ local vilt_model ={
   "model": {
     "type": "rsa_vqa",
     "label_namespace": "answers",
-    "loss": {"type": "bce"},
+    "loss": {"type": "bce_ce"},
     "vision_language_encoder": vilt_model,
     "num_listener_steps": 1,
     "copy_speaker_listener": false,
@@ -78,18 +78,18 @@ local vilt_model ={
     "speaker_module": 
         {"type": "simple_speaker",
         "target_namespace": "target_tokens",
-        "encoder_in_dim": pooled_output_dim,
+        "encoder_in_dim": 384,
         "encoder_num_layers": 2,
-        "encoder_hidden_dim": pooled_output_dim,
+        "encoder_hidden_dim": 384,
         "encoder_dropout": 0.2,
         "encoder_activation": "relu",
         "decoder": {
           "type": "auto_regressive_seq_decoder",
           "decoder_net": 
               {"type": "stacked_self_attention",
-                "decoding_dim": 768,
-                "target_embedding_dim": 768,
-                "feedforward_hidden_dim": 1024,
+                "decoding_dim": 384,
+                "target_embedding_dim": 384,
+                "feedforward_hidden_dim": 512,
                 "num_layers": 2,
                 "num_attention_heads": 2,
                 "dropout_prob": 0.2,
@@ -100,16 +100,16 @@ local vilt_model ={
             "target_namespace": "target_tokens",
             "target_embedder": {
                 "vocab_namespace": "target_tokens",
-                "embedding_dim": 768
+                "embedding_dim": 384, 
               },
             "scheduled_sampling_ratio": 0.5,
             "beam_size": 5,
           },
           "dropout": 0.2},
     "listener_module": {"type": "simple_listener",
-        "encoder_in_dim": pooled_output_dim,
+        "encoder_in_dim": 384,
         "encoder_num_layers": 2,
-        "encoder_hidden_dim": pooled_output_dim,
+        "encoder_hidden_dim": 384,
         "encoder_dropout": 0.2,
         "encoder_activation": "relu"
       },

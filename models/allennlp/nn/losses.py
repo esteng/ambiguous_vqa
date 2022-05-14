@@ -38,12 +38,19 @@ class BCELoss(Loss):
         # pdb.set_trace() 
         label_mask = labels > 1  # 1 is OOV, -1 is pad
         # label_weights[label_weights > 0] = 1
-        weighted_labels = util.masked_index_replace(
-            logits.new_zeros(logits.size() + (1,)),
-            labels.clamp(min=0).long(),
-            label_mask,
-            label_weights.unsqueeze(-1),
-        ).squeeze(-1)
+        # AMP compatability 
+        try:
+            label_mask = label_mask.type(logits.dtype)
+            label_weights = label_weights.type(logits.dtype)
+
+            weighted_labels = util.masked_index_replace(
+                logits.new_zeros(logits.size() + (1,)),
+                labels.clamp(min=0).long(),
+                label_mask,
+                label_weights.unsqueeze(-1),
+            ).squeeze(-1)
+        except RuntimeError:
+            pdb.set_trace()
 
         binary_label_mask = weighted_labels.new_ones(logits.size())
         # don't compute loss for padding tokens 

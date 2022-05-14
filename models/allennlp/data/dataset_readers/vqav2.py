@@ -539,7 +539,7 @@ class VQAv2Reader(VisionReader):
             else:
                 precompute_metadata = None
             # instance = self.text_to_instance(question_dict["question"], processed_image, answers, answers_for_metric, precompute_metadata)
-            instance = self.text_to_instance(question_dict["question"], processed_image, answers, precompute_metadata, mc_answers = mc_answers)
+            instance = self.text_to_instance(question_dict["question"], question_dict['question_id'], processed_image, answers, precompute_metadata, mc_answers = mc_answers)
             attempted_instances_count += 1
             if instance is None:
                 failed_instances_count += 1
@@ -557,6 +557,7 @@ class VQAv2Reader(VisionReader):
     def text_to_instance(
         self,  # type: ignore
         question: str,
+        question_id: int, 
         image: Union[str, Tuple[Tensor, Tensor]],
         answer_counts: Optional[MutableMapping[str, int]] = None,
         # answer_counts_for_metric: Optional[MutableMapping[str, int]] = None,
@@ -586,7 +587,7 @@ class VQAv2Reader(VisionReader):
                 )
 
         fields["debug_tokens"] = MetadataField(question)
-
+        fields["question_id"] = MetadataField(question_id)
         if image is not None:
             fields["debug_images"] = MetadataField(image)
             if self._tokenizer is not None and not self.use_precompute and self.run_image_feature_extraction:
