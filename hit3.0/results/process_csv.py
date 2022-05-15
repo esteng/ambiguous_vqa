@@ -223,7 +223,9 @@ def f1_score(groups1, groups2):
     cost_matrix = np.ones_like(f1_scores) * np.max(f1_scores) - f1_scores
     f1_assignment = linear_sum_assignment(cost_matrix) 
     best_f1_scores = f1_scores[f1_assignment]
-    return np.mean(best_f1_scores, axis=0)
+    best_p_scores = p_scores[f1_assignment]
+    best_r_scores = r_scores[f1_assignment]
+    return np.mean(best_f1_scores, axis=0), np.mean(best_p_scores, axis=0), np.mean(best_r_scores, axis=0)
         
 def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, mturk=False): # TO DO
     rows_by_hit_id = get_groups(rows, enforce_num_anns = enforce_num_anns, num_anns = num_anns, mturk=mturk) 
@@ -280,7 +282,7 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
                 if ann1_name == ann2_name: 
                     continue
                 
-                group_f1 = f1_score(ann1_groups, ann2_groups)
+                group_f1, __, __ = f1_score(ann1_groups, ann2_groups)
                 group_scores[i, ann1_idx, ann2_idx] = group_f1
 
         

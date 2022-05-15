@@ -31,6 +31,7 @@ def read_questions(path):
     return data, data['questions'] 
 
 def get_id_from_url(url):
+    print(url)
     filename = url.split("/")[-1].split(".")[0]
     # get last part of filename 
     filename = filename.split("_")[-1]

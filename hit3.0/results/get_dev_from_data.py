@@ -1,6 +1,7 @@
 import csv 
 from collections import defaultdict
 import pdb 
+import json 
 
 dev_size = 30
 all_data = []
@@ -11,12 +12,20 @@ with open("mturk/pilot_combined_5_anns.csv") as f1:
     reader = csv.DictReader(f1)
     pilot_data = [row for row in reader]
 
+# Get pilot data inputs to get image urls 
+url_lookup = {}
+with open("../csvs/mturk/pilot_screening.csv") as f1:
+    reader = csv.DictReader(f1)
+    for row in reader:
+        url_lookup[row['questionStr']] = (row['imgUrl'], row['question_id'])
+
+
 # collect all unskipped 
 pilot_by_qid = defaultdict(list)
 for row in pilot_data: 
     if (row["Turkle.Username"] in pilot_anns and 
         row['Answer.is_skip'] == "false"):
-        row['Input.question_id'] = row['Input.questionStr']
+        row['Input.imgUrl'], row['Input.question_id'] = url_lookup[row['Input.questionStr']]
         pilot_by_qid[row['Input.question_id']].append(row)
 
 # go through each question id, get one of the annotations if enough people marked as ambiguous 
