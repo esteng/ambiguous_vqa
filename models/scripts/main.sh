@@ -76,9 +76,9 @@ function min_gen(){
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --cuda-device 0 \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/big_min_gen_debug_steps_100.jsonl \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/dev_min_gen_debug_steps_200_lr_0.05.jsonl \
     --descent-strategy steps \
-    --num-descent-steps 100 \
+    --num-descent-steps 200 \
     --lr 0.05
 }
     # --descent-loss-threshold  \
@@ -96,11 +96,12 @@ function min_gen_save(){
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --descent-strategy steps \
-    --num-descent-steps 100 \
+    --num-descent-steps 200 \
     --cuda-device 0 \
     --precompute-intermediate \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/dev_min_gen_debug_steps_200_lr_0.001.jsonl \
     --retrieval-save-dir ${SAVE_DIR} \
-    --lr 0.05
+    --lr 0.001
 }
     #--mix-strategy end \
     #--mix-ratio 0.5 \
