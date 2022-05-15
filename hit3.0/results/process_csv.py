@@ -6,7 +6,6 @@ import json
 import csv 
 import pdb
 from scipy.optimize import linear_sum_assignment
-from tracemalloc import get_tracemalloc_memory 
 
 import numpy as np
 
@@ -19,13 +18,58 @@ def process_row(row):
     row['Answer.is_skip'] = did_skip
     return row
 
-def process_csv(filename):
+def process_pilot_row(row, as_json=False): 
+    def infer_skip(answer_question, input_answer_question):
+        # infer whether an annotator skipped, since some have None and some False 
+        # if the lengths are different they must have edited 
+        if len(answer_question) != len(input_answer_question):
+            return False
+        # if any question doesn't match the input, they edited 
+        for ans, inp in zip(answer_question, input_answer_question):
+            if ans != inp:
+                return False
+        return True
+
+    columns_to_json = ['Answer.answer_groups_list', "Answer.answer_questions_list", "Input.answerGroupsList", 
+                        "Input.answerQuestionsList", "Input.questionStrList", "Answer.is_skip_list"]
+    rows = []
+    n_rows = len(json.loads(row['Answer.is_skip_list']))
+    print(f"n_rows: {n_rows}")
+    # convert to json 
+    for col in columns_to_json:
+        row[col] = json.loads(row[col])
+
+    # pdb.set_trace()
+    for i in range(n_rows):
+        row_copy = {}
+        row_copy['WorkerId'] = row['WorkerId']
+        row_copy['Answer.answer_groups'] = row['Answer.answer_groups_list'][i]
+        row_copy['Answer.answer_questions'] = row['Answer.answer_questions_list'][i]
+        row_copy['Answer.is_skip'] = infer_skip(row['Answer.answer_questions_list'][i], row['Input.answerQuestionsList'][i])
+        row_copy['Input.answerGroups'] = row['Input.answerGroupsList'][i]
+        row_copy['Input.questionStr'] = row['Input.questionStrList'][i]
+        row_copy['Input.answerQuestions'] = row['Input.answerQuestionsList'][i]
+        if as_json:
+            row_copy = {k:json.dumps(v) for k,v in row_copy.items()}
+        row_copy['HITId'] = f"{row['HITId']}_{i}"
+        row_copy['Turkle.Username'] = row['WorkerId']
+        rows.append(row_copy)
+    return rows
+
+def process_csv(filename, pilot=False, anns=None):
     to_ret = []
     with open(filename) as f1:
         reader = csv.DictReader(f1)
         for row in reader:
-            to_ret.append(process_row(row)) 
-
+            if not pilot:
+                to_ret.append(process_row(row)) 
+            else:
+                print(row['WorkerId'])
+                data = process_pilot_row(row)
+                print(len(data)) 
+                to_ret += data
+    if anns:
+        to_ret = [x for x in to_ret if x['Turkle.Username'] in anns]
     return to_ret 
 
 def get_groups(rows, enforce_num_anns, num_anns, mturk): 
@@ -119,17 +163,20 @@ def skip_agreement(rows_by_hit_id, interact=False, mturk=False): # TO DO (TEST)
                             pprint([row1, row2], ['Input.imgUrl', 'Input.questionStr', user_key, 'Answer.is_skip'])
                             pdb.set_trace() 
 
-                    # else:
-                    #     if interact:
-                    #         pprint([row1, row2], ['Input.imgUrl', 'Input.questionStr', user_key, 'Answer.is_skip'])
-                    #         pdb.set_trace() 
                     per_annotator_agreement[key]['total'] += 1
 
 
         total += 1
     for k, v in per_annotator_agreement.items():
         per_annotator_agreement[k] = (safe_divide(v['correct'], v['total']), v)
-    return agree, disagree, n_agree/total, per_annotator_agreement
+    per_annotator_agreement_to_ret = {}
+    for k,v in per_annotator_agreement.items():
+        reverse_k = "_".join(k.split("_")[::-1])
+        if k in per_annotator_agreement_to_ret.keys() or reverse_k in per_annotator_agreement_to_ret.keys():
+            continue
+        per_annotator_agreement_to_ret[k] = v
+    
+    return agree, disagree, n_agree/total, per_annotator_agreement_to_ret
 
 def safe_divide(num, denom): 
     try: 
@@ -217,7 +264,6 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
 
     print(f"total skipped: {total_skipped}")
     print(f"total unskipped: {total_unskipped}")
-    # TODO: Jimena: declare this array 
     hit_id = list(id_sorted_scores.keys())[0]
     num_anns = len(id_sorted_scores[hit_id]['Answer.answer_groups']) 
     # group scores: num_annotators, num_annotators, num_annotations
@@ -272,15 +318,22 @@ if __name__ == "__main__":
     parser.add_argument("--interact", action="store_true")
     parser.add_argument("--n", type=int, default=2, help="number of annotators per example")
     parser.add_argument("--mturk", action="store_true", help="set flag to true if csv is from mturk")
+    parser.add_argument("--pilot", action="store_true", help="set flag to true if csv is from pilot")
+    parser.add_argument("--anns", type=str, default=None, help='path to annotator file')
     args = parser.parse_args()
 
-    rows = process_csv(args.csv)
+    if args.anns is not None:
+        anns = open(args.anns).read().split("\n")
+    else:
+        anns = None
+    rows = process_csv(args.csv, pilot=args.pilot, anns=anns)
     rows_by_hit_id = get_groups(rows, 
                                 args.enforce_num_anns, 
                                 args.n,
                                 args.mturk)
 
     annotator_report(rows_by_hit_id, args.mturk)
+    pdb.set_trace()
     agree, disagree, skip_agree_perc, skip_per_annotator_agreement = skip_agreement(rows_by_hit_id, interact=args.interact, mturk=args.mturk) 
 
     pdb.set_trace() 
@@ -288,4 +341,7 @@ if __name__ == "__main__":
     print(f"annotators agree on skips {skip_agree_perc*100:.2f}% of the time")
     print(f"per_annotator: {skip_per_annotator_agreement}")
 
-    group_agreement = group_agreement(rows, num_anns = args.n, enforce_num_anns=args.enforce_num_anns, interact=args.interact)
+    pairwise_skip_agreement = [v[0] for v in skip_per_annotator_agreement.values()] 
+    print(f"pairwise skip agreement: {np.mean(pairwise_skip_agreement) * 100:.2f}%")
+
+    group_agreement = group_agreement(rows, num_anns = args.n, enforce_num_anns=args.enforce_num_anns, interact=args.interact, mturk=args.mturk)

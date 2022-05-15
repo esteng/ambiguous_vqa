@@ -312,6 +312,30 @@ def subsample(agree, n_unskipped, n_skipped, annotator_names, lookup):
 
     return to_keep 
 
+def subset_data_pilot(input_row_file, output_row_file, to_keep): 
+    fieldnames = ["imgUrlList","questionStrList","answerGroupsList","answerQuestionsList","questionIDList"]
+    new_to_old = {"imgUrlList": "imgUrl", 
+               "questionStrList": "questionStr", 
+               "answerGroupsList": "answerGroups", 
+               "answerQuestionsList": "answerQuestions",
+               "questionIDList": "question_id"} 
+    old_to_new = {v:k for k,v in new_to_old.items()}
+    with open(input_row_file) as f1, \
+        open(output_row_file, "w") as f2: 
+        reader = csv.DictReader(f1)
+        writer = csv.DictWriter(f2, fieldnames=fieldnames) 
+        writer.writeheader()
+        to_write = {f:[] for f in fieldnames}
+        for row in reader:
+            if row['question_id'] in to_keep:
+                for k in row.keys():
+                    to_write[old_to_new[k]].append(json.loads(row[k]))
+        
+        for k,v in to_write.items():
+            to_write[k] = json.dumps(v)
+                
+        writer.writerow(to_write)
+
 def subset_data(input_row_file, output_row_file, to_keep): 
     with open(input_row_file) as f1, \
         open(output_row_file, "w") as f2: 
@@ -335,10 +359,11 @@ if __name__ == "__main__":
     parser.add_argument("--enforce-num-anns", action='store_true')
     parser.add_argument("--interact", action="store_true")
     parser.add_argument("--n", type=int, default=2, help="number of annotators per example")
-    parser.add_argument("--out-path", type=str, default="../csvs/for_mturk.csv")
-    parser.add_argument("--input-row-file", type=str, default="../csvs/sorted_by_difference_full.csv")
+    parser.add_argument("--out-path", type=str, default="../csvs/for_mturk_pilot.csv")
+    parser.add_argument("--input-row-file", type=str, default="../csvs/turkle/sorted_by_difference_full.csv")
     parser.add_argument("--n-skipped", type=int, default=28)
     parser.add_argument("--n-unskipped", type=int, default=14)
+    parser.add_argument("--for-pilot", action="store_true")
 
     parser.add_argument("--annotator-names", type=str, default="esteng,ohussei3")
     args = parser.parse_args()
@@ -359,7 +384,10 @@ if __name__ == "__main__":
 
     to_keep = subsample(agree, n_unskipped = args.n_unskipped, n_skipped= args.n_skipped, annotator_names = args.annotator_names, lookup = lookup)
 
-    subset_data(args.input_row_file, args.out_path, to_keep)
+    if not args.for_pilot:
+        subset_data(args.input_row_file, args.out_path, to_keep)
+    else:
+        subset_data_pilot(args.input_row_file, args.out_path, to_keep)
     pdb.set_trace() 
 
     print(f"annotators agree on skips {skip_agree_perc*100:.2f}% of the time")

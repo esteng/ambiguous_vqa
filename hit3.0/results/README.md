@@ -21,3 +21,11 @@ Several scripts for munging various results files
 7. use `merge_mturk_turkle.py` to merge the annotations with the turkle pilot data
     - results: `mturk/good_with_turkle_merged.csv` 
 8. use `process_csv.py` to process the merged file and get IA between turkle and mturk annotators 
+
+## Pilot HIT notes
+- there were actually 3 pilot rounds 
+    - round 1: I ran a HIT with Kate's annotators (following the notes in the pipeline section) but each task was presented individually. Only 2 annotators completed all the tasks, of those only one was good.    - round 2: I re-did the HIT to be batched/sequential, so they had to do all 41 examples at once. Got 2 more annotators this way but noticed a small bug that I fixed, where in principle they could click next without skipping or annotating. 
+    - round 3: I fixed the skip bug and re-uploaded, and got two more annotators to do the task 
+    - at each round, I excluded everyone who had provided annotations in the previous round 
+- annotators were paid $0.10 per example in the HIT and if they did a good job they were bonused 100% 
+
