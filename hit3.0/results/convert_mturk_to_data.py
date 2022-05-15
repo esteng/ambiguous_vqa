@@ -2,6 +2,8 @@ import copy
 import argparse
 from collections import defaultdict
 from pathlib  import Path 
+import pdb 
+import json 
 
 from prep_for_analysis import read_csv, read_annotations, read_questions, get_id_from_url
 
@@ -28,7 +30,7 @@ def get_all_data(dir):
         data = read_csv(csv)
         for row in data: 
             row['annotation_round'] = csv.parent.name
-            data_by_qid[row['Input.question_id']].append(row) 
+            data_by_qid[int(row['Input.question_id'])].append(row) 
 
     return data_by_qid
 
@@ -59,19 +61,38 @@ def convert_data(data_by_qid, qa_lookup):
         all_data.append(jsonl_row) 
     return all_data 
 
-
+def split_data(all_data, dev_qids): 
+    data_by_splits = defaultdict(list)
+    dev_qids = [int(x) for x in dev_qids]
+    for data_row in all_data:
+        if int(data_row['question_id']) in dev_qids: 
+            data_by_splits['dev'].append(data_row)
+        else:
+            data_by_splits['test'].append(data_row)
+    return data_by_splits
 
 if __name__ == "__main__": 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--annotations", type=str, default="/Users/Elias/scratch/v2_mscoco_train2014_annotations.json")
-    parser.add_argument("--questions", type=str, default="/Users/Elias/scratch/v2_OpenEnded_mscoco_train2014_questions.json")
-    parser.add_argument("--out-dir", type=str, default="")
+    parser.add_argument("--annotations", type=str, default="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/train_anns/annotations.json")
+    parser.add_argument("--questions", type=str, default="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/train_anns/questions.json")
+    parser.add_argument("--out-dir", type=str, default="json_data/")
+    parser.add_argument("--dev_file", type=str, default="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/dev_from_mturk/questions.json")
     args = parser.parse_args()
 
-    data_dir = "mturk/combined_data"
+    data_dir = "mturk_nonskip"
 
-    questions = read_questions(Path(args.questions))
-    annotations = read_annotations(Path(args.annotations))
+    __, questions = read_questions(Path(args.questions))
+    __, annotations = read_annotations(Path(args.annotations))
     qa_lookup = get_qa_lookup(questions, annotations)
 
     data_by_qid = get_all_data(data_dir) 
+    converted = convert_data(data_by_qid, qa_lookup)
+
+    __, dev_questions = read_questions(Path(args.dev_file))
+    dev_qids = [x['question_id'].split("_")[0] for x in dev_questions]
+    split_data = split_data(converted, dev_qids) 
+    for split_name, split_rows in split_data.items(): 
+        out_path = Path(args.out_dir).joinpath(f"{split_name}.jsonl")
+        with open(out_path, "w") as f1:
+            for row in split_rows: 
+                f1.write(json.dumps(row) + "\n")
