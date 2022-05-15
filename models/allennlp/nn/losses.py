@@ -70,10 +70,11 @@ class BCELoss(Loss):
 
 @Loss.register("bce_ce")
 class CEAndBCELoss(BCELoss):
-    def __init__(self, vocab):
+    def __init__(self, vocab, weights=[1.0,1.0]):
         super().__init__(vocab)
         self.bce_loss_fxn = F.binary_cross_entropy_with_logits
         self.ce_loss_fxn = F.cross_entropy
+        self.weights = weights
 
 
     def get_ce_labels(self, bce_labels, label_weights): 
@@ -101,7 +102,7 @@ class CEAndBCELoss(BCELoss):
             ce_loss = self.ce_loss_fxn(logits, ce_labels, ignore_index=-1, reduction="mean")
         except RuntimeError:
             pdb.set_trace() 
-        loss = bce_loss + ce_loss
+        loss = self.weights[0] * bce_loss + self.weights[1] * ce_loss
         return loss, bce_label_weight_tensor, binary_mask
 
 

@@ -27,6 +27,7 @@ from allennlp.data.dataset_readers import DatasetReader
 from allennlp.models.archival import CONFIG_NAME
 from allennlp.models.model import Model
 from allennlp.nn import util as nn_util
+from allennlp.nn.losses import CELoss, CEAndBCELoss
 
 
 logger = logging.getLogger(__name__)
@@ -523,6 +524,7 @@ def baseline_save_and_generate(
             to_write = {k:v for k,v in batch.items() if k in KEYS_TO_WRITE}
             to_write['speaker_outputs'] = speaker_utts_str
             to_write['original_loss'] = original_loss
+            to_write['question_id'] = original_batch['precompute_metadata'][0]['question_id']
             predictions = json.dumps(sanitize(to_write)) 
             predictions_to_write.append(predictions)
 
@@ -640,6 +642,12 @@ def minimize_and_generate(
     # zero all gradients
     model.zero_grad()
     model.beam_size = beam_size
+
+    # TODO: Elias: try using just the CE loss
+    new_loss = CEAndBCELoss(model.loss_fxn.vocab, weights=[0,1])
+    model.loss_fxn = new_loss
+
+
     # batch starts by not having meaning_vectors
     batch_losses = []
     predictions_to_write = []
@@ -778,6 +786,7 @@ def minimize_and_generate(
             to_write = {k:v for k,v in batch.items() if k in KEYS_TO_WRITE}
             to_write['speaker_outputs'] = speaker_utts_str
             to_write['original_loss'] = original_loss
+            to_write['question_id'] = original_batch['precompute_metadata'][0]['question_id']
             predictions = json.dumps(sanitize(to_write)) 
             predictions_to_write.append(predictions)
 

@@ -99,9 +99,9 @@ function min_gen_save(){
     --num-descent-steps 200 \
     --cuda-device 0 \
     --precompute-intermediate \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/dev_min_gen_debug_steps_200_lr_0.001.jsonl \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/dev_min_gen_debug_steps_200_lr_0.05_ce_loss.jsonl \
     --retrieval-save-dir ${SAVE_DIR} \
-    --lr 0.001
+    --lr 0.05
 }
     #--mix-strategy end \
     #--mix-ratio 0.5 \
