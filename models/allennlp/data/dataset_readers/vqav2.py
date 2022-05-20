@@ -23,6 +23,8 @@ from overrides import overrides
 import torch
 from torch import Tensor
 import numpy as np
+from transformers import  ViltProcessor
+from PIL import Image
 
 from allennlp.common.util import START_SYMBOL, END_SYMBOL
 from allennlp.data.tokenizers.token import Token
@@ -300,6 +302,8 @@ class VQAv2Reader(VisionReader):
         target_token_indexers: Optional[Dict[str, TokenIndexer]] = None,
         cuda_device: Optional[Union[int, torch.device]] = None,
         max_instances: Optional[int] = None,
+        vilt_model: Optional[str] = None,
+        vilt_half_precision: Optional[bool] = True,
         image_processing_batch_size: int = 8,
         run_image_feature_extraction: bool = True,
         pass_raw_image_paths: bool = False,
@@ -381,7 +385,11 @@ class VQAv2Reader(VisionReader):
         else:
             self.pretrained_model_label2id = None
 
-
+        if vilt_model is not None:
+            self.vilt_processor = ViltProcessor.from_pretrained(vilt_model)
+            self.vilt_half_precision = vilt_half_precision
+        else:
+            self.vilt_processor = None
 
     @overrides
     def _read(self, splits_or_list_of_splits: Union[str, List[str]]):
@@ -664,6 +672,14 @@ class VQAv2Reader(VisionReader):
                 path = Path(self.local_base + "precomputed").joinpath(f"{precompute_metadata['image_id']}_{precompute_metadata['question_id']}.pt")
                 pooled_output = torch.load(path)
                 fields['pooled_output'] = ArrayField(pooled_output)
+        if self.vilt_processor is not None: 
+            image_data = Image.open(image).convert("RGB")
+            processed = self.vilt_processor(text = [question], images=[image_data], return_tensors='pt', padding=False)
+            for k, v in processed.items():
+                if self.vilt_half_precision and (isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor)):
+                    processed[k] = v.half()
+                new_key = f"vilt_{k}"
+                fields[new_key]  = ArrayField(processed[k])
 
         return Instance(fields)
 

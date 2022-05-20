@@ -2,6 +2,7 @@ from copy import deepcopy
 from typing import List, Any
 import pdb 
 import pathlib
+import time 
 
 import torch
 from transformers import AutoModel, AutoTokenizer, CLIPModel, CLIPProcessor, ViltProcessor, ViltForQuestionAnswering, ViltModel
@@ -228,14 +229,20 @@ class ViLTLanguageEncoder(VisionLanguageEncoder):
         self.processor = ViltProcessor.from_pretrained(model_name)
         self.projection_dim = self.model.config.hidden_size
 
-    def forward(self, text_batch, image_batch): 
-        images = [Image.open(img_path).convert("RGB") for img_path in image_batch]
-        inputs = self.processor(text = text_batch, images = images, return_tensors="pt", padding=True).to(self.model.device)
-        if self.half_precision:
-            for k, v in inputs.items():
-                if isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor):
-                    inputs[k] = v.half()
-        outputs = self.model(**inputs) 
+    def forward(self, input_ids, token_type_ids, attention_mask, pixel_values, pixel_mask):
+        bsz, __, seq_len = input_ids.shape 
+        input_ids = input_ids.reshape(bsz, seq_len)
+        token_type_ids = token_type_ids.reshape(bsz, seq_len)
+        attention_mask = attention_mask.reshape(bsz, seq_len)
+        bsz, __, channels, width, height = pixel_values.shape
+        pixel_values = pixel_values.reshape(bsz, channels, width, height)
+        pixel_mask = pixel_mask.reshape(bsz, width, height)
+
+        outputs = self.model(input_ids=input_ids,
+                             token_type_ids=token_type_ids,
+                             attention_mask=attention_mask,
+                             pixel_values=pixel_values,
+                             pixel_mask=pixel_mask)
         combined_pooled = outputs['pooler_output'].float()
 
         return combined_pooled, outputs['last_hidden_state']
@@ -262,14 +269,20 @@ class ClassifierViLTLanguageEncoder(VisionLanguageEncoder):
     #     pred_vocab_tokens = [self.vocab.get_token_index(x) for x in pred_tokens]
     #     return torch.tensor(pred_vocab_tokens)
 
-    def forward(self, text_batch, image_batch): 
-        images = [Image.open(img_path) for img_path in image_batch]
-        inputs = self.processor(text = text_batch, images = images, return_tensors="pt", padding=True).to(self.model.device)
-        if self.half_precision:
-            for k, v in inputs.items():
-                if isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor):
-                    inputs[k] = v.half()
-        outputs = self.model(**inputs) 
+    # def forward(self, text_batch, image_batch): 
+    def forward(self, input_ids, token_type_ids, attention_mask, pixel_values, pixel_mask):
+        # images = [Image.open(img_path) for img_path in image_batch]
+        # inputs = self.processor(text = text_batch, images = images, return_tensors="pt", padding=True).to(self.model.device)
+        # if self.half_precision:
+            # for k, v in inputs.items():
+                # if isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor):
+                    # inputs[k] = v.half()
+        # outputs = self.model(**inputs) 
+        outputs = self.model(input_ids=input_ids,
+                             token_type_ids=token_type_ids,
+                             attention_mask=attention_mask,
+                             pixel_values=pixel_values,
+                             pixel_mask=pixel_mask)
         return outputs['logits']
 
 

@@ -1,4 +1,5 @@
 
+from optparse import Option
 import os 
 import collections
 import logging
@@ -161,6 +162,11 @@ class RSAVQAModel(Model):
         debug_images: Optional[MetadataField] = None,
         meaning_vectors_input: Optional[List[torch.Tensor]] = None,
         pooled_output: Optional[torch.Tensor] = None,
+        vilt_input_ids: Optional[torch.Tensor] = None,
+        vilt_token_type_ids: Optional[torch.Tensor] = None,
+        vilt_attention_mask: Optional[torch.Tensor] = None,
+        vilt_pixel_values: Optional[torch.Tensor] = None,
+        vilt_pixel_mask: Optional[torch.Tensor] = None,
         sequence_output: Optional[torch.Tensor] = None,
         precompute_metadata: Optional[MetadataField] = None,
     ) -> Dict[str, torch.Tensor]:
@@ -171,8 +177,13 @@ class RSAVQAModel(Model):
             if isinstance(self.vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder):
                 # TODO (elias) if we want to train full model, remove this
                 with torch.no_grad() :
-                    pooled_output, sequence_output = self.vision_language_encoder(debug_tokens,
-                                                                                debug_images)
+                    # pooled_output, sequence_output = self.vision_language_encoder(debug_tokens,
+                                                                                # debug_images)
+                    pooled_output, sequence_output = self.vision_language_encoder(vilt_input_ids,
+                                                                                  vilt_token_type_ids,
+                                                                                  vilt_attention_mask,
+                                                                                  vilt_pixel_values,
+                                                                                  vilt_pixel_mask)
 
             else: 
                 pooled_output, sequence_output_t = self.vision_language_encoder(
