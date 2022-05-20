@@ -38,6 +38,9 @@ for qid, row_list in pilot_by_qid.items():
     for row in row_list:
         for ann in pilot_anns: 
             if row['Input.question_id'] not in pilot_done and row['Turkle.Username'] == ann:
+                # check than questions are actually different 
+                if len(set(row['Answer.answer_questions'])) < len(row['Answer.answer_questions']):
+                    continue
                 all_data.append(row)
                 pilot_done.append(qid)
 
