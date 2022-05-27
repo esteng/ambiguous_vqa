@@ -41,14 +41,15 @@ def get_line(line, url_base = "https://cs.jhu.edu/~esteng/images_for_hit/"):
                 "answerQuestions": None, # From annotator
                 "question_id": None}    
 
-    image_url = f"{url_base}{line['image']}"
-    question_str = line['question']
+    image_url = f"{url_base}{line['image_id']}"
+    question_str = line['original_question']
     # To do: 
     answer_groups = get_answer_groups(line['annotations']) # getting new groups
-    answer_questions = [line['new_questions'][i] for i in range(len(answer_groups))] # getting new questions
+    annotator_1 = line['annotations'][0]
+    answer_questions = [annotator_1['new_questions'][i] for i in range(len(answer_groups))] # getting new questions
 
     # metadata
-    line_dict['question_id'] = line['qid'] # question id
+    line_dict['question_id'] = line['question_id'] # question id
     line_dict['imgUrl'] = json.dumps(image_url) # image url
     line_dict['questionStr'] = json.dumps(question_str) # question string
     # To do: 
@@ -58,14 +59,15 @@ def get_line(line, url_base = "https://cs.jhu.edu/~esteng/images_for_hit/"):
 
 def write_csv(to_write, out_path):
     with open(out_path, "w") as f1:
-        writer = csv.DicWriter(f1, fieldnames=['imgUrl', 'questionStr', 'answerGroups', 'answerQuestions', 'question_id'])
+        writer = csv.DictWriter(f1, fieldnames=['imgUrl', 'questionStr', 'answerGroups', 'answerQuestions', 'question_id'])
         writer.writeheader()
         for line in to_write:
             writer.writerow(line)
 
 def main(args):
-    with open(args.input_json) as f1:
-        data = json.load(f1)
+    data = []
+    for line in open(args.input_json, 'r'):
+        data.append(json.loads(line))
     to_write = [get_line(l) for l in data]
     write_csv(to_write, args.out_path)
 
