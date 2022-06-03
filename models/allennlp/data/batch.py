@@ -10,6 +10,7 @@ import pdb
 
 import numpy
 import torch
+from overrides import overrides
 
 from allennlp.common.checks import ConfigurationError
 from allennlp.common.util import ensure_list

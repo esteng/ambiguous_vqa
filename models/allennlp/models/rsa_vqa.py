@@ -1,5 +1,4 @@
 
-from optparse import Option
 import os 
 import collections
 import logging
@@ -7,23 +6,13 @@ from copy import deepcopy
 from typing import Dict, List, Optional, Union
 import pdb 
 from pathlib import Path
-import torch.nn as nn
 from overrides import overrides
 import torch
-from transformers import AutoModel, AutoTokenizer
-import time 
+import numpy as np 
 
-from allennlp.data import TextFieldTensors, Vocabulary, TokenIndexer
+from allennlp.data import TextFieldTensors, Vocabulary
 from allennlp.models.model import Model
-from allennlp.modules import TextFieldEmbedder
-from allennlp.modules.transformer import (
-    TextEmbeddings,
-    ImageFeatureEmbeddings,
-    BiModalEncoder,
-    TransformerPooler,
-)
-from allennlp.nn import util
-from allennlp.common.params import Params
+
 from allennlp.modules.rsa_vqa.vqa_classifier import VQAClassifier
 from allennlp.modules.rsa_vqa.speaker import BaseSpeakerModule
 from allennlp.modules.rsa_vqa.listener import BaseListenerModule
@@ -34,7 +23,6 @@ from allennlp.nn.losses import (Loss,
                                 BCELoss, 
                                 WeightedBCELoss, 
                                 MultilabelCELoss, 
-                                AsymmetricLossMultiLabel, 
                                 CELoss, 
                                 CEAndBCELoss)
 
@@ -68,7 +56,7 @@ class RSAVQAModel(Model):
 
         # self.debug_tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.consistency_wrong_map: Dict[str, int] = collections.Counter()
-        from allennlp.training.metrics import F1MultiLabelMeasure, BCEF1MultiLabelMeasure
+        from allennlp.training.metrics import F1MultiLabelMeasure
         self.loss_fxn = loss
         # if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss) \
         #     or isinstance(self.loss_fxn, MultilabelCELoss): 
@@ -79,7 +67,6 @@ class RSAVQAModel(Model):
         from allennlp.training.metrics.vqa import VqaMeasure
         self.vqa_metric = VqaMeasure()
 
-        from allennlp.training.metrics import CategoricalAccuracy
         from allennlp.training.metrics import BLEU
         exclude_indices = set(speaker_module._exclude_indices) | set([0])
 
@@ -143,6 +130,7 @@ class RSAVQAModel(Model):
                 else:
                     torch.save(meaning_vectors[layer][i], filename)
 
+
     @overrides
     def forward(
         self,  # type: ignore
@@ -151,7 +139,6 @@ class RSAVQAModel(Model):
         question: TextFieldTensors,
         question_id: MetadataField,
         question_input: torch.Tensor = None,
-        # question_output: torch.Tensor = None,
         labels: Optional[torch.Tensor] = None,
         label_weights: Optional[torch.Tensor] = None,
         labels_from_pretrained: Optional[torch.Tensor] = None,
@@ -162,28 +149,26 @@ class RSAVQAModel(Model):
         debug_images: Optional[MetadataField] = None,
         meaning_vectors_input: Optional[List[torch.Tensor]] = None,
         pooled_output: Optional[torch.Tensor] = None,
-        vilt_input_ids: Optional[torch.Tensor] = None,
-        vilt_token_type_ids: Optional[torch.Tensor] = None,
-        vilt_attention_mask: Optional[torch.Tensor] = None,
-        vilt_pixel_values: Optional[torch.Tensor] = None,
-        vilt_pixel_mask: Optional[torch.Tensor] = None,
-        sequence_output: Optional[torch.Tensor] = None,
-        precompute_metadata: Optional[MetadataField] = None,
+        vilt_data: Optional[Dict] = None,
+        precompute_metadata: Optional[List[Dict]] = None,
     ) -> Dict[str, torch.Tensor]:
-        batch_size, _, feature_size = box_features.size()
 
         # only run vision-language encoder if the reps haven't been pre-computed  
         if meaning_vectors_input is None and pooled_output is None:
             if isinstance(self.vision_language_encoder, CLIPLanguageEncoder) or isinstance(self.vision_language_encoder, ViLTLanguageEncoder):
                 # TODO (elias) if we want to train full model, remove this
                 with torch.no_grad() :
-                    # pooled_output, sequence_output = self.vision_language_encoder(debug_tokens,
-                                                                                # debug_images)
-                    pooled_output, sequence_output = self.vision_language_encoder(vilt_input_ids,
-                                                                                  vilt_token_type_ids,
-                                                                                  vilt_attention_mask,
-                                                                                  vilt_pixel_values,
-                                                                                  vilt_pixel_mask)
+                    if vilt_data is not None:
+                        pooled_output, __ = \
+                            self.vision_language_encoder.supposed_to_be_fast_forward(vilt_data['input_ids'],
+                                                        vilt_data['token_type_ids'],
+                                                        vilt_data['attention_mask'],
+                                                        vilt_data['pixel_values'],
+                                                        vilt_data['pixel_mask'])
+                    else:
+                        pooled_output, __ = \
+                            self.vision_language_encoder(debug_tokens,
+                                                         debug_images)
 
             else: 
                 pooled_output, sequence_output_t = self.vision_language_encoder(
@@ -203,14 +188,14 @@ class RSAVQAModel(Model):
             listener_output = pooled_output
         else:
             listener_output = None
-            question_input = None
+            # question_input = None
 
 
         if meaning_vectors_input is None:
             meaning_vectors_input = [None for i in range(self.num_listener_steps)]
         else:
             listener_output = None
-            question_input = None
+            # question_input = None
 
         speaker_losses = []
         meaning_vectors_output = []  
@@ -221,7 +206,6 @@ class RSAVQAModel(Model):
                 bsz = meaning_vectors_input[i].shape[0]
             else:
                 bsz = listener_output.shape[0]
-
 
             if self.meaning_vector_source == "listener" and meaning_vectors_input[i] is None: 
                 # meaning vector is set to listener output 
@@ -241,6 +225,7 @@ class RSAVQAModel(Model):
                 meaning_vectors_output.append(listener_output)
                 speaker_output = self.speaker_modules[i](fused_representation=listener_output,
                                                         gold_utterance=question_input,
+                                                        speaker_encoder_output=meaning_vectors_input[i],
                                                         do_detach=True)
             else:
                 # using speaker encoder output as meaning vector
@@ -265,8 +250,12 @@ class RSAVQAModel(Model):
                 prediction_mask = 1 - prediction_mask
                 # mask out everything that comes after EOS 
                 speaker_predictions *= prediction_mask 
-                self.acc_metrics[i](speaker_predictions,
-                                    question_input['tokens']['tokens'][:,1:].contiguous())
+                try:
+                    self.acc_metrics[i](speaker_predictions,
+                                        question_input['tokens']['tokens'][:,1:].contiguous())
+                except ValueError:
+                    self.acc_metrics[i](speaker_predictions[:, 0, :],
+                                        question_input['tokens']['tokens'][:,1:].contiguous())
 
                 if not self.training:
                     pred = self.speaker_modules[i].make_output_human_readable(speaker_output)['predicted_tokens']
@@ -282,11 +271,12 @@ class RSAVQAModel(Model):
             if self.meaning_vector_source == "speaker": 
                 meaning_vectors_output.append(encoded_by_speaker)
 
-            if question_input is None:
+            if not self.training: 
                 if meaning_vectors_input[i] is None: 
                     beam_size = self.speaker_modules[i].decoder._beam_search.beam_size
                 else:
                     beam_size = 1 
+                    encoded_by_speaker = encoded_by_speaker[0, :]
                 encoded_by_speaker = encoded_by_speaker.reshape((bsz, beam_size, -1)) 
 
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
@@ -304,7 +294,11 @@ class RSAVQAModel(Model):
                    "predicted_labels": predicted_labels, "question_id": question_id}
 
         if (labels is not None or labels_from_pretrained is not None) and label_weights is not None:
-            vqa_loss, weighted_labels, mask = self.loss_fxn(logits, labels_from_pretrained,  debug_answer, label_weights=label_weights)
+            try:
+                vqa_loss, weighted_labels, mask = self.loss_fxn(logits, labels_from_pretrained,  debug_answer, label_weights=label_weights)
+            except:
+                # mingen time, the batch size is the beam size
+                vqa_loss, weighted_labels, mask = self.loss_fxn(logits[0,:].unsqueeze(0), labels_from_pretrained,  debug_answer, label_weights=label_weights)
             outputs['debug_answer'] = debug_answer
             if isinstance(self.loss_fxn, BCELoss) or isinstance(self.loss_fxn, WeightedBCELoss) or \
                 isinstance(self.loss_fxn, CEAndBCELoss):
@@ -315,6 +309,10 @@ class RSAVQAModel(Model):
                     self.vqa_metric(logits, labels_from_pretrained, weights_for_metric, do_interact=False, debug_tokens=debug_tokens, debug_answer=debug_answer) 
                 except RuntimeError:
                     pass 
+                except IndexError:
+                    # mingen time, the batch size is the beam size 
+                    self.f1_metric(logits[0,:].unsqueeze(0), weighted_labels, binary_label_mask.bool())
+                    self.vqa_metric(logits[0,:].unsqueeze(0), labels_from_pretrained, weights_for_metric, do_interact=False, debug_tokens=debug_tokens, debug_answer=debug_answer) 
 
             elif isinstance(self.loss_fxn, MultilabelCELoss):  
                 labels = labels.squeeze(1)
@@ -324,22 +322,14 @@ class RSAVQAModel(Model):
                 labels_for_metric = labels 
                 label_weights_for_metric = label_weights
 
-            # logger.info(f"loss: {loss.item()}")
-            # speaker_loss_sum = torch.sum(torch.Tensor(speaker_losses))
-            # logger.info(f"speaker loss: {speaker_loss_sum.item()}")
-            losses = [self.vqa_loss_factor * vqa_loss] + [self.speaker_loss_factor[i] * x for i, x in enumerate(speaker_losses)]
-            # losses = speaker_losses
-            big_loss = 0.0
-            for loss in losses:
-                big_loss += loss
+            text_loss = 0.0
+            for i, x in enumerate(speaker_losses): 
+                text_loss += self.speaker_loss_factor[i] * x 
+            big_loss = self.vqa_loss_factor * vqa_loss + text_loss
 
             outputs['loss'] =  big_loss
             outputs['vqa_loss'] = vqa_loss
-
-            # self.vqa_metric(logits, labels_for_metric, label_weights_for_metric, do_interact = vqa_loss.item() < 50)
-            # if not isinstance(self.loss_fxn, CELoss):
-            #     # self.f1_metric(logits, labels)
-            #     self.f1_metric(logits, labels_for_f1_metric, weight_for_metric.bool())
+            outputs['text_loss'] = text_loss
 
         return outputs
 

@@ -95,6 +95,7 @@ class PrenormSpeakerModule(BaseSpeakerModule):
                 encoded_for_ret[k] = encoded[k].detach().clone()
         else:
             encoded_for_ret = encoded
+
         decoded = self.decoder(encoded, target_tokens)
 
         top_k = torch.argmax(decoded['logits'], dim=2)
@@ -263,12 +264,14 @@ class SimpleSpeakerModule(BaseSpeakerModule):
                 gold_utterance_mask: torch.Tensor=None,
                 speaker_encoder_output: torch.Tensor=None,
                 do_detach: bool = False): 
-        if gold_utterance is not None: 
+        if gold_utterance is not None:
             return self._training_forward(target_tokens=gold_utterance,
                                           source_memory=fused_representation,
-                                          target_mask=gold_utterance_mask)
+                                          target_mask=gold_utterance_mask,
+                                          speaker_encoder_output=speaker_encoder_output)
         else:
             return self._test_forward(source_memory=fused_representation, 
+                                      target_tokens=gold_utterance,
                                       speaker_encoder_output=speaker_encoder_output,
                                       do_detach = do_detach)
 
@@ -280,29 +283,43 @@ class SimpleSpeakerModule(BaseSpeakerModule):
                           target_tokens: TextFieldTensors,
                           source_memory: torch.Tensor,
                           source_mask: torch.Tensor = None,
-                          target_mask: torch.Tensor = None): 
-        # run forward and return loss 
-        embedded = source_memory.unsqueeze(1)
-        source_mask = torch.ones_like(embedded)[:,:,0].bool()
-        encoded = self._encode(embedded, source_mask) 
+                          target_mask: torch.Tensor = None,
+                          speaker_encoder_output: torch.Tensor = None):
+        # normal training forward if speaker output not provided 
+        if speaker_encoder_output is None: 
+            embedded = source_memory.unsqueeze(1)
+            source_mask = torch.ones_like(embedded)[:,:,0].bool()
+            encoded = self._encode(embedded, source_mask) 
+            # if not self.training and speaker_encoder_output is None:
+            #     # detach during validation so it doesn't get copied 
+            #     encoded_for_decode = {k:v.detach().clone() for k,v in encoded.items()}
+            # else:
+            #     encoded_for_decode = encoded
+            decoded = self.decoder(encoded, target_tokens)
 
-        if not self.training:
-            # detach during validation so it doesn't get copied 
-            encoded_for_ret = {}
-            for k in encoded.keys():
-                encoded_for_ret[k] = encoded[k].detach().clone()
+            top_k = torch.argmax(decoded['logits'], dim=2)
+            loss = decoded['loss']
         else:
-            encoded_for_ret = encoded
-        decoded = self.decoder(encoded, target_tokens)
+            # if it's not the first iteration, pass previous iteration's output in here 
+            # intervene, replace encoded
+            prev_speaker_output = speaker_encoder_output[0]
+            if len(prev_speaker_output.shape) == 2:
+                source_mask = torch.ones_like(prev_speaker_output.detach()[:,0].unsqueeze(0).bool())
+            else:
+                source_mask = torch.ones_like(prev_speaker_output.detach()[:,:,0].unsqueeze(0).bool())
 
-        top_k = torch.argmax(decoded['logits'], dim=2)
-        loss = decoded['loss']
+            encoded = {'encoder_outputs': prev_speaker_output,
+                                 'source_mask': source_mask}
 
-        return {"encoder_output": encoded_for_ret, "output": decoded['logits'], "predictions": top_k, "loss": loss}
+            decoded = self.decoder(encoded, target_tokens) 
+            loss = decoded['loss']
+            top_k = torch.argmax(decoded['logits'], dim=2)
+        return {"encoder_output": encoded, "output": decoded['logits'], "predictions": top_k, "loss": loss}
 
     def _test_forward(self,
                       source_memory: torch.Tensor,
                       speaker_encoder_output: torch.Tensor=None,
+                      target_tokens: TextFieldTensors=None,
                       do_detach: bool = False):
         if speaker_encoder_output is None: 
             embedded = source_memory.unsqueeze(1)
@@ -312,8 +329,12 @@ class SimpleSpeakerModule(BaseSpeakerModule):
                 encoded_for_decode = {k:v.detach().clone() for k,v in encoded.items()}
             else:
                 encoded_for_decode = encoded
-            decoded = self.decoder(encoded_for_decode) 
-            loss = torch.nan
+            if target_tokens is None:
+                decoded = self.decoder(encoded_for_decode) 
+                loss = torch.nan
+            else:
+                decoded = self.decoder(encoded_for_decode, target_tokens) 
+                loss = decoded['loss']
             return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
         else:
             # if it's not the first iteration, pass previous iteration's output in here 
@@ -323,10 +344,6 @@ class SimpleSpeakerModule(BaseSpeakerModule):
                 source_mask = torch.ones_like(prev_speaker_output.detach()[:,0].unsqueeze(0).bool())
             else:
                 source_mask = torch.ones_like(prev_speaker_output.detach()[:,:,0].unsqueeze(0).bool())
-            # try:
-            #     print(f"in test forward: {prev_speaker_output[0,0,0:10]}") 
-            # except:
-            #     print(f"in test forward: {prev_speaker_output[0,0:10]}") 
 
             encoded = {'encoder_outputs': prev_speaker_output,
                                  'source_mask': source_mask}
@@ -334,8 +351,12 @@ class SimpleSpeakerModule(BaseSpeakerModule):
             # don't decode for now, this is causing the issues because Beam search is non-diff
             encoded_for_decode = {'encoder_outputs': prev_speaker_output.detach().clone(),
                                  'source_mask': source_mask.detach().clone()}
-            decoded = self.decoder(encoded_for_decode)
-            loss = torch.nan
+            if target_tokens is None:
+                decoded = self.decoder(encoded_for_decode) 
+                loss = torch.nan
+            else:
+                decoded = self.decoder(encoded_for_decode, target_tokens) 
+                loss = decoded['loss']
             return {"encoder_output": encoded, "predictions": decoded['predictions'], "loss": loss}
 
     def _prepare_output_projections(

@@ -6,13 +6,13 @@ import pathlib
 import sys
 import argparse
 from pathlib import Path 
-import pdb 
+import pdb
 
 curr_path = Path('').resolve().parent
 sys.path.insert(0, str(curr_path.joinpath("hit3.0").joinpath("results")))
 from process_csv import f1_score
 
-import levenshtein as lev
+import Levenshtein as lev
 from sklearn.cluster import OPTICS, MeanShift, estimate_bandwidth
 from sklearn.mixture import GaussianMixture, BayesianGaussianMixture
 from sklearn.cluster import KMeans
@@ -198,14 +198,14 @@ def cluster_vectors(vectors, cluster_method='optics', do_pca=False, pca_comp_max
     return clusters 
 
 def string_similarity(a, b):
-    lev_d = lev(a.strip(), b.strip())
+    lev_d = lev.distance(a.strip(), b.strip())
     return lev_d
 
 
 # Get clusters from output strings
 # TODO (Elias): deal with this once the grid is back up 
-def get_clusters_from_pred_data(pred_data):
-    beam_size = len(pred_data[0]['speaker_outputs'])
+def get_clusters_from_pred_data(pred_data, threshold_perc = 0.10):
+    beam_size = len(pred_data[0]['speaker_outputs'][0])
     clusters = defaultdict(list)
     all_dists = np.zeros((len(pred_data), len(pred_data)))
     for i, example_a in enumerate(pred_data):
@@ -214,22 +214,40 @@ def get_clusters_from_pred_data(pred_data):
                 continue
             ab_dist_total = 0
             for bidx in range(beam_size):
-                utt_a = example_a['speaker_outputs'][bidx]
-                utt_b = example_b['speaker_outputs'][bidx]
+                utt_a = example_a['speaker_outputs'][0][bidx]
+                utt_b = example_b['speaker_outputs'][0][bidx]
                 dist = string_similarity(utt_a, utt_b)
                 ab_dist_total += dist 
             all_dists[i,j] = ab_dist_total
     # not bipartite matching, since we could have all the same cluster 
     # bipartite matching would tell us which pairs of examples are in the same cluster
     # can we do iteratively? 
-    pdb.set_trace() 
+    # pdb.set_trace() 
+    done = []
     for i, example_a in enumerate(pred_data):
         for j, example_b in enumerate(pred_data):  
             if i == j:
                 continue  
-            pass 
-
-
+            # number characters that can be edited 
+            threshold = threshold_perc * len(example_a['speaker_outputs'][0][0])
+            if all_dists[i,j] < threshold:
+                if j not in done:
+                    # add to existing cluster 
+                    clusters[i].append(j)
+                    if i not in done:
+                        clusters[i].append(i)
+                        done.append(i)
+                    done.append(j)
+            else:
+                # create new cluster 
+                if j not in done:
+                    clusters[j].append(j)
+                    done.append(j)
+    # make them sequential 
+    clusters_to_ret = {}
+    for i, k in enumerate(clusters.keys()):
+        clusters_to_ret[i] = clusters[k]
+    return clusters_to_ret  
 
 # get the clusters from predictions 
 def get_prediction_clusters(questions, annotations, save_dir, cluster_method='optics', do_pca=False, pca_comp_max=2, pred_data=None):
@@ -255,8 +273,10 @@ def get_prediction_clusters(questions, annotations, save_dir, cluster_method='op
 
     clusters_by_qid = {}
     for qid, vectors in vectors_by_qid.items():
-        pred_data_at_qid = [x for x in pred_data if x['question_id'] == qid]
-        clusters = cluster_vectors(vectors, cluster_method=cluster_method, do_pca=do_pca, pca_comp_max=pca_comp_max, pred_data_at_qid = pred_data_at_qid)
+        # pdb.set_trace()
+        pred_data_at_qid = [x for x in pred_data if x['question_id'].split("_")[0] == qid]
+        pdb.set_trace() 
+        clusters = cluster_vectors(vectors, cluster_method=cluster_method, do_pca=do_pca, pca_comp_max=pca_comp_max, pred_data = pred_data_at_qid)
 
         clusters = {k: [answers_by_qid[qid][idx] for idx in v ] for k, v in clusters.items()}
         clusters_by_qid[qid] = clusters
@@ -345,6 +365,7 @@ if __name__ == "__main__":
              p_pred_to_ann, 
              r_pred_to_ann,
              cluster_lens_pred, __) = get_scores(pred_clusters, ann_clusters)
+            
             all_cluster_lens_pred[i,j] = cluster_lens_pred
             f1_scores[i, j] = f1_pred_to_ann
             p_scores[i, j] = p_pred_to_ann
