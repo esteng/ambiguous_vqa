@@ -24,12 +24,12 @@ local vilt_model ={
       type: 'vilt',
       model_name: '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
       half_precision: true,
+      mlm_prob: 0.20,
     };
 
 {
   "dataset_reader": {
     "type": "vqav2",
-    "vilt_model": '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
     "vilt_half_precision": true,
     "image_dir": std.format('/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s', dataset),
     "source_token_indexers": pretrained_token_indexers,
@@ -47,7 +47,6 @@ local vilt_model ={
   },
   "validation_dataset_reader": {
     "type": "vqav2",
-    "vilt_model": '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
     "vilt_half_precision": true,
     "image_dir": std.format('/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s', dataset),
     "tokenizer": tokenizer,
@@ -79,6 +78,7 @@ local vilt_model ={
     "keep_tokens": false,
     "vqa_loss_factor": 5,
     "speaker_loss_factor": [1],
+    
     "speaker_module": 
         {"type": "simple_speaker",
         "target_namespace": "target_tokens",
@@ -153,9 +153,9 @@ local vilt_model ={
     //   "warmup_steps": 4000
     // },
     "validation_metric": "+vqa_score",
-    "save_warmup": 600,
+    "save_warmup": 999,
     "patience": 1000,
-    "num_epochs": 602,
+    "num_epochs": 1000,
     "num_gradient_accumulation_steps": effective_batch_size / gpu_batch_size, 
   },
   "random_seed": 12,

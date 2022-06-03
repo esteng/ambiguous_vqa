@@ -277,7 +277,10 @@ class RSAVQAModel(Model):
                 else:
                     beam_size = 1 
                     encoded_by_speaker = encoded_by_speaker[0, :]
-                encoded_by_speaker = encoded_by_speaker.reshape((bsz, beam_size, -1)) 
+                try:
+                    encoded_by_speaker = encoded_by_speaker.reshape((bsz, beam_size, -1)) 
+                except RuntimeError:
+                    encoded_by_speaker = encoded_by_speaker.reshape((bsz, 1, -1)) 
 
             listener_mask = torch.ones_like(encoded_by_speaker)[:,:,0]
             listener_output = self.listener_modules[i](encoded_by_speaker,
@@ -431,3 +434,4 @@ class PrecomputeVQAModel(RSAVQAModel):
                 torch.save(pooled_output[i], filename)
 
         return {"loss": torch.zeros(1, requires_grad=True)}
+# 

@@ -261,7 +261,6 @@ class AutoRegressiveSeqDecoder(SeqDecoder):
         # we could consider taking the last_predictions here and building step_predictions
         # and use that instead of running beam search again, if performance in validation is taking a hit
         output_dict = {"loss": loss, "logits": logits}
-
         return output_dict
 
     def _prepare_output_projections(

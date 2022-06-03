@@ -1,13 +1,13 @@
 local model_name = "bert-base-uncased";
 local other_model_name = "bert-base-uncased";
 local gpu_batch_size = 216;
-local num_gpus = 1;
+local num_gpus = 4;
 local effective_batch_size = num_gpus * gpu_batch_size;
 // local line_limit = 1024;
 local line_limit = null;
 
 local construct_vocab = false;
-local dataset = "unittest";
+local dataset = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/filtered";
 
 local pooled_output_dim = 768; 
 
@@ -24,14 +24,13 @@ local vilt_model ={
       type: 'vilt',
       model_name: '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
       half_precision: true,
+      mlm_prob: 0.10,
     };
 
 {
   "dataset_reader": {
     "type": "vqav2",
-    "vilt_model": '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
-    "vilt_half_precision": true,
-    "image_dir": std.format('/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s', dataset),
+    "image_dir": "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/balanced_real",
     "source_token_indexers": pretrained_token_indexers,
     "target_token_indexers": token_indexers,
     "max_instances": line_limit,
@@ -47,9 +46,7 @@ local vilt_model ={
   },
   "validation_dataset_reader": {
     "type": "vqav2",
-    "vilt_model": '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
-    "vilt_half_precision": true,
-    "image_dir": std.format('/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/%s', dataset),
+    "image_dir": "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/balanced_real",
     "tokenizer": tokenizer,
     "source_token_indexers": pretrained_token_indexers,
     "target_token_indexers": token_indexers,
@@ -67,11 +64,12 @@ local vilt_model ={
   "train_data_path": [std.format("%s", dataset)],
   // "validation_data_path": std.format("%s[0:1000]", val_dataset),
   // "train_data_path": [std.format("%s_train", dataset)],
-  validation_data_path: std.format('%s', dataset),
+  "validation_data_path": "balanced_real_val[0:2000]",
   "model": {
     "type": "rsa_vqa",
     "label_namespace": "answers",
-    "loss": {"type": "bce_ce"},
+    "loss": {"type": "bce_ce",
+             "weights": [0.1, 1.0]},
     "vision_language_encoder": vilt_model,
     "num_listener_steps": 1,
     "copy_speaker_listener": false,
@@ -82,18 +80,18 @@ local vilt_model ={
     "speaker_module": 
         {"type": "simple_speaker",
         "target_namespace": "target_tokens",
-        "encoder_in_dim": 384,
+        "encoder_in_dim": pooled_output_dim,
         "encoder_num_layers": 2,
-        "encoder_hidden_dim": 384,
+        "encoder_hidden_dim": pooled_output_dim,
         "encoder_dropout": 0.2,
         "encoder_activation": "relu",
         "decoder": {
           "type": "auto_regressive_seq_decoder",
           "decoder_net": 
               {"type": "stacked_self_attention",
-                "decoding_dim": 384,
-                "target_embedding_dim": 384,
-                "feedforward_hidden_dim": 512,
+                "decoding_dim": 768,
+                "target_embedding_dim": 768,
+                "feedforward_hidden_dim": 1024,
                 "num_layers": 2,
                 "num_attention_heads": 2,
                 "dropout_prob": 0.2,
@@ -104,16 +102,16 @@ local vilt_model ={
             "target_namespace": "target_tokens",
             "target_embedder": {
                 "vocab_namespace": "target_tokens",
-                "embedding_dim": 384,
+                "embedding_dim": 768
               },
             "scheduled_sampling_ratio": 0.5,
             "beam_size": 5,
           },
           "dropout": 0.2},
     "listener_module": {"type": "simple_listener",
-        "encoder_in_dim": 384,
+        "encoder_in_dim": pooled_output_dim,
         "encoder_num_layers": 2,
-        "encoder_hidden_dim": 384,
+        "encoder_hidden_dim": pooled_output_dim,
         "encoder_dropout": 0.2,
         "encoder_activation": "relu"
       },
@@ -153,9 +151,9 @@ local vilt_model ={
     //   "warmup_steps": 4000
     // },
     "validation_metric": "+vqa_score",
-    "save_warmup": 600,
-    "patience": 1000,
-    "num_epochs": 602,
+    "save_warmup": 0,
+    "patience": 5,
+    "num_epochs": 200,
     "num_gradient_accumulation_steps": effective_batch_size / gpu_batch_size, 
   },
   "random_seed": 12,

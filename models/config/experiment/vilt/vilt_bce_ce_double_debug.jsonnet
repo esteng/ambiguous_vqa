@@ -29,6 +29,8 @@ local vilt_model ={
 {
   "dataset_reader": {
     "type": "vqav2",
+    "vilt_model": '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
+    "vilt_half_precision": true, 
     "image_dir": "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/balanced_real",
     "source_token_indexers": pretrained_token_indexers,
     "target_token_indexers": token_indexers,
@@ -45,6 +47,8 @@ local vilt_model ={
   },
   "validation_dataset_reader": {
     "type": "vqav2",
+    "vilt_model": '/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/',
+    "vilt_half_precision": true, 
     "image_dir": "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/balanced_real",
     "tokenizer": tokenizer,
     "source_token_indexers": pretrained_token_indexers,
