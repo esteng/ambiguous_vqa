@@ -703,6 +703,7 @@ class TrainModel(Registrable):
                 ", ".join(datasets_for_vocab_creation),
             )
 
+
         instance_generator = (
             instance
             for key, data_loader in data_loaders.items()
@@ -728,6 +729,9 @@ class TrainModel(Registrable):
         # We don't need to pass serialization_dir and local_rank here, because they will have been
         # passed through the trainer by from_params already, because they were keyword arguments to
         # construct this class in the first place.
+        data_loaders['train'].reader.for_vocab=False
+        if "validation" in data_loaders.keys():
+            data_loaders['validation'].reader.for_vocab=False
         trainer_ = trainer.construct(
             model=model_,
             data_loader=data_loaders["train"],

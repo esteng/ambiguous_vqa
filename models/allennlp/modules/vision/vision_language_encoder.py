@@ -5,7 +5,7 @@ import pathlib
 import time 
 
 import torch
-from transformers import AutoModel, AutoTokenizer, CLIPModel, CLIPProcessor, ViltProcessor, ViltForQuestionAnswering, ViltModel
+from transformers import AutoModel, AutoTokenizer, CLIPModel, CLIPProcessor, ViltProcessor, ViltForQuestionAnswering, ViltModel, ViltFeatureExtractor, BertTokenizerFast
 from PIL import Image
 
 from allennlp.common import Registrable, Params
@@ -219,7 +219,7 @@ class CLIPLanguageEncoder(VisionLanguageEncoder):
 
 @VisionLanguageEncoder.register("vilt")
 class ViLTLanguageEncoder(VisionLanguageEncoder):
-    def __init__(self, model_name: str, half_precision: bool = False):
+    def __init__(self, model_name: str, half_precision: bool = False, mlm_prob: float = None):
         super(ViLTLanguageEncoder, self).__init__()
         self.half_precision = half_precision
         if half_precision: 
@@ -227,24 +227,60 @@ class ViLTLanguageEncoder(VisionLanguageEncoder):
         else:
             self.model = ViltModel.from_pretrained(model_name)
         self.processor = ViltProcessor.from_pretrained(model_name)
+        self.tokenizer = BertTokenizerFast.from_pretrained(model_name)
+        self.feature_extractor = ViltFeatureExtractor.from_pretrained(model_name)
         self.projection_dim = self.model.config.hidden_size
+        self.mlm_prob = mlm_prob
 
-    def forward(self, input_ids, token_type_ids, attention_mask, pixel_values, pixel_mask):
-        bsz, __, seq_len = input_ids.shape 
-        input_ids = input_ids.reshape(bsz, seq_len)
-        token_type_ids = token_type_ids.reshape(bsz, seq_len)
-        attention_mask = attention_mask.reshape(bsz, seq_len)
-        bsz, __, channels, width, height = pixel_values.shape
-        pixel_values = pixel_values.reshape(bsz, channels, width, height)
-        pixel_mask = pixel_mask.reshape(bsz, width, height)
-
+    def supposed_to_be_fast_forward(self, input_ids, token_type_ids, attention_mask, pixel_values, pixel_mask):
         outputs = self.model(input_ids=input_ids,
-                             token_type_ids=token_type_ids,
-                             attention_mask=attention_mask,
-                             pixel_values=pixel_values,
-                             pixel_mask=pixel_mask)
-        combined_pooled = outputs['pooler_output'].float()
+                            token_type_ids=token_type_ids,
+                            attention_mask=attention_mask,
+                            pixel_values=pixel_values,
+                            pixel_mask=pixel_mask)
 
+        combined_pooled = outputs['pooler_output'].float()
+        return combined_pooled, outputs['last_hidden_state']
+
+    def mask_random_tokens(self, tokenized):
+        """add MASK token to tokenized batch"""
+        num_tokens = tokenized['attention_mask'].sum(dim=1) - 1
+        num_tokens_to_mask = (self.mlm_prob * num_tokens).int()
+        # get indices to mask 
+        indices_to_mask = [torch.randint(0, tokenized['input_ids'][i].size(0), (num_tokens_to_mask[i],)).tolist() for i in range(len(tokenized['input_ids']))]
+
+        # mask indices 
+        for i in range(len(tokenized['input_ids'])):
+            tokenized['input_ids'][i][indices_to_mask[i]] = self.tokenizer.mask_token_id
+        # pdb.set_trace()
+        return tokenized
+
+
+    def forward(self, text_batch, image_batch):
+        images = [Image.open(img_path).convert("RGB") for img_path in image_batch]
+        # inputs = self.processor(text = text_batch, images = images, return_tensors="pt", padding=True).to(self.model.device)
+        
+        encoding = self.tokenizer(
+            text=text_batch,
+            padding=True,
+            return_tensors='pt',
+        )
+        # pdb.set_trace() 
+        if self.mlm_prob is not None:
+            encoding = self.mask_random_tokens(encoding)
+
+        # add pixel_values + pixel_mask
+        encoding_feature_extractor = self.feature_extractor(images, return_tensors="pt")
+        encoding.update(encoding_feature_extractor)
+        inputs = encoding.to(self.model.device)
+
+        if self.half_precision:
+            for k, v in inputs.items():
+                if isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor):
+                    inputs[k] = v.half()
+        outputs = self.model(**inputs) 
+
+        combined_pooled = outputs['pooler_output'].float()
         return combined_pooled, outputs['last_hidden_state']
 
 

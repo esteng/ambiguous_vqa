@@ -31,7 +31,7 @@ from allennlp.data.tokenizers.token import Token
 from allennlp.common.file_utils import cached_path
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
-from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField, MultiLabelField
+from allennlp.data.fields import ArrayField, LabelField, ListField, TextField, MetadataField, MultiLabelField, ViltField
 from allennlp.data.image_loader import ImageLoader
 from allennlp.data.instance import Instance
 from allennlp.data.token_indexers import TokenIndexer
@@ -334,6 +334,7 @@ class VQAv2Reader(VisionReader):
             image_processing_batch_size=image_processing_batch_size,
             run_image_feature_extraction=super_run_image_feature_extraction,
         )
+        self.for_vocab = False 
         self.image_processing_batch_size = image_processing_batch_size
         self.run_image_feature_extraction = run_image_feature_extraction
         self.pass_raw_image_paths = pass_raw_image_paths
@@ -385,7 +386,7 @@ class VQAv2Reader(VisionReader):
         else:
             self.pretrained_model_label2id = None
 
-        if vilt_model is not None:
+        if vilt_model is not None and not self.for_vocab:
             self.vilt_processor = ViltProcessor.from_pretrained(vilt_model)
             self.vilt_half_precision = vilt_half_precision
         else:
@@ -538,14 +539,11 @@ class VQAv2Reader(VisionReader):
             answers = answers_by_question_id.get(question_dict["question_id"])
             mc_answers = multi_choice_answers_by_question_id.get(question_dict["question_id"])
             # for ans in answers: 
-            if self.is_precompute or self.use_precompute or self.retrieval_baseline:
-                if self.retrieval_baseline:
-                    local_base = self.retrieval_save_dir
-                precompute_metadata = {"save_dir": local_base, 
-                                       "question_id": question_dict['question_id'],
-                                       "image_id": question_dict['image_id']}
-            else:
-                precompute_metadata = None
+            if self.retrieval_baseline:
+                local_base = self.retrieval_save_dir
+            precompute_metadata = {"save_dir": local_base, 
+                                    "question_id": question_dict['question_id'],
+                                    "image_id": question_dict['image_id']}
             # instance = self.text_to_instance(question_dict["question"], processed_image, answers, answers_for_metric, precompute_metadata)
             instance = self.text_to_instance(question_dict["question"], question_dict['question_id'], processed_image, answers, precompute_metadata, mc_answers = mc_answers)
             attempted_instances_count += 1
@@ -672,14 +670,17 @@ class VQAv2Reader(VisionReader):
                 path = Path(self.local_base + "precomputed").joinpath(f"{precompute_metadata['image_id']}_{precompute_metadata['question_id']}.pt")
                 pooled_output = torch.load(path)
                 fields['pooled_output'] = ArrayField(pooled_output)
-        if self.vilt_processor is not None: 
-            image_data = Image.open(image).convert("RGB")
-            processed = self.vilt_processor(text = [question], images=[image_data], return_tensors='pt', padding=False)
-            for k, v in processed.items():
-                if self.vilt_half_precision and (isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor)):
-                    processed[k] = v.half()
-                new_key = f"vilt_{k}"
-                fields[new_key]  = ArrayField(processed[k])
+        if self.vilt_processor is not None and not self.for_vocab: 
+            fields['vilt_data'] = ViltField({"text": question, "image": image},
+                                            self.vilt_processor,
+                                            self.vilt_half_precision)
+            # image_data = Image.open(image).convert("RGB")
+            # processed = self.vilt_processor(text = [question], images=[image_data], return_tensors='pt', padding=False)
+            # for k, v in processed.items():
+                # if self.vilt_half_precision and (isinstance(v, torch.FloatTensor) or isinstance(v, torch.cuda.FloatTensor)):
+                    # processed[k] = v.half()
+                # new_key = f"vilt_{k}"
+                # fields[new_key]  = ArrayField(processed[k])
 
         return Instance(fields)
 

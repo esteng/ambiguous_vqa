@@ -563,7 +563,6 @@ def minimize_and_generate(
     predictions_output_file: str = None,
     precompute_intermediate: bool = False,
     retrieval_save_dir: str = None,
-    beta_text_loss: float = 0.0, 
 ) -> Dict[str, Any]:
     """
     # Parameters
@@ -645,8 +644,8 @@ def minimize_and_generate(
     model.beam_size = beam_size
 
     # TODO: Elias: try using just the CE loss
-    #new_loss = CEAndBCELoss(model.loss_fxn.vocab, weights=[0,1])
-    #model.loss_fxn = new_loss
+    new_loss = CEAndBCELoss(model.loss_fxn.vocab, weights=[0,1])
+    model.loss_fxn = new_loss
 
 
     # batch starts by not having meaning_vectors
@@ -662,9 +661,8 @@ def minimize_and_generate(
             initial_output_dict = model(**batch)
             original_loss = initial_output_dict['vqa_loss'].item()
             original_meaning_vec = initial_output_dict['meaning_vectors_output'][0].clone() 
-        output_dict_vqa = None
-        output_dict_text = None
 
+        output_dict = None
         losses = []
 
         epoch = 0
@@ -678,20 +676,17 @@ def minimize_and_generate(
             return condition
         
         condition = get_condition(descent_strategy, loss, descent_loss_threshold, epoch, num_descent_steps)
-        prev_meaning_vec = initial_output_dict['meaning_vectors_output'][0]
-        question_input = batch['question_input']
         # descend on the meaning vector 
         while condition: 
             batch_count += 1
             # get output encoder meaning vector, either from init or from previous iteration
-            # if epoch == 0:
-            #     # at first iteration, we take the meaning vector to be the output from the frozen model 
-            #     speaker_output = initial_output_dict['meaning_vectors_output'][0]
-            # else:
-            #     # after that, it's the output of the previous epoch iteration 
-            #     speaker_output = output_dict_vqa['meaning_vectors_output'][0]
-            #     speaker_output_text = output_dict_text['meaning_vectors_output'][0]
-            speaker_output = prev_meaning_vec
+            if epoch == 0:
+                # at first iteration, we take the meaning vector to be the output from the frozen model 
+                speaker_output = initial_output_dict['meaning_vectors_output'][0]
+            else:
+                # after that, it's the output of the previous epoch iteration 
+                speaker_output = output_dict['meaning_vectors_output'][0]
+
             # weird shape bs 
             if len(speaker_output.shape) == 2:
                 vec = speaker_output[0,:].unsqueeze(0).unsqueeze(1).clone()
@@ -721,49 +716,34 @@ def minimize_and_generate(
             model.requires_grad_(False)
             model.meaning_vector_source = "listener"
             # run the model forward with the gradient-having vector 
-            loss = 0.0
-            if beta_text_loss > 0.0: 
-                # if we're using text loss, need to get 2 computation graphs 
-                # run once with the question input and then again without it  
-                text_batch = copy.deepcopy(batch)
-                text_batch['question_input'] = question_input
-                output_dict_text = model(**text_batch)
-                # loss should be bigger if text loss is lower to encourage model to generate differently from input  
-                print(f"text loss: {output_dict_text['text_loss'].item()}")
-                inverse_text_loss = 1/output_dict_text['text_loss']
-                print(f"inverse text loss {inverse_text_loss.item()}" )
-                # loss = vqa_loss + beta_text_loss * inverse_text_loss
-                loss += beta_text_loss * inverse_text_loss
-            # vqa_batch = copy.deepcopy(batch)
-            batch['question_input'] = None
-            output_dict_vqa = model(**batch)
+            output_dict = model(**batch)
             # get the model vqa loss 
-            vqa_loss = output_dict_vqa["vqa_loss"]
-            print(f"vqa_loss: {vqa_loss.item()}")
-            # TODO (elias): uncomment 
-            loss += vqa_loss
-            losses.append(loss.item())
+            vqa_loss = output_dict["vqa_loss"]
+            losses.append(vqa_loss.item())
+            # logger.info(f"loss: {vqa_loss}")
             # compute gradient on vec 
-            loss.backward()
+            vqa_loss.backward()
             # Take one step on the vector  
             optimizer.step()
             # after optimizer step, update batch 
-            prev_meaning_vec = vec
             try:
+                # batch['meaning_vectors_input'][0] = vec
+
                 batch['meaning_vectors_input'] = [vec] + [None for i in range(model.num_listener_steps-1)]
             except KeyError:
                 batch['meaning_vectors_input'] = [vec] + [None for i in range(model.num_listener_steps-1)]
+
             metrics = model.get_metrics()
 
-            if loss is not None:
+            if vqa_loss is not None:
                 loss_count += 1
                 if batch_weight_key:
-                    weight = output_dict_vqa[batch_weight_key].item()
+                    weight = output_dict[batch_weight_key].item()
                 else:
                     weight = 1.0
 
                 total_weight += weight
-                total_loss += loss.item() * weight
+                total_loss += vqa_loss.item() * weight
                 # Report the average loss so far.
                 metrics["loss"] = total_loss / total_weight
 
@@ -787,6 +767,7 @@ def minimize_and_generate(
             )
             generator_tqdm.set_description(description, refresh=False)
             epoch += 1
+            loss = vqa_loss.item() 
             condition = get_condition(descent_strategy, loss, descent_loss_threshold, epoch, num_descent_steps)
 
         batch_losses.append(losses)
@@ -806,7 +787,6 @@ def minimize_and_generate(
             to_write['speaker_outputs'] = speaker_utts_str
             to_write['original_loss'] = original_loss
             to_write['question_id'] = original_batch['precompute_metadata'][0]['question_id']
-            to_write['final_loss'] = loss
             predictions = json.dumps(sanitize(to_write)) 
             predictions_to_write.append(predictions)
 

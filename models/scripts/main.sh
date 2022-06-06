@@ -79,7 +79,8 @@ function min_gen(){
     --predictions-output-file ${CHECKPOINT_DIR}/output/dev_min_gen_debug_steps_200_lr_0.05.jsonl \
     --descent-strategy steps \
     --num-descent-steps 200 \
-    --lr 0.05
+    --lr 0.05 \
+    --beta-text-loss 0.5 
 }
     # --descent-loss-threshold  \
     # --descent-strategy thresh \
@@ -99,7 +100,7 @@ function min_gen_save(){
     --num-descent-steps 200 \
     --cuda-device 0 \
     --precompute-intermediate \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/dev_min_gen_debug_steps_200_lr_0.05_ce_loss.jsonl \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/dev_min_gen_debug_steps_200_lr_0.05.jsonl \
     --retrieval-save-dir ${SAVE_DIR} \
     --lr 0.05
 }

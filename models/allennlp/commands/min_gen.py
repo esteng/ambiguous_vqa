@@ -18,7 +18,7 @@ from allennlp.common import logging as common_logging
 from allennlp.common.util import prepare_environment
 from allennlp.data import DataLoader
 from allennlp.models.archival import load_archive
-from allennlp.training.util import evaluate, minimize_and_generate, baseline_save_and_generate
+from allennlp.training.old_util import evaluate, minimize_and_generate, baseline_save_and_generate
 
 logger = logging.getLogger(__name__)
 
@@ -133,6 +133,12 @@ class MinGen(Subcommand):
             default=None,
             help="path to store precomputed train representations for retrieval"
         ) 
+        subparser.add_argument(
+            "--beta-text-loss",
+            type=float,
+            default=0.0,
+            help="hyperparam for how much to weight inverse text generation loss"
+        )
 
         subparser.set_defaults(func=min_gen_from_args)
 
@@ -218,6 +224,7 @@ def min_gen_from_args(args: argparse.Namespace) -> Dict[str, Any]:
             predictions_output_file=args.predictions_output_file,
             precompute_intermediate=args.precompute_intermediate,
             retrieval_save_dir=args.retrieval_save_dir,
+            # beta_text_loss=args.beta_text_loss,
         )
 
     logger.info("Finished evaluating.")

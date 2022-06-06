@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-#SBATCH -o /home/estengel/annotator_uncertainty/logs/train2.out 
+#SBATCH -o /home/estengel/annotator_uncertainty/logs/train3.out 
 #SBATCH -p brtx6
 #SBATCH --gpus=4
 
