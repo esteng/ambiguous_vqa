@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from nltk.translate.bleu_score import sentence_blue
 from bert_score import score
+from bart_score import BARTScorer
 
 class similarity_class(ABC):
     def __init__(self, original_sentence, test_sentence):
@@ -25,7 +26,8 @@ class BERT(similarity_class):
         super().__init__(original_sentence, test_sentence)
 
     def get_similarity(self):
-        return similarity
+        P, R, F1 = score(cands, refs, lang='en', verbose=True)
+
 
 class BART(similarity_class):
     def __init__(self, original_sentence, test_sentence):

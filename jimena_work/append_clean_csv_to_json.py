@@ -1,5 +1,4 @@
 import argparse
-import argparse
 from collections import defaultdict
 import itertools
 import json
@@ -7,33 +6,53 @@ import csv
 from csv import reader
 import pdb
 from scipy.optimize import linear_sum_assignment
+import copy
 
 """
 Sort out non-problematic exampels so we can re-analyze
 problematic examples
 """
 
+META_TEMPLATE = {"original_split": "train",
+                              "annotation_round": ""}
+
+ANN_TEMPLATE = {"annotator": "",
+                "new_clusters": [[""]],
+                "new_questions": [""]}
+
+DATA_TEMPLATE = {"question_id": 0,
+                 "image_id": 0,
+                 "original_question": "",
+                 "glove_clusters": [[""]],
+                 "multiple_choice_answer": "",
+                 "metadata": {},
+                 "annotations": [] 
+                }
+
 def get_line(line):
-    line_dict = {"imgUrl": None,
-                "questionStr": None, 
-                "answerGroups": None, # From annotator
-                "answerQuestions": None, # From annotator
-                "question_id": None}
+    jsonl_row = copy.deepcopy(DATA_TEMPLATE)
+    metadata = copy.deepcopy(META_TEMPLATE)
+    metadata['original_split'] = "train"
+    metadata['annotation_round'] = "?"
+    jsonl_row['metadata'] = metadata
+    jsonl_row['question_id'] = line['Input.question_id']
+    jsonl_row['image_id'] = line['Input.imgUrl'] #concern
+    jsonl_row['original_question'] = line['Input.questionStr']
+    jsonl_row['glove_clusters'] = line['Input.answerGroups']
+    #jsonl_row['multiple_choice_answer'] = annotation['multiple_choice_answer'] 
+    
+    annotation = copy.deepcopy(ANN_TEMPLATE)
+    annotation['annotator'] = line['Turkle.Username'] #concern
+    annotation['new_clusters'] = line['Answer.answer_groups']
+    annotation['new_questions'] = line['Answer.answer_questions']
+    jsonl_row['annotations'].append(annotation)
 
-    line_dict['question_id'] = line['Input.question_id'] # question id
-    line_dict['imgUrl'] = line['Input.imgUrl'] # image url
-    line_dict['questionStr'] = line['Input.questionStr'] # question string
-    # To do: 
-    line_dict['answerGroups'] = line['Answer.answer_groups'] # annotator answer groups
-    line_dict['answerQuestions'] = line['Answer.answer_questions'] # annotator group questions
-    return line_dict 
+    return jsonl_row 
 
-def write_csv(to_write, out_path):
+def write_json(to_write, out_path):
     with open(out_path, "w") as f1:
-        writer = csv.DictWriter(f1, fieldnames=['imgUrl', 'questionStr', 'answerGroups', 'answerQuestions', 'question_id'])
-        writer.writeheader()
         for line in to_write:
-            writer.writerow(line)
+            f1.write(json.dumps(line) + "\n")
 
 def sort(data):
     delete_count = 0
@@ -44,7 +63,7 @@ def sort(data):
         if line["Answer.skip_reason"] == '"flag"' or line["Answer.skip_reason"] == '"delete/flag"':
             flag_count += 1
             continue
-        if line["Answer.skip_reson"] == '"delete/flag"':
+        if line["Answer.skip_reason"] == '"delete/flag"':
             delete_flag_count += 1
             continue
         if line["Answer.skip_reason"] == '"delete/flag"' or line["Answer.skip_reason"] == '"delete"':
@@ -53,11 +72,11 @@ def sort(data):
         sorted_data.append(line)
 
     print("Data stats: ")
-    print("\tExamples delted: " + delete_count)
-    print("\tExamples flagged (kept and deleted): " + flag_count)
+    print("\tExamples deleted: " + str(delete_count))
+    print("\tExamples flagged (kept and deleted): " + str(flag_count))
     exit 
     to_write = [get_line(l) for l in sorted_data]
-    write_csv(to_write, args.out_path)
+    write_json(to_write, args.out_path)
 
 def main(args):
     data = []
@@ -66,7 +85,7 @@ def main(args):
         for row in csv_reader:
             data.append(row)
     with open(args.input_2_csv) as read_obj_2:
-        csv_reder = csv.DictReader(read_obj_2)
+        csv_reader = csv.DictReader(read_obj_2)
         for row in csv_reader:
             data.append(row)
     sort(data)
