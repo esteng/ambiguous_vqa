@@ -56,7 +56,7 @@ class BART_similarity_score(similarity_class):
             bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
 '''
 
-bleu = BERT_similarity_score()
+bleu = BLEU_similarity_score()
 bleu.get_similarity("I am good", "You are good")
 
 bert = BERT_similarity_score()
