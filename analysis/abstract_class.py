@@ -1,37 +1,56 @@
-from abc import ABCMeta, abstractmethod
-from nltk.translate.bleu_score import sentence_blue
-from bert_score import score
-from bart_score import BARTScorer
+from abc import ABC, abstractmethod
+from nltk.translate.bleu_score import sentence_bleu
+from bert_score import score as bert_score
+from bart_score import BARTScorer as bart_score
 
-class similarity_class(ABC):
-    def __init__(self, original_sentence, test_sentence):
-        self.sent_1 = original_sentence
-        self.sent_2 = test_sentence
+class similarity_class(ABC): 
+    def __init__(self):
+        pass
 
     @abstractmethod
     def get_similarity(self):
         pass
 
-class BLEU(similarity_class):
-    def __init__(self, original_sentence, test_sentence):
-        super().__init__(original_sentence, test_sentence)
+class BLEU_similarity_score(similarity_class):
+    def __init__(self):
+        super().__init__()
 
-    def get_similarity(self):
-        #reference = 
-        #candidate = 
-        print('BLEU score -> {}'.format(sentence_bleu(refernce, candidate)))
+    def get_similarity(self, sentence_1, sentence_2, gram=None):
+        format_sent_1 = sentence_1.split()
+        format_sent_2 = sentence_2.split()
+        if gram == None:
+            print('BLEU score -> {}'.format(sentence_bleu(format_sent_1, format_sent_2)))
+        elif gram == 1:
+            print('Individual 1-gram: %f' % sentence_bleu(format_sent_1, format_sent_2, weights=(1, 0, 0, 0)))
+        elif gram == 2:
+            print('Individual 2-gram: %f' % sentence_bleu(format_sent_1, format_sent_2, weights=(0, 1, 0, 0)))
+        elif gram == 3:
+            print('Individual 3-gram: %f' % sentence_bleu(format_sent_1, format_sent_2, weights=(0, 0, 1, 0)))
+        elif gram == 4:
+            print('Individual 4-gram: %f' % sentence_bleu(format_sent_1, format_sent_2, weights=(0, 0, 0, 1)))
 
-class BERT(similarity_class):
-    def __init__(self, original_sentence, test_sentence):
-        super().__init__(original_sentence, test_sentence)
+class BERT_similarity_score(similarity_class):
+    def __init__(self):
+        super().__init__()
 
-    def get_similarity(self):
-        P, R, F1 = score(cands, refs, lang='en', verbose=True)
+    def get_similarity(self, sentence_1, sentence_2):
+        format_sent_1 = sentence_1.strip()
+        format_sent_2 = sentence_2.strip()
+        P, R, F1 = bert_score(format_sent_1, format_sent_2, lang='en', verbose=True)
+        print(f"{hashname}: P={P.mean().item():.6f} R={R.mean().item():.6f} F={F.mean().item():.6f}")
 
 
-class BART(similarity_class):
-    def __init__(self, original_sentence, test_sentence):
-        super().__init__(original_sentence, test_sentence)
+class BART_similarity_score(similarity_class):
+    def __init__(self):
+        super().__init__()
 
-    def get_similarity(self):
-        return similarity
+    def get_similarity(self, sentence_1, sentence_2, type='ParaBank'):
+        format_sent_1 = [sentence_1]
+        format_sent_2 = [sentence_2]
+        if type == 'ParaBank':
+            bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
+            bart_scorer.load(path='bart.pth')
+            bart_scorer.score(format_sent_1, format_sent_2, batch_size=1)
+        elif type == 'CNNDM':
+            bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
+            bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
