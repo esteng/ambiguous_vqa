@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from nltk.translate.bleu_score import sentence_bleu
 from bert_score import score as bert_score
-from bart_score import BARTScorer as bart_score
+#from bart_score import BARTScorer as bart_score
 
 class similarity_class(ABC): 
     def __init__(self):
@@ -39,7 +39,7 @@ class BERT_similarity_score(similarity_class):
         P, R, F1 = bert_score(format_sent_1, format_sent_2, lang='en', verbose=True)
         print(f"{hashname}: P={P.mean().item():.6f} R={R.mean().item():.6f} F={F.mean().item():.6f}")
 
-
+'''
 class BART_similarity_score(similarity_class):
     def __init__(self):
         super().__init__()
@@ -54,14 +54,16 @@ class BART_similarity_score(similarity_class):
         elif type == 'CNNDM':
             bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
             bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
+'''
 
 bleu = BERT_similarity_score()
 bleu.get_similarity("I am good", "You are good")
 
 bert = BERT_similarity_score()
 bert.get_similarity("I am good", "You are good")
-
+'''
 bart = BART_similarity_score()
 bart.get_similarity("I am good", "You are good")
+'''
 
 
