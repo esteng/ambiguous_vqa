@@ -34,8 +34,8 @@ class BERT_similarity_score(similarity_class):
         super().__init__()
 
     def get_similarity(self, sentence_1, sentence_2):
-        format_sent_1 = sentence_1
-        format_sent_2 = sentence_2
+        format_sent_1 = [sentence_1]
+        format_sent_2 = [sentence_2]
         P, R, F1 = bert_score(format_sent_1, format_sent_2, lang='en', verbose=True)
         print(f"{hashname}: P={P.mean().item():.6f} R={R.mean().item():.6f} F={F1.mean().item():.6f}")
 
