@@ -54,3 +54,14 @@ class BART_similarity_score(similarity_class):
         elif type == 'CNNDM':
             bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
             bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
+
+bleu = BERT_similarity_score()
+bleu.get_similarity("I am good", "You are good")
+
+bert = BERT_similarity_score()
+bert.get_similarity("I am good", "You are good")
+
+bart = BART_similarity_score()
+bart.get_similarity("I am good", "You are good")
+
+
