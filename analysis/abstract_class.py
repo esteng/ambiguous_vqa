@@ -37,7 +37,7 @@ class BERT_similarity_score(similarity_class):
         format_sent_1 = [sentence_1]
         format_sent_2 = [sentence_2]
         P, R, F1 = bert_score(format_sent_1, format_sent_2, lang='en', verbose=True)
-        print(f"{hashname}: P={P.mean().item():.6f} R={R.mean().item():.6f} F={F1.mean().item():.6f}")
+        print(f"BERT Score: P={P.mean().item():.6f} R={R.mean().item():.6f} F={F1.mean().item():.6f}")
 
 
 class BART_similarity_score(similarity_class):
@@ -55,7 +55,10 @@ class BART_similarity_score(similarity_class):
             bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
             bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7a45be945493df0ebde3aa4bfecc871ef6d5c1c4
 bleu = BLEU_similarity_score()
 bleu.get_similarity("I am good", "You are good")
 
