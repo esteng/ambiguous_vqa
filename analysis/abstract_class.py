@@ -55,10 +55,6 @@ class BART_similarity_score(similarity_class):
             bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
             bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7a45be945493df0ebde3aa4bfecc871ef6d5c1c4
 bleu = BLEU_similarity_score()
 bleu.get_similarity("I am good", "You are good")
 
