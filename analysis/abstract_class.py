@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from nltk.translate.bleu_score import sentence_bleu
 from bert_score import score as bert_score
-from bart_score import BARTScorer as bart_score
+from BARTScore import BARTScorer as bart_score
 
 import argparse 
 
@@ -50,7 +50,7 @@ class BART_similarity_score(similarity_class):
         format_sent_1 = [sentence_1]
         format_sent_2 = [sentence_2]
         if type == 'ParaBank':
-            bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
+            bart_scorer = bart_score(device='cuda:0', checkpoint='bart.pth')
             bart_scorer.load(path='bart.pth')
             bart_scorer.score(format_sent_1, format_sent_2, batch_size=1)
         elif type == 'CNNDM':
