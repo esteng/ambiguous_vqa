@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from nltk.translate.bleu_score import sentence_bleu
 from bert_score import score as bert_score
-from bart.pth import BARTScorer as bart_score
+from bart_score import BARTScorer as bart_score
+
+import argparse 
 
 class similarity_class(ABC): 
     def __init__(self):
@@ -15,7 +17,7 @@ class BLEU_similarity_score(similarity_class):
     def __init__(self):
         super().__init__()
 
-    def get_similarity(self, sentence_1, sentence_2, gram=None):
+    def get_similarity(self, sentence_1: str, sentence_2: str, gram=None) -> str:
         format_sent_1 = sentence_1.split()
         format_sent_2 = sentence_2.split()
         if gram == None:
@@ -33,7 +35,7 @@ class BERT_similarity_score(similarity_class):
     def __init__(self):
         super().__init__()
 
-    def get_similarity(self, sentence_1, sentence_2):
+    def get_similarity(self, sentence_1: str, sentence_2: str) -> str:
         format_sent_1 = [sentence_1]
         format_sent_2 = [sentence_2]
         P, R, F1 = bert_score(format_sent_1, format_sent_2, lang='en', verbose=True)
@@ -44,7 +46,7 @@ class BART_similarity_score(similarity_class):
     def __init__(self):
         super().__init__()
 
-    def get_similarity(self, sentence_1, sentence_2, type='ParaBank'):
+    def get_similarity(self, sentence_1: str, sentence_2: str, type='ParaBank') -> str:
         format_sent_1 = [sentence_1]
         format_sent_2 = [sentence_2]
         if type == 'ParaBank':
@@ -55,14 +57,28 @@ class BART_similarity_score(similarity_class):
             bart_scorer = bart_score(device='cuda:0', checkpoint='facebook/bart-large-cnn')
             bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
 
-bleu = BLEU_similarity_score()
-bleu.get_similarity("I am good", "You are good")
 
-bert = BERT_similarity_score()
-bert.get_similarity("I am good", "You are good")
+def main(args):
+    if args.model == 'BLEU':
 
-bart = BART_similarity_score()
-bart.get_similarity("I am good", "You are good")
+        bleu = BLEU_similarity_score()
+        bleu.get_similarity("I am good", "You are good")
 
+    if args.model == 'BERT':
 
+        bert = BERT_similarity_score()
+        bert.get_similarity("I am good", "You are good")
+
+    if args.model == 'BART':
+        
+        bart = BART_similarity_score()
+        bart.get_similarity("I am good", "You are good")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", type=str, dest='model', required=True)
+    parser.add_argument("--model-specifics", type=str, dest='specifics', required=False)
+    args = parser.parse_args()
+
+    main(args)
 
