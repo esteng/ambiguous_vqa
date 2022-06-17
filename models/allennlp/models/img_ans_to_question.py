@@ -62,33 +62,37 @@ class ImageAnswer2QuestionModel(Model):
         self,  # type: ignore
         question: TextFieldTensors,
         answers_as_text: MetadataField,
+        answer_counts: torch.Tensor,
         question_id: MetadataField,
         question_output: Optional[torch.Tensor] = None,
         debug_tokens: Optional[MetadataField] = None,
         debug_answer: Optional[MetadataField] = None,
         debug_images: Optional[MetadataField] = None,
-        pooled_output: Optional[torch.Tensor] = None,
     ) -> Dict[str, torch.Tensor]:
 
-        pooled_output, __ = \
-            self.vision_language_encoder(answers_as_text,
-                                        debug_images)
+        with torch.no_grad():
+            pooled_output, __ = \
+                self.vision_language_encoder(answers_as_text,
+                                            debug_images)
+
         pooled_output = self.pooled_output_projection(pooled_output)
 
-        output_question = self.question_output_module(fused_representation = pooled_output,
+        generated_output = self.question_output_module(fused_representation = pooled_output,
                                                       gold_utterance = question_output)
         speaker_utterances = []
+        question_predictions = generated_output['predictions'].contiguous() 
+        self.acc_metrics(question_predictions,
+                         question_output['tokens']['tokens'][:,1:].contiguous())
         if not self.training:
-            pred = self.question_output_module.make_output_human_readable(output_question)['predicted_tokens']
+            # pdb.set_trace()
+            pred = self.question_output_module.make_output_human_readable(generated_output)['predicted_tokens']
             speaker_utterances.append(pred)
 
-        loss = output_question['loss']
+        loss = generated_output['loss']
         outputs = {"question_id": question_id, 
                    "loss": loss, 
                    "speaker_utterances": speaker_utterances}
-
         return outputs
-
 
     @overrides
     def get_metrics(self, reset: bool = False) -> Dict[str, float]:

@@ -13,3 +13,4 @@ from allennlp.models.simple_model import SimpleDebugModel
 from allennlp.models.rsa_vqa import RSAVQAModel
 from allennlp.models.debug_rsa import DebugRSAVQAModel
 from allennlp.models.img_ans_to_question import ImageAnswer2QuestionModel
+from allennlp.models.t5_img_ans2question import T5ImageAnswer2QuestionModel

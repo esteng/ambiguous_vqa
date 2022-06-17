@@ -544,9 +544,14 @@ class VQAForImg2QuestionReader(VisionReader):
             precompute_metadata = {"save_dir": local_base, 
                                     "question_id": question_dict['question_id'],
                                     "image_id": question_dict['image_id']}
-            # instance = self.text_to_instance(question_dict["question"], processed_image, answers, answers_for_metric, precompute_metadata)
-            for answer, __ in answer_counts.items():
-                instance = self.text_to_instance(question_dict["question"], question_dict['question_id'], processed_image, answer)
+
+            for answer, count in answers.items():
+                instance = self.text_to_instance(question_dict["question"], 
+                                                 question_dict['question_id'], 
+                                                 processed_image, 
+                                                 answer, 
+                                                 count)
+
                 attempted_instances_count += 1
                 if instance is None:
                     failed_instances_count += 1
@@ -567,6 +572,7 @@ class VQAForImg2QuestionReader(VisionReader):
         question_id: int, 
         image: Union[str, Tuple[Tensor, Tensor]],
         answer_as_text: str = None,
+        count: int = None,
         *,
         use_cache: bool = True,
     ) -> Optional[Instance]:
@@ -593,6 +599,7 @@ class VQAForImg2QuestionReader(VisionReader):
         fields["debug_images"] = MetadataField(image)
         if answer_as_text is not None:
             fields['answers_as_text'] = MetadataField(answer_as_text)
+            fields['answer_counts'] = ArrayField(torch.tensor([count]))
 
         return Instance(fields)
 
