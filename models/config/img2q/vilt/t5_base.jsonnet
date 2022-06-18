@@ -3,7 +3,7 @@ local other_model_name = "bert-base-uncased";
 local gpu_batch_size = 32;
 local num_gpus = 4;
 local effective_batch_size = num_gpus * gpu_batch_size;
-local line_limit = null;
+local line_limit = 1000000;
 
 local construct_vocab = false;
 local dataset = "/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/filtered";

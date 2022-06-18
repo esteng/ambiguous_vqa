@@ -19,6 +19,7 @@ from typing import (
 import json
 import re
 
+import spacy
 from overrides import overrides
 import torch
 from torch import Tensor
@@ -315,6 +316,7 @@ class VQAForImg2QuestionReader(VisionReader):
         use_precompute: bool = False,
         retrieval_baseline: bool = False,
         retrieval_save_dir: str = None,
+        add_force_word_ids: bool = False,
     ) -> None:
 
         if pass_raw_image_paths: 
@@ -338,6 +340,10 @@ class VQAForImg2QuestionReader(VisionReader):
         self.image_processing_batch_size = image_processing_batch_size
         self.run_image_feature_extraction = run_image_feature_extraction
         self.pass_raw_image_paths = pass_raw_image_paths
+        self.add_force_word_ids = add_force_word_ids
+        if self.add_force_word_ids:
+            self.spacy_tagger = spacy.load("en_core_web_sm")
+
         # read answer vocab
         if answer_vocab is None:
             self.answer_vocab = None
@@ -565,6 +571,33 @@ class VQAForImg2QuestionReader(VisionReader):
                         f"{failed_instances_fraction*100:.0f}% of instances have no answers."
                     )
 
+    def get_nps(self, question):
+        doc = self.spacy_tagger(question)
+        nps = []
+        noun_gex = re.compile(r"^(NOUN ?)+$") 
+        for span_start in range(0, len(doc)-1):
+            for span_len in range(0, len(doc)-span_start-1, 1):
+                span_end = span_start + span_len
+                span = doc[span_start:span_end]
+                tag_span = " ".join([tok.pos_ for tok in span])
+                text_span = " ".join([tok.text for tok in span]) 
+                text_span_is_subset = any([text_span in x for x in nps])
+                if noun_gex.match(tag_span) is not None and text_span not in nps and not text_span_is_subset: 
+                    nps.append(text_span)
+        final_nps = []
+        # remove subsets: 
+        for text_span_a in nps: 
+            skip = False
+            for text_span_b in nps: 
+                if text_span_a == text_span_b:
+                    continue
+                if text_span_a in text_span_b:
+                    skip = True
+            if not skip:
+                final_nps.append(text_span_a)
+
+        return final_nps 
+
     @overrides
     def text_to_instance(
         self,  # type: ignore
@@ -597,6 +630,13 @@ class VQAForImg2QuestionReader(VisionReader):
         fields["debug_tokens"] = MetadataField(question)
         fields["question_id"] = MetadataField(question_id)
         fields["debug_images"] = MetadataField(image)
+
+        if self.add_force_word_ids:
+            question_nps = self.get_nps(question)
+            # print(question)
+            # print(question_nps)
+            fields["force_toks"] = MetadataField(question_nps)
+
         if answer_as_text is not None:
             fields['answers_as_text'] = MetadataField(answer_as_text)
             fields['answer_counts'] = ArrayField(torch.tensor([count]))

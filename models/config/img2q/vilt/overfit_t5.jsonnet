@@ -41,6 +41,7 @@ local vilt_model ={
     "is_validation": false,
     "use_precompute": false,
     "pretrained_model": vilt_model,
+    "add_force_word_ids": true,
   },
   "validation_dataset_reader": {
     "type": "vqa_for_img2quest",
@@ -58,6 +59,7 @@ local vilt_model ={
     "pass_raw_image_paths": true,
     "use_precompute": false,
     "pretrained_model": vilt_model,
+    "add_force_word_ids": true,
   },
   "train_data_path": [std.format("%s", dataset)],
   "validation_data_path": dataset,
