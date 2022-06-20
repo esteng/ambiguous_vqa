@@ -21,19 +21,6 @@ def get_answer_groups(annotations):
         i += 1
     return to_ret
 
-'''
-    for a, id in zip(answers, group_ids): 
-        groups[id].update({a})
-    just_answers = [list(x) for x in groups.values()]
-    to_ret = []
-    for i, group in enumerate(just_answers): 
-        to_group = []
-        for j, ans in enumerate(group):
-            to_group.append({"id": f"g{i}.{j}", "content": ans})
-        to_ret.append(to_group)
-    return to_ret
-'''
-
 def get_line(line, url_base = "https://cs.jhu.edu/~esteng/images_for_hit/"):
     line_dict = {"imgUrl": None,
                 "questionStr": None, 
@@ -41,9 +28,12 @@ def get_line(line, url_base = "https://cs.jhu.edu/~esteng/images_for_hit/"):
                 "answerQuestions": None, # From annotator
                 "question_id": None}    
 
-    image_url = f"{url_base}{line['image_id']}"
+    append_num = 12 - len(str(line['image_id']))
+    zero_append = append_num * '0'
+    image_url = f"{url_base}{'COCO_train2014_'}{zero_append}{line['image_id']}{'.jpg'}"
     question_str = line['original_question']
     # To do: 
+   
     answer_groups = get_answer_groups(line['annotations']) # getting new groups
     annotator_1 = line['annotations'][0]
     answer_questions = [annotator_1['new_questions'][i] for i in range(len(answer_groups))] # getting new questions
