@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from nltk.translate.bleu_score import sentence_bleu
 from bert_score import score as bert_score
-from bart_score import BARTScorer
+from bert_score import BERTScorer
+# from bart_score import BARTScorer
 
 import argparse 
 
@@ -29,12 +30,14 @@ class BleuSimilarityScore(SimilarityClass):
 class BertSimilarityScore(SimilarityClass):
     def __init__(self):
         super().__init__()
+        self.scorer = BERTScorer(lang='en')
 
     def get_similarity(self, sentence_1: str, sentence_2: str) -> str:
         format_sent_1 = [sentence_1]
         format_sent_2 = [sentence_2]
-        P, R, F1 = bert_score(format_sent_1, format_sent_2, lang='en', verbose=True)
-        print(f"BERT Score: P={P.mean().item():.6f} R={R.mean().item():.6f} F={F1.mean().item():.6f}")
+        p, r, f1 = self.scorer.score(format_sent_1, format_sent_2, verbose=False)
+        # print(f"BERT Score: P={P.mean().item():.6f} R={R.mean().item():.6f} F={F1.mean().item():.6f}")
+        return f1.mean().item()
 
 class BartSimilarityScore(SimilarityClass):
     def __init__(self):
