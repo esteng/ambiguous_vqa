@@ -120,7 +120,7 @@ class T5ImageAnswer2QuestionModel(Model):
 
             else:
                 force_words_ids = None
-            if len(force_words_ids) == 0:
+            if force_words_ids is not None and len(force_words_ids) == 0:
                 force_words_ids = None
             if force_words_ids is not None: 
                 pred_toks, pred_lens = [], []
