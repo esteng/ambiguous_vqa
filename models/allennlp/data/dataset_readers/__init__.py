@@ -22,7 +22,8 @@ from allennlp.data.dataset_readers.text_classification_json import TextClassific
 # try:
 from allennlp.data.dataset_readers.vision_reader import VisionReader
 from allennlp.data.dataset_readers.vqav2 import VQAv2Reader
-from allennlp.data.dataset_readers.vqav2_original import VQAv2OGReader
+# from allennlp.data.dataset_readers.vqav2_original import VQAv2Reader
+from allennlp.data.dataset_readers.vqa_for_img2quest import VQAForImg2QuestionReader
 from allennlp.data.dataset_readers.visual_entailment import VisualEntailmentReader
 # except ModuleNotFoundError as err:
     # if err.name not in ("detectron2", "torchvision"):
