@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from nltk.translate.bleu_score import sentence_bleu
 from bert_score import score as bert_score
 from bart_score import BARTScorer
+import re
 
 import argparse 
 
@@ -19,11 +20,13 @@ class BLEU_similarity_score(similarity_class):
 
     def get_similarity(self, sentence_1: str, sentence_2: str) -> str:
     
-        print('BLEU score -> {}'.format(sentence_bleu(sentence_1, sentence_2)))
-        print('Individual 1-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(1, 0, 0, 0)))
-        print('Individual 2-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 1, 0, 0)))
-        print('Individual 3-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 1, 0)))
-        print('Individual 4-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 0, 1)))
+        sent_1 = [sentence_1.split()]
+        sent_2 = sentence_2.split()
+        print('BLEU score -> {}'.format(sentence_bleu(sent_1, sent_2)))
+        print('Individual 1-gram: %f' % sentence_bleu(sent_1, sent_2, weights=(1, 0, 0, 0)))
+        print('Individual 2-gram: %f' % sentence_bleu(sent_1, sent_2, weights=(0, 1, 0, 0)))
+        print('Individual 3-gram: %f' % sentence_bleu(sent_1, sent_2, weights=(0, 0, 1, 0)))
+        print('Individual 4-gram: %f' % sentence_bleu(sent_1, sent_2, weights=(0, 0, 0, 1)))
 
 
 class BERT_similarity_score(similarity_class):
@@ -40,16 +43,17 @@ class BART_similarity_score(similarity_class):
     def __init__(self):
         super().__init__()
 
-    def get_similarity(self, sentence_1: str, sentence_2: str, type='CNNDM') -> str:
+    def get_similarity(self, sentence_1: str, sentence_2: str, type='ParaBank') -> str:
         format_sent_1 = [sentence_1]
         format_sent_2 = [sentence_2]
+        match_regex = '(?<=\[)(.*?)(?=\])'
         if type == 'ParaBank':
             bart_scorer = BARTScorer(device='cpu', checkpoint='facebook/bart-large-cnn')
             bart_scorer.load(path='bart.pth')
-            bart_scorer.score(format_sent_1, format_sent_2, batch_size=1)
+            print(bart_scorer.score(format_sent_1, format_sent_2, batch_size=1))
         elif type == 'CNNDM':
             bart_scorer = BARTScorer(device='cpu', checkpoint='facebook/bart-large-cnn')
-            bart_scorer.score(format_sent_1, format_sent_2, batch_size=1) # generation scores from the first list of texts to the second list of texts.
+            print(bart_scorer.score(format_sent_1, format_sent_2, batch_size=1)) # generation scores from the first list of texts to the second list of texts.
 
 def main(args):
     if args.model == 'BLEU':
