@@ -18,13 +18,18 @@ class BleuSimilarityScore(SimilarityClass):
     def __init__(self):
         super().__init__()
 
-    def get_similarity(self, sentence_1: str, sentence_2: str) -> str:
-    
-        print('BLEU score -> {}'.format(sentence_bleu(sentence_1, sentence_2)))
-        print('Individual 1-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(1, 0, 0, 0)))
-        print('Individual 2-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 1, 0, 0)))
-        print('Individual 3-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 1, 0)))
-        print('Individual 4-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 0, 1)))
+    def get_similarity(self, sentence_1: str, sentence_2: str, num_grams=None) -> str:
+        
+        if num_grams is None:
+            print('BLEU score -> {}'.format(sentence_bleu(sentence_1, sentence_2)))
+        elif num_grams == 1: 
+            print('Individual 1-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(1, 0, 0, 0)))
+        elif num_grams == 2: 
+            print('Individual 2-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 1, 0, 0)))
+        elif num_grams == 3: 
+            print('Individual 3-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 1, 0)))
+        elif num_grams == 4: 
+            print('Individual 4-gram: %f' % sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 0, 1)))
 
 
 class BertSimilarityScore(SimilarityClass):
