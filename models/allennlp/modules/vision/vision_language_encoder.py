@@ -259,13 +259,11 @@ class ViLTLanguageEncoder(VisionLanguageEncoder):
     def forward(self, text_batch, image_batch):
         images = [Image.open(img_path).convert("RGB") for img_path in image_batch]
         # inputs = self.processor(text = text_batch, images = images, return_tensors="pt", padding=True).to(self.model.device)
-        
         encoding = self.tokenizer(
             text=text_batch,
             padding=True,
             return_tensors='pt',
         )
-        # pdb.set_trace() 
         if self.mlm_prob is not None:
             encoding = self.mask_random_tokens(encoding)
 
