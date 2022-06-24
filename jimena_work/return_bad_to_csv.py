@@ -10,7 +10,7 @@ from scipy.optimize import linear_sum_assignment
 
 """
 Sort out non-problematic exampels so we can re-analyze
-problematic examples
+problematic examples: csv -> csv
 """
 
 def get_line(line):

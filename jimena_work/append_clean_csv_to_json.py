@@ -9,8 +9,7 @@ from scipy.optimize import linear_sum_assignment
 import copy
 
 """
-Sort out non-problematic exampels so we can re-analyze
-problematic examples
+appended csv -> json
 """
 
 META_TEMPLATE = {"original_split": "train",

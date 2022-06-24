@@ -3,6 +3,10 @@ import csv
 import argparse
 from collections import defaultdict
 
+"""
+josn -> csv
+"""
+
 def get_answer_groups(annotations):
     data = annotations[0] # get annotations dict
     new_clusters = data["new_clusters"]
