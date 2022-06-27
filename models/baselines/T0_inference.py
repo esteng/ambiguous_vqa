@@ -169,7 +169,8 @@ ds_engine.module.eval()  # inference
 # If you use only one GPU, then you will have only rank 0.
 rank = torch.distributed.get_rank()
 
-data_path = "dev.jsonl"
+# data_path = "dev.jsonl"
+data_path = "/home/estengel/annotator_uncertainty/hit3.0/results/json_data/dev.jsonl"
 with open(data_path) as f1:
     data = [json.loads(line) for line in f1]
     
