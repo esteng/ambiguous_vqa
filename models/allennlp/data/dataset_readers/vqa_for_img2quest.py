@@ -570,6 +570,7 @@ class VQAForImg2QuestionReader(VisionReader):
                     logger.warning(
                         f"{failed_instances_fraction*100:.0f}% of instances have no answers."
                     )
+        logger.info(f"total attempted instances: {attempted_instances_count}")
 
     def get_nps(self, question):
         doc = self.spacy_tagger(question)

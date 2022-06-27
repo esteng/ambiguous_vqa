@@ -44,6 +44,8 @@ class T5ImageAnswer2QuestionModel(Model):
         pooled_output_dim: int,
         beam_size: int = 5,
         dropout: float = 0.1,
+        no_image_baseline: bool = False,
+        no_answer_baseline: bool = False
     ) -> None:
         super().__init__(vocab)
 
@@ -70,6 +72,8 @@ class T5ImageAnswer2QuestionModel(Model):
         self.num_labels = len(self.vision_language_encoder.model.config.label2id)
 
         self.dropout = torch.nn.Dropout(dropout)
+        self.no_image_baseline = no_image_baseline 
+        self.no_answer_baseline = no_answer_baseline 
 
     @overrides
     def forward(
@@ -85,10 +89,13 @@ class T5ImageAnswer2QuestionModel(Model):
         force_toks: Optional[MetadataField] = None,
     ) -> Dict[str, torch.Tensor]:
 
+
         with torch.no_grad():
             __, seq_output = \
                 self.vision_language_encoder(answers_as_text,
-                                            debug_images)
+                                            debug_images,
+                                            no_image_baseline = self.no_image_baseline,
+                                            no_answer_baseline = self.no_answer_baseline)
         seq_output = seq_output.float()
         seq_output = self.pooled_output_projection(seq_output)
 

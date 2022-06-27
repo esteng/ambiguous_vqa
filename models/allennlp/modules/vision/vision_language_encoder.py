@@ -256,9 +256,16 @@ class ViLTLanguageEncoder(VisionLanguageEncoder):
         return tokenized
 
 
-    def forward(self, text_batch, image_batch):
+    def forward(self, text_batch, image_batch, no_image_baseline = False, no_answer_baseline = False):
         images = [Image.open(img_path).convert("RGB") for img_path in image_batch]
-        # inputs = self.processor(text = text_batch, images = images, return_tensors="pt", padding=True).to(self.model.device)
+        if no_image_baseline:
+            # convert everything to black 
+            # images = [x * 0 for x in images]
+            images = [Image.new(mode="RGB", size = x.size, color = 0) for x in images]
+        if no_answer_baseline:
+            # make everything empty 
+            text_batch = ["" for x in text_batch]
+
         encoding = self.tokenizer(
             text=text_batch,
             padding=True,
