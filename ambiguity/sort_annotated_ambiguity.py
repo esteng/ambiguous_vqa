@@ -8,7 +8,23 @@ import pdb
 from scipy.optimize import linear_sum_assignment
 import copy
 
-def sort(data):
+def search_count(data, args):
+    search_item = args.key
+    match_count = 0
+
+    for row in data:
+        temp = row['Answer.skip_reason'].strip('"')
+        labels = temp.split('.')
+
+        if search_item in labels:
+            #print('Hello')
+            print(row['Answer.skip_reason'])
+            match_count += 1
+    
+    print(match_count)
+
+    
+            
     
 
 def main(args):
@@ -18,10 +34,12 @@ def main(args):
         for row in csv_reader:
             data.append(row)
     
-    sort(data)
+    search_count(data, args)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--inut-csv", type=str, dest='input_csv', required=True)
+    parser.add_argument("--input-csv", type=str, dest='input_csv', required=True)
+    parser.add_argument("--search-key", type=str, dest='key', required=False)
+    args = parser.parse_args()
 
     main(args)
