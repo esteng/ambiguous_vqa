@@ -49,7 +49,7 @@ function eval(){
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --cuda-device 0 \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/predictions.jsonl 
+    --predictions-output-file ${CHECKPOINT_DIR}/output/predictions_forced.jsonl 
 }
 
 function predict(){
