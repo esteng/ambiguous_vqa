@@ -118,7 +118,6 @@ class T5ImageAnswer2QuestionModel(Model):
                 for tok_seq in force_toks:
                     if len(tok_seq) > 0:
                         tokenized = self.t5_tokenizer(tok_seq, padding=False, add_special_tokens=False)
-                        # pdb.set_trace()
                         input_ids = [[y]  for x in tokenized['input_ids'] for y in x]
                         # pdb.set_trace()
                         force_words_ids.append(input_ids)

@@ -68,6 +68,7 @@ local vilt_model ={
     "vision_language_encoder": vilt_model,
     "pooled_output_dim": pooled_output_dim,
     "t5_model_name": "t5-base", 
+    "no_image_baseline": true,
   },
   "data_loader": {
     "batch_size": gpu_batch_size,
