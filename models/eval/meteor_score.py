@@ -22,11 +22,8 @@ if __name__ == "__main__":
     all_meteor_scores = []
 
     for gold, pred in pairs: 
-        bleu_scores = meteor_score([gold], pred)
-        # print(f"gold: {gold}")
-        # print(f"pred: {pred}")
-        # print(f"scores: {bleu_scores}")
-        all_meteor_scores.append(bleu_scores)
+        meteor_scores = meteor_score([gold], pred)
+        all_meteor_scores.append(meteor_scores)
 
     mean_meteor_score = np.mean(all_meteor_scores) 
     print(f"prediction file: {args.pred_path}")
