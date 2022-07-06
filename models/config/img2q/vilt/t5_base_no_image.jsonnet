@@ -104,7 +104,7 @@ local vilt_model ={
     //   //"num_steps_per_epoch": std.ceil(0 / $["data_loader"]["batch_size"] / $["trainer"]["num_gradient_accumulation_steps"]),
     //   "warmup_steps": 4000
     // },
-    "validation_metric": "+BLEU",
+    "validation_metric": "+BLEU-4",
     "save_warmup": 0,
     "patience": 5,
     "num_epochs": 200,
