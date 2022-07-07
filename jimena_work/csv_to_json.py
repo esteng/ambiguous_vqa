@@ -25,10 +25,11 @@ DATA_TEMPLATE = {"question_id": 0,
                  "glove_clusters": [[""]],
                  "multiple_choice_answer": "",
                  "metadata": {},
-                 "annotations": [] 
+                 "annotations": [], 
+                 "ambiguity_type": ""
                 }
 
-def get_line(line, org_data):
+def get_line(line, amb_dict = {}, username_dict = {}):
     jsonl_row = copy.deepcopy(DATA_TEMPLATE)
     metadata = copy.deepcopy(META_TEMPLATE)
     metadata['original_split'] = "train" 
@@ -38,10 +39,11 @@ def get_line(line, org_data):
     jsonl_row['image_id'] = line['Input.imgUrl'] # is url ok or actually image id?
     jsonl_row['original_question'] = line['Input.questionStr']
     jsonl_row['glove_clusters'] = line['Input.answerGroups']
-    jsonl_row['multiple_choice_answer'] = line['Input.answerQuestions']  
+    jsonl_row['multiple_choice_answer'] = line['Input.answerQuestions']
+    jsonl_row['ambiguity_type'] = amb_dict.get(line['Input.question_id'])
     
     annotation = copy.deepcopy(ANN_TEMPLATE)
-    annotation['annotator'] = org_data[line['HTIId']]  
+    annotation['annotator'] = username_dict.get(line["HITId"])  
     annotation['new_clusters'] = line['Answer.answer_groups']
     annotation['new_questions'] = line['Answer.answer_questions']
     jsonl_row['annotations'].append(annotation)
@@ -51,14 +53,9 @@ def get_line(line, org_data):
 def write_json(to_write, out_path):
     with open(out_path, "w") as f1:
         for line in to_write:
-            f1.write(json.dump(line))
+            json.dump(line, f1)
 
-def sort(data):
-    org_data = []
-    with open(args.input_org_csv) as read_obj_org:
-        csv_reader = csv.DictReader(read_obj_org)
-        for row in csv_reader:
-            org_data[row['HITId']] = row['Turkle.Username']
+def sort(data, amb_dict = {}, username_dict = {}):
 
     delete_count = 0
     flag_count = 0
@@ -80,30 +77,49 @@ def sort(data):
     print("\tExamples deleted: " + str(delete_count))
     print("\tExamples flagged (kept and deleted): " + str(flag_count))
     exit 
-    to_write = [get_line(l, org_data) for l in sorted_data]
+    to_write = [get_line(l, amb_dict, username_dict) for l in sorted_data]
     write_json(to_write, args.out_path)
 
 def main(args):
     data = []
-    #org_data = []
-    with open(args.input_1_csv) as read_obj_1:
+    
+    with open(args.csv_1) as read_obj_1:
         csv_reader = csv.DictReader(read_obj_1)
         for row in csv_reader:
             data.append(row)
     sort(data)
-    with open(args.input_2_csv) as read_obj_2:
-        csv_reader = csv.DictReader(read_obj_2)
-        for row in csv_reader:
-            data.append(row)
-    sort(data)
-   
+    # If we only want to append some csv data
+    if args.csv_2 != None and args.amb_csv == None:
+        with open(args.csv_2) as read_obj_2:
+            csv_reader = csv.DictReader(read_obj_2)
+            for row in csv_reader:
+                data.append(row)
+        sort(data)
+    # If we want to append csv data and consolidate ambugity data
+    elif args.csv_2 != None and args.amb_csv != None:
+        by_question_id_ambguity_dict = {}
+        by_question_id_turkle_username_dict = {}
+        with open(args.amb_csv) as read_obj_2:
+            csv_reader = csv.DictReader(read_obj_2)
+            for row in csv_reader:
+                by_question_id_ambguity_dict[row['Input.question_id']] = row['Answer.skip_reason'][0]
+                by_question_id_turkle_username_dict[row['Input.question_id']] = row['Answer.']
+        
+        with open(args.csv_2) as read_obj_2:
+            csv_reader = csv.DictReader(read_obj_2)
+            for row in csv_reader:
+                data.append(row)
+        sort(data, by_question_id_ambguity_dict, by_question_id_turkle_username_dict)
+        
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input-1-csv", type=str, dest='input_1_csv', required=True) # Original annotator data
-    parser.add_argument("--input-2-csv", type=str, dest='input_2_csv', required=True)
-    parser.add_argument("--input-org-csv", type=str, dest='input_org_csv', required=True) # Original annotator data
-    parser.add_argument("--out-path", type=str, dest='out_path', required=True)
+    parser.add_argument("--original-inputs-csv", type=str, dest='csv_1', required=True, help='csv data')
+    parser.add_argument("--append-csv", type=str, dest='csv_2', required=False, help='csv data to be appended')
+    parser.add_argument("--ambiguity-data-csv", type=str, dest='amb_csv', required=False, help='ambiguity data to be consolidated') # Original annotator data
+    #parser.add_argument("--input-org-csv", type=str, dest='input_org_csv', required=False)
+    parser.add_argument("--out-path", type=str, dest='out_path', required=True, help='out path')
     args = parser.parse_args()
 
     main(args)

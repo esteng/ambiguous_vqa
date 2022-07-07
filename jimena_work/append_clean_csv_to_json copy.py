@@ -35,7 +35,7 @@ def get_line(line, org_data):
     metadata['annotation_round'] = "cleaned_data" 
     jsonl_row['metadata'] = metadata
     jsonl_row['question_id'] = line['Input.question_id']
-    jsonl_row['image_id'] = line['Input.imgUrl'] # is url ok or actually image id?
+    jsonl_row['image_id'] = line['Input.imgUrl'] 
     jsonl_row['original_question'] = line['Input.questionStr']
     jsonl_row['glove_clusters'] = line['Input.answerGroups']
     jsonl_row['multiple_choice_answer'] = line['Input.answerQuestions']  
@@ -55,10 +55,11 @@ def write_json(to_write, out_path):
 
 def sort(data):
     org_data = []
-    with open(args.input_org_csv) as read_obj_org:
+    with open(args.original_data) as read_obj_org:
         csv_reader = csv.DictReader(read_obj_org)
         for row in csv_reader:
             org_data[row['HITId']] = row['Turkle.Username']
+            org_data[row[]]
 
     delete_count = 0
     flag_count = 0
@@ -86,12 +87,12 @@ def sort(data):
 def main(args):
     data = []
     #org_data = []
-    with open(args.input_1_csv) as read_obj_1:
+    with open(args.clean_data_1) as read_obj_1:
         csv_reader = csv.DictReader(read_obj_1)
         for row in csv_reader:
             data.append(row)
     sort(data)
-    with open(args.input_2_csv) as read_obj_2:
+    with open(args.clean_data_2) as read_obj_2:
         csv_reader = csv.DictReader(read_obj_2)
         for row in csv_reader:
             data.append(row)
@@ -100,9 +101,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input-1-csv", type=str, dest='input_1_csv', required=True) # Original annotator data
-    parser.add_argument("--input-2-csv", type=str, dest='input_2_csv', required=True)
-    parser.add_argument("--input-org-csv", type=str, dest='input_org_csv', required=True) # Original annotator data
+    parser.add_argument("--input-1-csv", type=str, dest='clean_data_1', required=True) # Cleaned annotator data #1
+    parser.add_argument("--input-2-csv"m type=str, dest='clean_data_2', required=True) # Cleaned annotator data #2
+    parser.add_argument("--input-3-csv", type=str, dest='original_data', required=True) # Original annotator data with ambiguity classifications
     parser.add_argument("--out-path", type=str, dest='out_path', required=True)
     args = parser.parse_args()
 

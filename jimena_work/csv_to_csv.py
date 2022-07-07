@@ -49,7 +49,10 @@ def main(args):
         csv_reader = csv.DictReader(read_obj)
         for row in csv_reader:
             data.append(row)
-    sort(data)
+
+    to_write = [get_line(l) for l in data]
+    write_csv(to_write, args.out_path)
+    #sort(data)
    
 
 if __name__ == "__main__":
