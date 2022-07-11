@@ -45,14 +45,15 @@ for qid, row_list in pilot_by_qid.items():
                 pilot_done.append(qid)
 
 # get remaining data from round 1 data 
-with open("mturk/full_hit_round_1/A2M03MZWZDXKAJ.csv") as f1:
+#with open("mturk/full_hit_round_1/A2M03MZWZDXKAJ.csv") as f1:
+with open("../../jimena_work/Mturk_output/csv_results_corrected.csv") as f1:
     reader = csv.DictReader(f1)
     round_1_data = [row for row in reader]
 
 remaining = dev_size - len(all_data)
 counter = 0 
 for row in round_1_data:
-    if row['Answer.is_skip'] == "false" and counter < remaining:
+    if (row['Answer.is_skip'] != "delete" or row['Answer.is_skip'] != "delete/flag" or row['Answer.is_skip'] != "flag") and counter < remaining:
         all_data.append(row)
         counter += 1
 
