@@ -17,7 +17,7 @@ META_TEMPLATE = {"original_split": "train",
 
 ANN_TEMPLATE = {"annotator": "",
                 "new_clusters": [[""]],
-                "new_questions": [""],}
+                "new_questions": [""]}
 
 DATA_TEMPLATE = {"question_id": 0,
                  "image_id": 0,
@@ -30,6 +30,7 @@ DATA_TEMPLATE = {"question_id": 0,
                 }
 
 def get_line(line, amb_dict_1, amb_dict_2,username_dict):
+    #all_data = []
     jsonl_row = copy.deepcopy(DATA_TEMPLATE)
     metadata = copy.deepcopy(META_TEMPLATE)
     metadata['original_split'] = "train" 
@@ -47,23 +48,20 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict):
     else:
         jsonl_row['ambiguity_type'] = amb_dict_1.get(line['Input.question_id'])
     
-    
-    #annotators = username_dict.get(line['Input.question_id'])
 
-    #if annotators != None:
-    #for dic in annotators:
     annotation = copy.deepcopy(ANN_TEMPLATE)
-    #annotation['annotator'] = dic['Username']  
     annotation['new_clusters'] = line['Answer.answer_groups']
     annotation['new_questions'] = line['Answer.answer_questions']
     jsonl_row['annotations'].append(annotation)
 
-    return jsonl_row 
+    print(jsonl_row)
+    return jsonl_row
 
 def write_json(to_write, out_path):
     with open(out_path, "w") as f1:
-        for line in to_write:
-            json.dump(line, f1)
+        for row in to_write:
+            #res = json.loads(row)
+            f1.write(json.dumps(row) + "\n")
 
 def sort(data, amb_dict_1, amb_dict_2, username_dict):
 
@@ -87,8 +85,8 @@ def sort(data, amb_dict_1, amb_dict_2, username_dict):
         amb_list_1 = []
         amb_list_2 = []
         if args.include != 'include':
-            print(amb_dict_1)
-            print(line['Input.question_id'])
+            #print(amb_dict_1)
+            #print(line['Input.question_id'])
             amb_list_1 = amb_dict_1[line['Input.question_id']]
             
             if len(amb_list_1) == 1 and amb_list_1[0].strip('"').strip('\\') == 'U':
