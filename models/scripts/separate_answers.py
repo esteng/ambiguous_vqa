@@ -62,6 +62,24 @@ def separate(questions, annotations, line_limit=None, exclude_multiple_choice=Fa
 
     return new_questions, new_annotations
 
+def shard(questions, annotations, shard_size):
+    question_list = questions['questions']
+    annotation_list = annotations['annotations']
+
+    questions_to_write, annotations_to_write = [], []
+    for i, (question, annotation) in enumerate(zip(question_list, annotation_list)): 
+        if i % shard_size == 0:
+            questions_to_write, annotations_to_write = [], []
+        questions_to_write.append(question)
+        annotations_to_write.append(annotation)
+
+        if i % shard_size == shard_size - 1:
+            new_questions = questions
+            new_questions['questions'] = questions_to_write
+            new_annotations = annotations
+            new_annotations['annotations'] = annotations_to_write
+            yield new_questions, new_annotations
+
 if __name__ == "__main__": 
     parser = argparse.ArgumentParser(description='load in the question and annotation files, separate answers into separate lines')
     parser.add_argument("--question-file", type=str, help="path to the question file", required=True)
@@ -69,8 +87,18 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", type=str, help="path to the output dir", required=True)
     parser.add_argument("--line-limit", type=int, default=None, help="limit the number of lines to this number")
     parser.add_argument("--exclude-multiple-choice", action="store_true", help="exclude the multiple choice answer")
+    parser.add_argument("--max-lines-per-file", type=int, default=None, help="max number of lines per file")
     args = parser.parse_args()
 
     questions, annotations = read_annotation_files(args.question_file, args.annotation_file)
     questions, annotations = separate(questions, annotations, args.line_limit, args.exclude_multiple_choice)
-    write_annotation_files(questions, annotations, args.output_dir)
+
+    if args.max_lines_per_file:
+        output_dir = pathlib.Path(args.output_dir)
+        for i, (quest, ann) in enumerate(shard(questions, annotations, args.max_lines_per_file)):
+            shard_dir = output_dir.joinpath(str(i))
+            shard_dir.mkdir(parents=True)
+            write_annotation_files(quest, ann, shard_dir)
+
+    else:
+        write_annotation_files(questions, annotations, args.output_dir)
