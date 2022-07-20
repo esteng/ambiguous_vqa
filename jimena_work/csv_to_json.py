@@ -5,8 +5,10 @@ import json
 import csv 
 from csv import reader
 import pdb
+from xmlrpc.client import Boolean
 from scipy.optimize import linear_sum_assignment
 import copy
+import ast
 
 """
 appended csv -> json
@@ -29,7 +31,7 @@ DATA_TEMPLATE = {"question_id": 0,
                  "ambiguity_type": ""
                 }
 
-def get_line(line, amb_dict_1, amb_dict_2,username_dict):
+def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
     #all_data = []
     jsonl_row = copy.deepcopy(DATA_TEMPLATE)
     metadata = copy.deepcopy(META_TEMPLATE)
@@ -50,20 +52,58 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict):
     
 
     annotation = copy.deepcopy(ANN_TEMPLATE)
+    # Setting cluster data
+    cur_group = group_dict[line['Input.question_id']]
+    cluster_group = []
+    #print('\n')
+    #print('Original cluster:\n' + str(cur_group))
+    #print('New clusters:\n' + str(line['Answer.answer_groups']))
+    full_cluster_list = ast.literal_eval(line['Answer.answer_groups'])
+    for cluster_list in full_cluster_list:
+        #print("Cluster: " + str(cluster_list))
+        new_cluster = []
+        for answer_dict in cluster_list:
+           
+            
+            #print("Answer dict: " + str(answer_dict))
+            new_cluster.append(answer_dict)
+            response = answer_dict["content"]
+            cur_id = answer_dict["id"]
+            cur_id_cor = cur_id[:2]
+            for annotator_response in group_dict[line['Input.question_id']]:
+                full_new_cluster_list = ast.literal_eval(annotator_response)
+                for new_cluster_list in full_new_cluster_list:
+                #print("List: " + str(new_cluster_list))
+                    for new_answer_dict in new_cluster_list:
+                        if cur_id_cor == new_answer_dict["id"][:2]:
+                            if repeat == True: # Repeats ok if ids different
+                                if cur_id != new_answer_dict["id"]: 
+                                    new_cluster.append(new_answer_dict)
+                            if repeat == False: # No repeats at all
+                                if cur_id != new_answer_dict["id"] and response != new_answer_dict["content"]:
+                                    new_cluster.append(new_answer_dict)
+
+        cluster_group.append(new_cluster)
+    #print('Combined cluster: \n' + str(cluster_group))
+
     annotation['new_clusters'] = line['Answer.answer_groups']
+    
     annotation['new_questions'] = line['Answer.answer_questions']
     jsonl_row['annotations'].append(annotation)
 
-    print(jsonl_row)
+    #print(jsonl_row)
     return jsonl_row
 
 def write_json(to_write, out_path):
+    data = []
     with open(out_path, "w") as f1:
         for row in to_write:
             #res = json.loads(row)
+            data.append(row)
             f1.write(json.dumps(row) + "\n")
+            print(data)
 
-def sort(data, amb_dict_1, amb_dict_2, username_dict):
+def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat):
 
     delete_count = 0
     flag_count = 0
@@ -117,7 +157,7 @@ def sort(data, amb_dict_1, amb_dict_2, username_dict):
     exit 
 
     # Writing data
-    to_write = [get_line(l, amb_dict_1, amb_dict_2, username_dict) for l in sorted_data]
+    to_write = [get_line(l, amb_dict_1, amb_dict_2, username_dict, group_data, repeat) for l in sorted_data]
     write_json(to_write, args.out_path)
 
 # Main function
@@ -126,6 +166,7 @@ def main(args):
     by_question_id_ambiguity_dict_1 = {}
     by_question_id_ambiguity_dict_2 = {}
     by_hitid_annotation_dict = {}
+    by_question_id_group_dict = {}
     # Ambiguity data
     with open(args.ambiguity_1) as read_obj_3:
         csv_reader = csv.DictReader(read_obj_3)
@@ -158,6 +199,11 @@ def main(args):
                 by_hitid_annotation_dict[row['question_id']].append(temp_dict)
         #print(by_hitid_annotation_dict)
 
+
+    with open(args.original_groups) as read_obj_6:
+        by_question_id_group_dict = json.load(read_obj_6)
+        
+
     data = []
     
     # Cleaned data
@@ -165,24 +211,26 @@ def main(args):
         csv_reader = csv.DictReader(read_obj_1)
         for row in csv_reader:
             data.append(row)
-    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict)
+    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict, by_question_id_group_dict, args.repeat)
     
     # More cleaned data
     with open(args.cleaned_2) as read_obj_2:
         csv_reader = csv.DictReader(read_obj_2)
         for row in csv_reader:
             data.append(row)
-    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict)
+    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict, by_question_id_group_dict, args.repeat)
     
     
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cleaned-data-1", type=str, dest='cleaned_1', required=True, help='csv data') # Clean data, first pass
+    parser.add_argument("--cleaned-data-1", type=str, dest='cleaned_1', required=True, help='csv data') # Clean data, first pass 
     parser.add_argument("--cleaned-data-2", type=str, dest='cleaned_2', required=False, help='csv data to be appended') # Clean data, second pass
     parser.add_argument("--ambiguity-data-1", type=str, dest='ambiguity_1', required=False, help='ambiguity data to be consolidated') # Ambiguity data first pass
     parser.add_argument("--ambiguity-data-2", type=str, dest='ambiguity_2', required=False) # Ambiguity data second pass
     parser.add_argument("--original-data", type=str, dest='original', required=False) # Original annotator data (with annotator usernames)
+    parser.add_argument("--original-group-data", type=str, dest='original_groups', required=False) # Original groups data
+    parser.add_argument("--repeat-group-data", type=Boolean, dest='repeat', required=False) # Whether or not to repeat group data
     parser.add_argument("--out-path", type=str, dest='out_path', required=True, help='out path') # Output file
 
     parser.add_argument("--include", type=str, dest='include', required=False)
