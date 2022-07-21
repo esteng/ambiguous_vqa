@@ -586,11 +586,13 @@ class VQAForImg2QuestionReader(VisionReader):
                 if noun_gex.match(tag_span) is not None and text_span not in nps and not text_span_is_subset: 
                     nps.append(text_span)
         final_nps = []
+        # remove duplicates
+        nps = list(set(nps))
         # remove subsets: 
-        for text_span_a in nps: 
+        for i, text_span_a in enumerate(nps): 
             skip = False
-            for text_span_b in nps: 
-                if text_span_a == text_span_b:
+            for j, text_span_b in enumerate(nps): 
+                if i == j:
                     continue
                 if text_span_a in text_span_b:
                     skip = True

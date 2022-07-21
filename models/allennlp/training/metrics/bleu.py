@@ -161,7 +161,7 @@ class BLEU(Metric):
         self._reference_lengths += _reference_lengths
 
     @overrides
-    def get_metric(self, reset: bool = False) -> Dict[str, float]:
+    def get_metric(self, reset: bool = False, bleu_prefix=None) -> Dict[str, float]:
 
         brevity_penalty = self._get_brevity_penalty()
         ngram_scores = (
@@ -176,4 +176,8 @@ class BLEU(Metric):
 
         if reset:
             self.reset()
-        return {"BLEU": bleu}
+        if bleu_prefix is None:
+            key = "BLEU"
+        else:
+            key = f"BLEU-{bleu_prefix}"
+        return {key: bleu}

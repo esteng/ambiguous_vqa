@@ -17,6 +17,8 @@ from allennlp.modules.rsa_vqa.vqa_classifier import VQAClassifier
 from allennlp.data.fields.metadata_field import MetadataField
 from allennlp.modules.rsa_vqa.speaker import BaseSpeakerModule
 from allennlp.modules.vision.vision_language_encoder import CLIPLanguageEncoder, VisionLanguageEncoder, ViLTLanguageEncoder
+
+from allennlp.training.metrics import BLEU, ROUGE
 # from allennlp.modules.transformer.t5 import T5DecoderStack
 
 from allennlp.nn.losses import (Loss, 
@@ -45,27 +47,25 @@ class T5ImageAnswer2QuestionModel(Model):
         beam_size: int = 5,
         dropout: float = 0.1,
         no_image_baseline: bool = False,
-        no_answer_baseline: bool = False
+        no_answer_baseline: bool = False,
+        no_vilt_train: bool = True
     ) -> None:
         super().__init__(vocab)
 
-        from allennlp.training.metrics import BLEU
-        self.acc_metrics = BLEU()
         self.beam_size = beam_size
         self.vision_language_encoder = vision_language_encoder
 
         self.t5_model_full = T5ForConditionalGeneration.from_pretrained(t5_model_name)
         self.t5_tokenizer = AutoTokenizer.from_pretrained(t5_model_name)
-        # for now, keep the encoder and re-encode vilt output 
-        # might be wasteful but easier for implementation 
-        # pdb.set_trace()
-        # copy decoder and lm head 
-        # self.t5_decoder = deepcopy(t5_model_full.decoder)
-        # self.lm_head = deepcopy(t5_model_full.lm_head)
-        # kill the rest of the model 
-        # del(t5_model_full)
+        # BLEU 1, 2, 3, 4, ROUGE-L, and CIDER
+        exclude_tokens = [self.t5_tokenizer.pad_token, self.t5_tokenizer.eos_token, self.t5_tokenizer.unk_token]
+        exclude_indices = set(self.t5_tokenizer.convert_tokens_to_ids(exclude_tokens))
+        self.bleu_metrics = [BLEU(ngram_weights = (1, 0, 0, 0), exclude_indices = exclude_indices),
+                            BLEU(ngram_weights = (0, 1, 0, 0), exclude_indices = exclude_indices),
+                            BLEU(ngram_weights = (0, 0, 1, 0), exclude_indices = exclude_indices),
+                            BLEU(ngram_weights = (0, 0, 0, 1), exclude_indices = exclude_indices)]
+        self.rouge_metric = ROUGE(exclude_indices=exclude_indices)
 
-        # self.question_output_module = question_output_module
 
         self.pooled_output_projection = torch.nn.Linear(pooled_output_dim, self.t5_model_full.model_dim)
 
@@ -74,6 +74,7 @@ class T5ImageAnswer2QuestionModel(Model):
         self.dropout = torch.nn.Dropout(dropout)
         self.no_image_baseline = no_image_baseline 
         self.no_answer_baseline = no_answer_baseline 
+        self.no_vilt_train = no_vilt_train
 
     @overrides
     def forward(
@@ -89,13 +90,20 @@ class T5ImageAnswer2QuestionModel(Model):
         force_toks: Optional[MetadataField] = None,
     ) -> Dict[str, torch.Tensor]:
 
-
-        with torch.no_grad():
+        if self.no_vilt_train:
+            with torch.no_grad():
+                __, seq_output = \
+                    self.vision_language_encoder(answers_as_text,
+                                                debug_images,
+                                                no_image_baseline = self.no_image_baseline,
+                                                no_answer_baseline = self.no_answer_baseline)
+        else:
             __, seq_output = \
                 self.vision_language_encoder(answers_as_text,
                                             debug_images,
                                             no_image_baseline = self.no_image_baseline,
                                             no_answer_baseline = self.no_answer_baseline)
+
         seq_output = seq_output.float()
         seq_output = self.pooled_output_projection(seq_output)
 
@@ -107,6 +115,8 @@ class T5ImageAnswer2QuestionModel(Model):
             outputs = self.t5_model_full(inputs_embeds = seq_output,
                                         labels = labels) 
             loss = outputs.loss
+            if np.isnan(loss.item()):
+                pdb.set_trace()
             logits = outputs['logits']
             pred_toks = torch.argmax(logits, dim=-1)
         else:
@@ -139,11 +149,17 @@ class T5ImageAnswer2QuestionModel(Model):
                             force_slice = [force_words_ids[i]]
                     except IndexError:
                         pdb.set_trace()
-                    pred_slice = self.t5_model_full.generate(inputs_embeds = seq_slice, 
+                    try:
+                        pred_slice = self.t5_model_full.generate(inputs_embeds = seq_slice, 
                                                             num_beams=self.beam_size, 
                                                             force_words_ids = force_slice)
+                    except ValueError:
+                        # In the rare case that a word gets split into subwords and there are repeated subwords
+                        # we will just ignore it    
+                        pred_slice = self.t5_model_full.generate(inputs_embeds = seq_slice, 
+                                                            num_beams=self.beam_size, 
+                                                            force_words_ids = None)
 
-                    # pdb.set_trace() 
                     pred_lens.append(pred_slice.shape[1])
                     pred_toks.append(pred_slice) 
                 max_len = max(pred_lens)
@@ -161,24 +177,13 @@ class T5ImageAnswer2QuestionModel(Model):
             # pdb.set_trace()
             loss = torch.zeros(1,1).to(seq_output.device)
             
-            # loss = np.inf 
-        # else:
-        #     # do test forward 
-        #     pdb.set_trace()
-        #     outputs = self.t5_decoder.generate(input_embeds = seq_output)
-        #     loss = -np.inf
-        #     logits = outputs['logits']
-        #     pred_toks = torch.argmax(logits, dim=-1)
-
-
-        # generated_output = self.question_output_module(fused_representation = pooled_output,
-                                                    #   gold_utterance = question_output)
                 
         speaker_utterances = []
-        # question_predictions = generated_output['predictions'].contiguous() 
         if debug_tokens is not None:
-            self.acc_metrics(pred_toks,
-                             labels) 
+            for i, bleu_metric in enumerate(self.bleu_metrics):
+                self.bleu_metrics[i](pred_toks,
+                                     labels)
+            self.rouge_metric(pred_toks, labels) 
 
         if not self.training:
             # pdb.set_trace()
@@ -195,7 +200,10 @@ class T5ImageAnswer2QuestionModel(Model):
 
     @overrides
     def get_metrics(self, reset: bool = False) -> Dict[str, float]:
-        result = self.acc_metrics.get_metric(reset)
+        result = {}
+        for i in range(len(self.bleu_metrics)):
+            result.update(self.bleu_metrics[i].get_metric(reset, bleu_prefix=i+1))
+        result.update(self.rouge_metric.get_metric(reset))
         return result
 
     def eval_for_gen(self):

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from nltk.translate.bleu_score import sentence_bleu
 from bert_score import score as bert_score
 from bert_score import BERTScorer
-# from bart_score import BARTScorer
+from bart_score import BARTScorer
 
 import argparse 
 

@@ -5,7 +5,7 @@ from BARTScore import bart_score
 
 import argparse 
 
-class similarity_class(ABC): 
+class SimilarityClass(ABC): 
     def __init__(self):
         pass
 
@@ -13,7 +13,7 @@ class similarity_class(ABC):
     def get_similarity(self):
         pass
 
-class BLEU_similarity_score(similarity_class):
+class BLEUSimilarityScore(SimilarityClass):
     def __init__(self):
         super().__init__()
 
@@ -31,7 +31,7 @@ class BLEU_similarity_score(similarity_class):
         elif gram == 4:
             print('Individual 4-gram: %f' % sentence_bleu(format_sent_1, format_sent_2, weights=(0, 0, 0, 1)))
 
-class BERT_similarity_score(similarity_class):
+class BERTSimilarityScore(SimilarityClass):
     def __init__(self):
         super().__init__()
 

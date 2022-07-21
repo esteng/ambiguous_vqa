@@ -39,9 +39,10 @@ function resume(){
     ${TRAINING_CONFIG}
 }
 
-function eval(){
+function predict(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
+    split=$(basename $TEST_DATA)
     mkdir -p ${CHECKPOINT_DIR}/output
     python -um allennlp evaluate \
     --include-package allennlp.data.dataset_readers \
@@ -49,21 +50,23 @@ function eval(){
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --cuda-device 0 \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/predictions_forced.jsonl 
+    --overrides '{"data_loader.drop_last": false, "dataset_reader.add_force_word_ids": false, "validation_dataset_reader.add_force_word_ids": false}' \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/${split}_predictions.jsonl 
 }
 
-function predict(){
+function predict_forced(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
+    mkdir -p ${CHECKPOINT_DIR}/output
+    split=$(basename $TEST_DATA)
     python -um allennlp evaluate \
     --include-package allennlp.data.dataset_readers \
     --include-package allennlp.training \
     ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
     ${TEST_DATA} \
     --cuda-device 0 \
-    --ignore-logits \
-    --batch-size 5 \
-    --predictions-output-file ${CHECKPOINT_DIR}/output/predictions.jsonl 
+    --overrides '{"data_loader.drop_last": false, "dataset_reader.add_force_word_ids": true, "validation_dataset_reader.add_force_word_ids": true}' \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/${split}_predictions_forced.jsonl 
 }
 
 function min_gen(){
@@ -104,15 +107,6 @@ function min_gen_save(){
     --retrieval-save-dir ${SAVE_DIR} \
     --lr 0.05
 }
-    #--mix-strategy end \
-    #--mix-ratio 0.5 \
-    #--descent-loss-threshold 0.15 \
-    #--descent-strategy thresh \
-
-    #--mix-strategy continuous \
-    #--mix-ratio 0.5 \
-    #--descent-strategy steps \
-    #--num-descent-steps 100 \
 
 function baseline_save(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
@@ -192,8 +186,8 @@ function main() {
         resume
     elif [[ "${action}" == "precompute" ]]; then
         precompute_intermediate
-    elif [[ "${action}" == "eval" ]]; then
-        eval
+    elif [[ "${action}" == "predict_forced" ]]; then
+        predict_forced 
     elif [[ "${action}" == "predict" ]]; then
         predict 
     elif [[ "${action}" == "min_gen" ]]; then

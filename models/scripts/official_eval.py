@@ -32,7 +32,10 @@ def get_predictions_from_file(predictions_file, lookup):
             for i, ans in enumerate(answers):
                 qid = qids[i]
                 try:
-                    answer_string = lookup[ans]
+                    if lookup is not None:
+                        answer_string = lookup[ans]
+                    else:
+                        answer_string = ans
                 except KeyError:
                     answer_string = "ERROR"
                 prediction = {"question_id": qid, "answer": answer_string}
@@ -41,29 +44,49 @@ def get_predictions_from_file(predictions_file, lookup):
 
     return predictions 
 
+def get_predictions_albef(path):
+    with open(path) as f1:
+        data = json.load(f1)
+    
+    return data 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--predictions", type=str, required=True)
     parser.add_argument("--reference", type=str, default="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/val_anns/")
     parser.add_argument("--model-name", type=str, default="/brtx/605-nvme1/estengel/annotator_uncertainty/models/finetune_vilt_pytorch/")
     parser.add_argument("--recompute", action="store_true")
+    parser.add_argument("--from-albef", action="store_true")
     args = parser.parse_args()
 
     reference = pathlib.Path(args.reference)
     annotation_file = str(reference.joinpath("annotations.json")) 
     question_file = str(reference.joinpath("questions.json"))
     pred_path = pathlib.Path(args.predictions).parent
-    lookup = get_lookup(args.model_name)
+    if args.model_name is not None:
+        lookup = get_lookup(args.model_name)
+    else:
+        lookup = None
 
     if (args.recompute and pred_path.joinpath("pred.json").exists()) or not pred_path.joinpath("pred.json").exists():
-        predictions = get_predictions_from_file(args.predictions, lookup)
-        with open(pred_path.joinpath("pred.json"), "w") as f1:
-            json.dump(predictions, f1)
+        if args.from_albef:
+            predictions = get_predictions_albef(args.predictions) 
+            with open(pred_path.joinpath("pred.json"), "w") as f1:
+                json.dump(predictions, f1)
+        else:
+            predictions = get_predictions_from_file(args.predictions, lookup)
+            with open(pred_path.joinpath("pred.json"), "w") as f1:
+                json.dump(predictions, f1)
     else:
-        predictions = json.load(open(pred_path.joinpath("pred.json")))
+        if args.from_albef:
+            predictions = get_predictions_albef(args.predictions) 
+            with open(pred_path.joinpath("pred.json"), "w") as f1:
+                json.dump(predictions, f1)
+        else:
+            predictions = json.load(open(pred_path.joinpath("pred.json")))
     
-    with open(pred_path.joinpath("pred.json"), "w") as f1:
-        json.dump(predictions, f1)
+            with open(pred_path.joinpath("pred.json"), "w") as f1:
+                json.dump(predictions, f1)
     vqa = VQA(annotation_file=annotation_file, question_file=question_file)
 
     # see if there are missing ones 
