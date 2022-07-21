@@ -14,39 +14,10 @@ import ast
 from sklearn import cluster
 
 """
-appended csv -> json
+appended csv -> csv
 """
 
-META_TEMPLATE = {"original_split": "train",
-                              "annotation_round": ""}
-
-ANN_TEMPLATE = {"annotator": "",
-                "new_clusters": [[""]],
-                "new_questions": [""]}
-
-DATA_TEMPLATE = {"question_id": 0,
-                 "image_id": 0,
-                 "original_question": "",
-                 "glove_clusters": [[""]],
-                 "multiple_choice_answer": "",
-                 "metadata": {},
-                 "annotations": [], 
-                 "ambiguity_type": ""
-                }
-
 def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
-    #print(line)
-    #all_data = []
-    #jsonl_row = copy.deepcopy(DATA_TEMPLATE)
-    #metadata = copy.deepcopy(META_TEMPLATE)
-    #metadata['original_split'] = "train" 
-    #metadata['annotation_round'] = "cleaned_data" 
-    #jsonl_row['metadata'] = metadata
-    #jsonl_row['question_id'] = line['Input.question_id']
-    #jsonl_row['image_id'] = line['Input.imgUrl'] # is url ok or actually image id?
-    #jsonl_row['original_question'] = line['Input.questionStr']
-    #jsonl_row['glove_clusters'] = line['Input.answerGroups']
-    #jsonl_row['multiple_choice_answer'] = line['Input.answerQuestions']
 
     # Setting ambiguity data
     if line['Input.question_id'] in amb_dict_2:
@@ -56,14 +27,8 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
         #jsonl_row['ambiguity_type'] = amb_dict_1.get(line['Input.question_id'])
         line['ambiguity_type'] = amb_dict_1.get(line['Input.question_id'])
     
-
-    #annotation = copy.deepcopy(ANN_TEMPLATE)
     # Setting cluster data
-    cur_group = group_dict[line['Input.question_id']]
     cluster_group = []
-    #print('\n')
-    #print('Original cluster:\n' + str(cur_group))
-    #print('New clusters:\n' + str(line['Answer.answer_groups']))
     full_cluster_list = ast.literal_eval(line['Answer.answer_groups'])
     for cluster_list in full_cluster_list:
         #print("Cluster: " + str(cluster_list))
@@ -90,15 +55,9 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
                                     new_cluster.append(new_answer_dict)
 
         cluster_group.append(new_cluster)
-    #print('Combined cluster: \n' + str(cluster_group))
-    line['Answer.answer_groups'] = str(cluster_group)
-    #annotation['new_clusters'] = line['Answer.answer_groups']
-    
-    #annotation['new_questions'] = line['Answer.answer_questions']
-    #jsonl_row['annotations'].append(annotation)
 
-    #print(jsonl_row)
-    #print(line)
+    line['Answer.answer_groups'] = str(cluster_group)
+    
     return line
 
 def write_csv(to_write, out_path):
@@ -118,11 +77,11 @@ def write_csv(to_write, out_path):
     with open(out_path, "w") as f1:
         writer = csv.DictWriter(f1, fieldnames=fieldnames)
         writer.writeheader()
-        #print(to_write)
+        
         for row in to_write:
-            #res = json.loads(row)
+            
             writer.writerow(row)
-            #print(data)
+            
 
 def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat, dev):
 
