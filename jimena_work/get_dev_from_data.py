@@ -99,16 +99,16 @@ def main(args):
             # Ambiguity data
             with open('./../hit3.0/results/categ/csv_clean.csv', 'r') as read_obj_3:
                 csv_reader = csv.DictReader(read_obj_3)
-                for row in csv_reader:
-                    ambiguity_list = row['Answer.skip_reason'].strip('[]"').split(',')
-                    by_question_id_ambiguity_dict_1[row['Input.question_id']] = ambiguity_list[0]
+                for line in csv_reader:
+                    ambiguity_list = line['Answer.skip_reason'].strip('[]"').split(',')
+                    by_question_id_ambiguity_dict_1[line['Input.question_id']] = ambiguity_list[0]
 
     # Cleaned ambiguity data
             with open('./../hit3.0/results/categ/purpose_goal_annotated.csv', 'r') as read_obj_4:
                 csv_reader = csv.DictReader(read_obj_4)
-                for row in csv_reader:
-                    ambiguity_list = row['Answer.skip_reason'].strip('[]"').split(',')
-                    by_question_id_ambiguity_dict_2[row['Input.question_id']] = ambiguity_list[0]
+                for line in csv_reader:
+                    ambiguity_list = line['Answer.skip_reason'].strip('[]"').split(',')
+                    by_question_id_ambiguity_dict_2[line['Input.question_id']] = ambiguity_list[0]
 
             # Setting ambiguity data
             if row['Input.question_id'] in by_question_id_ambiguity_dict_2:
