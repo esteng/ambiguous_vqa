@@ -4,11 +4,14 @@ import itertools
 import json
 import csv 
 from csv import reader
+from os import device_encoding
 import pdb
 from xmlrpc.client import Boolean
 from scipy.optimize import linear_sum_assignment
 import copy
 import ast
+
+from sklearn import cluster
 
 """
 appended csv -> json
@@ -32,26 +35,29 @@ DATA_TEMPLATE = {"question_id": 0,
                 }
 
 def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
+    #print(line)
     #all_data = []
-    jsonl_row = copy.deepcopy(DATA_TEMPLATE)
-    metadata = copy.deepcopy(META_TEMPLATE)
-    metadata['original_split'] = "train" 
-    metadata['annotation_round'] = "cleaned_data" 
-    jsonl_row['metadata'] = metadata
-    jsonl_row['question_id'] = line['Input.question_id']
-    jsonl_row['image_id'] = line['Input.imgUrl'] # is url ok or actually image id?
-    jsonl_row['original_question'] = line['Input.questionStr']
-    jsonl_row['glove_clusters'] = line['Input.answerGroups']
-    jsonl_row['multiple_choice_answer'] = line['Input.answerQuestions']
+    #jsonl_row = copy.deepcopy(DATA_TEMPLATE)
+    #metadata = copy.deepcopy(META_TEMPLATE)
+    #metadata['original_split'] = "train" 
+    #metadata['annotation_round'] = "cleaned_data" 
+    #jsonl_row['metadata'] = metadata
+    #jsonl_row['question_id'] = line['Input.question_id']
+    #jsonl_row['image_id'] = line['Input.imgUrl'] # is url ok or actually image id?
+    #jsonl_row['original_question'] = line['Input.questionStr']
+    #jsonl_row['glove_clusters'] = line['Input.answerGroups']
+    #jsonl_row['multiple_choice_answer'] = line['Input.answerQuestions']
 
     # Setting ambiguity data
     if line['Input.question_id'] in amb_dict_2:
-        jsonl_row['ambiguity_type'] = amb_dict_2.get(line['Input.question_id'])
+        #jsonl_row['ambiguity_type'] = amb_dict_2.get(line['Input.question_id'])
+        line['ambiguity_type'] = amb_dict_2.get(line['Input.question_id'])
     else:
-        jsonl_row['ambiguity_type'] = amb_dict_1.get(line['Input.question_id'])
+        #jsonl_row['ambiguity_type'] = amb_dict_1.get(line['Input.question_id'])
+        line['ambiguity_type'] = amb_dict_1.get(line['Input.question_id'])
     
 
-    annotation = copy.deepcopy(ANN_TEMPLATE)
+    #annotation = copy.deepcopy(ANN_TEMPLATE)
     # Setting cluster data
     cur_group = group_dict[line['Input.question_id']]
     cluster_group = []
@@ -85,29 +91,45 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
 
         cluster_group.append(new_cluster)
     #print('Combined cluster: \n' + str(cluster_group))
-
-    annotation['new_clusters'] = line['Answer.answer_groups']
+    line['Answer.answer_groups'] = str(cluster_group)
+    #annotation['new_clusters'] = line['Answer.answer_groups']
     
-    annotation['new_questions'] = line['Answer.answer_questions']
-    jsonl_row['annotations'].append(annotation)
+    #annotation['new_questions'] = line['Answer.answer_questions']
+    #jsonl_row['annotations'].append(annotation)
 
     #print(jsonl_row)
-    return jsonl_row
+    #print(line)
+    return line
 
-def write_json(to_write, out_path):
+def write_csv(to_write, out_path):
     data = []
+    fieldnames = ['HITId','HITTypeId','Title','Description','Keywords',
+                'Reward','CreationTime','MaxAssignments','RequesterAnnotation',
+                'AssignmentDurationInSeconds','AutoApprovalDelayInSeconds',
+                'Expiration','NumberOfSimilarHITs','LifetimeInSeconds',
+                'AssignmentId','WorkerId','AssignmentStatus','AcceptTime','SubmitTime',
+                'AutoApprovalTime','ApprovalTime','RejectionTime',
+                'RequesterFeedback','WorkTimeInSeconds','LifetimeApprovalRate',
+                'Last30DaysApprovalRate','Last7DaysApprovalRate','Input.imgUrl',
+                'Input.questionStr','Input.answerGroups','Input.answerQuestions',
+                'Input.question_id','Answer.answer_groups','Answer.answer_questions',
+                'Answer.is_skip','Answer.skipCheck','Answer.skip_reason','Approve',
+                'Reject','Turkle.Username', 'ambiguity_type']
     with open(out_path, "w") as f1:
+        writer = csv.DictWriter(f1, fieldnames=fieldnames)
+        writer.writeheader()
+        #print(to_write)
         for row in to_write:
             #res = json.loads(row)
-            data.append(row)
-            f1.write(json.dumps(row) + "\n")
+            writer.writerow(row)
             #print(data)
 
-def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat):
+def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat, dev):
 
     delete_count = 0
     flag_count = 0
     delete_flag_count = 0
+    dev_delete = 0
     sorted_data = []
 
     # Sorting out data
@@ -119,6 +141,9 @@ def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat):
             continue
         if line["Answer.skip_reason"] == '"delete/flag"' or line["Answer.skip_reason"] == '"delete"':
             delete_count += 1
+            continue
+        if line["Input.question_id"] in dev:
+            dev_delete += 1
             continue
         
         amb_list_1 = []
@@ -155,11 +180,12 @@ def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat):
     print("Data stats: ")
     print("\tExamples deleted: " + str(delete_count))
     print("\tExamples flagged (kept and deleted): " + str(flag_count))
+    print("\tExamples deleted because in dev: " + str(device_encoding))
     exit 
 
     # Writing data
     to_write = [get_line(l, amb_dict_1, amb_dict_2, username_dict, group_data, repeat) for l in sorted_data]
-    write_json(to_write, args.out_path)
+    write_csv(to_write, args.out_path)
 
 # Main function
 def main(args):
@@ -203,6 +229,11 @@ def main(args):
 
     with open(args.original_groups) as read_obj_6:
         by_question_id_group_dict = json.load(read_obj_6)
+
+    
+    with open(args.dev) as read_obj_7:
+        examples_in_dev_set_dict = json.load(read_obj_7)
+        examples_in_dev_set = examples_in_dev_set_dict['data']
         
 
     data = []
@@ -212,14 +243,14 @@ def main(args):
         csv_reader = csv.DictReader(read_obj_1)
         for row in csv_reader:
             data.append(row)
-    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict, by_question_id_group_dict, args.repeat)
+    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict, by_question_id_group_dict, args.repeat, examples_in_dev_set)
     
     # More cleaned data
     with open(args.cleaned_2) as read_obj_2:
         csv_reader = csv.DictReader(read_obj_2)
         for row in csv_reader:
             data.append(row)
-    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict, by_question_id_group_dict, args.repeat)
+    sort(data, by_question_id_ambiguity_dict_1, by_question_id_ambiguity_dict_2, by_hitid_annotation_dict, by_question_id_group_dict, args.repeat, examples_in_dev_set)
     
     
 
@@ -232,6 +263,7 @@ if __name__ == "__main__":
     parser.add_argument("--original-data", type=str, dest='original', required=False) # Original annotator data (with annotator usernames)
     parser.add_argument("--original-group-data", type=str, dest='original_groups', required=False) # Original groups data
     parser.add_argument("--repeat-group-data", type=Boolean, dest='repeat', required=False) # Whether or not to repeat group data
+    parser.add_argument("--dev-data", type=str, dest='dev', required=False) # Data in dev set
     parser.add_argument("--out-path", type=str, dest='out_path', required=True, help='out path') # Output file
 
     parser.add_argument("--include", type=str, dest='include', required=False)
