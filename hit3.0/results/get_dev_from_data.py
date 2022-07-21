@@ -52,10 +52,13 @@ with open("../../jimena_work/Mturk_output/csv_results_corrected.csv") as f1:
 
 remaining = dev_size - len(all_data)
 counter = 0 
+f = open("used_examples.txt", "w")
+
 for row in round_1_data:
     if (row['Answer.is_skip'] != "delete" or row['Answer.is_skip'] != "delete/flag" or row['Answer.is_skip'] != "flag") and counter < remaining:
         all_data.append(row)
         counter += 1
+    print(row['Input.question_id'], f)
 
 # write 
 with open("mturk/split/dev_set.csv", "w") as f1:

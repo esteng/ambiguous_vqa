@@ -101,7 +101,7 @@ def write_json(to_write, out_path):
             #res = json.loads(row)
             data.append(row)
             f1.write(json.dumps(row) + "\n")
-            print(data)
+            #print(data)
 
 def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat):
 
@@ -124,6 +124,7 @@ def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat):
         
         amb_list_1 = []
         amb_list_2 = []
+        '''
         if args.include != 'include':
             #print(amb_dict_1)
             #print(line['Input.question_id'])
@@ -147,6 +148,7 @@ def sort(data, amb_dict_1, amb_dict_2, username_dict, group_data, repeat):
                 if 'M/A' in amb_list_2 or 'M/B' in amb_list_2:
                     delete_count += 1
                     continue
+        '''
         
         sorted_data.append(line)
 
