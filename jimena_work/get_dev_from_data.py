@@ -89,6 +89,7 @@ def main(args):
                                     if args.repeat == False: # No repeats at all
                                         if cur_id != new_answer_dict["id"] and response != new_answer_dict["content"]:
                                             new_cluster.append(new_answer_dict)
+                                
 
                 cluster_group.append(new_cluster)
     #print('Combined cluster: \n' + str(cluster_group))
