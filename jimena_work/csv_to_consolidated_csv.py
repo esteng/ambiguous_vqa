@@ -28,83 +28,35 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
         line['ambiguity_type'] = amb_dict_1.get(line['Input.question_id'])
     
     # Setting cluster data
+    
     cluster_group = []
-    non_matches = []
-    appended_id = []
-
-
-
     
-    full_cluster_list = ast.literal_eval(line['Answer.answer_groups'])
-    for cluster_list in full_cluster_list:
-        #print("Cluster: " + str(cluster_list))
+    full_cluster_list = ast.literal_eval(line['Answer.answer_groups']) # List of clusters
+    for cluster_list in full_cluster_list: # Cluster
+        new_cluster = [] # Cluster for cluster
+        for answer_dict in cluster_list: # Dict in cluter
+            
+            cur_response = answer_dict["content"]
+            cur_id = answer_dict["id"] 
+           
+            for annotator_response in group_dict[line['Input.question_id']]: 
+                full_new_cluster_list = ast.literal_eval(annotator_response) # New list of clusters
+                for new_cluster_list in full_new_cluster_list: # New clusters
+                    for new_answer_dict in new_cluster_list: # New dict
+                        if (cur_response == new_answer_dict["content"]):
+                            new_cluster.extend(new_cluster_list)
+                    
         
-        for answer_dict in cluster_list:
-            new_cluster = []
-            #print("Answer dict: " + str(answer_dict))
-            new_cluster.append(answer_dict)
-            appended_id.append(answer_dict["id"])
-            response = answer_dict["content"]
-            cur_id = answer_dict["id"] # Getting id from new group
-            #cur_id_cor = cur_id[:2] # Get first part of id
-            for annotator_response in group_dict[line['Input.question_id']]:
-                full_new_cluster_list = ast.literal_eval(annotator_response)
-                for new_cluster_list in full_new_cluster_list:
-                    #print("List: " + str(new_cluster_list))
-                    for new_answer_dict in new_cluster_list:
-                        if response in new_answer_dict["content"] or new_answer_dict["content"] in response:
-                            #new_cluster.append(new_answer_dict)
-                            #print(response)
-                            #print(cur_id)
-                            #print(new_answer_dict["content"])
-                            #print(new_answer_dict["id"])
-                            if repeat == True: # Repeats ok if ids different
-                                if cur_id != new_answer_dict["id"]: 
+        set_cluster = []
+        for i in new_cluster:
+            if i not in set_cluster:
+                set_cluster.append(i)
+        cluster_group.append(set_cluster)
 
-                                    new_cluster.append(new_answer_dict)
-                                    appended_id.append(new_answer_dict["id"])
-                                    #print('here')
-                            if repeat == False: # No repeats at all
-                                if cur_id != new_answer_dict["id"] and response != new_answer_dict["content"]:
-                                    new_cluster.append(new_answer_dict)
-                                    appended_id.append(new_answer_dict["id"])
-                                    #print('no here')
-                            
-                        else:
-                            non_matches.append(new_answer_dict)
-        
-        cluster_group.append(new_cluster)
 
-    '''
-    res = []
-    for i in non_matches:
-        if i not in res:
-            res.append(i)
-    for cluster_dict in res:
-        if cluster_dict["id"] not in appended_id:
-            new_cluster = []
-            new_cluster.append(cluster_dict)
-            cluster_group.append(new_cluster)
-    '''
-    
-    res = []
-    for i in non_matches:
-        temp = []
-        temp.append(i)
-        res.append(i)
-        for index in range(1, len(non_matches)):
-            y = non_matches[index]
-            if (y["content"] in i["content"]) or (i["content"] in y["content"]) and (y not in res):
-                temp.append(y)
-                res.append(y)
-        cluster_group.append(temp)
-
-    
-
-    
     line['Answer.answer_groups'] = str(cluster_group)
-    print(cluster_group)
-    print('\n')
+    #print(cluster_group)
+    #print('\n')
     
     return line
 
