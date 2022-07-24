@@ -66,32 +66,29 @@ def main(args):
         if (row['Answer.is_skip'] != "delete" or row['Answer.is_skip'] != "delete/flag") and counter < remaining:
         
             cluster_group = []
-            full_cluster_list = ast.literal_eval(row['Answer.answer_groups'])
-            for cluster_list in full_cluster_list:
-        #print("Cluster: " + str(cluster_list))
-                new_cluster = []
-                for answer_dict in cluster_list:
+    
+            full_cluster_list = ast.literal_eval(row['Answer.answer_groups']) # List of clusters
+            for cluster_list in full_cluster_list: # Cluster
+                new_cluster = [] # Cluster for cluster
+                for answer_dict in cluster_list: # Dict in cluter
+            
+                    cur_response = answer_dict["content"]
+                    cur_id = answer_dict["id"] 
            
-            #print("Answer dict: " + str(answer_dict))
-                    new_cluster.append(answer_dict)
-                    response = answer_dict["content"]
-                    cur_id = answer_dict["id"]
-                    cur_id_cor = cur_id[:2]
-                    for annotator_response in group_dict[row['Input.question_id']]:
-                        full_new_cluster_list = ast.literal_eval(annotator_response)
-                        for new_cluster_list in full_new_cluster_list:
-                #print("List: " + str(new_cluster_list))
-                            for new_answer_dict in new_cluster_list:
-                                if cur_id_cor == new_answer_dict["id"][:2]:
-                                    if args.repeat == True: # Repeats ok if ids different
-                                        if cur_id != new_answer_dict["id"]: 
-                                            new_cluster.append(new_answer_dict)
-                                    if args.repeat == False: # No repeats at all
-                                        if cur_id != new_answer_dict["id"] and response != new_answer_dict["content"]:
-                                            new_cluster.append(new_answer_dict)
-                                
-
-                cluster_group.append(new_cluster)
+                    for annotator_response in group_dict[row['Input.question_id']]: 
+                        full_new_cluster_list = ast.literal_eval(annotator_response) # New list of clusters
+                        for new_cluster_list in full_new_cluster_list: # New clusters
+                            for new_answer_dict in new_cluster_list: # New dict
+                                if (cur_response == new_answer_dict["content"]):
+                                    new_cluster.extend(new_cluster_list)
+                    
+        
+                set_cluster = []
+                for i in new_cluster:
+                    if i not in set_cluster:
+                        set_cluster.append(i)
+                cluster_group.append(set_cluster)
+                
     #print('Combined cluster: \n' + str(cluster_group))
             row['Answer.answer_groups'] = str(cluster_group)
 
