@@ -1,11 +1,13 @@
 import argparse
 from pathlib import Path
+import pdb 
 
-from nltk.tokenize import word_tokenize
-from nltk.translate.meteor_score import meteor_score
+
+from bert_score import BERTScorer
 import numpy as np 
 
 from util import read_test_data, read_generations, match_data
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -16,14 +18,15 @@ if __name__ == "__main__":
     questions, annotations = read_test_data(Path(args.ann_path))
     pred_data = read_generations(Path(args.pred_path))
 
-    pairs = match_data(questions, annotations, pred_data)
+    pairs = match_data(questions, annotations, pred_data, tokenize=False)
 
-    all_meteor_scores = []
-
-    for gold, pred in pairs: 
-        meteor_scores = meteor_score([gold], pred)
-        all_meteor_scores.append(meteor_scores)
-
-    mean_meteor_score = np.mean(all_meteor_scores) 
+    scorer = BERTScorer(lang='en', device='cuda:0')
+    refs, preds = zip(*pairs)
+    bs = scorer.score(refs, preds) 
+    scores = []
+    for batch in bs:
+        for score in batch:
+            scores.append(score)
+    avg_score = np.mean(scores)
     print(f"prediction file: {args.pred_path}")
-    print(f"METEOR: {mean_meteor_score:.2f}")
+    print(f"BERT Score: {avg_score:.2f}")

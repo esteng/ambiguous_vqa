@@ -1,8 +1,8 @@
 import argparse
 from pathlib import Path
+import pdb 
 
-from nltk.tokenize import word_tokenize
-from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import sentence_bleu, corpus_bleu
 import numpy as np 
 
 from util import read_test_data, read_generations, match_data
@@ -21,20 +21,17 @@ if __name__ == "__main__":
 
     all_bleu_scores = []
 
+    weights = [(1, 0, 0, 0),
+                (1./2., 1./2., 0, 0),
+                (1./3., 1./3., 1./3., 0),
+                (1./4., 1./4., 1./4., 1./4.)]
+    refs = []
+    preds = []
     for gold, pred in pairs: 
         bleu_tuple = []
-        weights = [(1, 0, 0, 0),
-                  (1./2., 1./2., 0, 0),
-                  (1./3., 1./3., 1./3., 0),
-                  (1./4., 1./4., 1./4., 1./4.)]
-        bleu_scores = sentence_bleu([gold], pred, weights = weights)
-        # print(f"gold: {gold}")
-        # print(f"pred: {pred}")
-        # print(f"scores: {bleu_scores}")
-        all_bleu_scores.append(bleu_scores)
-
-    all_bleu_scores = np.array(all_bleu_scores)
-    mean_bleu_score = np.mean(all_bleu_scores, axis=0) 
+        refs.append([gold])
+        preds.append(pred)
+    mean_bleu_score = corpus_bleu(refs, preds, weights)
     print(f"prediction file: {args.pred_path}")
     for i in range(4):
-        print(f"BLEU-{i}: {mean_bleu_score[i]:.2f}")
+        print(f"BLEU-{i+1}: {mean_bleu_score[i]:.2f}")

@@ -44,5 +44,5 @@ with open(dev_path.joinpath("questions.json"), "w") as qf, open(dev_path.joinpat
 test_path = out_path.joinpath("test")
 test_path.mkdir(exist_ok=True, parents=True)
 with open(test_path.joinpath("questions.json"), "w") as qf, open(test_path.joinpath("annotations.json"), "w") as af: 
-    json.dump(dev_question_data, qf) 
-    json.dump(dev_annotation_data, af) 
+    json.dump(test_question_data, qf) 
+    json.dump(test_annotation_data, af) 
