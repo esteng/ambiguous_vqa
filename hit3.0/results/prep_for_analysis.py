@@ -44,9 +44,10 @@ def get_id_from_url(url):
 if __name__ == "__main__": 
     parser = argparse.ArgumentParser()
     parser.add_argument("--results-dir", type=str, default="mturk/full_hit_round_1") 
-    parser.add_argument("--annotations", type=str, default="/Users/Elias/scratch/v2_mscoco_train2014_annotations.json")
-    parser.add_argument("--questions", type=str, default="/Users/Elias/scratch/v2_OpenEnded_mscoco_train2014_questions.json")
-    parser.add_argument("--out-dir", type=str, default="/Users/Elias/scratch/qa_from_mturk/")
+    parser.add_argument("--annotations", type=str, default="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/train_anns/annotations.json")
+    parser.add_argument("--questions", type=str, default="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/train_anns/questions.json")
+    parser.add_argument("--out-dir", type=str, default="//home/estengel/scratch/qa_from_mturk/")
+    parser.add_argument("--ignore-skip-data", action="store_true")
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args() 
 
@@ -64,7 +65,8 @@ if __name__ == "__main__":
 
     for csv in csvs: 
         for row in csv:
-            if row['Answer.is_skip'] in ["False", "false", False]:
+            # pdb.set_trace()
+            if row['Answer.is_skip'] in ["False", "false", False] or args.ignore_skip_data:
                 answer_groups = row['Answer.answer_groups']
                 answer_questions = row['Answer.answer_questions']
                 image_id = get_id_from_url(row['Input.imgUrl']) 

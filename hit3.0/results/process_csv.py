@@ -6,6 +6,13 @@ import json
 import csv 
 import pdb
 from scipy.optimize import linear_sum_assignment
+import sys 
+import pathlib 
+path_to_file = str(pathlib.Path(__file__).resolve().parent.parent.parent.joinpath("analysis") )
+print(path_to_file)
+sys.path.insert(0, path_to_file)
+print(sys.path)
+from string_metrics import BleuSimilarityScore, BertSimilarityScore, BartSimilarityScore
 
 import numpy as np
 
@@ -184,6 +191,30 @@ def safe_divide(num, denom):
     except ZeroDivisionError:
         return 0
 
+
+def get_string_metrics(str_list1, str_list2, assignment, scorers):
+    aligned_strs = []
+    row, col = assignment
+    for i, row_idx in enumerate(row):
+        a_str = str_list1[i]
+        b_str = str_list2[row_idx]
+        if row[0] != 0:
+            print(a_str)
+            print(b_str)
+        aligned_strs.append((a_str, b_str))
+
+    metrics = defaultdict(list)
+    for a, b in aligned_strs:
+        for name, scorer in scorers:
+            try:
+                score = scorer.get_similarity(a,b)
+            except KeyError:
+                continue
+                # pdb.set_trace()
+            metrics[name].append(score)
+    # mean_metrics = {name: np.mean(metrics[name]) for name in metrics}
+    return metrics
+
 def f1_helper(group1, group2): 
     """
     Helper function to compute the F1 score
@@ -225,9 +256,9 @@ def f1_score(groups1, groups2):
     best_f1_scores = f1_scores[f1_assignment]
     best_p_scores = p_scores[f1_assignment]
     best_r_scores = r_scores[f1_assignment]
-    return np.mean(best_f1_scores, axis=0), np.mean(best_p_scores, axis=0), np.mean(best_r_scores, axis=0)
+    return np.mean(best_f1_scores, axis=0), np.mean(best_p_scores, axis=0), np.mean(best_r_scores, axis=0), f1_assignment
         
-def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, mturk=False): # TO DO
+def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, mturk=False, string_scorers = None): 
     rows_by_hit_id = get_groups(rows, enforce_num_anns = enforce_num_anns, num_anns = num_anns, mturk=mturk) 
     agree, disagree, perc, __ = skip_agreement(rows_by_hit_id, mturk=mturk) # Agreement, disagreement, percent agreement
 
@@ -243,12 +274,14 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
     total_unskipped = 0
     total_skipped = 0
     # Skip skipped examples
-    for hit_id, ex_rows in agree.items():
-        if ex_rows[0]['Answer.is_skip']:
-            total_skipped += 1
-            continue
+    # for hit_id, ex_rows in agree.items():
+    # don't skip skipped examples for now, skip later
+    for hit_id, ex_rows in rows_by_hit_id.items():
+        # if ex_rows[0]['Answer.is_skip']:
+            # total_skipped += 1
+            # continue
 
-        total_unskipped += 1
+        # total_unskipped += 1
 
         # Put answer_groups into dictionary based on hit id
         if hit_id in id_sorted_scores:
@@ -269,12 +302,25 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
     hit_id = list(id_sorted_scores.keys())[0]
     num_anns = len(id_sorted_scores[hit_id]['Answer.answer_groups']) 
     # group scores: num_annotators, num_annotators, num_annotations
-    group_scores = np.zeros((len(id_sorted_scores.keys()), num_anns, num_anns))
+    # group_scores = np.zeros((len(id_sorted_scores.keys()), num_anns, num_anns))
+    # group scores: num_annotators, num_annotators 
+    group_scores = np.zeros((num_anns, num_anns))
+    group_totals = np.zeros((num_anns, num_anns))
     name_to_idx, idx_to_name = {}, {}
     scores_for_avg = []
+    mean_string_metrics = defaultdict(list)
+    mean_string_to_ref_metrics = defaultdict(list)
     for i, hit_id in enumerate(id_sorted_scores.keys()):
         for ann1_idx, (ann1_name, ann1_groups) in enumerate(id_sorted_scores[hit_id]['Answer.answer_groups']):
             for ann2_idx, (ann2_name, ann2_groups) in enumerate(id_sorted_scores[hit_id]['Answer.answer_groups']):
+                if ann1_name == ann2_name:
+                    continue
+                # check if skipped for either annotator, if yes then skip
+                rows = rows_by_hit_id[hit_id]
+                rows = [r for r in rows if r[user_key] == ann1_name or r[user_key] == ann2_name]
+                if rows[0]['Answer.is_skip'] or rows[1]['Answer.is_skip']:
+                    continue
+
                 name_to_idx[ann1_name] = ann1_idx
                 name_to_idx[ann2_name] = ann2_idx
                 idx_to_name[ann1_idx] = ann1_name
@@ -282,16 +328,38 @@ def group_agreement(rows, enforce_num_anns = False, num_anns=2, interact=False, 
                 if ann1_name == ann2_name: 
                     continue
                 
-                group_f1, __, __ = f1_score(ann1_groups, ann2_groups)
-                group_scores[i, ann1_idx, ann2_idx] = group_f1
+                group_f1, __, __, assignment = f1_score(ann1_groups, ann2_groups)
+                if string_scorers is not None:
+                    string_metrics = get_string_metrics(rows[0]['Answer.answer_questions'], 
+                                                        rows[1]['Answer.answer_questions'], 
+                                                        assignment, 
+                                                        string_scorers)
+                    for k, l in string_metrics.items():
+                        mean_string_metrics[k] += l
+                # print([sorted([x['id'] for x in y]) for y in ann1_groups])
+                # print([sorted([x['id'] for x in y]) for y in ann2_groups])
+                # print(group_f1)
+                # print()
+                group_scores[ann1_idx, ann2_idx] += group_f1
+                group_totals[ann1_idx, ann2_idx] += 1
+            
+            rows = rows_by_hit_id[hit_id]
+            rows = [r for r in rows if r[user_key] == ann1_name]
+            if rows[0]['Answer.is_skip'] or string_scorers is None:
+                pass 
+            else:
+                # get string metric to original question
+                ref_string_metrics = get_string_metrics(rows[0]['Answer.answer_questions'],
+                                                        [rows[0]['Input.questionStr'] for i in range(len(rows[0]['Answer.answer_questions']))],
+                                                        assignment=[[i for i in range(len(rows[0]['Answer.answer_questions']))], None],
+                                                        scorers=string_scorers)
+                for k, l in ref_string_metrics.items():
+                    mean_string_to_ref_metrics[k] += l
+    avg_score = group_scores / group_totals
+    # reshape to take just upper triangle 
+    avg_score = avg_score[np.triu_indices(num_anns, k=1)]
 
-        
-        ann_combos = itertools.combinations(range(len(id_sorted_scores[hit_id]['Answer.answer_groups'])), 2)
-        scores_for_avg.append(np.mean([group_scores[i, c[0], c[1]] for c in ann_combos]))
-
-        print(group_scores[i])
-    print(scores_for_avg)
-    return np.mean(scores_for_avg)
+    return avg_score, mean_string_metrics, mean_string_to_ref_metrics
 
 def pprint(rows, fields):
     def stringify(x): 
@@ -322,6 +390,7 @@ if __name__ == "__main__":
     parser.add_argument("--mturk", action="store_true", help="set flag to true if csv is from mturk")
     parser.add_argument("--pilot", action="store_true", help="set flag to true if csv is from pilot")
     parser.add_argument("--anns", type=str, default=None, help='path to annotator file')
+    parser.add_argument("--string-metrics", action="store_true")
     args = parser.parse_args()
 
     if args.anns is not None:
@@ -335,15 +404,42 @@ if __name__ == "__main__":
                                 args.mturk)
 
     annotator_report(rows_by_hit_id, args.mturk)
-    pdb.set_trace()
     agree, disagree, skip_agree_perc, skip_per_annotator_agreement = skip_agreement(rows_by_hit_id, interact=args.interact, mturk=args.mturk) 
 
-    pdb.set_trace() 
 
-    print(f"annotators agree on skips {skip_agree_perc*100:.2f}% of the time")
-    print(f"per_annotator: {skip_per_annotator_agreement}")
+    print(f"all annotators agree on skips {skip_agree_perc*100:.2f}% of the time")
+    # print(f"per_annotator: {skip_per_annotator_agreement}")
 
     pairwise_skip_agreement = [v[0] for v in skip_per_annotator_agreement.values()] 
-    print(f"pairwise skip agreement: {np.mean(pairwise_skip_agreement) * 100:.2f}%")
+    print(f"pairwise skip agreement mean: {np.mean(pairwise_skip_agreement) * 100:.1f}%")
+    print(f"pairwise skip agreement std: {np.std(pairwise_skip_agreement) * 100:.1f}%")
+    print(f"pairwise skip agreement min: {np.min(pairwise_skip_agreement) * 100:.1f}%")
+    print(f"pairwise skip agreement max: {np.max(pairwise_skip_agreement) * 100:.1f}%")
 
-    group_agreement = group_agreement(rows, num_anns = args.n, enforce_num_anns=args.enforce_num_anns, interact=args.interact, mturk=args.mturk)
+    if args.string_metrics:
+        bleu_scorer = BleuSimilarityScore()
+        bert_scorer = BertSimilarityScore()
+        bart_scorer = BartSimilarityScore()
+
+        string_scorers = [("bleu", bleu_scorer), ("bert", bert_scorer), ("bart", bart_scorer)]
+    else:
+        string_scorers = None 
+    (group_agreement_scores, 
+     string_metrics, 
+     ref_string_metrics) = group_agreement(rows, 
+                                            num_anns = args.n, 
+                                            enforce_num_anns=args.enforce_num_anns, 
+                                            interact=args.interact, 
+                                            mturk=args.mturk, 
+                                            string_scorers = string_scorers) 
+                                        
+
+    print(f"pairwise agreement scores mean: {np.mean(group_agreement_scores) * 100:.1f}%")
+    print(f"pairwise agreement scores std: {np.std(group_agreement_scores) * 100:.1f}%")
+    print(f"pairwise agreement scores min: {np.min(group_agreement_scores) * 100:.1f}%")
+    print(f"pairwise agreement scores max: {np.max(group_agreement_scores) * 100:.1f}%")
+
+    mean_metrics = {k: np.mean(v) for k,v in string_metrics.items()}
+    print(f"inter-annotator string metrics: {mean_metrics}")
+    ref_mean_metrics = {k: np.mean(v) for k,v in ref_string_metrics.items()}
+    print(f"annotator to reference string metrics: {ref_mean_metrics}")
