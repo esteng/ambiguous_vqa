@@ -70,6 +70,7 @@ def main(args):
             full_cluster_list = ast.literal_eval(row['Answer.answer_groups']) # List of clusters
             for cluster_list in full_cluster_list: # Cluster
                 new_cluster = [] # Cluster for cluster
+                matched = False
                 for answer_dict in cluster_list: # Dict in cluter
             
                     cur_response = answer_dict["content"]
@@ -80,8 +81,14 @@ def main(args):
                         for new_cluster_list in full_new_cluster_list: # New clusters
                             for new_answer_dict in new_cluster_list: # New dict
                                 if (cur_response == new_answer_dict["content"]):
+                                    new_cluster.extend(cluster_list)
+                                    new_cluster.remove(answer_dict)
                                     new_cluster.extend(new_cluster_list)
-                    
+                                    #new_cluster.extend(cluster_list)
+                                    matched = True
+                                
+                if matched == False:
+                    new_cluster = cluster_list  
         
                 set_cluster = []
                 for i in new_cluster:
