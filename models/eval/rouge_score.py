@@ -1,8 +1,7 @@
 import argparse
 from pathlib import Path
+import pdb 
 
-from nltk.tokenize import word_tokenize
-from nltk.translate.bleu_score import sentence_bleu
 import numpy as np 
 from rouge import Rouge
 
@@ -22,12 +21,12 @@ if __name__ == "__main__":
 
     all_rouge_scores = []
     rouge = Rouge()
-
+    golds, preds = [], []
     for gold, pred in pairs:
-        score_dict = rouge.get_scores(pred, gold)[0]
+        golds.append(gold)
+        preds.append(pred)
+    score_dict = rouge.get_scores(preds, golds, avg=True)
 
-        all_rouge_scores.append(score_dict['rouge-l']['f']) 
-
-    avg_score = np.mean(all_rouge_scores)
+    avg_score = np.mean(score_dict['rouge-l']['f'])
     print(f"prediction file: {args.pred_path}")
     print(f"ROUGE-L: {avg_score:.2f}")
