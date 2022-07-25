@@ -91,7 +91,10 @@ if __name__ == "__main__":
             pred_file = pred_dir.joinpath(shard + f"_predictions{forced}.jsonl")
         else:
             pred_file = pred_dir.joinpath(args.file_name)
-        pred_data = read_pred_file(pred_file)
+        try:
+            pred_data = read_pred_file(pred_file)
+        except FileNotFoundError:
+            continue
         new_questions, new_annotations, new_missing, new_answer_list = merge(question_data['questions'], 
                                                                             annotation_data['annotations'], 
                                                                             pred_data) 
