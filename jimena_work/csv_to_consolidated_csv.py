@@ -54,7 +54,8 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
         cluster_group.append(set_cluster)
 
 
-    line['Answer.answer_groups'] = str(cluster_group)
+    line['Answer.answer_groups'] = json.dumps(cluster_group)
+    line['Answer.answer_question'] = json.dumps(line['Answer.answer_question'])
     #print(cluster_group)
     #print('\n')
     
