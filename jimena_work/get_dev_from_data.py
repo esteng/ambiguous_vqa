@@ -90,7 +90,8 @@ def main(args):
                 cluster_group.append(set_cluster)
                 
     #print('Combined cluster: \n' + str(cluster_group))
-            row['Answer.answer_groups'] = str(cluster_group)
+            row['Answer.answer_groups'] = json.dumps(cluster_group)
+            row['Answer.answer_questions'] = json.dumps(row['Answer.answer_questions'])
 
             by_question_id_ambiguity_dict_1 = {}
             by_question_id_ambiguity_dict_2 = {}
