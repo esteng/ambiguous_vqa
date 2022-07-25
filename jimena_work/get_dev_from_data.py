@@ -71,10 +71,12 @@ def main(args):
             for cluster_list in full_cluster_list: # Cluster
                 new_cluster = [] # Cluster for cluster
                 matched = False
+                print(str(cluster_list))
                 for answer_dict in cluster_list: # Dict in cluter
-            
+                    
                     cur_response = answer_dict["content"]
                     cur_id = answer_dict["id"] 
+                    print(str(answer_dict))
            
                     for annotator_response in group_dict[row['Input.question_id']]: 
                         full_new_cluster_list = ast.literal_eval(annotator_response) # New list of clusters
@@ -86,6 +88,7 @@ def main(args):
                                     new_cluster.extend(new_cluster_list)
                                     #new_cluster.extend(cluster_list)
                                     matched = True
+                                    print('matched')
                                 
                 if matched == False:
                     new_cluster = cluster_list  
