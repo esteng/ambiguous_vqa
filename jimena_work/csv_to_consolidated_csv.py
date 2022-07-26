@@ -34,17 +34,26 @@ def get_line(line, amb_dict_1, amb_dict_2,username_dict, group_dict, repeat):
     full_cluster_list = ast.literal_eval(line['Answer.answer_groups']) # List of clusters
     for cluster_list in full_cluster_list: # Cluster
         new_cluster = [] # Cluster for cluster
+        matched = False
+        print(str(cluster_list))
         for answer_dict in cluster_list: # Dict in cluter
             
             cur_response = answer_dict["content"]
             cur_id = answer_dict["id"] 
-           
+            print(str(answer_dict))
             for annotator_response in group_dict[line['Input.question_id']]: 
                 full_new_cluster_list = ast.literal_eval(annotator_response) # New list of clusters
                 for new_cluster_list in full_new_cluster_list: # New clusters
                     for new_answer_dict in new_cluster_list: # New dict
                         if (cur_response == new_answer_dict["content"]):
                             new_cluster.extend(new_cluster_list)
+                            new_cluster.extend(cluster_list)
+                            new_cluster.remove(answer_dict)
+                            matched = True
+                            print("matched!")
+                            
+        if matched == False:
+            new_cluster.extend(cluster_list)
                     
         
         set_cluster = []
