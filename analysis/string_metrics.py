@@ -22,21 +22,21 @@ class BleuSimilarityScore(SimilarityClass):
     def get_similarity(self, sentence_1: str, sentence_2: str, num_grams=None) -> str:
         
         if num_grams is None:
-            score = sentence_bleu(sentence_1, sentence_2, weights=(1, 0, 0, 0))
+            score = sentence_bleu([sentence_1], sentence_2, weights=(1, 0, 0, 0))
         elif num_grams == 1: 
-            score = sentence_bleu(sentence_1, sentence_2, weights=(1, 0, 0, 0))
+            score = sentence_bleu([sentence_1], sentence_2, weights=(1, 0, 0, 0))
         elif num_grams == 2: 
-            score = sentence_bleu(sentence_1, sentence_2, weights=(0, 1, 0, 0))
+            score = sentence_bleu([sentence_1], sentence_2, weights=(0, 1, 0, 0))
         elif num_grams == 3: 
-            score = sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 1, 0))
+            score = sentence_bleu([sentence_1], sentence_2, weights=(0, 0, 1, 0))
         elif num_grams == 4: 
-            score = sentence_bleu(sentence_1, sentence_2, weights=(0, 0, 0, 1))
+            score = sentence_bleu([sentence_1], sentence_2, weights=(0, 0, 0, 1))
         return score 
 
 class BertSimilarityScore(SimilarityClass):
-    def __init__(self):
+    def __init__(self, device='cpu'):
         super().__init__()
-        self.scorer = BERTScorer(lang='en', device='cpu')
+        self.scorer = BERTScorer(lang='en', device=device)
 
     def get_similarity(self, sentence_1: str, sentence_2: str) -> str:
         format_sent_1 = [sentence_1]
