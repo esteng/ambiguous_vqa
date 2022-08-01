@@ -1,6 +1,8 @@
 # finding why examples
 
 import json
+import random
+from random import sample
 
 
 f = open('../../../../../export/b02/jgualla1/VQA/v2_OpenEnded_mscoco_train2014_questions.json') 
@@ -58,7 +60,15 @@ for annotation_dict in annotation_data:
     if example_count == count:
         break
 
+# Taking random sample
+rand_list = random.sample(final_why_question_data.items(), 100)
+
+random_dict = dict(rand_list)
+
+
+
+
 # Write dict to json file
-with open('examples.json', 'w') as k:
-    json.dump(final_why_question_data, k)
+with open('examples_random.json', 'w') as k:
+    json.dump(random_dict, k)
 
