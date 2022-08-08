@@ -1,0 +1,8 @@
+Model,BLEU-4,BLEU-3,BLEU-2,BLEU-1,CIDEr,ROUGE-L,METEOR,BERTScore,Path
+iVQA (*train and test different),0.21,0.26,0.33,0.43,1.71,0.47,0.21,NA,
+"VILT+T5 -image, -constraint",0.22,0.27,0.35,0.5,1.51,0.45,0.44,0.93,/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_image_baseline/
+"VILT + T5 -answer, -constraint",0.16,0.2,0.26,0.42,1,0.32,0.34,0.92,/brtx/603-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_text_baseline/
+"VILT+T5, -constraint",0.27,0.33,0.41,0.55,1.98,0.48,0.49,0.94,/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_limit/
+"VILT+T5 -image, +constraint",0.21,0.26,0.34,0.5,1.82,0.47,0.49,0.93,/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_image_baseline/
+"VILT + T5 -answer, +constraint",0.18,0.22,0.29,0.45,1.51,0.38,0.42,0.92,/brtx/603-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_text_baseline/
+"VILT+T5, +constraint",0.26,0.31,0.4,0.56,2.21,0.5,0.53,0.94,/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_limit/

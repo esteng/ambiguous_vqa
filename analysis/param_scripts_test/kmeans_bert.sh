@@ -7,5 +7,6 @@ do
         --embedder bert \
         --checkpoint-dir /brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_limit/output/encoder_states \
         --pooler ${pooler} \
-        --output-dir results/bert
+        --output-dir results_test/bert \
+        --test 
 done

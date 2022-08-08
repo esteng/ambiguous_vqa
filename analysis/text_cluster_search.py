@@ -1,6 +1,7 @@
 import argparse
 import re
 import pdb 
+import pickle as pkl 
 from collections import defaultdict
 import json 
 import pathlib 
@@ -140,18 +141,20 @@ def get_agglomerative_clusters(predictions_jsonl,
     generations_by_qid = read_generations(predictions_jsonl)
     anns_by_qid = defaultdict(list)
     answers_by_qid = defaultdict(list)
-    missing = 0 
+    missing = []
     for quest, ann in zip(questions, annotations):
         qid, i = quest['question_id'].split("_")
         try:
             generation = clean_text(generations_by_qid[quest['question_id']])
         except KeyError:
-            missing += 1
+            missing.append(quest['question_id'])
             continue
         anns_by_qid[qid].append((generation, quest['question_id'], ann['answers'][0]['answer']))
         answers_by_qid[qid].append(ann['answers'])
 
-    print(f"missing: {missing} of {len(questions)}")
+    print(f"missing: {len(missing)} of {len(questions)}")
+    with open("missing.pkl", "wb") as f:
+        pkl.dump(missing, f)
 
     scores_by_qid = {} 
     clusts_by_qid = {}
@@ -250,7 +253,7 @@ def get_prediction_clusters(predictions_jsonl,
 
 class FileEmbedder:
     def __init__(self, checkpoint_dir, strategy):
-        self.checkpoint_dir = pathlib.Path(checkpoint_dir).joinpath("output", "encoder_states")
+        self.checkpoint_dir = pathlib.Path(checkpoint_dir)
         self.strategy = strategy 
 
     def encode(self, quest_list): 
@@ -274,12 +277,17 @@ class BERTEmbedder:
         to_ret = []
         for quest, qid, answer in quest_list:
             answer_tokenized = self.tokenizer(answer, return_tensors="pt")
-            answer_encoded = self.model(**answer_tokenized)
+            with torch.no_grad():
+                answer_encoded = self.model(**answer_tokenized)['last_hidden_state'][0]
+            # pdb.set_trace()
             if self.strategy == "mean": 
                 to_ret.append(torch.mean(answer_encoded, dim=0).numpy().reshape(-1))
             elif self.strategy == "max":
                 to_ret.append(torch.max(answer_encoded, dim=0).values.numpy().reshape(-1))
         return to_ret 
+
+
+# TODO: elias: add just frozen VILT as a baseline instead of BERT, it's a better baseline than BERT 
 
 if __name__ == "__main__":
 
@@ -291,13 +299,16 @@ if __name__ == "__main__":
     parser.add_argument("--criterion", default="distance")
     parser.add_argument("--method", default="ward")
     parser.add_argument("--t", type=float, default=1.13)
-    parser.add_argument("--output-path", default="param_search/")
     parser.add_argument("--num-clusters", default=None, type=int)
     parser.add_argument("--test", action="store_true")
     parser.add_argument("--embedder", type=str, default="sentencebert", choices = ['sentencebert', 'path', 'bert'])
     parser.add_argument("--pooler", type=str, default="mean", choices = ['mean', 'max'])
     parser.add_argument("--checkpoint-dir", type=str, default=None)
+    parser.add_argument("--output-dir", type=str, default="param_search/")
     args = parser.parse_args() 
+
+    output_dir = pathlib.Path(args.output_dir)
+    output_dir.mkdir(exist_ok=True, parents=True)
 
     if args.sim_score == "bert":
         score_cls = BertSimilarityScore(device="cuda:0")
@@ -355,7 +366,7 @@ if __name__ == "__main__":
     datapoint['r'] = pred_to_ann[2]
     datapoint['f1'] = pred_to_ann[0]
 
-    out_path = pathlib.Path(args.output_path).joinpath(f"{args.sim_score}_{args.agglom}_{args.kmeans}_{args.hierarch}_{args.criterion}_{args.method}_{args.t}_{args.num_clusters}_{args.embedder}_{args.pooler}.json")
+    out_path = pathlib.Path(args.output_dir).joinpath(f"{args.sim_score}_{args.agglom}_{args.kmeans}_{args.hierarch}_{args.criterion}_{args.method}_{args.t}_{args.num_clusters}_{args.embedder}_{args.pooler}.json")
     with open(out_path, "w") as f1:
         json.dump(datapoint, f1)
     # print(f"P: {pred_to_ann[1]*100:.2f}, R: {pred_to_ann[2]*100:.2f}, F1: {pred_to_ann[0]*100:.2f}")
