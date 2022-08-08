@@ -1,1 +1,0 @@
-{"sim_score": "bert", "agglom": true, "hierarch": false, "criterion": "distance", "method": "ward", "t": 1.13, "p": 0.7207671957671955, "r": 0.7879365079365077, "f1": 0.6983139083139085}
