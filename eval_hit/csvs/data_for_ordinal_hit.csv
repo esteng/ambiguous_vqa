@@ -1,601 +1,601 @@
 qid,question,question_type,answer,img_url,is_distractor
-"""44463014_5""",Where is the car?,"""pred""",near road,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,false
-"""44463014_5""",Where is the car?,"""pred""",on poles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,true
-"""44463014_5""",What is the sign board by?,"""ann""",near road,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,false
+"""343357006_0""",Does this picture take place inside or outside?,"""ann""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
+"""479697012_6""",What is on the woman's head?,"""pred""",her knees,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,false
+"""215863003_2""",What kind of restaurant is the person in?,"""pred""",restaurant,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,false
+"""385704000_7""",What style of car is behind the man?,"""ann""",black car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,true
+"""343357006_2""",Where does this picture take place?,"""orig""",pier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
+"""485180001_0""",What are the teddy bears doing?,"""pred""",toy drive,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,false
+"""240511002_6""",What color is the roof of the house?,"""pred""",hip,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,true
+"""156859012_0""",What is the pizza sitting on?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""463039013_2""",What are the flowers in?,"""ann""",backyard of house,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,true
+"""172806002_7""",Where is her right hand?,"""orig""",on racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
+"""4131007_8""",What is the job of the boy?,"""orig""",infield,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,true
+"""487442001_8""",What kind of toys are these?,"""orig""",teddy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,true
+"""128503003_6""",Where are the traffic lights?,"""pred""",above street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,true
+"""485131011_0""",How old is this photo in years?,"""ann""",maybe 10 years,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,false
+"""479697012_6""",What is this woman holding?,"""orig""",her knees,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,false
+"""429361006_8""",What kind of field are they in?,"""orig""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
+"""23538002_3""",What kind of food is this?,"""pred""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
+"""23538002_0""",What is on the plate?,"""orig""","fries, steak, pickle, sauce, ci[s",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
+"""485131011_0""",How old is this photo?,"""orig""",maybe 10 years,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,false
+"""426980001_3""",Where are the people sitting?,"""orig""",sidewalk,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
 """44463014_5""",What is the sign board by?,"""ann""",on poles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,true
-"""44463014_5""",Where is the sign board placed?,"""orig""",near road,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,false
-"""44463014_5""",Where is the sign board placed?,"""orig""",on poles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,true
-"""183972002_3""",What is the object on the left side of the picture that has a kind of logo?,"""pred""",stand alone mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,false
-"""183972002_3""",What is the object on the left side of the picture that has a kind of logo?,"""pred""",hand mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,true
-"""183972002_3""",What is the mixer on the counter called?,"""ann""",stand alone mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,false
-"""183972002_3""",What is the mixer on the counter called?,"""ann""",hand mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,true
-"""183972002_3""",What kind of mixer on the counter?,"""orig""",stand alone mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,false
-"""183972002_3""",What kind of mixer on the counter?,"""orig""",hand mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,true
-"""293174000_0""",Why is there a piece of paper on the toilet seat cover?,"""pred""",esthetically pleasing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
-"""293174000_0""",Why is there a piece of paper on the toilet seat cover?,"""pred""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
+"""121361000_2""",What is the woman doing with her hands?,"""ann""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
+"""442150001_1""",Where are the flowers?,"""orig""",vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,true
+"""250194002_9""",Where is the picture taken?,"""pred""",suzuran st,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,true
+"""470925002_1""",What is the style of the glass windows?,"""orig""",banned,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,false
+"""420496002_0""",Why are the street lights on?,"""pred""",moving cars,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,false
+"""440511000_0""",For what activity could the elephants be lying down?,"""ann""",tired,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,false
+"""156859012_0""",What is the pizza crust sitting directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
 """293174000_0""",What feature makes this a piece of art?,"""ann""",esthetically pleasing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
-"""293174000_0""",What feature makes this a piece of art?,"""ann""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
-"""293174000_0""",Why is this a piece of art?,"""orig""",esthetically pleasing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
-"""293174000_0""",Why is this a piece of art?,"""orig""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
-"""177837002_0""",What is the pattern on the kind of blankets that people sleep in?,"""pred""",snake,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,false
-"""177837002_0""",What is the pattern on the kind of blankets that people sleep in?,"""pred""",towel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,true
-"""177837002_0""",What type of bird is this?,"""ann""",snake,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,false
-"""177837002_0""",What type of bird is this?,"""ann""",towel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,true
-"""177837002_0""",What kind of bird is this?,"""orig""",snake,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,false
-"""177837002_0""",What kind of bird is this?,"""orig""",towel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,true
-"""223458004_12""",What is the body of water?,"""pred""",ocean,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,false
-"""223458004_12""",What is the body of water?,"""pred""",country,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,true
-"""223458004_12""",What is this body of water flowing onto?,"""ann""",ocean,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,false
-"""223458004_12""",What is this body of water flowing onto?,"""ann""",country,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,true
-"""223458004_12""",Where is this body of water?,"""orig""",ocean,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,false
-"""223458004_12""",Where is this body of water?,"""orig""",country,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,true
-"""181009000_4""",What is the man holding in his right hand that is silver?,"""pred""",bicycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,false
-"""181009000_4""",What is the man holding in his right hand that is silver?,"""pred""",for someone to hold onto for support,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,true
-"""181009000_4""",For what reason is there a silver bar?,"""ann""",bicycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,false
-"""181009000_4""",For what reason is there a silver bar?,"""ann""",for someone to hold onto for support,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,true
-"""181009000_4""",Why is there a silver bar?,"""orig""",bicycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,false
-"""181009000_4""",Why is there a silver bar?,"""orig""",for someone to hold onto for support,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,true
-"""156859012_6""",Where is the pizza?,"""pred""",plate,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_6""",Where is the pizza?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""156859012_6""",What is the pizza crust sitting directly on?,"""ann""",plate,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_6""",What is the pizza crust sitting directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""156859012_6""",What are the pizzas sitting on?,"""orig""",plate,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_6""",What are the pizzas sitting on?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""429361006_1""",What type of grass are the birds eating from in the field?,"""pred""",dried,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
-"""429361006_1""",What type of grass are the birds eating from in the field?,"""pred""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
-"""429361006_1""",What plants make up the filed they are in?,"""ann""",dried,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
-"""429361006_1""",What plants make up the filed they are in?,"""ann""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
-"""429361006_1""",What kind of field are they in?,"""orig""",dried,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
-"""429361006_1""",What kind of field are they in?,"""orig""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
-"""365011010_8""",What is in the right side of the photo?,"""pred""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
-"""365011010_8""",What is in the right side of the photo?,"""pred""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
-"""365011010_8""",What things are on the right of the picture?,"""ann""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
-"""365011010_8""",What things are on the right of the picture?,"""ann""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
-"""365011010_8""",What is on the right of the picture?,"""orig""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
-"""365011010_8""",What is on the right of the picture?,"""orig""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
-"""156859012_3""",The pizza is on what kind of plate?,"""pred""",stone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_3""",The pizza is on what kind of plate?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""156859012_3""",What is the pizza crust sitting directly on?,"""ann""",stone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_3""",What is the pizza crust sitting directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""156859012_3""",What are the pizzas sitting on?,"""orig""",stone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_3""",What are the pizzas sitting on?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""426980001_8""",Where are the people sitting?,"""pred""",in grass on chairs,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
-"""426980001_8""",Where are the people sitting?,"""pred""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
-"""426980001_8""",What are the people sitting under?,"""ann""",in grass on chairs,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
-"""426980001_8""",What are the people sitting under?,"""ann""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
-"""426980001_8""",Where are the people sitting?,"""orig""",in grass on chairs,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
-"""426980001_8""",Where are the people sitting?,"""orig""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
-"""185236007_2""",What is the green food?,"""pred""",broccoli,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,false
-"""185236007_2""",What is the green food?,"""pred""",oriental,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,true
-"""185236007_2""",What food items are pictured?,"""ann""",broccoli,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,false
-"""185236007_2""",What food items are pictured?,"""ann""",oriental,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,true
-"""185236007_2""",What type of food is pictured?,"""orig""",broccoli,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,false
-"""185236007_2""",What type of food is pictured?,"""orig""",oriental,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,true
-"""247360019_4""",Where is the skateboard?,"""pred""",on ramp,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,false
-"""247360019_4""",Where is the skateboard?,"""pred""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,true
-"""247360019_4""",What is the skateboard touching?,"""ann""",on ramp,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,false
-"""247360019_4""",What is the skateboard touching?,"""ann""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,true
-"""247360019_4""",Where is the skateboard?,"""orig""",on ramp,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,false
-"""247360019_4""",Where is the skateboard?,"""orig""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,true
 """461114061_2""",What is the baby's expression?,"""pred""",joy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,false
-"""461114061_2""",What is the baby's expression?,"""pred""",people singing happy birthday,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,true
-"""461114061_2""",What emotion is making the baby cry?,"""ann""",joy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,false
-"""461114061_2""",What emotion is making the baby cry?,"""ann""",people singing happy birthday,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,true
-"""461114061_2""",What is making the baby cry?,"""orig""",joy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,false
-"""461114061_2""",What is making the baby cry?,"""orig""",people singing happy birthday,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,true
-"""365314011_5""",Why are these people gathered here?,"""pred""",work,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,false
-"""365314011_5""",Why are these people gathered here?,"""pred""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,true
+"""255418000_1""",What style of architecture best describes the brick building?,"""pred""",archaic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,false
+"""233201001_4""",Where is the bathroom in the picture?,"""pred""",motel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,false
+"""156943001_5""",What is the name of the type of food on the plate?,"""pred""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
+"""156859012_0""",What are the pizzas sitting on?,"""orig""",cutting board,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""366001010_6""",What is the floor made of in this design?,"""pred""",hexagonal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,true
+"""485131011_0""",How long until it is midnight?,"""pred""",2000,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,true
+"""354741008_6""",Which direction is the person in the foreground facing?,"""pred""",steep,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,true
+"""426980001_3""",Where are the people sitting?,"""pred""",sidewalk,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
+"""23538002_3""",What is on the plate?,"""orig""",steak and fries,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
+"""363326001_5""",What does the object on the table do?,"""orig""",light up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,false
+"""429361006_1""",What type of grass are the birds eating from in the field?,"""pred""",dried,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
+"""34831008_5""",How are the curtains hung?,"""orig""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,true
+"""212856001_1""",What is the blue item on the left?,"""orig""",pants,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,true
+"""429361006_1""",What plants make up the filed they are in?,"""ann""",dried,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
+"""463591009_0""",Where are the man's hands?,"""orig""",cup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,true
+"""412537001_0""",Where is the bus going?,"""orig""",windsor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
+"""343357006_0""",Where is this picture taken?,"""pred""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
+"""108223002_8""",Where are the animals cows and giraffes?,"""pred""",forest,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,true
+"""156859012_3""",What is the pizza crust sitting directly on?,"""ann""",stone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""303367002_3""",What is this kind of plant called?,"""ann""",purple queen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,false
+"""461208009_5""",What item is around the woman in the red shirt's waist?,"""orig""",belt,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,false
+"""222006012_0""",Why is the hydraulic pump on the street?,"""orig""",water,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,false
+"""354741008_6""",What mountain side is this person snowboarding on?,"""ann""",north,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,false
+"""145366002_3""",What type of birds are in the ducklings?,"""pred""",bushes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,true
+"""228426004_1""",What meal is the food on the plate for?,"""ann""",healthy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,true
+"""104610000_0""",What kind of plane is this?,"""orig""",biplane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,true
+"""365011010_5""",What is on the right of the picture?,"""orig""",sky posts,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
+"""475336016_6""",Is the broccoli on the left or right side of the dish buttery or not?,"""pred""",placemat,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,true
+"""385704000_7""",What kind of car is behind the man?,"""orig""",black car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,true
+"""223458004_12""",What is this body of water flowing onto?,"""ann""",country,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,true
+"""132417003_0""",What various colors is the photo taken in?,"""ann""",gray,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
+"""14707007_6""",How is the plane flying?,"""orig""",fuel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,true
+"""212856001_1""",What is the blue item on the left on the building?,"""ann""",pants,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,true
+"""156859012_3""",What are the pizzas sitting on?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""250194002_9""",In what landscape was the picture taken of the people?,"""ann""",suzuran st,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,true
+"""258854001_2""",What period of the day is it?,"""ann""",early morning,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,false
+"""4131007_8""",What is the man about to do with the glove in the job?,"""pred""",catch ball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,false
+"""259717002_3""",Where are they at?,"""orig""",dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,false
+"""389775000_0""",Where is the bottled water?,"""pred""",next to backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
+"""185236007_2""",What food items are pictured?,"""ann""",oriental,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,true
+"""442150001_1""",Where are the flowers in terms of the person?,"""ann""",vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,true
+"""429319006_3""",When was this photo replica from?,"""pred""",2010,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
+"""181009000_4""",Why is there a silver bar?,"""orig""",for someone to hold onto for support,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,true
+"""479697012_6""",What is this woman holding?,"""orig""",riding motorcycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,true
+"""389775000_0""",Where is the water bottle?,"""orig""",next to backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
+"""385704000_7""",What kind of car is behind the man?,"""orig""",compact,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,false
+"""293174000_1""",Why is this a piece of art?,"""orig""",decorated,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
+"""156859012_6""",What is the pizza crust sitting directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""258854001_2""",Approximately what time of day is it?,"""pred""",early morning,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,false
+"""426980001_8""",Where are the people sitting?,"""pred""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
+"""44463014_5""",Where is the car?,"""pred""",near road,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,false
+"""156943001_5""",For what meal is this food?,"""ann""",dim sum,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
+"""389775000_0""",What is the water bottle on?,"""ann""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
+"""443650003_3""",What is the time of day?,"""pred""",4 o'clock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,true
+"""310783009_0""",What is the occasion?,"""pred""",for occasion,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,false
+"""183972002_3""",What is the object on the left side of the picture that has a kind of logo?,"""pred""",stand alone mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,false
+"""250194002_9""",Where was the picture taken of the people?,"""orig""",suzuran st,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,true
+"""172806002_3""",What is her right hand doing?,"""ann""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
+"""475336016_6""",Where is a butter knife located in photo?,"""ann""",placemat,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,true
+"""443650003_3""",What period of the day is it?,"""ann""",afternoon,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,false
+"""442150001_1""",Where is the mirror?,"""pred""",vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,true
+"""476738003_5""",What is on the wall behind the man with the game controller?,"""pred""",slot machines,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,false
+"""363570002_7""",What is the purpose of enclosing the plants?,"""pred""",garden,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,true
+"""185236007_2""",What is the green food?,"""pred""",oriental,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,true
+"""255418000_1""",What architectural style are the buildings?,"""ann""",archaic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,false
+"""310783009_0""",For what reason are they wearing white?,"""ann""",for occasion,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,false
+"""156943001_1""",What culture is likely to have a meal like this?,"""pred""",soup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
+"""463039013_2""",Where are the flowers?,"""pred""",in planter,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,false
+"""421383005_7""",How many motorcycles are there?,"""pred""",lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,false
+"""156943001_1""",What culture is likely to have a meal like this?,"""pred""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
+"""420496002_0""",Why are the street lights on?,"""pred""",slow shutter speed,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,true
+"""172806002_7""",Where is her right hand positioned?,"""ann""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
+"""429361006_8""",What is the name of the kind of field they are in?,"""ann""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
 """365314011_5""",For what event are people gathered here?,"""ann""",work,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,false
+"""185236007_2""",What type of food is pictured?,"""orig""",oriental,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,true
+"""429319006_3""",During what decade was the photo taken?,"""ann""",today,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
+"""286673000_0""",Where is the pizza at?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,false
+"""412537001_6""",What is the destination of the bus?,"""ann""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
+"""389775000_0""",Where is the bottled water?,"""pred""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
+"""177837002_0""",What type of bird is this?,"""ann""",snake,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,false
+"""34831008_5""",What are the curtains hung on?,"""ann""",rod,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,false
+"""341639000_8""",What is the natural white streak in the sky?,"""ann""",cloud,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,false
+"""156943001_5""",What type of meal is this?,"""orig""",dim sum,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
+"""366001010_6""",What design is on the floor?,"""orig""",tiles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,false
+"""139390001_6""",Where is the bus?,"""pred""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,true
+"""429319006_3""",During what decade was the photo taken?,"""ann""",2010,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
+"""145366002_3""",What are the ducks standing behind?,"""orig""",swans,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,false
+"""341639000_8""",What is in the sky streaking down from the horizon?,"""pred""",cloud,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,false
+"""443650003_3""",What period of the day is it?,"""ann""",4 o'clock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,true
+"""44463014_5""",Where is the sign board placed?,"""orig""",on poles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,true
+"""121361000_6""",What is the woman doing?,"""orig""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
+"""172806002_3""",What is the woman doing with a racket in the right hand?,"""pred""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
+"""341639000_8""",What is the natural white streak in the sky?,"""ann""",jet stream,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,true
+"""405041002_7""",Where is the luggage?,"""pred""",on floor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,true
+"""365314011_5""",Why are these people gathered here?,"""pred""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,true
+"""183972002_3""",What kind of mixer on the counter?,"""orig""",hand mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,true
+"""461114061_2""",What is making the baby cry?,"""orig""",people singing happy birthday,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,true
+"""363326001_5""",What does the object on the table do in the room?,"""ann""",light up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,false
+"""104610000_0""",What style of plane is this?,"""ann""",biplane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,true
+"""103936001_1""",What about the light tells you this is a reflection?,"""ann""",dimmer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,false
+"""405041002_7""",What area is the luggage in the building?,"""ann""",on floor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,true
+"""365011010_8""",What things are on the right of the picture?,"""ann""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
+"""217407004_7""",On what side of the picture is the flower?,"""ann""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
+"""443650003_3""",What time of day is it?,"""orig""",4 o'clock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,true
+"""485131011_0""",How long until it is midnight?,"""pred""",maybe 10 years,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,false
+"""172806002_7""",Is the ball moving upwards or downwards?,"""pred""",on racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
+"""240862004_6""",In which direction is the baby looking?,"""ann""",at food,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,true
+"""305538005_8""",Where is the stop sign?,"""orig""",middle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,true
+"""23538002_0""",What food is on the plate?,"""ann""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
+"""217407004_7""",Where is the flower?,"""pred""",left side,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
+"""222006012_0""",What is the name of the pump?,"""pred""",water,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,false
+"""222006012_0""",Why is the hydraulic pump on the street?,"""orig""",abandoned gas station,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,true
+"""183972002_3""",What is the object on the left side of the picture that has a kind of logo?,"""pred""",hand mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,true
+"""432486001_5""",What are the vases sitting on?,"""pred""",window sill,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,false
 """365314011_5""",For what event are people gathered here?,"""ann""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,true
-"""365314011_5""",Why are people gathered here?,"""orig""",work,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,false
-"""365314011_5""",Why are people gathered here?,"""orig""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,true
-"""399147005_6""",Which fruit is not on a table?,"""pred""",apples,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,false
-"""399147005_6""",Which fruit is not on a table?,"""pred""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,true
-"""399147005_6""",What is the name of the fruit closest to the camera?,"""ann""",apples,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,false
-"""399147005_6""",What is the name of the fruit closest to the camera?,"""ann""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,true
+"""429319006_3""",What era was the photo taken?,"""orig""",today,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
+"""228426004_1""",What is the food for?,"""pred""",healthy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,true
+"""150546000_3""",In what country is this bus likely to be located?,"""ann""",parking lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,true
+"""476738003_5""",What specific game could he be playing?,"""ann""",slot machines,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,false
+"""480403000_2""",What is on the woman's head?,"""pred""",ceremonial,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,true
+"""217407004_4""",Where is the flower at?,"""orig""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
+"""470925002_1""",What is the style of the glass windows?,"""orig""",pane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,true
+"""480403000_2""",What shape are the hats they are wearing?,"""ann""",ceremonial,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,true
+"""103936001_1""",What about the light tells you this is a reflection?,"""ann""",man and building on glass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,true
+"""479697012_6""",What is the woman in the back of the motorcycle holding?,"""ann""",her knees,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,false
+"""217407004_4""",Where is the flower?,"""pred""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
+"""470925002_1""",What is the safety style of the glass windows?,"""ann""",pane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,true
+"""212856001_1""",What is the blue item on the left on the building?,"""ann""",building,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,false
+"""385704000_7""",What style of car is behind the man?,"""ann""",compact,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,false
+"""479697012_6""",What is on the woman's head?,"""pred""",riding motorcycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,true
+"""240511002_6""",What material is used for the roof of this house?,"""ann""",hip,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,true
+"""217407004_7""",Where is the flower?,"""pred""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
+"""485180001_0""",Where is this?,"""orig""",toy drive,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,false
+"""156859012_6""",What are the pizzas sitting on?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""4131007_8""",What is the man about to do with the glove in the job?,"""pred""",infield,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,true
+"""172806002_7""",Where is her right hand positioned?,"""ann""",on racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
+"""132417003_0""",What is the color of the sky?,"""pred""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
+"""461114061_2""",What emotion is making the baby cry?,"""ann""",people singing happy birthday,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,true
+"""44463014_5""",Where is the car?,"""pred""",on poles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,true
+"""268159006_3""",About what decade is this?,"""ann""",nighttime,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,true
+"""341639000_8""",What is the white streak in the sky?,"""orig""",cloud,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,false
+"""479697012_6""",What is the woman in the back of the motorcycle holding?,"""ann""",riding motorcycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,true
+"""156859012_6""",What are the pizzas sitting on?,"""orig""",plate,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""218116000_4""",What is the netting for?,"""orig""",baseball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,true
+"""259717002_3""",Where are the boats parked?,"""pred""",china,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,true
+"""286673000_0""",What is under the pizza?,"""pred""",kitchen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,true
+"""487442001_8""",What kind of teddy bear is this?,"""pred""",teddy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,true
+"""132417003_0""",What color scheme is the photo taken in?,"""orig""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
+"""185236007_2""",What is the green food?,"""pred""",broccoli,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,false
+"""429361006_8""",What kind of meat are the animals eating?,"""pred""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
+"""233201001_4""",What business's bathroom is this?,"""ann""",motel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,false
+"""258854001_2""",Approximately what time of day is it?,"""pred""",12:00 pm,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,true
+"""365011010_8""",What is on the right of the picture?,"""orig""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
+"""293174000_0""",Why is there a piece of paper on the toilet seat cover?,"""pred""",esthetically pleasing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
+"""461208009_5""",What is on the woman's left hand?,"""pred""",post,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,true
+"""121361000_2""",What is the woman doing?,"""orig""",singing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
+"""468097000_7""",What is on the side of the bus?,"""pred""",bottom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,true
+"""128503003_6""",Where are the traffic lights?,"""pred""",in front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,false
+"""366001010_6""",What is the floor made of in this design?,"""pred""",tiles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,false
+"""429319006_3""",When was this photo replica from?,"""pred""",today,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
+"""177837002_0""",What type of bird is this?,"""ann""",towel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,true
+"""489844013_6""",What colors are the cake?,"""ann""",bride and groom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,true
+"""259717002_3""",What are they on?,"""ann""",dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,false
+"""10015002_3""",Why is the snow red at some parts?,"""orig""",stay on course,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,true
+"""461114061_2""",What emotion is making the baby cry?,"""ann""",joy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,false
+"""240862004_6""",Which side of the plate is the baby eating?,"""pred""",lower left,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,false
+"""255418000_1""",What style are the buildings?,"""orig""",archaic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,false
+"""233201001_4""",What business's bathroom is this?,"""ann""",home,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,true
+"""252194001_8""",What kind of lamp post is that?,"""orig""",iron,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
+"""293174000_1""",What is the pattern on the piece of paper called?,"""pred""",decorated,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
+"""365011010_8""",What is in the right side of the photo?,"""pred""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
+"""389775000_1""",Where is the water bottle?,"""orig""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
+"""150546000_3""",In what country is this bus likely to be located?,"""ann""",england,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,false
+"""23538002_0""",What is on the plate?,"""pred""","fries, steak, pickle, sauce, ci[s",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
+"""34831008_5""",What are the curtains made of?,"""pred""",rod,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,false
+"""405041002_7""",Where is the luggage?,"""orig""",bottom right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,false
+"""156859012_6""",Where is the pizza?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""218546006_4""",What is on the sides of the motorbike?,"""orig""",carriers,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,false
+"""470925002_1""",What style of architecture does the building exemplify?,"""pred""",banned,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,false
+"""310783009_0""",Why are they wearing white?,"""orig""",vineyard,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,true
+"""156943001_1""",What is the ethnicity of this meal?,"""ann""",soup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
+"""363326001_5""",Why is the table reflecting light?,"""pred""",surf internet,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,true
+"""218546006_4""",What is on the sides of the motorbike?,"""orig""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,true
+"""476738003_5""",What game is he playing?,"""orig""",slot machines,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,false
 """399147005_6""",What fruit is closest to the camera?,"""orig""",apples,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,false
+"""172806002_3""",Where is her right hand?,"""orig""",holding tennis racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
+"""293174000_0""",Why is this a piece of art?,"""orig""",esthetically pleasing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
+"""341639000_8""",What is the white streak in the sky?,"""orig""",jet stream,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,true
+"""259717002_3""",Where are the boats parked?,"""pred""",dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,false
+"""354741008_6""",Which direction is the person in the foreground facing?,"""pred""",north,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,false
+"""132417003_4""",What color scheme is the photo taken in?,"""orig""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
+"""121361000_6""",What is in the woman's hand?,"""pred""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
+"""223458004_12""",Where is this body of water?,"""orig""",country,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,true
+"""156943001_1""",What is the ethnicity of this meal?,"""ann""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
+"""103936001_1""",What is the purpose of the yellow line on the ground?,"""pred""",man and building on glass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,true
+"""463591009_0""",Where is the bald man?,"""pred""",cup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,true
+"""487442001_8""",What material are these toys made from?,"""ann""",plush,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,false
+"""156943001_5""",For what meal is this food?,"""ann""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
+"""217407004_7""",On what side of the picture is the flower?,"""ann""",left side,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
+"""343357006_2""",What is the man standing on in this picture?,"""pred""",pier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
+"""132417003_4""",What color scheme is the photo taken in?,"""orig""",green and blue,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
+"""108223002_8""",Are the cows inside or outside?,"""ann""",forest,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,true
+"""470925002_1""",What is the safety style of the glass windows?,"""ann""",banned,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,false
+"""489844013_6""",What is the design on the cake?,"""orig""",bride and groom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,true
+"""412537001_0""",Where is the bus going?,"""orig""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
+"""252194001_3""",What kind of lights are in the picture?,"""pred""",street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
+"""139390001_6""",What is the bus on?,"""ann""",parked on street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,false
+"""489844013_6""",What colors are the cake?,"""ann""",spiral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,false
+"""485131011_0""",How old is this photo?,"""orig""",2000,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,true
+"""10015002_3""",What causes the snow to be red at some parts?,"""ann""",stay on course,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,true
+"""247360019_4""",Where is the skateboard?,"""pred""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,true
+"""218116000_4""",What is the netting for?,"""orig""",protect crowd,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,false
+"""183972002_3""",What is the mixer on the counter called?,"""ann""",hand mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,true
+"""429361006_8""",What kind of meat are the animals eating?,"""pred""",grassy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
+"""218116000_4""",Why are there people behind the catcher?,"""pred""",protect crowd,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,false
+"""103936001_1""",How can you tell this is a reflection?,"""orig""",dimmer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,false
+"""440511000_0""",Why are the elephant lying down?,"""orig""",tired,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,false
+"""432486001_5""",What are the vases sitting on?,"""pred""",in vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,true
+"""303367002_3""",What kind of plant is this?,"""orig""",purple queen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,false
+"""121361000_2""",What is the woman doing?,"""orig""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
+"""432486001_5""",Where are the flowers?,"""orig""",in vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,true
+"""104610000_0""",What kind of plane is this?,"""orig""",classic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,false
+"""252194001_3""",How many lights does that lamp post have?,"""ann""",chandelier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
+"""412537001_0""",To what country is the bus going?,"""ann""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
+"""463039013_2""",Where are the flowers?,"""orig""",backyard of house,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,true
+"""293174000_1""",What feature makes this a piece of art?,"""ann""",decorated,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
+"""426980001_3""",What are the people sitting under?,"""ann""",sidewalk,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
+"""399147005_6""",What is the name of the fruit closest to the camera?,"""ann""",apples,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,false
+"""150546000_3""",Where is this bus likely to be located?,"""orig""",england,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,false
+"""252194001_8""",What kind of lamp post is that?,"""orig""",victorian,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
+"""310783009_0""",Why are they wearing white?,"""orig""",for occasion,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,false
+"""258854001_2""",What time is it?,"""orig""",12:00 pm,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,true
+"""121361000_2""",What is the woman doing with her hands?,"""ann""",singing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
+"""426980001_8""",What are the people sitting under?,"""ann""",in grass on chairs,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
+"""440511000_0""",Why is one elephant following the other?,"""pred""",circus,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,true
+"""426980001_8""",Where are the people sitting?,"""orig""",in grass on chairs,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
+"""150546000_3""",Where is the bus going?,"""pred""",parking lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,true
+"""218116000_4""",Why are there people behind the catcher?,"""pred""",baseball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,true
+"""491733001_7""",Where are the boats parked in the picture?,"""pred""",at dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,false
+"""475336016_6""",Where is a butter knife located in photo?,"""ann""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,false
+"""305538005_8""",What is the stop sign on?,"""ann""",middle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,true
+"""487442001_8""",What kind of toys are these?,"""orig""",plush,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,false
+"""420496002_0""",Why are the lights blurred?,"""orig""",slow shutter speed,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,true
+"""412537001_0""",What city is this bus in?,"""pred""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
+"""223458004_12""",What is the body of water?,"""pred""",ocean,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,false
+"""247360019_4""",What is the skateboard touching?,"""ann""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,true
+"""489844013_6""",What is the design on the cake?,"""orig""",spiral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,false
+"""399147005_6""",Which fruit is not on a table?,"""pred""",apples,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,false
+"""215863003_2""",In what establishment is the person eating?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,true
+"""4131007_8""",What does the boy have to do to for his job?,"""ann""",catch ball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,false
+"""341639000_8""",What is in the sky streaking down from the horizon?,"""pred""",jet stream,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,true
+"""132417003_4""",What various colors is the photo taken in?,"""ann""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
+"""145366002_3""",What type of birds are in the ducklings?,"""pred""",swans,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,false
+"""421383005_7""",Where is the motorcycle parked?,"""orig""",lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,false
+"""440511000_0""",For what activity could the elephants be lying down?,"""ann""",circus,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,true
+"""268159006_3""",About what time period is this?,"""orig""",nighttime,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,true
+"""23538002_3""",What food is on the plate?,"""ann""",steak and fries,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
+"""240862004_6""",Where is the baby looking?,"""orig""",at food,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,true
+"""429361006_1""",What type of grass are the birds eating from in the field?,"""pred""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
+"""23538002_3""",What food is on the plate?,"""ann""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
+"""412537001_6""",What is the name of the bus company?,"""pred""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
+"""343357006_0""",Where is this picture taken?,"""pred""",in park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
+"""489844013_6""",What is the design of the bride's dress?,"""pred""",bride and groom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,true
+"""461208009_5""",What item could be directly around the woman in the red shirt's waist?,"""ann""",belt,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,false
+"""293174000_1""",What is the pattern on the piece of paper called?,"""pred""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
+"""108223002_8""",Where are the cows located?,"""orig""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,false
+"""128503003_6""",Where are the traffic lights in the photo?,"""ann""",above street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,true
+"""485913002_0""",What vegetation is in this yard?,"""ann""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,true
+"""250194002_9""",Where was the picture taken of the people?,"""orig""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,false
+"""365011010_5""",What is in the right side of the photo?,"""pred""",sky posts,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
+"""365011010_5""",What artificial thing is on the right of the picture?,"""ann""",sky posts,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
+"""366001010_6""",What is the design on the floor made from?,"""ann""",hexagonal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,true
+"""365011010_5""",What artificial thing is on the right of the picture?,"""ann""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
+"""485180001_0""",At what event is this?,"""ann""",mall,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,true
+"""389775000_1""",Where is the bottled water?,"""pred""",behind backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
+"""429319011_3""",What kind of plane is it?,"""orig""",red propeller plane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
+"""461208009_5""",What item could be directly around the woman in the red shirt's waist?,"""ann""",post,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,true
+"""440511000_0""",Why is one elephant following the other?,"""pred""",tired,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,false
+"""426980001_8""",What are the people sitting under?,"""ann""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
+"""223458004_12""",Where is this body of water?,"""orig""",ocean,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,false
+"""305538005_8""",What is next to the stop sign?,"""pred""",middle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,true
+"""181009000_4""",Why is there a silver bar?,"""orig""",bicycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,false
+"""485913002_0""",What vegetation is in this yard?,"""ann""",grass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,false
+"""293174000_1""",Why is this a piece of art?,"""orig""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
+"""258854001_2""",What time is it?,"""orig""",early morning,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,false
+"""217407004_4""",Where is the flower at?,"""orig""",car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
+"""420496002_0""",Why are the lights blurred?,"""orig""",moving cars,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,false
+"""223458004_12""",What is this body of water flowing onto?,"""ann""",ocean,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,false
+"""440511000_0""",Why are the elephant lying down?,"""orig""",circus,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,true
+"""156859012_0""",What are the pizzas sitting on?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""121361000_2""",What is the woman doing?,"""pred""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
+"""177837002_0""",What kind of bird is this?,"""orig""",towel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,true
+"""259717002_3""",Where are they at?,"""orig""",china,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,true
+"""172806002_3""",What is the woman doing with a racket in the right hand?,"""pred""",holding tennis racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
+"""233201001_4""",Where is the bathroom in the picture?,"""pred""",home,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,true
+"""132417003_4""",What various colors is the photo taken in?,"""ann""",green and blue,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
+"""104610000_0""",What style of plane is this?,"""ann""",classic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,false
+"""10015002_3""",Is the snow deep?,"""pred""",not sure,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,false
+"""286673000_0""",Where is the pizza at?,"""orig""",kitchen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,true
+"""259717002_3""",What are they on?,"""ann""",china,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,true
+"""132417003_0""",What color scheme is the photo taken in?,"""orig""",gray,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
+"""421383005_7""",How many motorcycles are there?,"""pred""",desert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,true
+"""183972002_3""",What is the mixer on the counter called?,"""ann""",stand alone mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,false
+"""463039013_2""",What are the flowers in?,"""ann""",in planter,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,false
+"""172806002_3""",Where is her right hand?,"""orig""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
+"""432486001_5""",Where are the flowers?,"""orig""",window sill,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,false
+"""365011010_8""",What things are on the right of the picture?,"""ann""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
+"""487442001_8""",What kind of teddy bear is this?,"""pred""",plush,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,false
+"""14707007_6""",How high is the plane flying?,"""ann""",fuel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,true
+"""363570002_7""",What causes this this blue and green in terms of science?,"""ann""",photosynthesis,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,false
+"""177837002_0""",What is the pattern on the kind of blankets that people sleep in?,"""pred""",snake,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,false
+"""132417003_0""",What various colors is the photo taken in?,"""ann""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
+"""10015002_3""",What causes the snow to be red at some parts?,"""ann""",not sure,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,false
+"""44463014_5""",Where is the sign board placed?,"""orig""",near road,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,false
+"""487442001_8""",What material are these toys made from?,"""ann""",teddy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,true
+"""412537001_0""",What city is this bus in?,"""pred""",windsor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
+"""463591009_0""",Where are the man's hands in the photo?,"""ann""",front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,false
+"""181009000_4""",What is the man holding in his right hand that is silver?,"""pred""",for someone to hold onto for support,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,true
+"""363326001_5""",What does the object on the table do?,"""orig""",surf internet,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,true
+"""121361000_6""",What is the woman doing with her hands?,"""ann""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
+"""240862004_6""",Where is the baby looking?,"""orig""",lower left,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,false
+"""429361006_1""",What kind of field are they in?,"""orig""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
+"""286673000_0""",What is the pizza directly on?,"""ann""",kitchen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,true
+"""247360019_4""",Where is the skateboard?,"""orig""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,true
+"""250194002_9""",In what landscape was the picture taken of the people?,"""ann""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,false
+"""343357006_0""",Where does this picture take place?,"""orig""",in park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
+"""108223002_8""",Are the cows inside or outside?,"""ann""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,false
+"""468097000_7""",What is red on the side of the bus?,"""orig""",bottom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,true
+"""463591009_0""",Where is the bald man?,"""pred""",front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,false
+"""468097000_7""",What is red on the side of the bus?,"""orig""",wheel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,false
+"""363326001_5""",What does the object on the table do in the room?,"""ann""",surf internet,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,true
+"""365314011_5""",Why are people gathered here?,"""orig""",work,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,false
+"""215863003_2""",Where is the person eating?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,true
+"""461208009_5""",What is on the woman's left hand?,"""pred""",belt,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,false
+"""218116000_4""",What is the purpose of the netting?,"""ann""",protect crowd,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,false
+"""185236007_2""",What food items are pictured?,"""ann""",broccoli,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,false
+"""172806002_7""",Is the ball moving upwards or downwards?,"""pred""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
+"""365011010_8""",What is on the right of the picture?,"""orig""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
+"""156859012_6""",What is the pizza crust sitting directly on?,"""ann""",plate,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""121361000_6""",What is the woman doing?,"""orig""",talking phone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
+"""145366002_3""",What other birds are the ducks standing behind?,"""ann""",bushes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,true
+"""354741008_6""",What mountain slope is this person snowboarding on?,"""orig""",north,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,false
+"""426980001_3""",What are the people sitting under?,"""ann""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
+"""468097000_7""",What is red touching the ground on the side of the bus?,"""ann""",wheel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,false
+"""303367002_3""",What kind of flower is this?,"""pred""",purple queen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,false
+"""405041002_7""",Where is the luggage?,"""orig""",on floor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,true
+"""421383005_7""",Where is the motorcycle parked?,"""orig""",desert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,true
+"""412537001_6""",Where is the bus going?,"""orig""",tour,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
+"""108223002_8""",Where are the animals cows and giraffes?,"""pred""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,false
+"""34831008_5""",What are the curtains hung on?,"""ann""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,true
+"""286673000_0""",What is the pizza directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,false
+"""363570002_7""",Why is this blue and green?,"""orig""",photosynthesis,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,false
+"""303367002_3""",What is this kind of plant called?,"""ann""",purple,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,true
+"""366001010_6""",What design is on the floor?,"""orig""",hexagonal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,true
+"""177837002_0""",What kind of bird is this?,"""orig""",snake,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,false
+"""476738003_5""",What game is he playing?,"""orig""",laptop,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,true
+"""480403000_2""",What type of hats are they wearing?,"""orig""",ceremonial,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,true
+"""128503003_6""",Where are the traffic lights?,"""orig""",in front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,false
+"""181009000_4""",For what reason is there a silver bar?,"""ann""",bicycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,false
+"""491733001_7""",Where are the boats parked in the picture?,"""pred""",outdoors,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,true
+"""181009000_4""",What is the man holding in his right hand that is silver?,"""pred""",bicycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,false
+"""252194001_3""",What kind of lamp post is that?,"""orig""",chandelier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
+"""212856001_1""",What kind of building is in the background on the left? (right side item)?,"""pred""",pants,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,true
+"""389775000_0""",What is the water bottle on?,"""ann""",next to backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
+"""268159006_3""",What era is this photo from? (good time to start)?,"""pred""",nighttime,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,true
+"""222006012_0""",For what purpose is the hydraulic pump on the street?,"""ann""",water,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,false
+"""156859012_6""",Where is the pizza?,"""pred""",plate,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""215863003_2""",In what establishment is the person eating?,"""ann""",restaurant,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,false
+"""480403000_2""",What type of hats are they wearing?,"""orig""",beanies,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,false
+"""343357006_2""",In what recreational area does this picture take place?,"""ann""",pier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
+"""429361006_8""",What is the name of the kind of field they are in?,"""ann""",grassy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
+"""183972002_3""",What kind of mixer on the counter?,"""orig""",stand alone mixer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000183972.jpg,false
+"""252194001_8""",What style of lamp post is that?,"""ann""",victorian,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
+"""475336016_6""",Where is a butter knife?,"""orig""",placemat,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,true
+"""255418000_1""",What style of architecture best describes the brick building?,"""pred""",cathedral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,true
+"""217407004_7""",Where is the flower at?,"""orig""",left side,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
+"""215863003_2""",What kind of restaurant is the person in?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,true
+"""485913002_0""",What is on the ground in the yard?,"""pred""",grass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,false
+"""293174000_0""",Why is there a piece of paper on the toilet seat cover?,"""pred""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
+"""476738003_5""",What specific game could he be playing?,"""ann""",laptop,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,true
+"""463591009_0""",Where are the man's hands?,"""orig""",front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,false
+"""156859012_3""",The pizza is on what kind of plate?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""293174000_1""",What feature makes this a piece of art?,"""ann""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
+"""491733001_7""",Where was this picture taken?,"""orig""",outdoors,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,true
+"""240862004_6""",In which direction is the baby looking?,"""ann""",lower left,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,false
+"""303367002_3""",What kind of flower is this?,"""pred""",purple,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,true
+"""268159006_3""",About what time period is this?,"""orig""",80's,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,false
+"""412537001_6""",Where is the bus going?,"""orig""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
+"""429319006_3""",What era was the photo taken?,"""orig""",2010,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
+"""14707007_6""",How high is the plane flying?,"""ann""",4000',https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,false
+"""212856001_1""",What is the blue item on the left?,"""orig""",building,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,false
+"""177837002_0""",What is the pattern on the kind of blankets that people sleep in?,"""pred""",towel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000177837.jpg,true
+"""442150001_1""",Where are the flowers?,"""orig""",behind her,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,false
+"""429319011_3""",What kind of plane is it?,"""orig""",decoration,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
+"""429319011_3""",What type of plane is this?,"""pred""",decoration,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
+"""389775000_1""",Where is the bottled water?,"""pred""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
+"""218546006_4""",What is directly on the sides of the motorbike?,"""ann""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,true
+"""480403000_2""",What shape are the hats they are wearing?,"""ann""",beanies,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,false
+"""470925002_1""",What style of architecture does the building exemplify?,"""pred""",pane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,true
+"""343357006_2""",In what recreational area does this picture take place?,"""ann""",by lake or river,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
+"""363570002_7""",What is the purpose of enclosing the plants?,"""pred""",photosynthesis,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,false
+"""432486001_5""",What are the flower in front of?,"""ann""",in vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,true
+"""426980001_8""",Where are the people sitting?,"""orig""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
+"""217407004_4""",What is the flower in?,"""ann""",car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
+"""480403000_2""",What is on the woman's head?,"""pred""",beanies,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,false
+"""310783009_0""",What is the occasion?,"""pred""",vineyard,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,true
+"""4131007_8""",What does the boy have to do to for his job?,"""ann""",infield,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,true
+"""156859012_0""",What is the pizza crust sitting directly on?,"""ann""",cutting board,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""432486001_5""",What are the flower in front of?,"""ann""",window sill,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,false
+"""217407004_7""",Where is the flower at?,"""orig""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
+"""389775000_1""",What is the water bottle next to?,"""ann""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
+"""23538002_3""",What is on the plate?,"""orig""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
+"""212856001_1""",What kind of building is in the background on the left? (right side item)?,"""pred""",building,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,false
+"""363570002_7""",Why is this blue and green?,"""orig""",garden,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,true
+"""23538002_0""",What is on the plate?,"""orig""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
+"""103936001_1""",What is the purpose of the yellow line on the ground?,"""pred""",dimmer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,false
+"""247360019_4""",Where is the skateboard?,"""pred""",on ramp,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,false
+"""485180001_0""",At what event is this?,"""ann""",toy drive,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,false
+"""218546006_4""",What are the people riding on that is not sides?,"""pred""",carriers,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,false
+"""121361000_6""",What is in the woman's hand?,"""pred""",talking phone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
+"""34831008_5""",How are the curtains hung?,"""orig""",rod,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,false
+"""429361006_1""",What plants make up the filed they are in?,"""ann""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
+"""4131007_8""",What is the job of the boy?,"""orig""",catch ball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,false
+"""181009000_4""",For what reason is there a silver bar?,"""ann""",for someone to hold onto for support,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg,true
+"""156859012_0""",What is the pizza sitting on?,"""pred""",cutting board,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""293174000_0""",What feature makes this a piece of art?,"""ann""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
+"""23538002_0""",What is on the plate?,"""pred""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
+"""185236007_2""",What type of food is pictured?,"""orig""",broccoli,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000185236.jpg,false
+"""310783009_0""",For what reason are they wearing white?,"""ann""",vineyard,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,true
+"""305538005_8""",What is the stop sign on?,"""ann""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,false
+"""485180001_0""",What are the teddy bears doing?,"""pred""",mall,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,true
+"""365011010_5""",What is on the right of the picture?,"""orig""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
+"""23538002_3""",What kind of food is this?,"""pred""",steak and fries,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
+"""240862004_6""",Which side of the plate is the baby eating?,"""pred""",at food,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,true
+"""293174000_0""",Why is this a piece of art?,"""orig""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
+"""172806002_3""",What is her right hand doing?,"""ann""",holding tennis racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
+"""485913002_0""",What kind of yard is this?,"""orig""",grass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,false
+"""461208009_5""",What item is around the woman in the red shirt's waist?,"""orig""",post,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,true
+"""252194001_8""","What style of architecture best describes the brick building? (abstract, post, impressionist","""pred""",victorian,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
+"""228426004_1""",What kind of food is on the plate?,"""orig""",healthy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,true
 """399147005_6""",What fruit is closest to the camera?,"""orig""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,true
 """14707007_6""",How many people are in the plane?,"""pred""",4000',https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,false
-"""14707007_6""",How many people are in the plane?,"""pred""",fuel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,true
-"""14707007_6""",How high is the plane flying?,"""ann""",4000',https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,false
-"""14707007_6""",How high is the plane flying?,"""ann""",fuel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,true
-"""14707007_6""",How is the plane flying?,"""orig""",4000',https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,false
-"""14707007_6""",How is the plane flying?,"""orig""",fuel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,true
-"""420496002_0""",Why are the street lights on?,"""pred""",moving cars,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,false
-"""420496002_0""",Why are the street lights on?,"""pred""",slow shutter speed,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,true
-"""420496002_0""",What in the picture causes the lights to be blurred?,"""ann""",moving cars,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,false
-"""420496002_0""",What in the picture causes the lights to be blurred?,"""ann""",slow shutter speed,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,true
-"""420496002_0""",Why are the lights blurred?,"""orig""",moving cars,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,false
-"""420496002_0""",Why are the lights blurred?,"""orig""",slow shutter speed,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,true
-"""228426004_1""",What is the food for?,"""pred""",lunch,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,false
-"""228426004_1""",What is the food for?,"""pred""",healthy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,true
-"""228426004_1""",What meal is the food on the plate for?,"""ann""",lunch,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,false
-"""228426004_1""",What meal is the food on the plate for?,"""ann""",healthy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,true
-"""228426004_1""",What kind of food is on the plate?,"""orig""",lunch,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,false
-"""228426004_1""",What kind of food is on the plate?,"""orig""",healthy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,true
-"""303367002_3""",What kind of flower is this?,"""pred""",purple queen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,false
-"""303367002_3""",What kind of flower is this?,"""pred""",purple,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,true
-"""303367002_3""",What is this kind of plant called?,"""ann""",purple queen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,false
-"""303367002_3""",What is this kind of plant called?,"""ann""",purple,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,true
-"""303367002_3""",What kind of plant is this?,"""orig""",purple queen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,false
-"""303367002_3""",What kind of plant is this?,"""orig""",purple,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,true
-"""440511000_0""",Why is one elephant following the other?,"""pred""",tired,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,false
-"""440511000_0""",Why is one elephant following the other?,"""pred""",circus,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,true
-"""440511000_0""",For what activity could the elephants be lying down?,"""ann""",tired,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,false
-"""440511000_0""",For what activity could the elephants be lying down?,"""ann""",circus,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,true
-"""440511000_0""",Why are the elephant lying down?,"""orig""",tired,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,false
-"""440511000_0""",Why are the elephant lying down?,"""orig""",circus,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg,true
-"""293174000_1""",What is the pattern on the piece of paper called?,"""pred""",decorated,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
-"""293174000_1""",What is the pattern on the piece of paper called?,"""pred""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
-"""293174000_1""",What feature makes this a piece of art?,"""ann""",decorated,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
-"""293174000_1""",What feature makes this a piece of art?,"""ann""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
-"""293174000_1""",Why is this a piece of art?,"""orig""",decorated,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,false
-"""293174000_1""",Why is this a piece of art?,"""orig""",bathroom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg,true
-"""268159006_3""",What era is this photo from? (good time to start)?,"""pred""",80's,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,false
-"""268159006_3""",What era is this photo from? (good time to start)?,"""pred""",nighttime,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,true
-"""268159006_3""",About what decade is this?,"""ann""",80's,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,false
-"""268159006_3""",About what decade is this?,"""ann""",nighttime,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,true
-"""268159006_3""",About what time period is this?,"""orig""",80's,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,false
-"""268159006_3""",About what time period is this?,"""orig""",nighttime,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,true
-"""132417003_0""",What is the color of the sky?,"""pred""",gray,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
-"""132417003_0""",What is the color of the sky?,"""pred""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
-"""132417003_0""",What various colors is the photo taken in?,"""ann""",gray,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
-"""132417003_0""",What various colors is the photo taken in?,"""ann""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
-"""132417003_0""",What color scheme is the photo taken in?,"""orig""",gray,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
-"""132417003_0""",What color scheme is the photo taken in?,"""orig""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
-"""389775000_1""",Where is the bottled water?,"""pred""",behind backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
-"""389775000_1""",Where is the bottled water?,"""pred""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
-"""389775000_1""",What is the water bottle next to?,"""ann""",behind backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
-"""389775000_1""",What is the water bottle next to?,"""ann""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
-"""389775000_1""",Where is the water bottle?,"""orig""",behind backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
-"""389775000_1""",Where is the water bottle?,"""orig""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
-"""156943001_1""",What culture is likely to have a meal like this?,"""pred""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
-"""156943001_1""",What culture is likely to have a meal like this?,"""pred""",soup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
-"""156943001_1""",What is the ethnicity of this meal?,"""ann""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
-"""156943001_1""",What is the ethnicity of this meal?,"""ann""",soup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
-"""156943001_1""",What type of meal is this?,"""orig""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
-"""156943001_1""",What type of meal is this?,"""orig""",soup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
-"""305538005_8""",What is next to the stop sign?,"""pred""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,false
-"""305538005_8""",What is next to the stop sign?,"""pred""",middle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,true
-"""305538005_8""",What is the stop sign on?,"""ann""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,false
-"""305538005_8""",What is the stop sign on?,"""ann""",middle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,true
-"""305538005_8""",Where is the stop sign?,"""orig""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,false
-"""305538005_8""",Where is the stop sign?,"""orig""",middle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,true
-"""252194001_8""","What style of architecture best describes the brick building? (abstract, post, impressionist","""pred""",victorian,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
-"""252194001_8""","What style of architecture best describes the brick building? (abstract, post, impressionist","""pred""",iron,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
-"""252194001_8""",What style of lamp post is that?,"""ann""",victorian,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
-"""252194001_8""",What style of lamp post is that?,"""ann""",iron,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
-"""252194001_8""",What kind of lamp post is that?,"""orig""",victorian,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
-"""252194001_8""",What kind of lamp post is that?,"""orig""",iron,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
-"""4131007_8""",What is the man about to do with the glove in the job?,"""pred""",catch ball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,false
-"""4131007_8""",What is the man about to do with the glove in the job?,"""pred""",infield,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,true
-"""4131007_8""",What does the boy have to do to for his job?,"""ann""",catch ball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,false
-"""4131007_8""",What does the boy have to do to for his job?,"""ann""",infield,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,true
-"""4131007_8""",What is the job of the boy?,"""orig""",catch ball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,false
-"""4131007_8""",What is the job of the boy?,"""orig""",infield,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000004131.jpg,true
-"""485913002_0""",What is on the ground in the yard?,"""pred""",grass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,false
-"""485913002_0""",What is on the ground in the yard?,"""pred""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,true
-"""485913002_0""",What vegetation is in this yard?,"""ann""",grass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,false
-"""485913002_0""",What vegetation is in this yard?,"""ann""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,true
-"""485913002_0""",What kind of yard is this?,"""orig""",grass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,false
-"""485913002_0""",What kind of yard is this?,"""orig""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,true
-"""491733001_7""",Where are the boats parked in the picture?,"""pred""",at dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,false
-"""491733001_7""",Where are the boats parked in the picture?,"""pred""",outdoors,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,true
-"""491733001_7""",On what structure was this picture taken?,"""ann""",at dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,false
-"""491733001_7""",On what structure was this picture taken?,"""ann""",outdoors,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,true
-"""491733001_7""",Where was this picture taken?,"""orig""",at dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,false
-"""491733001_7""",Where was this picture taken?,"""orig""",outdoors,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,true
-"""476738003_5""",What is on the wall behind the man with the game controller?,"""pred""",slot machines,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,false
-"""476738003_5""",What is on the wall behind the man with the game controller?,"""pred""",laptop,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,true
-"""476738003_5""",What specific game could he be playing?,"""ann""",slot machines,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,false
-"""476738003_5""",What specific game could he be playing?,"""ann""",laptop,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,true
-"""476738003_5""",What game is he playing?,"""orig""",slot machines,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,false
-"""476738003_5""",What game is he playing?,"""orig""",laptop,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,true
-"""240511002_6""",What color is the roof of the house?,"""pred""",gray singles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,false
-"""240511002_6""",What color is the roof of the house?,"""pred""",hip,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,true
-"""240511002_6""",What material is used for the roof of this house?,"""ann""",gray singles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,false
-"""240511002_6""",What material is used for the roof of this house?,"""ann""",hip,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,true
-"""240511002_6""",What kind of roof is on the house?,"""orig""",gray singles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,false
-"""240511002_6""",What kind of roof is on the house?,"""orig""",hip,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,true
-"""150546000_3""",Where is the bus going?,"""pred""",england,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,false
-"""150546000_3""",Where is the bus going?,"""pred""",parking lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,true
-"""150546000_3""",In what country is this bus likely to be located?,"""ann""",england,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,false
-"""150546000_3""",In what country is this bus likely to be located?,"""ann""",parking lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,true
-"""150546000_3""",Where is this bus likely to be located?,"""orig""",england,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,false
-"""150546000_3""",Where is this bus likely to be located?,"""orig""",parking lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,true
-"""475336016_6""",Is the broccoli on the left or right side of the dish buttery or not?,"""pred""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,false
-"""475336016_6""",Is the broccoli on the left or right side of the dish buttery or not?,"""pred""",placemat,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,true
-"""475336016_6""",Where is a butter knife located in photo?,"""ann""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,false
-"""475336016_6""",Where is a butter knife located in photo?,"""ann""",placemat,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,true
-"""475336016_6""",Where is a butter knife?,"""orig""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,false
-"""475336016_6""",Where is a butter knife?,"""orig""",placemat,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,true
-"""426980001_3""",Where are the people sitting?,"""pred""",sidewalk,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
-"""426980001_3""",Where are the people sitting?,"""pred""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
-"""426980001_3""",What are the people sitting under?,"""ann""",sidewalk,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
-"""426980001_3""",What are the people sitting under?,"""ann""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
-"""426980001_3""",Where are the people sitting?,"""orig""",sidewalk,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
-"""426980001_3""",Where are the people sitting?,"""orig""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
-"""429319011_3""",What type of plane is this?,"""pred""",red propeller plane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
-"""429319011_3""",What type of plane is this?,"""pred""",decoration,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
-"""429319011_3""",What kind kind of propulsion does the plane have?,"""ann""",red propeller plane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
-"""429319011_3""",What kind kind of propulsion does the plane have?,"""ann""",decoration,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
-"""429319011_3""",What kind of plane is it?,"""orig""",red propeller plane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
-"""429319011_3""",What kind of plane is it?,"""orig""",decoration,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
-"""222006012_0""",What is the name of the pump?,"""pred""",water,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,false
-"""222006012_0""",What is the name of the pump?,"""pred""",abandoned gas station,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,true
-"""222006012_0""",For what purpose is the hydraulic pump on the street?,"""ann""",water,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,false
-"""222006012_0""",For what purpose is the hydraulic pump on the street?,"""ann""",abandoned gas station,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,true
-"""222006012_0""",Why is the hydraulic pump on the street?,"""orig""",water,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,false
-"""222006012_0""",Why is the hydraulic pump on the street?,"""orig""",abandoned gas station,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,true
-"""217407004_7""",Where is the flower?,"""pred""",left side,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
-"""217407004_7""",Where is the flower?,"""pred""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
-"""217407004_7""",On what side of the picture is the flower?,"""ann""",left side,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
-"""217407004_7""",On what side of the picture is the flower?,"""ann""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
-"""217407004_7""",Where is the flower at?,"""orig""",left side,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
-"""217407004_7""",Where is the flower at?,"""orig""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
-"""412537001_6""",What is the name of the bus company?,"""pred""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
-"""412537001_6""",What is the name of the bus company?,"""pred""",tour,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
-"""412537001_6""",What is the destination of the bus?,"""ann""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
-"""412537001_6""",What is the destination of the bus?,"""ann""",tour,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
-"""412537001_6""",Where is the bus going?,"""orig""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
-"""412537001_6""",Where is the bus going?,"""orig""",tour,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
-"""343357006_2""",What is the man standing on in this picture?,"""pred""",pier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
-"""343357006_2""",What is the man standing on in this picture?,"""pred""",by lake or river,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
-"""343357006_2""",In what recreational area does this picture take place?,"""ann""",pier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
-"""343357006_2""",In what recreational area does this picture take place?,"""ann""",by lake or river,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
-"""343357006_2""",Where does this picture take place?,"""orig""",pier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
-"""343357006_2""",Where does this picture take place?,"""orig""",by lake or river,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
-"""412537001_0""",What city is this bus in?,"""pred""",windsor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
-"""412537001_0""",What city is this bus in?,"""pred""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
-"""412537001_0""",To what country is the bus going?,"""ann""",windsor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
-"""412537001_0""",To what country is the bus going?,"""ann""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
-"""412537001_0""",Where is the bus going?,"""orig""",windsor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
-"""412537001_0""",Where is the bus going?,"""orig""",horseman of royal bg,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
-"""10015002_3""",Is the snow deep?,"""pred""",not sure,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,false
-"""10015002_3""",Is the snow deep?,"""pred""",stay on course,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,true
-"""10015002_3""",What causes the snow to be red at some parts?,"""ann""",not sure,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,false
-"""10015002_3""",What causes the snow to be red at some parts?,"""ann""",stay on course,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,true
-"""10015002_3""",Why is the snow red at some parts?,"""orig""",not sure,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,false
-"""10015002_3""",Why is the snow red at some parts?,"""orig""",stay on course,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,true
-"""217407004_4""",Where is the flower?,"""pred""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
-"""217407004_4""",Where is the flower?,"""pred""",car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
-"""217407004_4""",What is the flower in?,"""ann""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
-"""217407004_4""",What is the flower in?,"""ann""",car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
-"""217407004_4""",Where is the flower at?,"""orig""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
-"""217407004_4""",Where is the flower at?,"""orig""",car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
-"""103936001_1""",What is the purpose of the yellow line on the ground?,"""pred""",dimmer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,false
-"""103936001_1""",What is the purpose of the yellow line on the ground?,"""pred""",man and building on glass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,true
-"""103936001_1""",What about the light tells you this is a reflection?,"""ann""",dimmer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,false
-"""103936001_1""",What about the light tells you this is a reflection?,"""ann""",man and building on glass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,true
-"""103936001_1""",How can you tell this is a reflection?,"""orig""",dimmer,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,false
-"""103936001_1""",How can you tell this is a reflection?,"""orig""",man and building on glass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,true
-"""310783009_0""",What is the occasion?,"""pred""",for occasion,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,false
-"""310783009_0""",What is the occasion?,"""pred""",vineyard,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,true
-"""310783009_0""",For what reason are they wearing white?,"""ann""",for occasion,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,false
-"""310783009_0""",For what reason are they wearing white?,"""ann""",vineyard,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,true
-"""310783009_0""",Why are they wearing white?,"""orig""",for occasion,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,false
-"""310783009_0""",Why are they wearing white?,"""orig""",vineyard,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg,true
-"""121361000_6""",What is in the woman's hand?,"""pred""",talking phone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
-"""121361000_6""",What is in the woman's hand?,"""pred""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
-"""121361000_6""",What is the woman doing with her hands?,"""ann""",talking phone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
-"""121361000_6""",What is the woman doing with her hands?,"""ann""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
-"""121361000_6""",What is the woman doing?,"""orig""",talking phone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
-"""121361000_6""",What is the woman doing?,"""orig""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
-"""442150001_1""",Where is the mirror?,"""pred""",behind her,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,false
-"""442150001_1""",Where is the mirror?,"""pred""",vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,true
-"""442150001_1""",Where are the flowers in terms of the person?,"""ann""",behind her,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,false
-"""442150001_1""",Where are the flowers in terms of the person?,"""ann""",vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,true
-"""442150001_1""",Where are the flowers?,"""orig""",behind her,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,false
-"""442150001_1""",Where are the flowers?,"""orig""",vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,true
-"""463591009_0""",Where is the bald man?,"""pred""",front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,false
-"""463591009_0""",Where is the bald man?,"""pred""",cup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,true
-"""463591009_0""",Where are the man's hands in the photo?,"""ann""",front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,false
-"""463591009_0""",Where are the man's hands in the photo?,"""ann""",cup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,true
-"""463591009_0""",Where are the man's hands?,"""orig""",front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,false
-"""463591009_0""",Where are the man's hands?,"""orig""",cup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,true
-"""485180001_0""",What are the teddy bears doing?,"""pred""",toy drive,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,false
-"""485180001_0""",What are the teddy bears doing?,"""pred""",mall,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,true
-"""485180001_0""",At what event is this?,"""ann""",toy drive,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,false
-"""485180001_0""",At what event is this?,"""ann""",mall,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,true
-"""485180001_0""",Where is this?,"""orig""",toy drive,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,false
-"""485180001_0""",Where is this?,"""orig""",mall,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,true
-"""286673000_0""",What is under the pizza?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,false
-"""286673000_0""",What is under the pizza?,"""pred""",kitchen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,true
-"""286673000_0""",What is the pizza directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,false
-"""286673000_0""",What is the pizza directly on?,"""ann""",kitchen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,true
-"""286673000_0""",Where is the pizza at?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,false
-"""286673000_0""",Where is the pizza at?,"""orig""",kitchen,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,true
-"""485131011_0""",How long until it is midnight?,"""pred""",maybe 10 years,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,false
-"""485131011_0""",How long until it is midnight?,"""pred""",2000,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,true
-"""485131011_0""",How old is this photo in years?,"""ann""",maybe 10 years,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,false
-"""485131011_0""",How old is this photo in years?,"""ann""",2000,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,true
-"""485131011_0""",How old is this photo?,"""orig""",maybe 10 years,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,false
-"""485131011_0""",How old is this photo?,"""orig""",2000,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,true
-"""363326001_5""",Why is the table reflecting light?,"""pred""",light up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,false
-"""363326001_5""",Why is the table reflecting light?,"""pred""",surf internet,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,true
-"""363326001_5""",What does the object on the table do in the room?,"""ann""",light up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,false
-"""363326001_5""",What does the object on the table do in the room?,"""ann""",surf internet,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,true
-"""363326001_5""",What does the object on the table do?,"""orig""",light up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,false
-"""363326001_5""",What does the object on the table do?,"""orig""",surf internet,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,true
-"""212856001_1""",What kind of building is in the background on the left? (right side item)?,"""pred""",building,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,false
-"""212856001_1""",What kind of building is in the background on the left? (right side item)?,"""pred""",pants,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,true
-"""212856001_1""",What is the blue item on the left on the building?,"""ann""",building,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,false
-"""212856001_1""",What is the blue item on the left on the building?,"""ann""",pants,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,true
-"""212856001_1""",What is the blue item on the left?,"""orig""",building,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,false
-"""212856001_1""",What is the blue item on the left?,"""orig""",pants,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000212856.jpg,true
-"""343357006_0""",Where is this picture taken?,"""pred""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
-"""343357006_0""",Where is this picture taken?,"""pred""",in park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
-"""343357006_0""",Does this picture take place inside or outside?,"""ann""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
-"""343357006_0""",Does this picture take place inside or outside?,"""ann""",in park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
-"""343357006_0""",Where does this picture take place?,"""orig""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
-"""343357006_0""",Where does this picture take place?,"""orig""",in park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
 """156943001_5""",What is the name of the type of food on the plate?,"""pred""",dim sum,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
-"""156943001_5""",What is the name of the type of food on the plate?,"""pred""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
-"""156943001_5""",For what meal is this food?,"""ann""",dim sum,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
-"""156943001_5""",For what meal is this food?,"""ann""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
-"""156943001_5""",What type of meal is this?,"""orig""",dim sum,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
-"""156943001_5""",What type of meal is this?,"""orig""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
-"""487442001_8""",What kind of teddy bear is this?,"""pred""",plush,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,false
-"""487442001_8""",What kind of teddy bear is this?,"""pred""",teddy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,true
-"""487442001_8""",What material are these toys made from?,"""ann""",plush,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,false
-"""487442001_8""",What material are these toys made from?,"""ann""",teddy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,true
-"""487442001_8""",What kind of toys are these?,"""orig""",plush,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,false
-"""487442001_8""",What kind of toys are these?,"""orig""",teddy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000487442.jpg,true
-"""258854001_2""",Approximately what time of day is it?,"""pred""",early morning,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,false
-"""258854001_2""",Approximately what time of day is it?,"""pred""",12:00 pm,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,true
-"""258854001_2""",What period of the day is it?,"""ann""",early morning,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,false
-"""258854001_2""",What period of the day is it?,"""ann""",12:00 pm,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,true
-"""258854001_2""",What time is it?,"""orig""",early morning,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,false
-"""258854001_2""",What time is it?,"""orig""",12:00 pm,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,true
-"""215863003_2""",What kind of restaurant is the person in?,"""pred""",restaurant,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,false
-"""215863003_2""",What kind of restaurant is the person in?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,true
-"""215863003_2""",In what establishment is the person eating?,"""ann""",restaurant,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,false
-"""215863003_2""",In what establishment is the person eating?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,true
-"""215863003_2""",Where is the person eating?,"""orig""",restaurant,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,false
-"""215863003_2""",Where is the person eating?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,true
-"""365011010_5""",What is in the right side of the photo?,"""pred""",sky posts,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
-"""365011010_5""",What is in the right side of the photo?,"""pred""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
-"""365011010_5""",What artificial thing is on the right of the picture?,"""ann""",sky posts,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
-"""365011010_5""",What artificial thing is on the right of the picture?,"""ann""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
-"""365011010_5""",What is on the right of the picture?,"""orig""",sky posts,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,false
-"""365011010_5""",What is on the right of the picture?,"""orig""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
-"""479697012_6""",What is on the woman's head?,"""pred""",her knees,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,false
-"""479697012_6""",What is on the woman's head?,"""pred""",riding motorcycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,true
-"""479697012_6""",What is the woman in the back of the motorcycle holding?,"""ann""",her knees,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,false
-"""479697012_6""",What is the woman in the back of the motorcycle holding?,"""ann""",riding motorcycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,true
-"""479697012_6""",What is this woman holding?,"""orig""",her knees,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,false
-"""479697012_6""",What is this woman holding?,"""orig""",riding motorcycle,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000479697.jpg,true
-"""233201001_4""",Where is the bathroom in the picture?,"""pred""",motel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,false
-"""233201001_4""",Where is the bathroom in the picture?,"""pred""",home,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,true
-"""233201001_4""",What business's bathroom is this?,"""ann""",motel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,false
-"""233201001_4""",What business's bathroom is this?,"""ann""",home,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,true
-"""233201001_4""",Whose bathroom is this?,"""orig""",motel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,false
-"""233201001_4""",Whose bathroom is this?,"""orig""",home,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,true
-"""34831008_5""",What are the curtains made of?,"""pred""",rod,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,false
-"""34831008_5""",What are the curtains made of?,"""pred""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,true
-"""34831008_5""",What are the curtains hung on?,"""ann""",rod,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,false
-"""34831008_5""",What are the curtains hung on?,"""ann""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,true
-"""34831008_5""",How are the curtains hung?,"""orig""",rod,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,false
-"""34831008_5""",How are the curtains hung?,"""orig""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,true
-"""172806002_7""",Is the ball moving upwards or downwards?,"""pred""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
-"""172806002_7""",Is the ball moving upwards or downwards?,"""pred""",on racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
-"""172806002_7""",Where is her right hand positioned?,"""ann""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
-"""172806002_7""",Where is her right hand positioned?,"""ann""",on racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
-"""172806002_7""",Where is her right hand?,"""orig""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
-"""172806002_7""",Where is her right hand?,"""orig""",on racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
-"""489844013_6""",What is the design of the bride's dress?,"""pred""",spiral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,false
-"""489844013_6""",What is the design of the bride's dress?,"""pred""",bride and groom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,true
-"""489844013_6""",What colors are the cake?,"""ann""",spiral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,false
-"""489844013_6""",What colors are the cake?,"""ann""",bride and groom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,true
-"""489844013_6""",What is the design on the cake?,"""orig""",spiral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,false
-"""489844013_6""",What is the design on the cake?,"""orig""",bride and groom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,true
-"""250194002_9""",Where is the picture taken?,"""pred""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,false
-"""250194002_9""",Where is the picture taken?,"""pred""",suzuran st,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,true
-"""250194002_9""",In what landscape was the picture taken of the people?,"""ann""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,false
-"""250194002_9""",In what landscape was the picture taken of the people?,"""ann""",suzuran st,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,true
-"""250194002_9""",Where was the picture taken of the people?,"""orig""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,false
-"""250194002_9""",Where was the picture taken of the people?,"""orig""",suzuran st,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,true
-"""432486001_5""",What are the vases sitting on?,"""pred""",window sill,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,false
-"""432486001_5""",What are the vases sitting on?,"""pred""",in vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,true
-"""432486001_5""",What are the flower in front of?,"""ann""",window sill,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,false
-"""432486001_5""",What are the flower in front of?,"""ann""",in vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,true
-"""432486001_5""",Where are the flowers?,"""orig""",window sill,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,false
-"""432486001_5""",Where are the flowers?,"""orig""",in vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000432486.jpg,true
-"""463039013_2""",Where are the flowers?,"""pred""",in planter,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,false
-"""463039013_2""",Where are the flowers?,"""pred""",backyard of house,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,true
-"""463039013_2""",What are the flowers in?,"""ann""",in planter,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,false
-"""463039013_2""",What are the flowers in?,"""ann""",backyard of house,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,true
-"""463039013_2""",Where are the flowers?,"""orig""",in planter,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,false
-"""463039013_2""",Where are the flowers?,"""orig""",backyard of house,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,true
-"""429361006_8""",What kind of meat are the animals eating?,"""pred""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
-"""429361006_8""",What kind of meat are the animals eating?,"""pred""",grassy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
-"""429361006_8""",What is the name of the kind of field they are in?,"""ann""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
-"""429361006_8""",What is the name of the kind of field they are in?,"""ann""",grassy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
-"""429361006_8""",What kind of field are they in?,"""orig""",dessert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
-"""429361006_8""",What kind of field are they in?,"""orig""",grassy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
-"""139390001_6""",Where is the bus?,"""pred""",parked on street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,false
-"""139390001_6""",Where is the bus?,"""pred""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,true
-"""139390001_6""",What is the bus on?,"""ann""",parked on street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,false
-"""139390001_6""",What is the bus on?,"""ann""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,true
-"""139390001_6""",Where is the bus?,"""orig""",parked on street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,false
-"""139390001_6""",Where is the bus?,"""orig""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,true
-"""405041002_7""",Where is the luggage?,"""pred""",bottom right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,false
-"""405041002_7""",Where is the luggage?,"""pred""",on floor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,true
-"""405041002_7""",What area is the luggage in the building?,"""ann""",bottom right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,false
-"""405041002_7""",What area is the luggage in the building?,"""ann""",on floor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,true
-"""405041002_7""",Where is the luggage?,"""orig""",bottom right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,false
-"""405041002_7""",Where is the luggage?,"""orig""",on floor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,true
-"""23538002_3""",What kind of food is this?,"""pred""",steak and fries,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
-"""23538002_3""",What kind of food is this?,"""pred""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
-"""23538002_3""",What food is on the plate?,"""ann""",steak and fries,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
-"""23538002_3""",What food is on the plate?,"""ann""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
-"""23538002_3""",What is on the plate?,"""orig""",steak and fries,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
-"""23538002_3""",What is on the plate?,"""orig""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
-"""121361000_2""",What is the woman doing?,"""pred""",singing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
-"""121361000_2""",What is the woman doing?,"""pred""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
-"""121361000_2""",What is the woman doing with her hands?,"""ann""",singing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
-"""121361000_2""",What is the woman doing with her hands?,"""ann""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
-"""121361000_2""",What is the woman doing?,"""orig""",singing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
-"""121361000_2""",What is the woman doing?,"""orig""",standing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,true
-"""480403000_2""",What is on the woman's head?,"""pred""",beanies,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,false
-"""480403000_2""",What is on the woman's head?,"""pred""",ceremonial,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,true
-"""480403000_2""",What shape are the hats they are wearing?,"""ann""",beanies,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,false
-"""480403000_2""",What shape are the hats they are wearing?,"""ann""",ceremonial,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,true
-"""480403000_2""",What type of hats are they wearing?,"""orig""",beanies,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,false
-"""480403000_2""",What type of hats are they wearing?,"""orig""",ceremonial,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000480403.jpg,true
-"""218116000_4""",Why are there people behind the catcher?,"""pred""",protect crowd,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,false
-"""218116000_4""",Why are there people behind the catcher?,"""pred""",baseball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,true
-"""218116000_4""",What is the purpose of the netting?,"""ann""",protect crowd,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,false
-"""218116000_4""",What is the purpose of the netting?,"""ann""",baseball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,true
-"""218116000_4""",What is the netting for?,"""orig""",protect crowd,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,false
-"""218116000_4""",What is the netting for?,"""orig""",baseball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,true
-"""23538002_0""",What is on the plate?,"""pred""","fries, steak, pickle, sauce, ci[s",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
-"""23538002_0""",What is on the plate?,"""pred""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
-"""23538002_0""",What food is on the plate?,"""ann""","fries, steak, pickle, sauce, ci[s",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
-"""23538002_0""",What food is on the plate?,"""ann""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
-"""23538002_0""",What is on the plate?,"""orig""","fries, steak, pickle, sauce, ci[s",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
-"""23538002_0""",What is on the plate?,"""orig""",meal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,true
-"""421383005_7""",How many motorcycles are there?,"""pred""",lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,false
-"""421383005_7""",How many motorcycles are there?,"""pred""",desert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,true
-"""421383005_7""",Where are the motorcycles parked?,"""ann""",lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,false
-"""421383005_7""",Where are the motorcycles parked?,"""ann""",desert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,true
-"""421383005_7""",Where is the motorcycle parked?,"""orig""",lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,false
-"""421383005_7""",Where is the motorcycle parked?,"""orig""",desert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,true
-"""468097000_7""",What is on the side of the bus?,"""pred""",wheel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,false
-"""468097000_7""",What is on the side of the bus?,"""pred""",bottom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,true
-"""468097000_7""",What is red touching the ground on the side of the bus?,"""ann""",wheel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,false
-"""468097000_7""",What is red touching the ground on the side of the bus?,"""ann""",bottom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,true
-"""468097000_7""",What is red on the side of the bus?,"""orig""",wheel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,false
-"""468097000_7""",What is red on the side of the bus?,"""orig""",bottom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,true
-"""145366002_3""",What type of birds are in the ducklings?,"""pred""",swans,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,false
-"""145366002_3""",What type of birds are in the ducklings?,"""pred""",bushes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,true
-"""145366002_3""",What other birds are the ducks standing behind?,"""ann""",swans,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,false
-"""145366002_3""",What other birds are the ducks standing behind?,"""ann""",bushes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,true
-"""145366002_3""",What are the ducks standing behind?,"""orig""",swans,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,false
-"""145366002_3""",What are the ducks standing behind?,"""orig""",bushes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,true
-"""240862004_6""",Which side of the plate is the baby eating?,"""pred""",lower left,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,false
-"""240862004_6""",Which side of the plate is the baby eating?,"""pred""",at food,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,true
-"""240862004_6""",In which direction is the baby looking?,"""ann""",lower left,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,false
-"""240862004_6""",In which direction is the baby looking?,"""ann""",at food,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,true
-"""240862004_6""",Where is the baby looking?,"""orig""",lower left,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,false
-"""240862004_6""",Where is the baby looking?,"""orig""",at food,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240862.jpg,true
-"""132417003_4""",What is the color of the water?,"""pred""",green and blue,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
-"""132417003_4""",What is the color of the water?,"""pred""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
-"""132417003_4""",What various colors is the photo taken in?,"""ann""",green and blue,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
-"""132417003_4""",What various colors is the photo taken in?,"""ann""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
-"""132417003_4""",What color scheme is the photo taken in?,"""orig""",green and blue,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
-"""132417003_4""",What color scheme is the photo taken in?,"""orig""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
-"""252194001_3""",What kind of lights are in the picture?,"""pred""",chandelier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
-"""252194001_3""",What kind of lights are in the picture?,"""pred""",street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
-"""252194001_3""",How many lights does that lamp post have?,"""ann""",chandelier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
-"""252194001_3""",How many lights does that lamp post have?,"""ann""",street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
-"""252194001_3""",What kind of lamp post is that?,"""orig""",chandelier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
-"""252194001_3""",What kind of lamp post is that?,"""orig""",street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
-"""218546006_4""",What are the people riding on that is not sides?,"""pred""",carriers,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,false
-"""218546006_4""",What are the people riding on that is not sides?,"""pred""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,true
+"""429319011_3""",What kind kind of propulsion does the plane have?,"""ann""",red propeller plane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
+"""240511002_6""",What material is used for the roof of this house?,"""ann""",gray singles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,false
 """218546006_4""",What is directly on the sides of the motorbike?,"""ann""",carriers,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,false
-"""218546006_4""",What is directly on the sides of the motorbike?,"""ann""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,true
-"""218546006_4""",What is on the sides of the motorbike?,"""orig""",carriers,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,false
-"""218546006_4""",What is on the sides of the motorbike?,"""orig""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,true
-"""354741008_6""",Which direction is the person in the foreground facing?,"""pred""",north,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,false
-"""354741008_6""",Which direction is the person in the foreground facing?,"""pred""",steep,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,true
-"""354741008_6""",What mountain side is this person snowboarding on?,"""ann""",north,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,false
-"""354741008_6""",What mountain side is this person snowboarding on?,"""ann""",steep,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,true
-"""354741008_6""",What mountain slope is this person snowboarding on?,"""orig""",north,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,false
-"""354741008_6""",What mountain slope is this person snowboarding on?,"""orig""",steep,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,true
-"""363570002_7""",What is the purpose of enclosing the plants?,"""pred""",photosynthesis,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,false
-"""363570002_7""",What is the purpose of enclosing the plants?,"""pred""",garden,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,true
-"""363570002_7""",What causes this this blue and green in terms of science?,"""ann""",photosynthesis,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,false
-"""363570002_7""",What causes this this blue and green in terms of science?,"""ann""",garden,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,true
-"""363570002_7""",Why is this blue and green?,"""orig""",photosynthesis,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,false
-"""363570002_7""",Why is this blue and green?,"""orig""",garden,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,true
-"""259717002_3""",Where are the boats parked?,"""pred""",dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,false
-"""259717002_3""",Where are the boats parked?,"""pred""",china,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,true
-"""259717002_3""",What are they on?,"""ann""",dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,false
-"""259717002_3""",What are they on?,"""ann""",china,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,true
-"""259717002_3""",Where are they at?,"""orig""",dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,false
-"""259717002_3""",Where are they at?,"""orig""",china,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000259717.jpg,true
-"""128503003_6""",Where are the traffic lights?,"""pred""",in front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,false
-"""128503003_6""",Where are the traffic lights?,"""pred""",above street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,true
-"""128503003_6""",Where are the traffic lights in the photo?,"""ann""",in front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,false
-"""128503003_6""",Where are the traffic lights in the photo?,"""ann""",above street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,true
-"""128503003_6""",Where are the traffic lights?,"""orig""",in front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,false
-"""128503003_6""",Where are the traffic lights?,"""orig""",above street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,true
-"""366001010_6""",What is the floor made of in this design?,"""pred""",tiles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,false
-"""366001010_6""",What is the floor made of in this design?,"""pred""",hexagonal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,true
-"""366001010_6""",What is the design on the floor made from?,"""ann""",tiles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,false
-"""366001010_6""",What is the design on the floor made from?,"""ann""",hexagonal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,true
-"""366001010_6""",What design is on the floor?,"""orig""",tiles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,false
-"""366001010_6""",What design is on the floor?,"""orig""",hexagonal,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,true
-"""443650003_3""",What is the time of day?,"""pred""",afternoon,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,false
-"""443650003_3""",What is the time of day?,"""pred""",4 o'clock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,true
-"""443650003_3""",What period of the day is it?,"""ann""",afternoon,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,false
-"""443650003_3""",What period of the day is it?,"""ann""",4 o'clock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,true
-"""443650003_3""",What time of day is it?,"""orig""",afternoon,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,false
-"""443650003_3""",What time of day is it?,"""orig""",4 o'clock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,true
-"""108223002_8""",Where are the animals cows and giraffes?,"""pred""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,false
-"""108223002_8""",Where are the animals cows and giraffes?,"""pred""",forest,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,true
-"""108223002_8""",Are the cows inside or outside?,"""ann""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,false
-"""108223002_8""",Are the cows inside or outside?,"""ann""",forest,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,true
-"""108223002_8""",Where are the cows located?,"""orig""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,false
-"""108223002_8""",Where are the cows located?,"""orig""",forest,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,true
-"""341639000_8""",What is in the sky streaking down from the horizon?,"""pred""",cloud,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,false
-"""341639000_8""",What is in the sky streaking down from the horizon?,"""pred""",jet stream,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,true
-"""341639000_8""",What is the natural white streak in the sky?,"""ann""",cloud,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,false
-"""341639000_8""",What is the natural white streak in the sky?,"""ann""",jet stream,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,true
-"""341639000_8""",What is the white streak in the sky?,"""orig""",cloud,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,false
-"""341639000_8""",What is the white streak in the sky?,"""orig""",jet stream,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000341639.jpg,true
-"""461208009_5""",What is on the woman's left hand?,"""pred""",belt,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,false
-"""461208009_5""",What is on the woman's left hand?,"""pred""",post,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,true
-"""461208009_5""",What item could be directly around the woman in the red shirt's waist?,"""ann""",belt,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,false
-"""461208009_5""",What item could be directly around the woman in the red shirt's waist?,"""ann""",post,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,true
-"""461208009_5""",What item is around the woman in the red shirt's waist?,"""orig""",belt,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,false
-"""461208009_5""",What item is around the woman in the red shirt's waist?,"""orig""",post,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461208.jpg,true
-"""429319006_3""",When was this photo replica from?,"""pred""",2010,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
-"""429319006_3""",When was this photo replica from?,"""pred""",today,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
-"""429319006_3""",During what decade was the photo taken?,"""ann""",2010,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
-"""429319006_3""",During what decade was the photo taken?,"""ann""",today,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
-"""429319006_3""",What era was the photo taken?,"""orig""",2010,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
-"""429319006_3""",What era was the photo taken?,"""orig""",today,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
-"""255418000_1""",What style of architecture best describes the brick building?,"""pred""",archaic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,false
-"""255418000_1""",What style of architecture best describes the brick building?,"""pred""",cathedral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,true
-"""255418000_1""",What architectural style are the buildings?,"""ann""",archaic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,false
-"""255418000_1""",What architectural style are the buildings?,"""ann""",cathedral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,true
-"""255418000_1""",What style are the buildings?,"""orig""",archaic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,false
-"""255418000_1""",What style are the buildings?,"""orig""",cathedral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,true
-"""385704000_7""",What type of car is in the background?,"""pred""",compact,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,false
+"""252194001_8""",What style of lamp post is that?,"""ann""",iron,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
+"""405041002_7""",What area is the luggage in the building?,"""ann""",bottom right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,false
+"""222006012_0""",What is the name of the pump?,"""pred""",abandoned gas station,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,true
+"""240511002_6""",What kind of roof is on the house?,"""orig""",gray singles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,false
+"""172806002_7""",Where is her right hand?,"""orig""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
 """385704000_7""",What type of car is in the background?,"""pred""",black car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,true
-"""385704000_7""",What style of car is behind the man?,"""ann""",compact,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,false
-"""385704000_7""",What style of car is behind the man?,"""ann""",black car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,true
-"""385704000_7""",What kind of car is behind the man?,"""orig""",compact,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,false
-"""385704000_7""",What kind of car is behind the man?,"""orig""",black car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,true
-"""172806002_3""",What is the woman doing with a racket in the right hand?,"""pred""",holding tennis racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
-"""172806002_3""",What is the woman doing with a racket in the right hand?,"""pred""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
-"""172806002_3""",What is her right hand doing?,"""ann""",holding tennis racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
-"""172806002_3""",What is her right hand doing?,"""ann""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
-"""172806002_3""",Where is her right hand?,"""orig""",holding tennis racket,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,false
-"""172806002_3""",Where is her right hand?,"""orig""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000172806.jpg,true
-"""389775000_0""",Where is the bottled water?,"""pred""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
-"""389775000_0""",Where is the bottled water?,"""pred""",next to backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
-"""389775000_0""",What is the water bottle on?,"""ann""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
-"""389775000_0""",What is the water bottle on?,"""ann""",next to backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
-"""389775000_0""",Where is the water bottle?,"""orig""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
-"""389775000_0""",Where is the water bottle?,"""orig""",next to backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,true
-"""470925002_1""",What style of architecture does the building exemplify?,"""pred""",banned,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,false
-"""470925002_1""",What style of architecture does the building exemplify?,"""pred""",pane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,true
-"""470925002_1""",What is the safety style of the glass windows?,"""ann""",banned,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,false
-"""470925002_1""",What is the safety style of the glass windows?,"""ann""",pane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,true
-"""470925002_1""",What is the style of the glass windows?,"""orig""",banned,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,false
-"""470925002_1""",What is the style of the glass windows?,"""orig""",pane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000470925.jpg,true
-"""156859012_0""",What is the pizza sitting on?,"""pred""",cutting board,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_0""",What is the pizza sitting on?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""156859012_0""",What is the pizza crust sitting directly on?,"""ann""",cutting board,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_0""",What is the pizza crust sitting directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
-"""156859012_0""",What are the pizzas sitting on?,"""orig""",cutting board,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
-"""156859012_0""",What are the pizzas sitting on?,"""orig""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""240511002_6""",What color is the roof of the house?,"""pred""",gray singles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,false
+"""399147005_6""",What is the name of the fruit closest to the camera?,"""ann""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,true
+"""228426004_1""",What is the food for?,"""pred""",lunch,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,false
+"""485180001_0""",Where is this?,"""orig""",mall,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485180.jpg,true
+"""429319011_3""",What type of plane is this?,"""pred""",red propeller plane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,false
+"""233201001_4""",Whose bathroom is this?,"""orig""",motel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,false
+"""463039013_2""",Where are the flowers?,"""pred""",backyard of house,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,true
+"""429319011_3""",What kind kind of propulsion does the plane have?,"""ann""",decoration,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg,true
+"""217407004_4""",What is the flower in?,"""ann""",in car's vase,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,false
+"""412537001_6""",What is the name of the bus company?,"""pred""",tour,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
+"""442150001_1""",Where is the mirror?,"""pred""",behind her,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,false
+"""468097000_7""",What is red touching the ground on the side of the bus?,"""ann""",bottom,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,true
+"""443650003_3""",What is the time of day?,"""pred""",afternoon,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,false
+"""442150001_1""",Where are the flowers in terms of the person?,"""ann""",behind her,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000442150.jpg,false
+"""14707007_6""",How many people are in the plane?,"""pred""",fuel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,true
+"""268159006_3""",What era is this photo from? (good time to start)?,"""pred""",80's,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,false
+"""461114061_2""",What is the baby's expression?,"""pred""",people singing happy birthday,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,true
+"""258854001_2""",What period of the day is it?,"""ann""",12:00 pm,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000258854.jpg,true
+"""128503003_6""",Where are the traffic lights in the photo?,"""ann""",in front,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,false
+"""468097000_7""",What is on the side of the bus?,"""pred""",wheel,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468097.jpg,false
+"""363326001_5""",Why is the table reflecting light?,"""pred""",light up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg,false
+"""252194001_3""",How many lights does that lamp post have?,"""ann""",street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
 """104610000_0""",What type of plane is this?,"""pred""",classic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,false
+"""363570002_7""",What causes this this blue and green in terms of science?,"""ann""",garden,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg,true
+"""156943001_1""",What type of meal is this?,"""orig""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,false
+"""343357006_0""",Where does this picture take place?,"""orig""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,false
+"""426980001_3""",Where are the people sitting?,"""pred""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
+"""247360019_4""",Where is the skateboard?,"""orig""",on ramp,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,false
+"""132417003_0""",What is the color of the sky?,"""pred""",gray,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
+"""429361006_1""",What kind of field are they in?,"""orig""",dried,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,false
+"""405041002_7""",Where is the luggage?,"""pred""",bottom right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000405041.jpg,false
+"""156859012_3""",The pizza is on what kind of plate?,"""pred""",stone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""343357006_0""",Does this picture take place inside or outside?,"""ann""",in park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
+"""252194001_8""","What style of architecture best describes the brick building? (abstract, post, impressionist","""pred""",iron,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
+"""412537001_0""",To what country is the bus going?,"""ann""",windsor,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,false
 """104610000_0""",What type of plane is this?,"""pred""",biplane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,true
-"""104610000_0""",What style of plane is this?,"""ann""",classic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,false
-"""104610000_0""",What style of plane is this?,"""ann""",biplane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,true
-"""104610000_0""",What kind of plane is this?,"""orig""",classic,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,false
-"""104610000_0""",What kind of plane is this?,"""orig""",biplane,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000104610.jpg,true
+"""366001010_6""",What is the design on the floor made from?,"""ann""",tiles,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000366001.jpg,false
+"""44463014_5""",What is the sign board by?,"""ann""",near road,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000044463.jpg,false
+"""156943001_1""",What type of meal is this?,"""orig""",soup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
+"""476738003_5""",What is on the wall behind the man with the game controller?,"""pred""",laptop,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000476738.jpg,true
+"""128503003_6""",Where are the traffic lights?,"""orig""",above street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000128503.jpg,true
+"""463039013_2""",Where are the flowers?,"""orig""",in planter,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463039.jpg,false
+"""23538002_0""",What food is on the plate?,"""ann""","fries, steak, pickle, sauce, ci[s",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000023538.jpg,false
+"""491733001_7""",Where was this picture taken?,"""orig""",at dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,false
+"""156859012_3""",What is the pizza crust sitting directly on?,"""ann""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,true
+"""426980001_3""",Where are the people sitting?,"""orig""",park,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,true
+"""389775000_1""",Where is the water bottle?,"""orig""",behind backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
+"""228426004_1""",What kind of food is on the plate?,"""orig""",lunch,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,false
+"""10015002_3""",Why is the snow red at some parts?,"""orig""",not sure,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,false
+"""389775000_0""",Where is the water bottle?,"""orig""",on table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
+"""252194001_3""",What kind of lights are in the picture?,"""pred""",chandelier,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,false
+"""399147005_6""",Which fruit is not on a table?,"""pred""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000399147.jpg,true
+"""354741008_6""",What mountain slope is this person snowboarding on?,"""orig""",steep,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,true
+"""218546006_4""",What are the people riding on that is not sides?,"""pred""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218546.jpg,true
+"""305538005_8""",Where is the stop sign?,"""orig""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,false
+"""354741008_6""",What mountain side is this person snowboarding on?,"""ann""",steep,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000354741.jpg,true
+"""485913002_0""",What kind of yard is this?,"""orig""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,true
+"""240511002_6""",What kind of roof is on the house?,"""orig""",hip,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000240511.jpg,true
+"""420496002_0""",What in the picture causes the lights to be blurred?,"""ann""",slow shutter speed,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,true
+"""429361006_8""",What kind of field are they in?,"""orig""",grassy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429361.jpg,true
+"""443650003_3""",What time of day is it?,"""orig""",afternoon,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000443650.jpg,false
+"""132417003_4""",What is the color of the water?,"""pred""",cloudy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,true
+"""412537001_6""",What is the destination of the bus?,"""ann""",tour,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000412537.jpg,true
+"""255418000_1""",What style are the buildings?,"""orig""",cathedral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,true
+"""491733001_7""",On what structure was this picture taken?,"""ann""",outdoors,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,true
+"""491733001_7""",On what structure was this picture taken?,"""ann""",at dock,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000491733.jpg,false
+"""365011010_5""",What is in the right side of the photo?,"""pred""","electric tower, ski pole, and mountain top",https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
+"""365314011_5""",Why are these people gathered here?,"""pred""",work,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,false
+"""156859012_3""",What are the pizzas sitting on?,"""orig""",stone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156859.jpg,false
+"""421383005_7""",Where are the motorcycles parked?,"""ann""",lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,false
+"""305538005_8""",What is next to the stop sign?,"""pred""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000305538.jpg,false
+"""150546000_3""",Where is the bus going?,"""pred""",england,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,false
+"""385704000_7""",What type of car is in the background?,"""pred""",compact,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000385704.jpg,false
+"""426980001_8""",Where are the people sitting?,"""pred""",in grass on chairs,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000426980.jpg,false
+"""485913002_0""",What is on the ground in the yard?,"""pred""",green,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485913.jpg,true
+"""485131011_0""",How old is this photo in years?,"""ann""",2000,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000485131.jpg,true
+"""255418000_1""",What architectural style are the buildings?,"""ann""",cathedral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000255418.jpg,true
+"""233201001_4""",Whose bathroom is this?,"""orig""",home,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000233201.jpg,true
+"""343357006_2""",Where does this picture take place?,"""orig""",by lake or river,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
+"""150546000_3""",Where is this bus likely to be located?,"""orig""",parking lot,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000150546.jpg,true
+"""286673000_0""",What is under the pizza?,"""pred""",table,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000286673.jpg,false
+"""252194001_3""",What kind of lamp post is that?,"""orig""",street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000252194.jpg,true
+"""132417003_4""",What is the color of the water?,"""pred""",green and blue,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000132417.jpg,false
+"""222006012_0""",For what purpose is the hydraulic pump on the street?,"""ann""",abandoned gas station,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg,true
+"""223458004_12""",What is the body of water?,"""pred""",country,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000223458.jpg,true
+"""156943001_5""",What type of meal is this?,"""orig""",japanese,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000156943.jpg,true
+"""108223002_8""",Where are the cows located?,"""orig""",forest,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000108223.jpg,true
+"""228426004_1""",What meal is the food on the plate for?,"""ann""",lunch,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000228426.jpg,false
+"""139390001_6""",Where is the bus?,"""pred""",parked on street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,false
+"""268159006_3""",About what decade is this?,"""ann""",80's,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000268159.jpg,false
+"""475336016_6""",Where is a butter knife?,"""orig""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,false
+"""145366002_3""",What other birds are the ducks standing behind?,"""ann""",swans,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,false
+"""389775000_1""",What is the water bottle next to?,"""ann""",behind backpack,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000389775.jpg,false
+"""215863003_2""",Where is the person eating?,"""orig""",restaurant,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000215863.jpg,false
+"""218116000_4""",What is the purpose of the netting?,"""ann""",baseball,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg,true
+"""303367002_3""",What kind of plant is this?,"""orig""",purple,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000303367.jpg,true
+"""139390001_6""",What is the bus on?,"""ann""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,true
+"""139390001_6""",Where is the bus?,"""orig""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,true
+"""14707007_6""",How is the plane flying?,"""orig""",4000',https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg,false
+"""463591009_0""",Where are the man's hands in the photo?,"""ann""",cup,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000463591.jpg,true
+"""365314011_5""",Why are people gathered here?,"""orig""",bikes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg,true
+"""461114061_2""",What is making the baby cry?,"""orig""",joy,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000461114.jpg,false
+"""103936001_1""",How can you tell this is a reflection?,"""orig""",man and building on glass,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg,true
+"""475336016_6""",Is the broccoli on the left or right side of the dish buttery or not?,"""pred""",right,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000475336.jpg,false
+"""420496002_0""",What in the picture causes the lights to be blurred?,"""ann""",moving cars,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg,false
+"""34831008_5""",What are the curtains made of?,"""pred""",up,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034831.jpg,true
+"""489844013_6""",What is the design of the bride's dress?,"""pred""",spiral,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000489844.jpg,false
+"""247360019_4""",What is the skateboard touching?,"""ann""",on ramp,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000247360.jpg,false
+"""421383005_7""",Where are the motorcycles parked?,"""ann""",desert,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000421383.jpg,true
+"""139390001_6""",Where is the bus?,"""orig""",parked on street,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000139390.jpg,false
+"""145366002_3""",What are the ducks standing behind?,"""orig""",bushes,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000145366.jpg,true
+"""365011010_8""",What is in the right side of the photo?,"""pred""",pole,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365011.jpg,true
+"""121361000_6""",What is the woman doing with her hands?,"""ann""",talking phone,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
+"""121361000_2""",What is the woman doing?,"""pred""",singing,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000121361.jpg,false
+"""217407004_4""",Where is the flower?,"""pred""",car,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000217407.jpg,true
+"""343357006_2""",What is the man standing on in this picture?,"""pred""",by lake or river,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000343357.jpg,true
+"""10015002_3""",Is the snow deep?,"""pred""",stay on course,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg,true
+"""250194002_9""",Where is the picture taken?,"""pred""",outside,https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000250194.jpg,false
