@@ -1,0 +1,260 @@
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
+<section class="container" id="Other"
+    style="margin-bottom:15px; padding: 10px 10px; font-family: sans-serif, Verdana, Geneva  ; color:#333333; font-size:1.0em;">
+    <style type="text/css">
+        hr {
+            color: #000000;
+            background-color: #000000;
+            height: 2px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
+            table-layout: fixed;
+            font-size: 15px;
+        }
+
+        .sentence {
+            font-size: 16px;
+        }
+
+        .panel-heading {
+            background-color: #a7eede !important;
+            border: 0px solid;
+        }
+
+        .panel-primary {
+            border-color: #FFFFFF;
+            border: 0px solid #FFFFFF;
+        }
+
+        .emph {
+            color: #EC407A;
+        }
+
+        .blue {
+            color: #0000FF;
+        }
+
+        .red {
+            color: #FF0000;
+        }
+
+        .instr {
+            font-family: sans-serif, Verdana, Geneva;
+            font-size: 15px;
+            line-height: 20px;
+            width: 88%;
+        }
+
+
+        #slidecontainer {
+            width: 100%;
+            /* Width of the outside container */
+            margin-bottom: 1cm;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            /* Override default CSS styles */
+            appearance: none;
+            width: 40%;
+            /* Full-width */
+            height: 10px;
+            /* Specified height */
+            background: #b4b4b4;
+            /* Grey background */
+            outline: none;
+            /* Remove outline */
+            opacity: 0.7;
+            /* Set transparency (for mouse-over effects on hover) */
+            -webkit-transition: .2s;
+            /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
+        }
+
+        .slider2 {
+            -webkit-appearance: none;
+            /* Override default CSS styles */
+            appearance: none;
+            width: 40%;
+            /* Full-width */
+            height: 10px;
+            /* Specified height */
+            background: #b4b4b4;
+            /* Grey background */
+            outline: none;
+            /* Remove outline */
+            opacity: 0.7;
+            /* Set transparency (for mouse-over effects on hover) */
+            -webkit-transition: .2s;
+            /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
+        }
+
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1;
+            /* Fully shown on mouse-over */
+        }
+
+        .slider2:hover {
+            opacity: 1;
+            /* Fully shown on mouse-over */
+        }
+
+        /* The slider handle (use webkit (Chrome, Opera, Safari, Edge) and moz (Firefox) to override default look) */
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            /* Override default look */
+            appearance: none;
+            width: 25px;
+            /* Set a specific slider handle width */
+            height: 25px;
+            /* Slider handle height */
+            background: #ffffff;
+            /* Green background */
+            border: 2px solid #5ca6ee;
+            cursor: pointer;
+            /* Cursor on hover */
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            /* Set a specific slider handle width */
+            height: 25px;
+            /* Slider handle height */
+            background: #ffffff;
+            /* Green background */
+            border: 2px solid #5ca6ee;
+            cursor: pointer;
+            /* Cursor on hover */
+        }
+
+        .slider2::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            /* Override default look */
+            appearance: none;
+            width: 25px;
+            /* Set a specific slider handle width */
+            height: 25px;
+            /* Slider handle height */
+            background: #ffffff;
+            /* Green background */
+            border: 2px solid #0fec00;
+            cursor: pointer;
+            /* Cursor on hover */
+        }
+
+        .slider2::-moz-range-thumb {
+            width: 25px;
+            /* Set a specific slider handle width */
+            height: 25px;
+            /* Slider handle height */
+            background: #ffffff;
+            /* Green background */
+            border: 2px solid #0fec00;
+            cursor: pointer;
+            /* Cursor on hover */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+   
+
+    <input type="hidden" id="qid" value="${qid}">
+    <input type="hidden" id="question_type" value="${question_type}">
+    <input type="hidden" id="is_distractor" value="${is_distractor}">
+
+
+    <div class="row col-xs-12 col-md-12">
+        <div class="panel panel-primary">
+            <h3 class="panel-heading"><strong><span style="color: #1E1518;">Image Question Answering</span></strong>
+            </h3>
+
+            <p class="instr">Welcome! Thank you for participating in this task. Please read the instructions carefully.
+            </p>
+            <p class="instr">You will be presented with an image paired with a question about the image and an answer to the question.
+            </p>
+            <p class="instr">Your task is to judge whether the given answer is a valid answer to the question. 
+                The options are yes, no, and maybe; maybe can be used if you are not sure whether it is valid or not. </p>
+            <p class="instr"> You can click the buttons or use the number keys (1,2,3) to select options. Note that you may have to click the HIT once to get the numbers to work. </p>
+            <p class="instr">If you have any questions or comments, please use the comment box, or send an e-mail to
+                <strong>textual.choreography@gmail.com</strong>
+            </p>
+            <p class="instr">Otherwise, please leave the comment box blank.</strong></p>
+
+
+            <p><img src="${img_url}"></p>
+            <section>
+                <fieldset>
+                    <p class="sentence"><strong>Question: ${question}</strong></p>
+                    <p class="sentence"><strong>Answer: ${answer}</strong></p>
+                    <p class="sentence"> Is the given answer an appropriate answer to the question? </p> 
+                    <span class="box">
+                        <input id="button_yes" accesskey="1" type="radio" value="1" data-key="Key1"
+                            name="radio-input" title="Alt+1">
+                        <label for="button_yes">Yes</label>
+                    </span>
+
+                    <span class="box">
+                        <input id="button_maybe" accesskey="2" type="radio" value="2" data-key="Key2"
+                            name="radio-input" title="Alt+2">
+                        <label for="button_maybe">Maybe</label>
+                    </span>
+
+                    <span class="box">
+                        <input id="button_no" accesskey="2" type="radio" value="2" data-key="Key3"
+                            name="radio-input" title="Alt+2">
+                        <label for="button_no">No</label>
+                    </span>
+                </fieldset>
+            </section>
+        </div>
+        <div class="form-group"><label for="comments">Comments:</label> <input class="form-control" id="comments"
+                name="comments" placeholder="" type="text" /></div>
+
+
+</section>
+</div>
+<script type="text/javascript">
+    window.addEventListener("keypress", myEventHandler, false);
+
+    function myEventHandler(e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        switch (code) {
+            case 49: // 1
+                $('#button_yes').prop('checked', true);
+                break;
+            case 50: // 2
+                $('#button_maybe').prop('checked', true);
+                break;
+            case 51: // 3
+                $('#button_no').prop('checked', true);
+                break;
+        }
+    }
+
+</script>
+
+
+
+</section>
+<style type="text/css">
+    fieldset {
+        padding: 10px;
+        background: #fbfbfb;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+</style>
