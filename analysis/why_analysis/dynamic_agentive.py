@@ -23,6 +23,8 @@ def annotate(data, resume_path):
         with open(resume_path) as f1:
             data = json.load(f1)
     for i, row in enumerate(data):
+        if row['Answer.is_skip']:
+            continue
         if 'is_dynamic' in row.keys() and row['is_dynamic'] is not None:
             # already annotated 
             continue

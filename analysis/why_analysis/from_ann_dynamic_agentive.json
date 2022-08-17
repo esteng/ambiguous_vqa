@@ -1,0 +1,3540 @@
+[
+    {
+        "Answer.answer_questions": [
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "How can you tell this is a reflection?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "yes"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "letters"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "its transparent"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "it's backwards"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "shine"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "see man taking picture"
+                },
+                {
+                    "id": "g5.1",
+                    "content": "man and building on glass"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "dimmer"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "person"
+                }
+            ]
+        ],
+        "AssignmentId": 29860,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g1.0",
+                    "content": "letters"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "its transparent"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "it's backwards"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "shine"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "see man taking picture"
+                },
+                {
+                    "id": "g5.1",
+                    "content": "man and building on glass"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "dimmer"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "person"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 24,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:40:14 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:39:50 UTC 2022",
+        "HITId": 732683,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?",
+            "How can you tell this is a reflection?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not a why question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000103936.jpg",
+        "Input.question_id": 103936001,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "How is the plane flying?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "engines"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "4000'"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "low"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "in sky"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "in air"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "yes"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "10000 ft"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "high"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "fuel"
+                }
+            ]
+        ],
+        "AssignmentId": 29861,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "engines"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "4000'"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "low"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "in sky"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "in air"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "yes"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "10000 ft"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "high"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "fuel"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 9,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:40:23 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:40:14 UTC 2022",
+        "HITId": 732684,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?",
+            "How is the plane flying?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not a why question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000014707.jpg",
+        "Input.question_id": 14707007,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are the lights blurred?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "motion"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "moving cars"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "moving traffic"
+                },
+                {
+                    "id": "g1.2",
+                    "content": "cars moving"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "time lapse"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "time lapse photography"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "speed"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "slow shutter speed"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "picture type"
+                }
+            ]
+        ],
+        "AssignmentId": 29862,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g4.0",
+                    "content": "picture type"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "slow shutter speed"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "speed"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "time lapse photography"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "time lapse"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "motion"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "moving cars"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "moving traffic"
+                },
+                {
+                    "id": "g1.2",
+                    "content": "cars moving"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 73,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:41:36 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:40:23 UTC 2022",
+        "HITId": 732685,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are the lights blurred?",
+            "Why are the lights blurred?",
+            "Why are the lights blurred?",
+            "Why are the lights blurred?",
+            "Why are the lights blurred?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000420496.jpg",
+        "Input.question_id": 420496002,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "p",
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are people gathered here?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "work on motorcycles"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "work"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "picnic"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "racing"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "it's fun"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "motorbike gathering"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "bikes"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "sports event"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "race"
+                }
+            ],
+            [
+                {
+                    "id": "g8.0",
+                    "content": "cookout"
+                }
+            ]
+        ],
+        "AssignmentId": 29863,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g2.0",
+                    "content": "racing"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "work on motorcycles"
+                }
+            ],
+            [
+                {
+                    "id": "g8.0",
+                    "content": "cookout"
+                },
+                {
+                    "id": "g7.0",
+                    "content": "race"
+                },
+                {
+                    "id": "g6.0",
+                    "content": "sports event"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "bikes"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "it's fun"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "motorbike gathering"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "work"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "picnic"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 61,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:42:38 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:41:37 UTC 2022",
+        "HITId": 732686,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are people gathered here?",
+            "Why are people gathered here?",
+            "Why are people gathered here?",
+            "Why are people gathered here?",
+            "Why are people gathered here?",
+            "Why are people gathered here?",
+            "Why are people gathered here?",
+            "Why are people gathered here?",
+            "Why are people gathered here?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000365314.jpg",
+        "Input.question_id": 365314011,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "y"
+    },
+    {
+        "Answer.answer_questions": [
+            "r",
+            "p"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are the people wearing helmets?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "they are bicyclists"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "they are biking"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "riding their bicycle"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "bike riding"
+                },
+                {
+                    "id": "g1.2",
+                    "content": "riding bike"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "safety"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "for safety"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "yes"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "bikes"
+                }
+            ]
+        ],
+        "AssignmentId": 29867,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g4.0",
+                    "content": "bikes"
+                },
+                {
+                    "id": "g1.2",
+                    "content": "riding bike"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "bike riding"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "riding their bicycle"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "they are bicyclists"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "they are biking"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "safety"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "for safety"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 23,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:43:01 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:42:38 UTC 2022",
+        "HITId": 732687,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are the people wearing helmets?",
+            "Why are the people wearing helmets?",
+            "Why are the people wearing helmets?",
+            "Why are the people wearing helmets?",
+            "Why are the people wearing helmets?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000034815.jpg",
+        "Input.question_id": 34815002,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "y"
+    },
+    {
+        "Answer.answer_questions": [
+            "r",
+            "p"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is the hydraulic pump on the street?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "fire hydrant"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "fire"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "for fires"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "water"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "no pump"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "no pump present"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "forgotten"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "left there"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "abandoned gas station"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "i don't know"
+                }
+            ]
+        ],
+        "AssignmentId": 29868,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g5.0",
+                    "content": "left there"
+                },
+                {
+                    "id": "g6.0",
+                    "content": "abandoned gas station"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "forgotten"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "fire hydrant"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "water"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "fire"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "for fires"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 50,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:43:51 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:43:01 UTC 2022",
+        "HITId": 732688,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is the hydraulic pump on the street?",
+            "Why is the hydraulic pump on the street?",
+            "Why is the hydraulic pump on the street?",
+            "Why is the hydraulic pump on the street?",
+            "Why is the hydraulic pump on the street?",
+            "Why is the hydraulic pump on the street?",
+            "Why is the hydraulic pump on the street?",
+            "Why is the hydraulic pump on the street?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000222006.jpg",
+        "Input.question_id": 222006012,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "p",
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are the animals there?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "to be eaten"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "used for milk"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "containment"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "cow"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "farm"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "captive"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "grazing"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "pasture"
+                }
+            ]
+        ],
+        "AssignmentId": 29873,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "to be eaten"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "used for milk"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "pasture"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "grazing"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "captive"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "farm"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "cow"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "containment"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 30,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:44:21 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:43:51 UTC 2022",
+        "HITId": 732689,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are the animals there?",
+            "Why are the animals there?",
+            "Why are the animals there?",
+            "Why are the animals there?",
+            "Why are the animals there?",
+            "Why are the animals there?",
+            "Why are the animals there?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000444419.jpg",
+        "Input.question_id": 444419036,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "p",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "What is the netting for?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "to keep ball inside area"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "don't get hit by ball"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "protect crowd"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "protect spectators"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "baseball"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "catch balls"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "ball"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "safety"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "protection"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "protect public"
+                }
+            ]
+        ],
+        "AssignmentId": 29874,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g1.1",
+                    "content": "protect spectators"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "protect crowd"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "to keep ball inside area"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "don't get hit by ball"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "baseball"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "catch balls"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "ball"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "safety"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "protection"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "protect public"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 23,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:44:44 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:44:21 UTC 2022",
+        "HITId": 732690,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?",
+            "What is the netting for?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not a why question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000218116.jpg",
+        "Input.question_id": 218116000,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is this a piece of art?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "color"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "no"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "visually appealing"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "it is"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "it isn't"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "esthetically pleasing"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "museum"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "bathroom"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "decorated"
+                }
+            ]
+        ],
+        "AssignmentId": 29878,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g7.0",
+                    "content": "decorated"
+                },
+                {
+                    "id": "g6.0",
+                    "content": "bathroom"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "museum"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "esthetically pleasing"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "visually appealing"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "color"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 28,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:45:12 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:44:44 UTC 2022",
+        "HITId": 732691,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is this a piece of art?",
+            "Why is this a piece of art?",
+            "Why is this a piece of art?",
+            "Why is this a piece of art?",
+            "Why is this a piece of art?",
+            "Why is this a piece of art?",
+            "Why is this a piece of art?",
+            "Why is this a piece of art?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000293174.jpg",
+        "Input.question_id": 293174000,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are the elephant lying down?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "y",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "resting"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "tired"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "circus"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "they are not"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "it's not"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "training"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "no"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "playing"
+                }
+            ]
+        ],
+        "AssignmentId": 29881,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g7.0",
+                    "content": "playing"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "training"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "circus"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "tired"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "resting"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 26,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:45:38 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:45:12 UTC 2022",
+        "HITId": 732692,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are the elephant lying down?",
+            "Why are the elephant lying down?",
+            "Why are the elephant lying down?",
+            "Why are the elephant lying down?",
+            "Why are the elephant lying down?",
+            "Why are the elephant lying down?",
+            "Why are the elephant lying down?",
+            "Why are the elephant lying down?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000440511.jpg",
+        "Input.question_id": 440511000,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "y"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is this blue and green?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "it's vegetable"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "garden"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "plants"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "leaf"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "plant life"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "cold"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "photosynthesis"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "chlorophyll"
+                }
+            ],
+            [
+                {
+                    "id": "g8.0",
+                    "content": "cauliflower"
+                }
+            ]
+        ],
+        "AssignmentId": 29882,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g8.0",
+                    "content": "cauliflower"
+                },
+                {
+                    "id": "g7.0",
+                    "content": "chlorophyll"
+                },
+                {
+                    "id": "g6.0",
+                    "content": "photosynthesis"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "cold"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "plant life"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "leaf"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "plants"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "garden"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "it's vegetable"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 31,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:46:09 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:45:38 UTC 2022",
+        "HITId": 732693,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is this blue and green?",
+            "Why is this blue and green?",
+            "Why is this blue and green?",
+            "Why is this blue and green?",
+            "Why is this blue and green?",
+            "Why is this blue and green?",
+            "Why is this blue and green?",
+            "Why is this blue and green?",
+            "Why is this blue and green?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363570.jpg",
+        "Input.question_id": 363570002,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "What kind of plane is it?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "decoration"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "fighter"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "propeller"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "passenger"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "red propeller plane"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "private plane"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "biplane"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "jet"
+                }
+            ]
+        ],
+        "AssignmentId": 29883,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "decoration"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "fighter"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "propeller"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "passenger"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "red propeller plane"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "private plane"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "biplane"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "jet"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 10,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:46:19 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:46:09 UTC 2022",
+        "HITId": 732694,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?",
+            "What kind of plane is it?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not why ",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000429319.jpg",
+        "Input.question_id": 429319011,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "Which bus it is?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "unknown"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "green"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "yellow"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "passenger"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "japanese"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "tourist"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "public"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "tour"
+                }
+            ]
+        ],
+        "AssignmentId": 29884,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "unknown"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "green"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "yellow"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "passenger"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "japanese"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "tourist"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "public"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "tour"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 17,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:46:36 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:46:19 UTC 2022",
+        "HITId": 732695,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?",
+            "Which bus it is?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not why qustion",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000032809.jpg",
+        "Input.question_id": 32809001,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are the people sitting at the table?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "y",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "eating cake"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "cake"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "eating"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "party"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "happy"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "birthday"
+                },
+                {
+                    "id": "g4.1",
+                    "content": "birthday party"
+                }
+            ]
+        ],
+        "AssignmentId": 29885,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g4.1",
+                    "content": "birthday party"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "birthday"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "happy"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "party"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "eating"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "eating cake"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "cake"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 20,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:46:56 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:46:36 UTC 2022",
+        "HITId": 732696,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are the people sitting at the table?",
+            "Why are the people sitting at the table?",
+            "Why are the people sitting at the table?",
+            "Why are the people sitting at the table?",
+            "Why are the people sitting at the table?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000468826.jpg",
+        "Input.question_id": 468826001,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "y"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why do all these cakes look like they belong to children?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "whimsical designs"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "there for kids"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "they are for children"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "party"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "they are children's cakes"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "they do"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "juvenile themed"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "competition"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "they're birthday cakes"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "fanciful"
+                }
+            ]
+        ],
+        "AssignmentId": 29886,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g7.0",
+                    "content": "fanciful"
+                },
+                {
+                    "id": "g6.0",
+                    "content": "they're birthday cakes"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "competition"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "juvenile themed"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "they are children's cakes"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "party"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "whimsical designs"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "there for kids"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "they are for children"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 30,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:47:26 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:46:56 UTC 2022",
+        "HITId": 732697,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why do all these cakes look like they belong to children?",
+            "Why do all these cakes look like they belong to children?",
+            "Why do all these cakes look like they belong to children?",
+            "Why do all these cakes look like they belong to children?",
+            "Why do all these cakes look like they belong to children?",
+            "Why do all these cakes look like they belong to children?",
+            "Why do all these cakes look like they belong to children?",
+            "Why do all these cakes look like they belong to children?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000493732.jpg",
+        "Input.question_id": 493732001,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "What is the tail light of the automobile leaving a trail?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "left"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "left neon"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "movement"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "don't know"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "brake light"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "motorcycle tail light"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "light"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "car"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "red"
+                }
+            ]
+        ],
+        "AssignmentId": 29887,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "left"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "left neon"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "movement"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "don't know"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "brake light"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "motorcycle tail light"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "light"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "car"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "red"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 12,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:47:38 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:47:26 UTC 2022",
+        "HITId": 732698,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?",
+            "What is the tail light of the automobile leaving a trail?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not why ",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000482505.jpg",
+        "Input.question_id": 482505002,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "r",
+            "p"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is the snow red at some parts?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "paint"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "spray paint"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "dirt"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "reflection"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "not sure"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "stay on course"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "spilled drinks"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "marker"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "warn for danger"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "paint in snow"
+                }
+            ]
+        ],
+        "AssignmentId": 29888,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g4.0",
+                    "content": "spilled drinks"
+                },
+                {
+                    "id": "g7.0",
+                    "content": "paint in snow"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "marker"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "reflection"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "dirt"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "paint"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "spray paint"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "warn for danger"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "stay on course"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 38,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:48:16 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:47:38 UTC 2022",
+        "HITId": 732699,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is the snow red at some parts?",
+            "Why is the snow red at some parts?",
+            "Why is the snow red at some parts?",
+            "Why is the snow red at some parts?",
+            "Why is the snow red at some parts?",
+            "Why is the snow red at some parts?",
+            "Why is the snow red at some parts?",
+            "Why is the snow red at some parts?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000010015.jpg",
+        "Input.question_id": 10015002,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "What does the object on the table do?",
+            "What does the object on the table do?",
+            "What does the object on the table do?",
+            "What does the object on the table do?",
+            "What does the object on the table do?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "What does the object on the table do?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "type"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "work"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "computer work"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "lights room"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "light room"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "internet"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "surf internet"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "light up"
+                },
+                {
+                    "id": "g4.1",
+                    "content": "provides light"
+                },
+                {
+                    "id": "g4.2",
+                    "content": "provide light"
+                }
+            ]
+        ],
+        "AssignmentId": 29889,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "type"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "work"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "computer work"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "lights room"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "light room"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "internet"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "surf internet"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "light up"
+                },
+                {
+                    "id": "g4.1",
+                    "content": "provides light"
+                },
+                {
+                    "id": "g4.2",
+                    "content": "provide light"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 10,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:48:26 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:48:16 UTC 2022",
+        "HITId": 732700,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "What does the object on the table do?",
+            "What does the object on the table do?",
+            "What does the object on the table do?",
+            "What does the object on the table do?",
+            "What does the object on the table do?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not a why question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000363326.jpg",
+        "Input.question_id": 363326001,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is everything double?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "there is 2"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "there is mirror"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "2 of them"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "for 2 people"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "toppings"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "mirror"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "yes"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "pizza"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "no"
+                }
+            ]
+        ],
+        "AssignmentId": 29890,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g5.0",
+                    "content": "pizza"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "mirror"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "toppings"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "for 2 people"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "2 of them"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "there is 2"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "there is mirror"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 22,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:48:48 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:48:26 UTC 2022",
+        "HITId": 732701,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is everything double?",
+            "Why is everything double?",
+            "Why is everything double?",
+            "Why is everything double?",
+            "Why is everything double?",
+            "Why is everything double?",
+            "Why is everything double?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000046353.jpg",
+        "Input.question_id": 46353006,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "What are the pictures for?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "personal"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "photo album"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "memories"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "to look at"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "to hang on walls"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "evidence"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "decoration"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "viewing"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "family"
+                }
+            ],
+            [
+                {
+                    "id": "g8.0",
+                    "content": "not sure"
+                }
+            ]
+        ],
+        "AssignmentId": 29891,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "personal"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "photo album"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "memories"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "to look at"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "to hang on walls"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "evidence"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "decoration"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "viewing"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "family"
+                }
+            ],
+            [
+                {
+                    "id": "g8.0",
+                    "content": "not sure"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 9,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:48:57 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:48:48 UTC 2022",
+        "HITId": 732702,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?",
+            "What are the pictures for?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not a why question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000031587.jpg",
+        "Input.question_id": 31587003,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "r",
+            "p"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are they wearing white?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "matching"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "they're getting married"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "for work"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "for occasion"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "wedding"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "shirts"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "summertime"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "work shirt"
+                },
+                {
+                    "id": "g6.1",
+                    "content": "work dress code"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "vineyard"
+                }
+            ]
+        ],
+        "AssignmentId": 29892,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g7.0",
+                    "content": "vineyard"
+                },
+                {
+                    "id": "g6.1",
+                    "content": "work dress code"
+                },
+                {
+                    "id": "g6.0",
+                    "content": "work shirt"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "summertime"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "shirts"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "wedding"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "they're getting married"
+                }
+            ],
+            [
+                {
+                    "id": "g0.0",
+                    "content": "matching"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "for work"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "for occasion"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 49,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:49:46 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:48:57 UTC 2022",
+        "HITId": 732703,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are they wearing white?",
+            "Why are they wearing white?",
+            "Why are they wearing white?",
+            "Why are they wearing white?",
+            "Why are they wearing white?",
+            "Why are they wearing white?",
+            "Why are they wearing white?",
+            "Why are they wearing white?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000310783.jpg",
+        "Input.question_id": 310783009,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "y"
+    },
+    {
+        "Answer.answer_questions": [
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?"
+        ],
+        "Answer.is_skip": true,
+        "Input.questionStr": "What are these men waiting on?",
+        "Title": "Uncertainty QUD",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "service"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "clerk"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "window"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "somebody in window"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "bus ticket"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "bus"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "platform"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "coffee"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "information"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "person"
+                }
+            ]
+        ],
+        "AssignmentId": 29893,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "service"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "clerk"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "window"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "somebody in window"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "bus ticket"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "bus"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "platform"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "coffee"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "information"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "person"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 8,
+        "Answer.skipCheck": "value",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:49:54 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:49:46 UTC 2022",
+        "HITId": 732704,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?",
+            "What are these men waiting on?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "not why",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000329501.jpg",
+        "Input.question_id": 329501002,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng"
+    },
+    {
+        "Answer.answer_questions": [
+            "r",
+            "p"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why does this sign say stop?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "stop"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "stop sign"
+                },
+                {
+                    "id": "g0.2",
+                    "content": "cars must stop"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "to keep traffic under control"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "for traffic"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "it is intersection"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "there's intersection"
+                },
+                {
+                    "id": "g2.2",
+                    "content": "it's at intersection"
+                }
+            ]
+        ],
+        "AssignmentId": 29894,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g2.2",
+                    "content": "it's at intersection"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "there's intersection"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "it is intersection"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "stop sign"
+                },
+                {
+                    "id": "g0.2",
+                    "content": "cars must stop"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "to keep traffic under control"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "for traffic"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 26,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:50:20 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:49:54 UTC 2022",
+        "HITId": 732705,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why does this sign say stop?",
+            "Why does this sign say stop?",
+            "Why does this sign say stop?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000347177.jpg",
+        "Input.question_id": 347177004,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why are there brown spots on the bananas?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "bruises"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "no"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "stem"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "nature"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "ripe"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "bruised"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "there aren't"
+                }
+            ]
+        ],
+        "AssignmentId": 29895,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g5.0",
+                    "content": "bruised"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "ripe"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "nature"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "stem"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "bruises"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 23,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:50:43 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:50:20 UTC 2022",
+        "HITId": 732706,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why are there brown spots on the bananas?",
+            "Why are there brown spots on the bananas?",
+            "Why are there brown spots on the bananas?",
+            "Why are there brown spots on the bananas?",
+            "Why are there brown spots on the bananas?",
+            "Why are there brown spots on the bananas?",
+            "Why are there brown spots on the bananas?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000473372.jpg",
+        "Input.question_id": 473372006,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "r"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is only part of the motorcycle visible?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "behind fire hydrant"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "other part is behind hydrant"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "engine"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "its sideways"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "all of it"
+                },
+                {
+                    "id": "g3.1",
+                    "content": "all parts"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "hydrant"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "don't know"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "big"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "side"
+                }
+            ]
+        ],
+        "AssignmentId": 29896,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g7.0",
+                    "content": "side"
+                },
+                {
+                    "id": "g6.0",
+                    "content": "big"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "don't know"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "hydrant"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "its sideways"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "engine"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "behind fire hydrant"
+                },
+                {
+                    "id": "g0.1",
+                    "content": "other part is behind hydrant"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 24,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:51:07 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:50:43 UTC 2022",
+        "HITId": 732707,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is only part of the motorcycle visible?",
+            "Why is only part of the motorcycle visible?",
+            "Why is only part of the motorcycle visible?",
+            "Why is only part of the motorcycle visible?",
+            "Why is only part of the motorcycle visible?",
+            "Why is only part of the motorcycle visible?",
+            "Why is only part of the motorcycle visible?",
+            "Why is only part of the motorcycle visible?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000169763.jpg",
+        "Input.question_id": 169763007,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "r",
+            "p"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is there a silver bar?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "n",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "bus"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "to hold on to"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "for someone to hold onto for support"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "railing"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "bicycle"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "for safety"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "protection"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "handheld"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "handlebar"
+                }
+            ]
+        ],
+        "AssignmentId": 29897,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g7.0",
+                    "content": "handlebar"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "bicycle"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "railing"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "bus"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "protection"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "for safety"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "to hold on to"
+                },
+                {
+                    "id": "g1.1",
+                    "content": "for someone to hold onto for support"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 37,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:51:45 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:51:08 UTC 2022",
+        "HITId": 732708,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is there a silver bar?",
+            "Why is there a silver bar?",
+            "Why is there a silver bar?",
+            "Why is there a silver bar?",
+            "Why is there a silver bar?",
+            "Why is there a silver bar?",
+            "Why is there a silver bar?",
+            "Why is there a silver bar?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000181009.jpg",
+        "Input.question_id": 181009000,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    },
+    {
+        "Answer.answer_questions": [
+            "r",
+            "p"
+        ],
+        "Answer.is_skip": false,
+        "Input.questionStr": "Why is the bear being put in the toilet?",
+        "Title": "Uncertainty QUD",
+        "is_dynamic": "y",
+        "Input.answerGroups": [
+            [
+                {
+                    "id": "g0.0",
+                    "content": "dunked"
+                }
+            ],
+            [
+                {
+                    "id": "g1.0",
+                    "content": "joke"
+                }
+            ],
+            [
+                {
+                    "id": "g2.0",
+                    "content": "child is doing it"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "it is bad"
+                }
+            ],
+            [
+                {
+                    "id": "g3.0",
+                    "content": "fun"
+                }
+            ],
+            [
+                {
+                    "id": "g4.0",
+                    "content": "to be flashed"
+                }
+            ],
+            [
+                {
+                    "id": "g5.0",
+                    "content": "naughty kid"
+                },
+                {
+                    "id": "g5.1",
+                    "content": "tease child"
+                }
+            ],
+            [
+                {
+                    "id": "g6.0",
+                    "content": "evil child"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "dirty"
+                }
+            ]
+        ],
+        "AssignmentId": 29898,
+        "Answer.answer_groups": [
+            [
+                {
+                    "id": "g6.0",
+                    "content": "evil child"
+                },
+                {
+                    "id": "g2.1",
+                    "content": "it is bad"
+                },
+                {
+                    "id": "g2.0",
+                    "content": "child is doing it"
+                },
+                {
+                    "id": "g1.0",
+                    "content": "joke"
+                },
+                {
+                    "id": "g5.0",
+                    "content": "naughty kid"
+                },
+                {
+                    "id": "g0.0",
+                    "content": "dunked"
+                }
+            ],
+            [
+                {
+                    "id": "g7.0",
+                    "content": "dirty"
+                },
+                {
+                    "id": "g5.1",
+                    "content": "tease child"
+                },
+                {
+                    "id": "g4.0",
+                    "content": "to be flashed"
+                },
+                {
+                    "id": "g3.0",
+                    "content": "fun"
+                }
+            ]
+        ],
+        "WorkTimeInSeconds": 38,
+        "Answer.skipCheck": "",
+        "HITTypeId": 85,
+        "SubmitTime": "Mon Aug 15 19:52:23 UTC 2022",
+        "CreationTime": "Mon Aug 15 19:39:21 UTC 2022",
+        "AcceptTime": "Mon Aug 15 19:51:45 UTC 2022",
+        "HITId": 732709,
+        "WorkerId": 52,
+        "Input.answerQuestions": [
+            "Why is the bear being put in the toilet?",
+            "Why is the bear being put in the toilet?",
+            "Why is the bear being put in the toilet?",
+            "Why is the bear being put in the toilet?",
+            "Why is the bear being put in the toilet?",
+            "Why is the bear being put in the toilet?",
+            "Why is the bear being put in the toilet?",
+            "Why is the bear being put in the toilet?"
+        ],
+        "MaxAssignments": 1,
+        "Answer.skip_reason": "All answer the same question",
+        "Input.imgUrl": "https://cs.jhu.edu/~esteng/images_for_hit/COCO_train2014_000000318365.jpg",
+        "Input.question_id": 318365001,
+        "AssignmentDurationInSeconds": 86400,
+        "Turkle.Username": "esteng",
+        "is_agentive": "n"
+    }
+]
