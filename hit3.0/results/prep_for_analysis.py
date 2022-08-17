@@ -16,7 +16,12 @@ def read_csv(path):
             for k,v in row.items():
                 try:
                     v = json.loads(v)
+                    if k == "Answer.answer_questions" and type(v) == str:
+                        v = json.loads(v)
+                        # pdb.set_trace()
                 except:
+                    if k == "Answer.answer_questions":
+                        pdb.set_trace()
                     pass
                 row[k] = v
             rows[i] = row
@@ -65,7 +70,6 @@ if __name__ == "__main__":
 
     for csv in csvs: 
         for row in csv:
-            # pdb.set_trace()
             if row['Answer.is_skip'] in ["False", "false", False] or args.ignore_skip_data:
                 answer_groups = row['Answer.answer_groups']
                 answer_questions = row['Answer.answer_questions']
