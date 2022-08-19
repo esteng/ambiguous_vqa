@@ -48,7 +48,7 @@ def write_annotation_files(questions, annotations, out_path):
     with open(out_path.joinpath("questions.json"), "w") as qf, open(out_path.joinpath("annotations.json"), "w") as af:
         json.dump(questions, qf, indent=4)
         json.dump(annotations, af, indent=4)   
-
+    print(f"wrote to {out_path}")
 
 if __name__ == "__main__": 
     parser = argparse.ArgumentParser()
@@ -108,6 +108,7 @@ if __name__ == "__main__":
 
     question_header['questions'] = global_questions
     annotation_header['annotations'] = global_annotations
+    del(annotation_header['questions'])
 
     if args.out_dir is None:
         pred_question_path = pred_dir.joinpath(f"{args.split}_predictions{forced}")
@@ -123,6 +124,9 @@ if __name__ == "__main__":
     missing_question_header = question_header 
     missing_annotation_header = annotation_header
     for qid in missing:
+        if type(all_annotations_by_qid[qid]['question_id']) == int:
+            pdb.set_trace()
+
         missing_questions.append(all_questions_by_qid[qid])
         missing_annotations.append(all_annotations_by_qid[qid])
 

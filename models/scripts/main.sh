@@ -54,6 +54,25 @@ function predict(){
     --predictions-output-file ${CHECKPOINT_DIR}/output/${split}_predictions.jsonl 
 }
 
+function predict_save(){
+    export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
+    echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
+    split=$(basename $TEST_DATA)
+    mkdir -p ${CHECKPOINT_DIR}/output
+    mkdir -p ${CHECKPOINT_DIR}/output/encoder_states
+    override_str="{\"data_loader.drop_last\": false, \"dataset_reader.add_force_word_ids\": false, \"validation_dataset_reader.add_force_word_ids\": false, \"model.save_encoder_states\": true, \"model.save_encoder_states_args\": {\"layer\": -1, \"pooling\": \"none\", \"path\": \"${CHECKPOINT_DIR}/output/encoder_states_vilt\", \"just_answer\": true, \"vilt_only\": true}}"
+    # override_str="{\"data_loader.drop_last\": false, \"dataset_reader.add_force_word_ids\": false, \"validation_dataset_reader.add_force_word_ids\": false, \"model.save_encoder_states\": true, \"model.save_encoder_states_args\": {\"layer\": -1, \"pooling\": \"none\", \"path\": \"${CHECKPOINT_DIR}/output/encoder_states_long\", \"just_answer\": false, \"vilt_only\": false}}"
+    echo ${override_str}
+    python -um allennlp evaluate \
+    --include-package allennlp.data.dataset_readers \
+    --include-package allennlp.training \
+    ${CHECKPOINT_DIR}/ckpt/model.tar.gz \
+    ${TEST_DATA} \
+    --cuda-device 0 \
+    --overrides "${override_str}" \
+    --predictions-output-file ${CHECKPOINT_DIR}/output/${split}_predictions.jsonl 
+}
+
 function predict_forced(){
     export ALLENNLP_CACHE_ROOT="/brtx/603-nvme2/estengel/annotator_uncertainty/vqa/"
     echo "Evaluate a new transductive model for VQA at ${CHECKPOINT_DIR}..."
@@ -190,6 +209,8 @@ function main() {
         predict_forced 
     elif [[ "${action}" == "predict" ]]; then
         predict 
+    elif [[ "${action}" == "predict_save" ]]; then
+        predict_save
     elif [[ "${action}" == "min_gen" ]]; then
         min_gen 
     elif [[ "${action}" == "min_gen_save" ]]; then

@@ -48,12 +48,17 @@ class T5ImageAnswer2QuestionModel(Model):
         dropout: float = 0.1,
         no_image_baseline: bool = False,
         no_answer_baseline: bool = False,
-        no_vilt_train: bool = True
+        no_vilt_train: bool = True,
+        save_encoder_states: bool = False,
+        save_encoder_states_args: Dict = None,
     ) -> None:
         super().__init__(vocab)
 
         self.beam_size = beam_size
         self.vision_language_encoder = vision_language_encoder
+
+        self.save_encoder_states = save_encoder_states
+        self.save_encoder_states_args = save_encoder_states_args
 
         self.t5_model_full = T5ForConditionalGeneration.from_pretrained(t5_model_name)
         self.t5_tokenizer = AutoTokenizer.from_pretrained(t5_model_name)
@@ -92,19 +97,19 @@ class T5ImageAnswer2QuestionModel(Model):
 
         if self.no_vilt_train:
             with torch.no_grad():
-                __, seq_output = \
+                __, vilt_seq_output = \
                     self.vision_language_encoder(answers_as_text,
                                                 debug_images,
                                                 no_image_baseline = self.no_image_baseline,
                                                 no_answer_baseline = self.no_answer_baseline)
         else:
-            __, seq_output = \
+            __, vilt_seq_output = \
                 self.vision_language_encoder(answers_as_text,
                                             debug_images,
                                             no_image_baseline = self.no_image_baseline,
                                             no_answer_baseline = self.no_answer_baseline)
 
-        seq_output = seq_output.float()
+        seq_output = vilt_seq_output.float()
         seq_output = self.pooled_output_projection(seq_output)
 
         if debug_tokens is not None:
@@ -150,16 +155,23 @@ class T5ImageAnswer2QuestionModel(Model):
                     except IndexError:
                         pdb.set_trace()
                     try:
-                        pred_slice = self.t5_model_full.generate(inputs_embeds = seq_slice, 
+                        pred_dict = self.t5_model_full.generate(inputs_embeds = seq_slice, 
                                                             num_beams=self.beam_size, 
-                                                            force_words_ids = force_slice)
+                                                            force_words_ids = force_slice,
+                                                            output_hidden_states=True,
+                                                            return_dict_in_generate=True)
                     except ValueError:
                         # In the rare case that a word gets split into subwords and there are repeated subwords
                         # we will just ignore it    
-                        pred_slice = self.t5_model_full.generate(inputs_embeds = seq_slice, 
+                        pred_dict = self.t5_model_full.generate(inputs_embeds = seq_slice, 
                                                             num_beams=self.beam_size, 
-                                                            force_words_ids = None)
+                                                            force_words_ids = None,
+                                                            output_hidden_states=True,
+                                                            return_dict_in_generate=True)
 
+
+
+                    pred_slice = pred_dict['sequences']
                     pred_lens.append(pred_slice.shape[1])
                     pred_toks.append(pred_slice) 
                 max_len = max(pred_lens)
@@ -171,10 +183,48 @@ class T5ImageAnswer2QuestionModel(Model):
                 # pdb.set_trace() 
 
             else:
-                pred_toks = self.t5_model_full.generate(inputs_embeds = seq_output, 
-                                                num_beams=self.beam_size) 
+                pred_dict = self.t5_model_full.generate(inputs_embeds = seq_output, 
+                                                num_beams=self.beam_size, 
+                                                output_hidden_states=True,
+                                                return_dict_in_generate=True)
+                pred_toks = pred_dict['sequences']
 
-            # pdb.set_trace()
+            # save if needed 
+            if self.save_encoder_states: 
+                all_encoder_states = pred_dict['encoder_hidden_states']
+                if self.save_encoder_states_args['vilt_only']:
+                    encoder_states = vilt_seq_output 
+                else:
+                    encoder_states = all_encoder_states[self.save_encoder_states_args['layer']]
+                # get just the answer embeddings 
+                if self.save_encoder_states_args['just_answer']: 
+                    # use tokenizer to tokenize answer 
+                    tokenized_answers = [self.vision_language_encoder.tokenizer.tokenize(x) for x in answers_as_text]
+                    # get the length of each tokenized answer 
+                    answer_lens = [len(x) for x in tokenized_answers]
+                    encoder_states = [encoder_states[i,0:l, :] for i, l in enumerate(answer_lens)]
+                    # pooling needs to be changed since it's not a padded tensor anymore 
+                    if self.save_encoder_states_args['pooling'] == "mean": 
+                        encoder_states = [encoder_states[i].mean(dim=0) for i in range(encoder_states.shape[0])]
+                    elif self.save_encoder_states_args['pooling'] == "max":
+                        encoder_states = [encoder_states[i].max(dim=0) for i in range(encoder_states.shape[0])]
+                    elif self.save_encoder_states_args['pooling'] == "none":
+                        pass 
+                    else:
+                        raise ValueError(f"Invalid pooling method {self.save_encoder_states_args['pooling']}")
+                else:
+                    if self.save_encoder_states_args['pooling'] == "mean": 
+                        encoder_states = encoder_states.mean(dim=1)
+                    elif self.save_encoder_states_args['pooling'] == "max":
+                        encoder_states = encoder_states.max(dim=1)[0]
+                    elif self.save_encoder_states_args['pooling'] == "none":
+                        pass 
+                    else:
+                        raise ValueError(f"Invalid pooling method {self.save_encoder_states_args['pooling']}")
+
+                for i, qid in enumerate(question_id): 
+                    save_path = self.save_encoder_states_args['path'] + f"/{qid}.pt"
+                    torch.save(encoder_states[i], save_path)
             loss = torch.zeros(1,1).to(seq_output.device)
             
                 
