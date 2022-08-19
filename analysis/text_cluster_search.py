@@ -305,6 +305,7 @@ if __name__ == "__main__":
     parser.add_argument("--pooler", type=str, default="mean", choices = ['mean', 'max'])
     parser.add_argument("--checkpoint-dir", type=str, default=None)
     parser.add_argument("--output-dir", type=str, default="param_search/")
+    parser.add_argument("--save-clusters", action="store_true")
     args = parser.parse_args() 
 
     output_dir = pathlib.Path(args.output_dir)
@@ -316,17 +317,17 @@ if __name__ == "__main__":
         score_cls = BleuSimilarityScore() 
 
     if args.test:
-        annotations = json.load(open("/home/estengel/annotator_uncertainty/jimena_work/cleaned_data/csv/test_set/annotations.json"))['annotations']
-        questions = json.load(open("/home/estengel/annotator_uncertainty/jimena_work/cleaned_data/csv/test_set/questions.json"))['questions']
+        annotations = json.load(open("/home/estengel/annotator_uncertainty/hit3.0/results/cleaned_data/test/annotations.json"))['annotations']
+        questions = json.load(open("/home/estengel/annotator_uncertainty/hit3.0/results/cleaned_data/test/questions.json"))['questions']
     else:
-        annotations = json.load(open("/home/estengel/annotator_uncertainty/jimena_work/cleaned_data/csv/dev_set/annotations.json"))['annotations']
-        questions = json.load(open("/home/estengel/annotator_uncertainty/jimena_work/cleaned_data/csv/dev_set/questions.json"))['questions']
+        annotations = json.load(open("/home/estengel/annotator_uncertainty/hit3.0/results/cleaned_data/dev/annotations.json"))['annotations']
+        questions = json.load(open("/home/estengel/annotator_uncertainty/hit3.0/results/cleaned_data/dev/questions.json"))['questions']
     ann_clusters = get_annotator_clusters(questions, annotations)
 
     if args.test:
-        pred_path = "/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_limit/output/test_set_predictions_forced.jsonl" 
+        pred_path = "/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_limit/output/test_predictions_forced.jsonl" 
     else:
-        pred_path = "/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_limit/output/dev_set_predictions_forced.jsonl"
+        pred_path = "/brtx/602-nvme1/estengel/annotator_uncertainty/models/img2q_t5_base_no_limit/output/dev_predictions_forced.jsonl"
     
     data_to_write = []
 
@@ -360,6 +361,12 @@ if __name__ == "__main__":
                                                 method= args.method,
                                                 t=args.t) 
 
+    if args.save_clusters:
+        out_path = pathlib.Path(args.output_dir)
+        with open(out_path.joinpath("pred_clusters.json"), "w") as f:
+            json.dump(pred_clusters, f)
+        with open(out_path.joinpath("ann_clusters.json"), "w") as f:
+            json.dump(ann_clusters, f) 
 
     pred_to_ann = get_scores(pred_clusters, ann_clusters)
     datapoint['p'] = pred_to_ann[1]
