@@ -1,0 +1,529 @@
+{
+    "info": {
+        "description": "This is v2.0 of the VQA dataset.",
+        "url": "http://visualqa.org",
+        "version": "2.0",
+        "year": 2017,
+        "contributor": "VQA Team",
+        "date_created": "2017-04-26 17:07:13"
+    },
+    "task_type": "Open-Ended",
+    "data_type": "mscoco",
+    "license": {
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "name": "Creative Commons Attribution 4.0 International License"
+    },
+    "data_subtype": "train2014",
+    "questions": [
+        {
+            "image_id": 306621,
+            "question": "What is red in the picture?",
+            "question_id": "306621004_0",
+            "new_question": "What is read and liquid in the picture?"
+        },
+        {
+            "image_id": 306621,
+            "question": "What is red in the picture?",
+            "question_id": "306621004_1",
+            "new_question": "What is read and liquid in the picture?"
+        },
+        {
+            "image_id": 306621,
+            "question": "What is red in the picture?",
+            "question_id": "306621004_2",
+            "new_question": "What is read and liquid in the picture?"
+        },
+        {
+            "image_id": 306621,
+            "question": "What is red in the picture?",
+            "question_id": "306621004_3",
+            "new_question": "What is read and liquid in the picture?"
+        },
+        {
+            "image_id": 306621,
+            "question": "What is red in the picture?",
+            "question_id": "306621004_4",
+            "new_question": "What is read and liquid in the picture?"
+        },
+        {
+            "image_id": 306621,
+            "question": "What is red in the picture?",
+            "question_id": "306621004_5",
+            "new_question": "What is read and liquid in the picture?"
+        },
+        {
+            "image_id": 306621,
+            "question": "What is red in the picture?",
+            "question_id": "306621004_6",
+            "new_question": "What vegetable is red in the picture?"
+        },
+        {
+            "image_id": 214955,
+            "question": "What color is the topping on the top of the pizza?",
+            "question_id": "214955005_0",
+            "new_question": "What color are the olives on the top of the pizza?"
+        },
+        {
+            "image_id": 214955,
+            "question": "What color is the topping on the top of the pizza?",
+            "question_id": "214955005_1",
+            "new_question": "What color are the tomatoes on the top of the pizza?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_0",
+            "new_question": "What color is prominent on the laptops display?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_1",
+            "new_question": "What color is prominent on the laptops display?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_2",
+            "new_question": "What logo is on the laptops display?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_3",
+            "new_question": "What logo is on the laptops display?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_4",
+            "new_question": "What is the laptops display indicating?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_5",
+            "new_question": "What is the laptops display indicating?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_6",
+            "new_question": "What is the laptops display indicating?"
+        },
+        {
+            "image_id": 304434,
+            "question": "What is on the laptops display?",
+            "question_id": "304434002_7",
+            "new_question": "What is the laptops display indicating?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_0",
+            "new_question": "What are the wires overhead used for?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_1",
+            "new_question": "What are the wires overhead used for?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_2",
+            "new_question": "What are the wires overhead used for?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_3",
+            "new_question": "What are the wires overhead used for?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_4",
+            "new_question": "What are the wires overhead used for?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_5",
+            "new_question": "What are the wires overhead used for?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_6",
+            "new_question": "What are the wires overhead used for?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_7",
+            "new_question": "What are the wires overhead called?"
+        },
+        {
+            "image_id": 434943,
+            "question": "What are the wires overhead?",
+            "question_id": "434943002_8",
+            "new_question": "What are the wires overhead called?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_0",
+            "new_question": "Where in the house is the pizza?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_1",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_2",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_3",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_4",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_5",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_6",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_7",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_8",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 448944,
+            "question": "Where are the pizza?",
+            "question_id": "448944007_9",
+            "new_question": "What is the pizza on?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_0",
+            "new_question": "What kind of craft made the clothes the toys are wearing?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_1",
+            "new_question": "What kind of craft made the clothes the toys are wearing?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_2",
+            "new_question": "What kind of craft made the clothes the toys are wearing?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_3",
+            "new_question": "What kind of craft made the clothes the toys are wearing?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_4",
+            "new_question": "What material are the clothes the toys wearing made from?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_5",
+            "new_question": "What material are the clothes the toys wearing made from?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_6",
+            "new_question": "What material are the clothes the toys wearing made from?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_7",
+            "new_question": "What kind of clothes are the toys wearing on their heads?"
+        },
+        {
+            "image_id": 390286,
+            "question": "What kind of clothes are the toys wearing?",
+            "question_id": "390286003_8",
+            "new_question": "What kind of clothes are the toys wearing on their heads?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_0",
+            "new_question": "What is the color of the top she is wearing?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_1",
+            "new_question": "What style of top is she wearing?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_2",
+            "new_question": "What style of top is she wearing?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_3",
+            "new_question": "What style of top is she wearing?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_4",
+            "new_question": "What style of top is she wearing?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_5",
+            "new_question": "What style of top is she wearing?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_6",
+            "new_question": "What style of top is she wearing?"
+        },
+        {
+            "image_id": 453968,
+            "question": "What kind of top is she wearing?",
+            "question_id": "453968006_7",
+            "new_question": "What kind of sleeves does top is she wearing have?"
+        },
+        {
+            "image_id": 418141,
+            "question": "Where is the fan?",
+            "question_id": "418141002_0",
+            "new_question": "What is the fan on?"
+        },
+        {
+            "image_id": 418141,
+            "question": "Where is the fan?",
+            "question_id": "418141002_1",
+            "new_question": "What is the fan on?"
+        },
+        {
+            "image_id": 418141,
+            "question": "Where is the fan?",
+            "question_id": "418141002_2",
+            "new_question": "Where is the fan in terms of the counter and kitchen?"
+        },
+        {
+            "image_id": 418141,
+            "question": "Where is the fan?",
+            "question_id": "418141002_3",
+            "new_question": "Where is the fan in terms of the counter and kitchen?"
+        },
+        {
+            "image_id": 418141,
+            "question": "Where is the fan?",
+            "question_id": "418141002_4",
+            "new_question": "Where is the fan in terms of the counter and kitchen?"
+        },
+        {
+            "image_id": 418141,
+            "question": "Where is the fan?",
+            "question_id": "418141002_5",
+            "new_question": "Where is the fan in terms of the counter and kitchen?"
+        },
+        {
+            "image_id": 418141,
+            "question": "Where is the fan?",
+            "question_id": "418141002_6",
+            "new_question": "Where is the fan in terms of the counter and kitchen?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_0",
+            "new_question": "Where are the passengers in the photo?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_1",
+            "new_question": "Where are the passengers in the photo?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_2",
+            "new_question": "What are the passengers doing?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_3",
+            "new_question": "What are the passengers doing?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_4",
+            "new_question": "What are the passengers doing?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_5",
+            "new_question": "What are the passengers waiting for?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_6",
+            "new_question": "What are the passengers waiting for?"
+        },
+        {
+            "image_id": 170857,
+            "question": "Where are the passengers?",
+            "question_id": "170857002_7",
+            "new_question": "In what building are the passengers located?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_0",
+            "new_question": "What sport could he be involved in?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_1",
+            "new_question": "What sport could he be involved in?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_2",
+            "new_question": "What sport could he be involved in?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_3",
+            "new_question": "What sport could he be involved in?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_4",
+            "new_question": "What sport could he be involved in?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_5",
+            "new_question": "What system is he using to play sports?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_6",
+            "new_question": "What system is he using to play sports?"
+        },
+        {
+            "image_id": 248141,
+            "question": "What sport might he be involved in?",
+            "question_id": "248141002_7",
+            "new_question": "What system is he using to play sports?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_0",
+            "new_question": "What city is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_1",
+            "new_question": "What city is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_2",
+            "new_question": "What city is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_3",
+            "new_question": "What city is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_4",
+            "new_question": "What city is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_5",
+            "new_question": "What city is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_6",
+            "new_question": "What business is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_7",
+            "new_question": "Where in the city is this a photo of?"
+        },
+        {
+            "image_id": 256098,
+            "question": "What is this a photo of?",
+            "question_id": "256098001_8",
+            "new_question": "What kind of building is this a photo of?"
+        }
+    ]
+}

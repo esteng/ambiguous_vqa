@@ -1,0 +1,1293 @@
+{
+    "info": {
+        "description": "This is v2.0 of the VQA dataset.",
+        "url": "http://visualqa.org",
+        "version": "2.0",
+        "year": 2017,
+        "contributor": "VQA Team",
+        "date_created": "2017-04-26 17:07:13"
+    },
+    "license": {
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "name": "Creative Commons Attribution 4.0 International License"
+    },
+    "data_subtype": "train2014",
+    "annotations": [
+        {
+            "question_type": "what is",
+            "multiple_choice_answer": "spice",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "spice",
+                    "answer_id": 0,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 306621,
+            "answer_type": "other",
+            "question_id": "306621004_0"
+        },
+        {
+            "question_type": "what is",
+            "multiple_choice_answer": "red peppers",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "red peppers",
+                    "answer_id": 1,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 306621,
+            "answer_type": "other",
+            "question_id": "306621004_1"
+        },
+        {
+            "question_type": "what is",
+            "multiple_choice_answer": "seasoning",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "seasoning",
+                    "answer_id": 2,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 306621,
+            "answer_type": "other",
+            "question_id": "306621004_2"
+        },
+        {
+            "question_type": "what is",
+            "multiple_choice_answer": "spices",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "spices",
+                    "answer_id": 3,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 306621,
+            "answer_type": "other",
+            "question_id": "306621004_3"
+        },
+        {
+            "question_type": "what is",
+            "multiple_choice_answer": "glaze",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "glaze",
+                    "answer_id": 4,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 306621,
+            "answer_type": "other",
+            "question_id": "306621004_4"
+        },
+        {
+            "question_type": "what is",
+            "multiple_choice_answer": "sauce",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "sauce",
+                    "answer_id": 5,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 306621,
+            "answer_type": "other",
+            "question_id": "306621004_5"
+        },
+        {
+            "question_type": "what is",
+            "multiple_choice_answer": "sweet potato",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "sweet potato",
+                    "answer_id": 6,
+                    "mturk_id": "g5.0"
+                }
+            ],
+            "image_id": 306621,
+            "answer_type": "other",
+            "question_id": "306621004_6"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "black",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "black",
+                    "answer_id": 0,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 214955,
+            "question_type": "what color is the",
+            "question_id": "214955005_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "red",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "red",
+                    "answer_id": 1,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 214955,
+            "question_type": "what color is the",
+            "question_id": "214955005_1"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "blue",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "blue",
+                    "answer_id": 0,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_0"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "blue screen",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "blue screen",
+                    "answer_id": 1,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_1"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "home logo",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "home logo",
+                    "answer_id": 2,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_2"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "microsoft logo",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "microsoft logo",
+                    "answer_id": 3,
+                    "mturk_id": "g5.0"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_3"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "sign-on screen",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "sign-on screen",
+                    "answer_id": 4,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_4"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "lock screen",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "lock screen",
+                    "answer_id": 5,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_5"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "startup",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "startup",
+                    "answer_id": 6,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_6"
+        },
+        {
+            "question_type": "what is on the",
+            "multiple_choice_answer": "sign in page",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "sign in page",
+                    "answer_id": 7,
+                    "mturk_id": "g7.1"
+                }
+            ],
+            "image_id": 304434,
+            "answer_type": "other",
+            "question_id": "304434002_7"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "power",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "power",
+                    "answer_id": 0,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_0"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "electric",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "electric",
+                    "answer_id": 1,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_1"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "electricity",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "electricity",
+                    "answer_id": 2,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_2"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "power lines",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "power lines",
+                    "answer_id": 3,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_3"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "electrical",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "electrical",
+                    "answer_id": 4,
+                    "mturk_id": "g8.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_4"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "power for electrical trains",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "power for electrical trains",
+                    "answer_id": 5,
+                    "mturk_id": "g0.1"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_5"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "trains",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "trains",
+                    "answer_id": 6,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_6"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "telephone polls",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "telephone polls",
+                    "answer_id": 7,
+                    "mturk_id": "g5.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_7"
+        },
+        {
+            "question_type": "what are the",
+            "multiple_choice_answer": "tower wires",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "tower wires",
+                    "answer_id": 8,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 434943,
+            "answer_type": "other",
+            "question_id": "434943002_8"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "kitchen",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "kitchen",
+                    "answer_id": 0,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "dish",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "dish",
+                    "answer_id": 1,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_1"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "stove",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "stove",
+                    "answer_id": 2,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_2"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "stovetop",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "stovetop",
+                    "answer_id": 3,
+                    "mturk_id": "g5.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_3"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "on baking sheet",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on baking sheet",
+                    "answer_id": 4,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_4"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "on table",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on table",
+                    "answer_id": 5,
+                    "mturk_id": "g3.1"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_5"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "plate",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "plate",
+                    "answer_id": 6,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_6"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "on stove",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on stove",
+                    "answer_id": 7,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_7"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "on plate",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on plate",
+                    "answer_id": 8,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_8"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "on top of stove",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on top of stove",
+                    "answer_id": 9,
+                    "mturk_id": "g1.1"
+                }
+            ],
+            "image_id": 448944,
+            "question_type": "where are the",
+            "question_id": "448944007_9"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "knitted items",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "knitted items",
+                    "answer_id": 0,
+                    "mturk_id": "g5.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_0"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "crocheted",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "crocheted",
+                    "answer_id": 1,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_1"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "crochet",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "crochet",
+                    "answer_id": 2,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_2"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "knit",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "knit",
+                    "answer_id": 3,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_3"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "doilies",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "doilies",
+                    "answer_id": 4,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_4"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "lace",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "lace",
+                    "answer_id": 5,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_5"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "woolen",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "woolen",
+                    "answer_id": 6,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_6"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "bonnets",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "bonnets",
+                    "answer_id": 7,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_7"
+        },
+        {
+            "question_type": "what kind of",
+            "multiple_choice_answer": "hats",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "hats",
+                    "answer_id": 8,
+                    "mturk_id": "g8.0"
+                }
+            ],
+            "image_id": 390286,
+            "answer_type": "other",
+            "question_id": "390286003_8"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "white",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "white",
+                    "answer_id": 0,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "shirt",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "shirt",
+                    "answer_id": 1,
+                    "mturk_id": "g3.1"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_1"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "blouse",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "blouse",
+                    "answer_id": 2,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_2"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "sweater",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "sweater",
+                    "answer_id": 3,
+                    "mturk_id": "g2.1"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_3"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "buttoned shirt",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "buttoned shirt",
+                    "answer_id": 4,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_4"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "button up",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "button up",
+                    "answer_id": 5,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_5"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "button up top",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "button up top",
+                    "answer_id": 6,
+                    "mturk_id": "g1.1"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_6"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "long sleeve",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "long sleeve",
+                    "answer_id": 7,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 453968,
+            "question_type": "what kind of",
+            "question_id": "453968006_7"
+        },
+        {
+            "question_type": "where is the",
+            "multiple_choice_answer": "counter",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "counter",
+                    "answer_id": 0,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 418141,
+            "answer_type": "other",
+            "question_id": "418141002_0"
+        },
+        {
+            "question_type": "where is the",
+            "multiple_choice_answer": "on table",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on table",
+                    "answer_id": 1,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 418141,
+            "answer_type": "other",
+            "question_id": "418141002_1"
+        },
+        {
+            "question_type": "where is the",
+            "multiple_choice_answer": "left",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "left",
+                    "answer_id": 2,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 418141,
+            "answer_type": "other",
+            "question_id": "418141002_2"
+        },
+        {
+            "question_type": "where is the",
+            "multiple_choice_answer": "on left of table",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on left of table",
+                    "answer_id": 3,
+                    "mturk_id": "g2.2"
+                }
+            ],
+            "image_id": 418141,
+            "answer_type": "other",
+            "question_id": "418141002_3"
+        },
+        {
+            "question_type": "where is the",
+            "multiple_choice_answer": "on left side of picture",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on left side of picture",
+                    "answer_id": 4,
+                    "mturk_id": "g2.1"
+                }
+            ],
+            "image_id": 418141,
+            "answer_type": "other",
+            "question_id": "418141002_4"
+        },
+        {
+            "question_type": "where is the",
+            "multiple_choice_answer": "on left",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "on left",
+                    "answer_id": 5,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 418141,
+            "answer_type": "other",
+            "question_id": "418141002_5"
+        },
+        {
+            "question_type": "where is the",
+            "multiple_choice_answer": "eft side of counter in kitchen",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "eft side of counter in kitchen",
+                    "answer_id": 6,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 418141,
+            "answer_type": "other",
+            "question_id": "418141002_6"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "waiting on right",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "waiting on right",
+                    "answer_id": 0,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "right",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "right",
+                    "answer_id": 1,
+                    "mturk_id": "g0.1"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_1"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "arriving",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "arriving",
+                    "answer_id": 2,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_2"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "standing",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "standing",
+                    "answer_id": 3,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_3"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "waiting",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "waiting",
+                    "answer_id": 4,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_4"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "luggage",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "luggage",
+                    "answer_id": 5,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_5"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "baggage",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "baggage",
+                    "answer_id": 6,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_6"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "airport",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "airport",
+                    "answer_id": 7,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 170857,
+            "question_type": "where are the",
+            "question_id": "170857002_7"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "karate",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "karate",
+                    "answer_id": 0,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "tennis",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "tennis",
+                    "answer_id": 1,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_1"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "boxing",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "boxing",
+                    "answer_id": 2,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_2"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "wii boxing",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "wii boxing",
+                    "answer_id": 3,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_3"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "bowling",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "bowling",
+                    "answer_id": 4,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_4"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "video game",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "video game",
+                    "answer_id": 5,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_5"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "wii",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "wii",
+                    "answer_id": 6,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_6"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "wii sports",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "wii sports",
+                    "answer_id": 7,
+                    "mturk_id": "g5.0"
+                }
+            ],
+            "image_id": 248141,
+            "question_type": "what",
+            "question_id": "248141002_7"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "old west town",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "old west town",
+                    "answer_id": 0,
+                    "mturk_id": "g7.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_0"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "street scene",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "street scene",
+                    "answer_id": 1,
+                    "mturk_id": "g6.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_1"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "street scene edna texas",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "street scene edna texas",
+                    "answer_id": 2,
+                    "mturk_id": "g3.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_2"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "edna terras",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "edna terras",
+                    "answer_id": 3,
+                    "mturk_id": "g0.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_3"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "edna in texas",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "edna in texas",
+                    "answer_id": 4,
+                    "mturk_id": "g1.1"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_4"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "edna texas",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "edna texas",
+                    "answer_id": 5,
+                    "mturk_id": "g1.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_5"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "farming business",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "farming business",
+                    "answer_id": 6,
+                    "mturk_id": "g2.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_6"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "downtown",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "downtown",
+                    "answer_id": 7,
+                    "mturk_id": "g4.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_7"
+        },
+        {
+            "answer_type": "other",
+            "multiple_choice_answer": "apartments",
+            "answers": [
+                {
+                    "answer_confidence": "yes",
+                    "answer": "apartments",
+                    "answer_id": 8,
+                    "mturk_id": "g5.0"
+                }
+            ],
+            "image_id": 256098,
+            "question_type": "what is this",
+            "question_id": "256098001_8"
+        }
+    ],
+    "data_type": "mscoco"
+}
